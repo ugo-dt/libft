@@ -6,14 +6,20 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2021/09/22 17:13:10 by ugdaniel         ###   ########.fr        #
+#    Updated: 2021/09/22 20:00:46 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		=	libft.a
 
-SRCS		=	$(wildcard */*.c)
-HEADERS		=	-I. -I array -I char -I list -I mem -I string -I write
+SRCS		=	$(wildcard srcs/*/*.c)
+HEADERS		=	-I srcs/. \
+				-I srcs/array \
+				-I srcs/char \
+				-I srcs/list \
+				-I srcs/mem \
+				-I srcs/string \
+				-I srcs/write
 
 CC			=	@clang
 FLAGS		=	-Wall -Wextra -Werror
