@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:40:43 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/23 17:53:28 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/23 21:35:35 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 /* Print a character to the file descriptor fd. */
 void	ft_putchar_fd(const char c, int fd);
 
-/* Print a string to the file descriptor fd */
+/* Print a string to the file descriptor fd. */
 void	ft_putstr_fd(const char *s, int fd);
 
 /* Print a string followed by a newline, to the file descriptor fd. */
