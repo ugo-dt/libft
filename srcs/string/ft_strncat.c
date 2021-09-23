@@ -1,20 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   ft_strncat.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/18 14:37:09 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/23 17:53:19 by ugdaniel         ###   ########.fr       */
+/*   Created: 2021/09/23 20:04:05 by ugdaniel          #+#    #+#             */
+/*   Updated: 2021/09/23 21:23:46 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_write.h"
+#include "_ft_string.h"
 
-void	ft_putstr_fd(const char *s, int fd)
+char	*ft_strncat(char *s1, const char *s2, size_t n)
 {
-	if (s)
-		while (*s)
-			ft_putchar_fd(*s++, fd);
+	char	*s;
+	size_t	ss;
+
+	s = s1;
+	s1 += ft_strlen(s1);
+	ss = ft_strnlen(s2, n);
+	s1[ss] = '\0';
+	ft_memcpy(s1, s2, ss);
+	return (s);
 }

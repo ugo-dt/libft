@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 19:53:05 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/23 20:08:50 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,32 @@ char	*ft_strndup(const char *s, size_t n);
  */
 char	*ft_strjoin(const char *s1, const char *s2);
 
+/* The ft_strcat() and function append a copy of the null-terminated
+ * string s2 to the end of the null-terminated string s1, then add a terminating
+ * '\\0'. The string s1 must have sufficient space to hold the result. 
+ * 
+ * The ft_strncat function appends not more than n characters from s2,
+ * and then adds a terminating '\\0'. */
+char	*ft_strcat(char *s1, const char *s2);
+char	*ft_strncat(char *s1, const char *s2, size_t n);
+
 /* The ft_strlcat() function appends the NUL-terminated
  * string src to the end of dst.
  * It will append at most size - ft_strlen(dst) - 1 bytes,
  * null-terminating the result.
+ * 
+ * The function returns the total length of the string it tried to create.
  */
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
+
+/* The ft_strcpy() function copy the string src to dst
+ * (including the terminating '\\0' character.)
+ *
+ * The ft_strncpy() function copy at most len characters from src into dst.
+ * If src is less than len characters long, the remainder of dst is filled with
+ * '\\0' characters. Otherwise, dst is not terminated. */
+char	*ft_strcpy(char *dest, const char *src);
+char	*ft_strncpy(char *s1, const char *s2, size_t n);
 
 /* The ft_strlcpy() function copies up to size - 1 characters from
  * the NUL-terminated string src to dst, NUL-terminating the result.

@@ -1,20 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
+/*   array_size.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/18 14:37:09 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/23 17:53:19 by ugdaniel         ###   ########.fr       */
+/*   Created: 2021/09/23 08:43:37 by ugdaniel          #+#    #+#             */
+/*   Updated: 2021/09/23 08:47:12 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_write.h"
+#include "_ft_array.h"
 
-void	ft_putstr_fd(const char *s, int fd)
+int	array_size(char **arr)
 {
-	if (s)
-		while (*s)
-			ft_putchar_fd(*s++, fd);
+	int		size;
+
+	if (!arr || !(*arr))
+		return (0);
+	size = 0;
+	while (arr[size])
+		size++;
+	return (size);
 }
