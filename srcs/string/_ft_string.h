@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/23 21:53:12 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/24 10:55:25 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
  * string pointed to by s. The terminating null character is considered to be
  * part of the string; therefore if c is '\\0', the functions locate the
  * terminating '\\0'.
- * 
+ *
  * The ft_strrchr() function is identical to ft_strchr(),
  * except it locates the last occurrence of c.
  */
@@ -133,7 +133,9 @@ char	*ft_strrchr(const char *s, int c);
  * resulting from successive applications of f.
  */
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
-char	*ft_strtrim(char *s1, char *set);
+
 char	*ft_substr(char *s, unsigned int start, size_t len);
+
+char	*ft_strtrim(char *s1, char *set);
 
 #endif /* _FT_STRING_H */

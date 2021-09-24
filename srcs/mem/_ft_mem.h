@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:04:44 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 19:45:12 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/24 10:53:32 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_bzero(void *s, size_t n);
 /* The ft_calloc() function allocates enough space for count objects
  * that are size bytes of memory each and returns a pointer to the allocated
  * memory.  The allocated memory is filled with bytes of value zero. */
-void	*ft_calloc(size_t nmemb, size_t size);
+void	*ft_calloc(size_t count, size_t size);
 
 /* The ft_memccpy() function copies bytes from string src to string dst. 
  * If the character c (converted to an unsigned char) occurs in the string
