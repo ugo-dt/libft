@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/23 08:46:02 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/25 20:33:43 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void	*free_array_size(void **tab, size_t n);
  * split each time the character c is encountered. */
 char	**ft_split(char *s, char c);
 
-#endif /* _FT_ARRAY_H */
+/* _FT_ARRAY_H */
+#endif

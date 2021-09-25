@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:45:01 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 19:57:07 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/25 20:33:40 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,5 @@ int		ft_isprint(int c);
  * '\\t'   '\\n'    '\\v'    '\\f'    '\\r'    ' ' */
 int		ft_isspace(char c);
 
-#endif /* _FT_CHAR_H */
+/* _FT_CHAR_H */
+#endif

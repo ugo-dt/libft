@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:40:43 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/24 15:39:06 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/25 20:34:14 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,5 @@ void	ft_putnbr(int n);
 /* Print a number on the file descriptor fd. */
 void	ft_putnbr_fd(int n, int fd);
 
-#endif /* _FT_WRITE_H */
+/* _FT_WRITE_H */
+#endif

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:33:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 19:50:39 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/25 20:33:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,5 @@ t_list	*ft_lstnew(void *content);
 /* Returns the numbers of elements in a list. */
 int		ft_lstsize(t_list *lst);
 
-#endif /* _FT_LIST_H */
+/* _FT_LIST_H */
+#endif

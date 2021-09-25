@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:04:44 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/24 10:53:32 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/25 20:34:00 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
  * unsigned char) to the string b. */
 void	*ft_memset(void *s, int c, size_t n);
 
-#endif /* _FT_MEM_H */
+/* _FT_MEM_H */
+#endif
