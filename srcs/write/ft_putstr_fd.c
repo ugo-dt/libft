@@ -6,13 +6,13 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:37:09 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 15:55:30 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/24 15:41:29 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_write.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(const char *s, int fd)
 {
 	if (s)
 		while (*s)

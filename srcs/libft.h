@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 12:12:35 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 17:11:13 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/25 20:34:32 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,4 +20,5 @@
 # include "string/_ft_string.h"
 # include "write/_ft_write.h"
 
-#endif /* LIBFT_H */
+/* LIBFT_H */
+#endif

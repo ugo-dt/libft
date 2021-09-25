@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 19:17:47 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/25 20:33:43 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define _FT_ARRAY_H
 
 # include <stdlib.h>
+
+/* Returns the size of an NULL terminated two-dimensional array. */
+int		array_size(char **arr);
 
 /* The free_array() function frees a two-dimensional array, starting
  * from the index 0 up to the first NULL encountered.
@@ -23,6 +26,9 @@
 void	free_array(void **arr);
 void	*free_array_size(void **tab, size_t n);
 
+/* Converts a string to an array of strings,
+ * split each time the character c is encountered. */
 char	**ft_split(char *s, char c);
 
-#endif /* _FT_ARRAY_H */
+/* _FT_ARRAY_H */
+#endif

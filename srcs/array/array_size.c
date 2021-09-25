@@ -1,34 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr_fd.c                                     :+:      :+:    :+:   */
+/*   array_size.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/18 14:39:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/24 15:41:07 by ugdaniel         ###   ########.fr       */
+/*   Created: 2021/09/23 08:43:37 by ugdaniel          #+#    #+#             */
+/*   Updated: 2021/09/23 08:47:12 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_write.h"
+#include "_ft_array.h"
 
-void	ft_putnbr_fd(int n, int fd)
+int	array_size(char **arr)
 {
-	if (n == -2147483648)
-	{
-		ft_putnbr_fd(-214748364, fd);
-		ft_putchar_fd('8', fd);
-	}
-	else if (n < 0)
-	{
-		ft_putchar_fd('-', fd);
-		ft_putnbr_fd(-n, fd);
-	}
-	else if (n < 10)
-		ft_putchar_fd(n + 48, fd);
-	else
-	{
-		ft_putnbr_fd(n / 10, fd);
-		ft_putnbr_fd(n % 10, fd);
-	}
+	int		size;
+
+	if (!arr || !(*arr))
+		return (0);
+	size = 0;
+	while (arr[size])
+		size++;
+	return (size);
 }
