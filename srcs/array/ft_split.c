@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:05:25 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 15:56:51 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/26 22:16:00 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static unsigned int	words(char *s, char c)
 	int		i;
 	int		words;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i] && s[i] == c)
 		i++;
@@ -45,15 +47,24 @@ static int	len_to_sep(char *s, char c, unsigned int i)
 	return (len);
 }
 
-static void	*free_tab(char **tab, unsigned int max)
+static char	**free_array_n(void **tab, size_t n)
 {
-	unsigned int		i;
+	size_t	i;
 
 	i = 0;
-	while (i < max)
+	while (i < n)
 		free(tab[i++]);
 	free(tab);
 	return (NULL);
+}
+
+char	**init_split(char *s, char c)
+{
+	char	**tab;
+
+	if (!s)
+		return (NULL);
+	return (malloc(sizeof(*tab) * (words(s, c) + 1)));
 }
 
 char	**ft_split(char *s, char c)
@@ -63,8 +74,8 @@ char	**ft_split(char *s, char c)
 	unsigned int	j;
 	unsigned int	k;
 
-	tab = malloc(sizeof(*tab) * (words(s, c) + 1));
-	if (!s || !tab)
+	tab = init_split(s, c);
+	if (!tab)
 		return (NULL);
 	i = 0;
 	j = 0;
@@ -74,7 +85,7 @@ char	**ft_split(char *s, char c)
 			j++;
 		tab[i] = malloc(sizeof(*tab[i]) * len_to_sep(s, c, j) + 1);
 		if (!tab[i])
-			return (free_tab(tab, i));
+			return (free_array_n((void **)tab, i));
 		k = 0;
 		while (s[j] && s[j] != c)
 			if (s[j] != c)
