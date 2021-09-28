@@ -6,16 +6,14 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:38:08 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/24 15:41:03 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:22:21 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_write.h"
 
-void	ft_putendl_fd(const char *s, int fd)
+void	ft_putendl_fd(const char *s, int __fd)
 {
-	if (s)
-		while (*s)
-			ft_putchar_fd(*s++, fd);
-	ft_putchar_fd('\n', fd);
+	ft_putstr_fd(s, __fd);
+	ft_putchar_fd('\n', __fd);
 }

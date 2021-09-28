@@ -6,13 +6,13 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:05:25 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/26 22:16:00 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:22:50 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_array.h"
 
-static unsigned int	words(char *s, char c)
+static unsigned int	words(const char *s, char c)
 {
 	int		i;
 	int		words;
@@ -37,7 +37,7 @@ static unsigned int	words(char *s, char c)
 	return (words);
 }
 
-static int	len_to_sep(char *s, char c, unsigned int i)
+static int	len_to_sep(const char *s, char c, unsigned int i)
 {
 	int		len;
 
@@ -58,7 +58,7 @@ static char	**free_array_n(void **tab, size_t n)
 	return (NULL);
 }
 
-char	**init_split(char *s, char c)
+char	**init_split(const char *s, char c)
 {
 	char	**tab;
 
@@ -67,7 +67,7 @@ char	**init_split(char *s, char c)
 	return (malloc(sizeof(*tab) * (words(s, c) + 1)));
 }
 
-char	**ft_split(char *s, char c)
+char	**ft_split(const char *s, char c)
 {
 	char			**tab;
 	unsigned int	i;

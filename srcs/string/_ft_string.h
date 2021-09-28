@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/25 20:34:09 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/28 15:28:52 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,13 @@
 # define _FT_STRING_H
 
 # include "_ft_mem.h"
+# include "_ft_char.h"
 # include <stdio.h>
 
 /* string.h functions */
 
 /* The ft_atoi() function converts the initial portion
- * of the string pointed to by str to int representation.
- */
+ * of the string pointed to by str to int representation. */
 int		ft_atoi(const char *str);
 
 /* The ft_itoa() function converts an integer value to
@@ -28,14 +28,24 @@ int		ft_atoi(const char *str);
  */
 char	*ft_itoa(int n);
 
-/* The ft_strchr() function locates the first occurrence of the char cin the
+/* The ft_str_tolower() function creates a NULL-terminated lowercase copy of
+ * the string src, and returns a pointer to its first character. */
+char	*ft_str_tolower(char *dst, const char *src);
+
+/* The ft_str_toupper() function creates a NULL-terminated uppercase copy of
+ * the string src, and returns a pointer to its first character. */
+char	*ft_str_toupper(char *dst, const char *src);
+
+/* 
+ * The ft_strchr() function locates the first occurrence of the char cin the
  * string pointed to by s. The terminating null character is considered to
  * be part of the string; therefore if c is '\\0', the functions locate the
  * terminating '\\0'.
  */
 char	*ft_strchr(const char *s, int c);
 
-/* The ft_strcmp() and ft_strncmp() functions lexicographically compare the
+/* 
+ * The ft_strcmp() and ft_strncmp() functions lexicographically compare the
  * null-terminated strings s1 and s2.
  * 
  * The ft_strncmp() function compares not more than n characters.
@@ -45,7 +55,8 @@ char	*ft_strchr(const char *s, int c);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
-/* The ft_strdup() function allocates sufficient memory for a copy of the string
+/* 
+ * The ft_strdup() function allocates sufficient memory for a copy of the string
  * s1, does the copy, and returns a pointer to it. The pointer may subsequently
  * be used as an argument tothe function free(3).
  * 
@@ -57,7 +68,8 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 char	*ft_strdup(const char *s);
 char	*ft_strndup(const char *s, size_t n);
 
-/* The ft_strjoin() function appends the src string to the dest string,
+/* 
+ * The ft_strjoin() function appends the src string to the dest string,
  * overwriting the terminating null byte ('\0') at the end of dest,
  * and then adds a terminating null byte.
  * 
@@ -68,7 +80,8 @@ char	*ft_strndup(const char *s, size_t n);
  */
 char	*ft_strjoin(const char *s1, const char *s2);
 
-/* The ft_strcat() and function append a copy of the null-terminated
+/* 
+ * The ft_strcat() and function append a copy of the null-terminated
  * string s2 to the end of the null-terminated string s1, then add a terminating
  * '\\0'. The string s1 must have sufficient space to hold the result. 
  * 
@@ -78,7 +91,8 @@ char	*ft_strjoin(const char *s1, const char *s2);
 char	*ft_strcat(char *s1, const char *s2);
 char	*ft_strncat(char *s1, const char *s2, size_t n);
 
-/* The ft_strlcat() function appends the NUL-terminated
+/* 
+ * The ft_strlcat() function appends the NUL-terminated
  * string src to the end of dst.
  * It will append at most size - ft_strlen(dst) - 1 bytes,
  * null-terminating the result.
@@ -87,21 +101,23 @@ char	*ft_strncat(char *s1, const char *s2, size_t n);
  */
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
-/* The ft_strcpy() function copy the string src to dst
+/* 
+ * The ft_strcpy() function copy the string src to dst
  * (including the terminating '\\0' character.)
  *
  * The ft_strncpy() function copy at most len characters from src into dst.
  * If src is less than len characters long, the remainder of dst is filled with
- * '\\0' characters. Otherwise, dst is not terminated. */
+ * '\\0' characters. Otherwise, dst is not terminated.
+ */
 char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strncpy(char *s1, const char *s2, size_t n);
 
 /* The ft_strlcpy() function copies up to size - 1 characters from
- * the NUL-terminated string src to dst, NUL-terminating the result.
-*/
+ * the NUL-terminated string src to dst, NUL-terminating the result. */
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
-/* The ft_strlen() function computes the length of the string s.
+/* 
+ * The ft_strlen() function computes the length of the string s.
  *  
  * The ft_strnlen() function attempts to compute the length of s,
  * but never scans beyond the first maxlen bytes of s.
@@ -109,13 +125,15 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 size_t	ft_strlen(const char *s);
 size_t	ft_strnlen(const char *s, size_t maxlen);
 
-/* The ft_strnstr() function locates the first occurrence of the null-terminated
+/* 
+ * The ft_strnstr() function locates the first occurrence of the null-terminated
  * string needle in the string haystack, where not more than len characters are
  * searched. Characters that appear after a '\\0' character are not searched.
  */
 char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
 
-/* The ft_strchr() function locates the first occurrence of the char c in the
+/* 
+ * The ft_strchr() function locates the first occurrence of the char c in the
  * string pointed to by s. The terminating null character is considered to be
  * part of the string; therefore if c is '\\0', the functions locate the
  * terminating '\\0'.
@@ -128,7 +146,8 @@ char	*ft_strrchr(const char *s, int c);
 
 /* libft exclusive functions */
 
-/* The ft_strmapi() applies the given function f to each character of the
+/* 
+ * The ft_strmapi() applies the given function f to each character of the
  * string s to create a new string (with malloc(3))
  * resulting from successive applications of f.
  */

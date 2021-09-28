@@ -6,13 +6,13 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:36:22 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/24 15:40:59 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/28 14:15:12 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_write.h"
 
-void	ft_putchar_fd(const char c, int fd)
+void	ft_putchar_fd(const char c, int __fd)
 {
-	write(fd, &c, 1);
+	write(__fd, &c, 1);
 }
