@@ -6,15 +6,15 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:39:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:20:38 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/29 12:28:24 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_write.h"
 
-# ifndef __INT_MIN
-#  define __INT_MIN__	-2147483648
-# endif
+#ifndef __INT_MIN
+# define __INT_MIN__	-2147483648
+#endif
 
 void	ft_putnbr_fd(int n, int __fd)
 {

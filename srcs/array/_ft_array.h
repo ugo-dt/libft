@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:22:33 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/29 13:36:06 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,13 @@
 /* Returns the size of an NULL terminated two-dimensional array. */
 int		array_size(char **arr);
 
-/* 
- * The free_array() function frees a two-dimensional array, starting
- * from the index 0 up to the first NULL encountered.
- * 
- * The free_array_size() function frees up to n elements from a
- * two-dimensional array.
- */
+/* The free_array() function frees a each element from a two-dimensional array,
+ * starting from the index 0 up to the first NULL element encountered. */
 void	free_array(void **arr);
-void	*free_array_size(void **tab, size_t n);
+
+/* The free_array_n() function frees up to n elements from a
+ * two-dimensional array, then frees the pointer to the array. */
+void	*free_array_n(void **tab, size_t n);
 
 /* 
  * The ft_split() function splits a string it into words, and returns them as

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:05:25 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/28 14:22:50 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/29 13:43:08 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	len_to_sep(const char *s, char c, unsigned int i)
 	return (len);
 }
 
-static char	**free_array_n(void **tab, size_t n)
+static char	**free_tab(void **tab, size_t n)
 {
 	size_t	i;
 
@@ -85,7 +85,7 @@ char	**ft_split(const char *s, char c)
 			j++;
 		tab[i] = malloc(sizeof(*tab[i]) * len_to_sep(s, c, j) + 1);
 		if (!tab[i])
-			return (free_array_n((void **)tab, i));
+			return (free_tab((void **)tab, i));
 		k = 0;
 		while (s[j] && s[j] != c)
 			if (s[j] != c)
