@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/28 15:28:52 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/29 12:05:29 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,27 @@ int		ft_atoi(const char *str);
 char	*ft_itoa(int n);
 
 /* The ft_str_tolower() function creates a NULL-terminated lowercase copy of
- * the string src, and returns a pointer to its first character. */
+ * the string src.
+ *
+ * @returns A pointer to the first character on the newly created string.
+ * */
 char	*ft_str_tolower(char *dst, const char *src);
 
 /* The ft_str_toupper() function creates a NULL-terminated uppercase copy of
- * the string src, and returns a pointer to its first character. */
+ * the string src.
+ *
+ * @returns A pointer to the first character on the newly created string.
+ */
 char	*ft_str_toupper(char *dst, const char *src);
 
 /* 
- * The ft_strchr() function locates the first occurrence of the char cin the
- * string pointed to by s. The terminating null character is considered to
- * be part of the string; therefore if c is '\\0', the functions locate the
- * terminating '\\0'.
+ * The ft_strcmp() and ft_strncmp() functions lexicographically compare the
+ * null-terminated strings s1 and s2.
+ * 
+ * @returns 0 if the strings are identical.
  */
-char	*ft_strchr(const char *s, int c);
+int		ft_strcmp(const char *s1, const char *s2);
+
 
 /* 
  * The ft_strcmp() and ft_strncmp() functions lexicographically compare the
@@ -51,8 +58,9 @@ char	*ft_strchr(const char *s, int c);
  * The ft_strncmp() function compares not more than n characters.
  * Because ft_strncmp() is designed for comparing strings rather than binary
  * data, characters that appear after a '\\0' character are not compared.
+ * 
+ * @returns 0 if the strings are identical.
  */
-int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /* 
@@ -61,11 +69,19 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
  * be used as an argument tothe function free(3).
  * 
  * If insufficient memory is available, NULL is returned.
- *
- * The ft_strndup() function copies at most n characters from the string s1
- * always null-terminating the copied string.
  */
 char	*ft_strdup(const char *s);
+
+/* 
+ * The ft_strndup() function allocates sufficient memory for a copy of the string
+ * s1, does the copy, and returns a pointer to it. The pointer may subsequently
+ * be used as an argument tothe function free(3).
+ * 
+ * The function copies at most n characters from the string s1 and always
+ * NULL-terminates the copied string.
+ * 
+ * If insufficient memory is available, NULL is returned.
+ */
 char	*ft_strndup(const char *s, size_t n);
 
 /* 
@@ -83,12 +99,18 @@ char	*ft_strjoin(const char *s1, const char *s2);
 /* 
  * The ft_strcat() and function append a copy of the null-terminated
  * string s2 to the end of the null-terminated string s1, then add a terminating
+ * '\\0'. The string s1 must have sufficient space to hold the result.
+ */
+char	*ft_strcat(char *s1, const char *s2);
+
+/* 
+ * The ft_strcat() and function append a copy of the null-terminated
+ * string s2 to the end of the null-terminated string s1, then add a terminating
  * '\\0'. The string s1 must have sufficient space to hold the result. 
  * 
  * The ft_strncat function appends not more than n characters from s2,
  * and then adds a terminating '\\0'.
  */
-char	*ft_strcat(char *s1, const char *s2);
 char	*ft_strncat(char *s1, const char *s2, size_t n);
 
 /* 
@@ -101,28 +123,29 @@ char	*ft_strncat(char *s1, const char *s2, size_t n);
  */
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
+/* The ft_strcpy() function copy the string src to dst
+ * (including the terminating '\\0' character.) */
+char	*ft_strcpy(char *dest, const char *src);
+
 /* 
- * The ft_strcpy() function copy the string src to dst
+ * The ft_strncpy() function copy the string src to dst
  * (including the terminating '\\0' character.)
  *
- * The ft_strncpy() function copy at most len characters from src into dst.
+ * The function copy at most len characters from src into dst.
  * If src is less than len characters long, the remainder of dst is filled with
  * '\\0' characters. Otherwise, dst is not terminated.
  */
-char	*ft_strcpy(char *dest, const char *src);
 char	*ft_strncpy(char *s1, const char *s2, size_t n);
 
 /* The ft_strlcpy() function copies up to size - 1 characters from
  * the NUL-terminated string src to dst, NUL-terminating the result. */
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
-/* 
- * The ft_strlen() function computes the length of the string s.
- *  
- * The ft_strnlen() function attempts to compute the length of s,
- * but never scans beyond the first maxlen bytes of s.
- */
+/* The ft_strlen() function computes the length of the string s. */
 size_t	ft_strlen(const char *s);
+
+/* The ft_strnlen() function attempts to compute the length of s,
+ * but never scans beyond the first maxlen bytes of s. */
 size_t	ft_strnlen(const char *s, size_t maxlen);
 
 /* 
@@ -142,6 +165,13 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len);
  * except it locates the last occurrence of c.
  */
 char	*ft_strchr(const char *s, int c);
+
+/* 
+ * The ft_strchr() function locates the last occurrence of the char c in the
+ * string pointed to by s. The terminating null character is considered to be
+ * part of the string; therefore if c is '\\0', the function locate the
+ * terminating '\\0'.
+ */
 char	*ft_strrchr(const char *s, int c);
 
 /* libft exclusive functions */
