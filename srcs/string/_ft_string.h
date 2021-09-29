@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/29 12:05:29 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/09/29 13:33:37 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ char	*ft_str_toupper(char *dst, const char *src);
  */
 int		ft_strcmp(const char *s1, const char *s2);
 
-
 /* 
  * The ft_strcmp() and ft_strncmp() functions lexicographically compare the
  * null-terminated strings s1 and s2.
@@ -85,8 +84,8 @@ char	*ft_strdup(const char *s);
 char	*ft_strndup(const char *s, size_t n);
 
 /* 
- * The ft_strjoin() function appends the src string to the dest string,
- * overwriting the terminating null byte ('\0') at the end of dest,
+ * The ft_strjoin() function appends the s1 string to the dest s2,
+ * overwriting the terminating null byte ('\\0') at the end of s1,
  * and then adds a terminating null byte.
  * 
  * If either of the strings is NULL, the function returns NULL.
@@ -95,6 +94,20 @@ char	*ft_strndup(const char *s, size_t n);
  * and can be freed with free(3);
  */
 char	*ft_strjoin(const char *s1, const char *s2);
+
+/* 
+ * The ft_strjoin_3() function appends the a string to the b string,
+ * then to the c string. (ex: "a", "b", "c" -> "abc")
+ * 
+ * It overwrites the terminating null byte ('\\0') at the end of a and b,
+ * and adds a terminating null byte.
+ * 
+ * If one of the strings is NULL, the function returns NULL.
+ * 
+ * Memory for the new string is obtained with malloc(3),
+ * and can be freed with free(3);
+ */
+char	*ft_strjoin_3(const char *a, const char *b, const char *c);
 
 /* 
  * The ft_strcat() and function append a copy of the null-terminated
