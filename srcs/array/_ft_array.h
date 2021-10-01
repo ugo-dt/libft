@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/01 11:36:58 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/01 16:10:46 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,15 @@
 # include <stdlib.h>
 
 /* Returns the size of an NULL terminated two-dimensional array. */
-int		array_size(char **arr);
+extern int	array_size(char **arr);
 
 /* The free_array() function frees a each element from a two-dimensional array,
  * starting from the index 0 up to the first NULL element encountered. */
-void	free_array(void **arr);
+extern void	free_array(void **arr);
 
 /* The free_array_n() function frees up to n elements from a
  * two-dimensional array, then frees the pointer to the array. */
-void	*free_array_n(void **tab, size_t n);
+extern void	*free_array_n(void **tab, size_t n);
 
 /* 
  * The ft_split() function splits a string it into words, and returns them as
@@ -34,10 +34,10 @@ void	*free_array_n(void **tab, size_t n);
  * A "word" is defined as a part of a string delimited by the character c,
  * or by the start/end of the string.
  */
-char	**ft_split(const char *s, char c);
+extern char	**ft_split(const char *s, char c);
 
 /* Prints an array of strings*/
-void	print_array_fd(const char **arr, int fd);
+extern void	print_array_fd(const char **arr, int fd);
 
 /* _FT_ARRAY_H */
 #endif
