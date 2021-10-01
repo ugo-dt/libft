@@ -6,12 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/29 13:36:06 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/01 11:36:58 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_ARRAY_H
-# define _FT_ARRAY_H
+# define _FT_ARRAY_H	1
 
 # include "_ft_write.h"
 # include <stdlib.h>
@@ -37,7 +37,7 @@ void	*free_array_n(void **tab, size_t n);
 char	**ft_split(const char *s, char c);
 
 /* Prints an array of strings*/
-void	print_array_fd(const char **arr, int __fd);
+void	print_array_fd(const char **arr, int fd);
 
 /* _FT_ARRAY_H */
 #endif

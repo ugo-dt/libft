@@ -12,10 +12,10 @@
 
 #include "_ft_array.h"
 
-void	print_array_fd(const char **arr, int __fd)
+void	print_array_fd(const char **arr, int fd)
 {
 	if (!arr || !(*arr))
 		return ;
 	while (*arr)
-		ft_putstr_fd((*arr)++, __fd);
+		ft_putstr_fd((*arr)++, fd);
 }
