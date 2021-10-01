@@ -6,12 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:04:44 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/25 20:34:00 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/01 11:37:41 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_MEM_H
-# define _FT_MEM_H
+# define _FT_MEM_H	1
 
 # include <stdlib.h>
 

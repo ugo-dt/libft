@@ -6,12 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:33:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/25 20:33:54 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/01 11:37:36 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_LIST_H
-# define _FT_LIST_H
+# define _FT_LIST_H	1
 
 # include <stdlib.h>
 

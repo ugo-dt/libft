@@ -6,12 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/29 13:33:37 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/01 11:37:49 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_STRING_H
-# define _FT_STRING_H
+# define _FT_STRING_H	1
 
 # include "_ft_mem.h"
 # include "_ft_char.h"

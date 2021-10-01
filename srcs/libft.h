@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 12:12:35 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/25 20:34:32 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/01 11:00:01 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "array/_ft_array.h"
 # include "char/_ft_char.h"
+# include "ft_printf/_ft_printf.h"
 # include "list/_ft_list.h"
 # include "mem/_ft_mem.h"
 # include "string/_ft_string.h"

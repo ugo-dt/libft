@@ -6,12 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:45:01 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/25 20:33:40 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/01 11:37:04 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_CHAR_H
-# define _FT_CHAR_H
+# define _FT_CHAR_H	1
 
 /* The ft_islower() function tests for any lower-case letters */
 int		ft_islower(char c);
