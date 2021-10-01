@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2021/09/27 13:46:47 by ugdaniel         ###   ########.fr        #
+#    Updated: 2021/10/01 10:59:25 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,7 @@ SRCS		=	$(wildcard srcs/*/*.c)
 HEADERS		=	-I srcs/. \
 				-I srcs/array \
 				-I srcs/char \
+				-I srcs/ft_printf \
 				-I srcs/list \
 				-I srcs/mem \
 				-I srcs/string \
