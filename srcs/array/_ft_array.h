@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/01 16:10:46 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/02 12:22:14 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,12 @@ extern void	*free_array_n(void **tab, size_t n);
  */
 extern char	**ft_split(const char *s, char c);
 
-/* Prints an array of strings*/
+/*
+ * Prints every string in the array, followed by a newline,
+ * on the file descriptor fd.
+ * 
+ * The function stops at the first NULL string encountered.
+ */
 extern void	print_array_fd(const char **arr, int fd);
 
 /* _FT_ARRAY_H */
