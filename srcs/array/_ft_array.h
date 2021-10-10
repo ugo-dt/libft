@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/02 19:26:32 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/10 11:41:27 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ extern void	*ft_free_array_n(void **tab, size_t n);
  * and can be freed with free(3);
  */
 extern char	**ft_copy_array(char **arr);
+
 /* 
  * The ft_split() function splits a string it into words, and returns them as
  * a NULL-terminated array of strings.
@@ -51,12 +52,15 @@ extern char	**ft_copy_array(char **arr);
 extern char	**ft_split(const char *s, char c);
 
 /*
- * Print every string in a array, followed by a newline,
+ * Print every string in the array arr, followed by a newline,
  * on the file descriptor fd.
  * 
  * The function stops at the first NULL string encountered.
  */
 extern void	ft_print_array_fd(const char **arr, int fd);
+
+/* Sort an array of string using ft_strcmp(). */
+extern void sort_array(char **array);
 
 /* _FT_ARRAY_H */
 #endif
