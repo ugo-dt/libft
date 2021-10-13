@@ -6,13 +6,13 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:43:37 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/10 11:41:50 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/13 19:07:14 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_ft_array.h"
 
-void	sort_array(char **array)
+void	ft_sort_array(char **array)
 {
 	int		i;
 	char	*temp;
