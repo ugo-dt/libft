@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 11:26:05 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/10 11:42:03 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:47:32 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_array.h"
+#include "libft.h"
 
 int	ft_array_size(char **arr)
 {

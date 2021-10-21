@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 09:43:49 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 19:53:55 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:48:18 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_char.h"
+#include "libft.h"
 
 int	ft_tolower(int c)
 {

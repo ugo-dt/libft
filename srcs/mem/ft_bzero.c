@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 12:33:21 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 16:51:12 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:48:48 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_mem.h"
+#include "libft.h"
 
 void	ft_bzero(void *s, size_t n)
 {

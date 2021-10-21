@@ -6,12 +6,17 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:33:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/01 16:10:35 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 20:25:29 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_LIST_H
 # define _FT_LIST_H	1
+
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_list.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 # include <stdlib.h>
 
@@ -53,6 +58,12 @@ extern t_list	*ft_lstnew(void *content);
 
 /* Returns the numbers of elements in a list. */
 extern int		ft_lstsize(t_list *lst);
+
+#else
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_list.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 /* _FT_LIST_H */
 #endif

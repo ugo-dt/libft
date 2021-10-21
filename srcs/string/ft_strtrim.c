@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 17:00:06 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 15:56:30 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:48:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_string.h"
+#include "libft.h"
 
 char	*ft_strtrim(char *s1, char *set)
 {

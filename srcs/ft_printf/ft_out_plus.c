@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 19:59:09 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/01 15:30:37 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:48:30 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_printf.h"
+#include "libft.h"
 
 #define NB_SPECS	8
 #define NB_FLAGS	8

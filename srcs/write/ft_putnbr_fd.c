@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:39:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/01 11:14:49 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:49:03 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_write.h"
+#include "libft.h"
 
 #ifndef INT_MIN
 # define INT_MIN	-2147483648

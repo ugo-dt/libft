@@ -6,12 +6,17 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:04:44 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/01 11:37:41 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 20:25:36 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_MEM_H
 # define _FT_MEM_H	1
+
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_mem.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 # include <stdlib.h>
 
@@ -55,6 +60,12 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 /* The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string b. */
 void	*ft_memset(void *s, int c, size_t n);
+
+#else
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_mem.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 /* _FT_MEM_H */
 #endif

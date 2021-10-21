@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:05:25 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/29 13:43:08 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:47:55 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_array.h"
+#include "libft.h"
 
 static unsigned int	words(const char *s, char c)
 {

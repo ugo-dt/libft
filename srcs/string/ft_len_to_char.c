@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/02 14:48:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/02 14:49:29 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:48:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_string.h"
+#include "libft.h"
 
 size_t	ft_len_to_char(const char *s, char c)
 {

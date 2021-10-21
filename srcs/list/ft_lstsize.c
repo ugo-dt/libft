@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 16:42:26 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/22 16:35:50 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:48:39 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_list.h"
+#include "libft.h"
 
 int	ft_lstsize(t_list *lst)
 {

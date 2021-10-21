@@ -6,12 +6,17 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/02 14:50:17 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 20:25:02 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_STRING_H
 # define _FT_STRING_H	1
+
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_string.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 # include "_ft_mem.h"
 # include "_ft_char.h"
@@ -20,23 +25,23 @@
 /* string.h functions */
 
 /* The ft_atoi() function converts the initial portion
- * of the string pointed to by str to int representation. */
+ * of the string pointed by str to an int representation. */
 extern int		ft_atoi(const char *str);
 
 /* The ft_itoa() function converts an integer value to
- * a null-terminated string.
- */
+ * a null-terminated string. */
 extern char		*ft_itoa(int n);
 
 /* Returns the length from s to the next character c
  * (or the next '\\0' character) */
 extern size_t	ft_len_to_char(const char *s, char c);
 
-/* The ft_str_tolower() function creates a NULL-terminated lowercase copy of
+/* 
+ * The ft_str_tolower() function creates a NULL-terminated lowercase copy of
  * the string src.
  *
  * @returns A pointer to the first character on the newly created string.
- * */
+ */
 extern char		*ft_str_tolower(char *dst, const char *src);
 
 /* The ft_str_toupper() function creates a NULL-terminated uppercase copy of
@@ -203,6 +208,12 @@ extern char		*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 extern char		*ft_substr(char *s, unsigned int start, size_t len);
 
 extern char		*ft_strtrim(char *s1, char *set);
+
+#else
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_string.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 /* _FT_STRING_H */
 #endif

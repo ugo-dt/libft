@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:37:09 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/01 11:05:29 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:49:03 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_write.h"
+#include "libft.h"
 
 void	ft_putstr_fd(const char *s, int fd)
 {

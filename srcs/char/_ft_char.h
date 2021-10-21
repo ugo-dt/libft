@@ -6,12 +6,17 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:45:01 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/01 15:30:36 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 20:20:14 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_CHAR_H
 # define _FT_CHAR_H	1
+
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_char.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 /* The ft_islower() function tests for any lower-case letters */
 extern int		ft_islower(char c);
@@ -46,6 +51,12 @@ extern int		ft_isprint(int c);
  * This includes the following standard characters:
  * '\\t'   '\\n'    '\\v'    '\\f'    '\\r'    ' ' */
 extern int		ft_isspace(char c);
+
+#else
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_char.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 /* _FT_CHAR_H */
 #endif

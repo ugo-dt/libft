@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 14:41:36 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/09/29 11:57:55 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 19:48:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_ft_string.h"
+#include "libft.h"
 
 char	*ft_strndup(const char *s, size_t n)
 {

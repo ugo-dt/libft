@@ -6,12 +6,17 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:40:43 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/02 19:26:07 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/21 20:25:48 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_WRITE_H
 # define _FT_WRITE_H	1
+
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_write.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 # include <unistd.h>
 
@@ -38,6 +43,12 @@ extern void	ft_putnbr(int n);
 
 /* Print a number on the file descriptor fd. */
 extern void	ft_putnbr_fd(int n, int fd);
+
+#else
+# ifndef _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include <_ft_write.h> directly. Use <libft.h> instead."
+#  define _LIBFT_HEADER_IMPLEMENTATION
+# endif
 
 /* _FT_WRITE_H */
 #endif
