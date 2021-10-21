@@ -1,6 +1,4 @@
 # Libft
-Libft project, 42 School
+#### This library is an extended version of the Libft project at 42 School.
 
-##### How to build
-Create libft.a with the following command
-> `make`
+###### Create libft.a with the `make` command.
