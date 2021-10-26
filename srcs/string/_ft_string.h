@@ -6,21 +6,19 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 20:25:02 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/26 22:21:28 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_STRING_H
 # define _FT_STRING_H	1
 
+/* Strings manipulation */
+
 # ifndef _LIBFT_HEADER_IMPLEMENTATION
 #  error "Do not include <_ft_string.h> directly. Use <libft.h> instead."
 #  define _LIBFT_HEADER_IMPLEMENTATION
 # endif
-
-# include "_ft_mem.h"
-# include "_ft_char.h"
-# include <stdio.h>
 
 /* string.h functions */
 
@@ -205,8 +203,18 @@ extern char		*ft_strrchr(const char *s, int c);
  */
 extern char		*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 
+/* 
+ * The ft_substr() function allocates memory with malloc(3) then returns a
+ * string of len characters (or up to the first '\\0' encountered), and starting
+ * from index start of s.
+ */
 extern char		*ft_substr(char *s, unsigned int start, size_t len);
 
+/*
+ * The ft_strtrim() function allocates memory with malloc(3) then returns the
+ * same string as s1, without the characters specified in set, at the start
+ * and at the end of s1.
+ */
 extern char		*ft_strtrim(char *s1, char *set);
 
 #else

@@ -6,9 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/08 17:07:00 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 20:25:15 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/26 22:07:00 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* The ft_printf function is a basic recreation of printf. */
 
 #ifndef _FT_PRINTF_H
 # define _FT_PRINTF_H	1
@@ -17,10 +19,6 @@
 #  error "Do not include <_ft_printf.h> directly. Use <libft.h> instead."
 #  define _LIBFT_HEADER_IMPLEMENTATION
 # endif
-
-# include "_ft_write.h"
-# include "_ft_string.h"
-# include <stdarg.h>
 
 extern int	ft_dprintf(int fd, const char *format, ...);
 extern int	ft_printf(const char *format, ...);

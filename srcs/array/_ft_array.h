@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 20:24:40 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/26 22:02:06 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,6 @@
 #  error "Do not include <_ft_array.h> directly. Use <libft.h> instead."
 #  define _LIBFT_HEADER_IMPLEMENTATION
 # endif
-
-# include "_ft_write.h"
-# include "_ft_string.h"
-# include <stdlib.h>
 
 /* The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */

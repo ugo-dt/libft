@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 12:12:35 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 20:22:08 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/26 22:04:18 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@
 
 # undef _LIBFT_HEADER_IMPLEMENTATION
 # define _LIBFT_HEADER_IMPLEMENTATION 1
+
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <stdarg.h>
 
 # include "array/_ft_array.h"
 # include "char/_ft_char.h"

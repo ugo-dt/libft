@@ -6,9 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:33:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 20:25:29 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/26 22:13:28 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* The following functions make use of */
 
 #ifndef _FT_LIST_H
 # define _FT_LIST_H	1
@@ -18,8 +20,12 @@
 #  define _LIBFT_HEADER_IMPLEMENTATION
 # endif
 
-# include <stdlib.h>
-
+/*
+ * struct s_list
+ * 
+ * @param content Allows to store any type of data (void *);
+ * @param next The address of the next link of the list (NULL if last).
+ */
 typedef struct s_list
 {
 	void			*content;

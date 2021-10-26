@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:40:43 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 20:25:48 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/26 22:01:28 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,6 @@
 #  error "Do not include <_ft_write.h> directly. Use <libft.h> instead."
 #  define _LIBFT_HEADER_IMPLEMENTATION
 # endif
-
-# include <unistd.h>
 
 /* Write a character on the standard output. */
 extern void	ft_putchar(char c);
