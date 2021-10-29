@@ -6,13 +6,13 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 11:26:05 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 19:47:32 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/29 15:50:32 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_array_size(char **arr)
+size_t	ft_array_size(char **arr)
 {
 	int		size;
 
@@ -40,7 +40,7 @@ void	ft_free_array(void **arr)
 	arr = NULL;
 }
 
-void	*ft_free_array_n(void **tab, size_t n)
+void	ft_free_array_n(void **tab, size_t n)
 {
 	size_t	i;
 
@@ -48,7 +48,6 @@ void	*ft_free_array_n(void **tab, size_t n)
 	while (i < n)
 		free(tab[i++]);
 	free(tab);
-	return (NULL);
 }
 
 void	ft_print_array_fd(const char **arr, int fd)
