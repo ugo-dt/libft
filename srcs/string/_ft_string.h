@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/26 22:21:28 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/29 13:57:06 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ extern char		*ft_strcpy(char *dest, const char *src);
  * (including the terminating '\\0' character.)
  *
  * The function copy at most len characters from src into dst.
- * If src is less than len characters long, the remainder of dst is filled with
+ * If src is less than n characters long, the remainder of dst is filled with
  * '\\0' characters. Otherwise, dst is not terminated.
  */
 extern char		*ft_strncpy(char *s1, const char *s2, size_t n);
@@ -178,19 +178,23 @@ extern char		*ft_strnstr(const char *haystack, const char *needle, size_t n);
 /* 
  * The ft_strchr() function locates the first occurrence of the char c in the
  * string pointed to by s. The terminating null character is considered to be
- * part of the string; therefore if c is '\\0', the functions locate the
+ * part of the string; therefore if c is '\\0', the function locates the
  * terminating '\\0'.
- *
- * The ft_strrchr() function is identical to ft_strchr(),
- * except it locates the last occurrence of c.
+ * 
+ * The function returns NULL if it cannot find the character c in the string s.
  */
 extern char		*ft_strchr(const char *s, int c);
 
 /* 
- * The ft_strchr() function locates the last occurrence of the char c in the
+ * The ft_strchr() function locates the first occurrence of the char c in the
  * string pointed to by s. The terminating null character is considered to be
- * part of the string; therefore if c is '\\0', the function locate the
+ * part of the string; therefore if c is '\\0', the function locates the
  * terminating '\\0'.
+ * 
+ * The function returns NULL if it cannot find the character c in the string s.
+ *
+ * The ft_strrchr() function is identical to ft_strchr(),
+ * except it locates the last occurrence of c.
  */
 extern char		*ft_strrchr(const char *s, int c);
 
