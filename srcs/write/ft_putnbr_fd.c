@@ -6,13 +6,13 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:39:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 19:49:03 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2021/10/31 22:15:32 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-#ifndef INT_MIN
+#if !defined (INT_MIN)
 # define INT_MIN	-2147483648
 #endif
 
