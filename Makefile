@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2021/10/01 10:59:25 by ugdaniel         ###   ########.fr        #
+#    Updated: 2021/10/31 17:51:12 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,14 +26,14 @@ CC			=	@clang
 FLAGS		=	-Wall -Wextra -Werror
 OBJS		=	$(SRCS:c=o)
 
-_white		= \033[39m
-_green		= \033[92m
-_magenta	= \033[95m
-_yellow		= \033[33m
-_blue		= \033[34m
-_gray		= \033[37m
-_red		= \033[91m
-_cyan		= \033[96m
+_white		=	\033[39m
+_green		= 	\033[92m
+_magenta	= 	\033[95m
+_yellow		= 	\033[33m
+_blue		= 	\033[34m
+_gray		= 	\033[37m
+_red		= 	\033[91m
+_cyan		= 	\033[96m
 
 all: $(NAME)
 	@printf "\033[2K\r$(_blue)$(NAME) ready!\n$(white)"
