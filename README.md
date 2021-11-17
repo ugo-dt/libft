@@ -9,7 +9,7 @@
 
 int main(void)
 {
-  ft_putstr("Hello World!\n", 1);
+  ft_putstr("Hello World!\n");
   return (0);
 }
 ```
