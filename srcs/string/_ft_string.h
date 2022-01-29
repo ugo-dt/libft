@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/29 13:57:06 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/01/27 13:28:02 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,12 @@ extern int		ft_atoi(const char *str);
 extern char		*ft_itoa(int n);
 
 /* Returns the length from s to the next character c
- * (or the next '\\0' character) */
+ * or the next '\\0' character. */
 extern size_t	ft_len_to_char(const char *s, char c);
 
+/* Returns the length from s to the next space character (using ft_isspace())
+ * or the next '\\0' character. */
+size_t			ft_len_to_space(const char *s);
 /* 
  * The ft_str_tolower() function creates a NULL-terminated lowercase copy of
  * the string src.

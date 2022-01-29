@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstdelone.c                                     :+:      :+:    :+:   */
+/*   ft_len_to_space.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/18 16:55:22 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/01/25 18:26:53 by ugdaniel         ###   ########.fr       */
+/*   Created: 2021/12/03 12:51:29 by ugdaniel          #+#    #+#             */
+/*   Updated: 2021/12/03 21:23:08 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
+size_t	ft_len_to_space(const char *s)
 {
-	if (lst && del)
-	{
-		del(lst->content);
-		free(lst);
-		lst = NULL;
-	}
+	size_t	n;
+
+	n = 0;
+	while (s[n] && !ft_isspace(s[n]))
+		n++;
+	return (n);
 }

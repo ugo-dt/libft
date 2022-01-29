@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2021/10/31 17:51:12 by ugdaniel         ###   ########.fr        #
+#    Updated: 2022/01/25 14:04:02 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME		=	libft.a
 
 SRCS		=	$(wildcard srcs/*/*.c)
 HEADERS		=	-I srcs/. \
-				-I srcs/array \
+				-I srcs/array \
 				-I srcs/char \
 				-I srcs/ft_printf \
 				-I srcs/list \
