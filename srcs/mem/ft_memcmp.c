@@ -6,11 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 15:54:33 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 19:48:48 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:46:40 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#define _LIBFT_HEADER_IMPLEMENTATION	1
+#include "_ft_mem.h"
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {

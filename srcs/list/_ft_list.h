@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:33:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/26 22:13:28 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:43:49 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,15 +15,16 @@
 #ifndef _FT_LIST_H
 # define _FT_LIST_H	1
 
-# ifndef _LIBFT_HEADER_IMPLEMENTATION
-#  error "Do not include <_ft_list.h> directly. Use <libft.h> instead."
-#  define _LIBFT_HEADER_IMPLEMENTATION
+# if !defined _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include "_ft_list.h" directly. Use "libft.h" instead."
 # endif
+
+# include <stdlib.h>
 
 /*
  * struct s_list
  * 
- * @param content Allows to store any type of data (void *);
+ * @param content Pointer to any type of data;
  * @param next The address of the next link of the list (NULL if last).
  */
 typedef struct s_list
@@ -64,12 +65,6 @@ extern t_list	*ft_lstnew(void *content);
 
 /* Returns the numbers of elements in a list. */
 extern int		ft_lstsize(t_list *lst);
-
-#else
-# ifndef _LIBFT_HEADER_IMPLEMENTATION
-#  error "Do not include <_ft_list.h> directly. Use <libft.h> instead."
-#  define _LIBFT_HEADER_IMPLEMENTATION
-# endif
 
 /* _FT_LIST_H */
 #endif

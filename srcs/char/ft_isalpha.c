@@ -6,11 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/16 16:17:54 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 19:48:18 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:46:40 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#define _LIBFT_HEADER_IMPLEMENTATION	1
+#include "_ft_char.h"
 
 int	ft_isalpha(int c)
 {

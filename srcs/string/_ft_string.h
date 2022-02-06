@@ -6,21 +6,20 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/01/27 13:28:02 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:43:36 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_STRING_H
 # define _FT_STRING_H	1
 
-/* Strings manipulation */
-
-# ifndef _LIBFT_HEADER_IMPLEMENTATION
-#  error "Do not include <_ft_string.h> directly. Use <libft.h> instead."
-#  define _LIBFT_HEADER_IMPLEMENTATION
+# if !defined _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include "_ft_string.h" directly. Use "libft.h" instead."
 # endif
 
-/* string.h functions */
+# include "_ft_char.h"
+# include "_ft_mem.h"
+# include <stdlib.h>
 
 /* The ft_atoi() function converts the initial portion
  * of the string pointed by str to an int representation. */
@@ -223,12 +222,6 @@ extern char		*ft_substr(char *s, unsigned int start, size_t len);
  * and at the end of s1.
  */
 extern char		*ft_strtrim(char *s1, char *set);
-
-#else
-# ifndef _LIBFT_HEADER_IMPLEMENTATION
-#  error "Do not include <_ft_string.h> directly. Use <libft.h> instead."
-#  define _LIBFT_HEADER_IMPLEMENTATION
-# endif
 
 /* _FT_STRING_H */
 #endif

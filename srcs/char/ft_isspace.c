@@ -6,11 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/07/31 11:11:14 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/01/29 22:21:07 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:46:40 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#define _LIBFT_HEADER_IMPLEMENTATION	1
+#include "_ft_char.h"
 
 int	ft_isspace(char c)
 {

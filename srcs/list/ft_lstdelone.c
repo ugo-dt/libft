@@ -6,11 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 16:55:22 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/01/25 18:26:53 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:46:40 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#define _LIBFT_HEADER_IMPLEMENTATION	1
+#include "_ft_list.h"
 
 void	ft_lstdelone(t_list *lst, void (*del)(void *))
 {

@@ -6,11 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:43:37 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/21 19:47:55 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:46:40 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#define _LIBFT_HEADER_IMPLEMENTATION	1
+#include "_ft_array.h"
 
 void	ft_sort_array(char **array)
 {

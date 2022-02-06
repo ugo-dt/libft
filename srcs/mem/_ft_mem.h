@@ -6,19 +6,18 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:04:44 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/26 22:21:18 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:44:00 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_MEM_H
 # define _FT_MEM_H	1
 
-/* Memory manipulation */
-
-# ifndef _LIBFT_HEADER_IMPLEMENTATION
-#  error "Do not include <_ft_mem.h> directly. Use <libft.h> instead."
-#  define _LIBFT_HEADER_IMPLEMENTATION
+# if !defined _LIBFT_HEADER_IMPLEMENTATION
+#  error "Do not include "_ft_mem.h" directly. Use "libft.h" instead."
 # endif
+
+# include <stdlib.h>
 
 /* The ft_bzero() function writes n zeroed bytes to the string s.
  * If n is zero, ft_bzero() does nothing. */
@@ -60,12 +59,6 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 /* The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string b. */
 void	*ft_memset(void *s, int c, size_t n);
-
-#else
-# ifndef _LIBFT_HEADER_IMPLEMENTATION
-#  error "Do not include <_ft_mem.h> directly. Use <libft.h> instead."
-#  define _LIBFT_HEADER_IMPLEMENTATION
-# endif
 
 /* _FT_MEM_H */
 #endif

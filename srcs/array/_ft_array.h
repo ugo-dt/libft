@@ -6,17 +6,20 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2021/10/29 15:50:45 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 11:43:27 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_ARRAY_H
 # define _FT_ARRAY_H	1
 
-# ifndef _LIBFT_HEADER_IMPLEMENTATION
-#  error "Do not include <_ft_array.h> directly. Use <libft.h> instead."
-#  define _LIBFT_HEADER_IMPLEMENTATION
+# if !defined _LIBFT_HEADER_IMPLEMENTATION
+#  error Do not include "_ft_array.h" directly. Use "libft.h" instead.
 # endif
+
+# include "_ft_string.h"
+# include "_ft_write.h"
+# include <stdlib.h>
 
 /* The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */
@@ -62,12 +65,6 @@ extern void		ft_print_array_fd(const char **arr, int fd);
 
 /* Sort an array of string using ft_strcmp(). */
 extern void		ft_sort_array(char **array);
-
-#else
-# ifndef _LIBFT_HEADER_IMPLEMENTATION
-#  error "Do not include <_ft_array.h> directly. Use <libft.h> instead."
-#  define _LIBFT_HEADER_IMPLEMENTATION
-# endif
 
 /* _FT_ARRAY_H */
 #endif
