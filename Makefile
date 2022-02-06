@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2022/02/06 11:50:04 by ugdaniel         ###   ########.fr        #
+#    Updated: 2022/02/06 12:10:23 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -86,14 +86,7 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/write/ft_putstr.c \
 				srcs/write/ft_putstr_fd.c
 
-HEADERS		=	-I srcs \
-				-I srcs/array \
-				-I srcs/char \
-				-I srcs/ft_printf \
-				-I srcs/list \
-				-I srcs/mem \
-				-I srcs/string \
-				-I srcs/write
+HEADERS		=	-I include
 
 CC			=	@clang
 FLAGS		=	-Wall -Wextra -Werror
@@ -112,7 +105,7 @@ _cyan		= 	\033[96m
 all: $(NAME)
 
 $(NAME): text1 $(OBJS)
-	@ar rcs $(NAME) $(OBJS) && printf "\033[2K\r$(_green)$(NAME) ready!\n$(white)"
+	@ar rcs $(NAME) $(OBJS) && printf "\033[2K\r$(_green)$(NAME) ready!$(white)\n"
 
 .c.o:
 	@printf "\033[2K\r$(_yellow)$< $(_red)"
