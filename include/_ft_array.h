@@ -6,14 +6,14 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 11:43:27 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 12:57:27 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_ARRAY_H
 # define _FT_ARRAY_H	1
 
-# if !defined _LIBFT_HEADER_IMPLEMENTATION
+# if !defined _LIBFT_HEADER
 #  error Do not include "_ft_array.h" directly. Use "libft.h" instead.
 # endif
 

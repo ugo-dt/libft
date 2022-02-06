@@ -6,14 +6,14 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:40:43 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 11:43:32 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 12:56:45 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _FT_WRITE_H
 # define _FT_WRITE_H	1
 
-# if !defined _LIBFT_HEADER_IMPLEMENTATION
+# if !defined _LIBFT_HEADER
 #  error "Do not include "_ft_write.h" directly. Use "libft.h" instead."
 #  define _LIBFT_HEADER_IMPLEMENTATION
 # endif

@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _LIBFT_HEADER_IMPLEMENTATION	1
+#include "libft.h"
 #include "_ft_printf.h"
 
 int	ft_dprintf_internal(int fd, const char *format, va_list *args);

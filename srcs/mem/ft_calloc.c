@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 14:26:54 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 11:46:40 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 13:01:05 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _LIBFT_HEADER_IMPLEMENTATION	1
+#include "libft.h"
 #include "_ft_mem.h"
 
 void	*ft_calloc(size_t count, size_t size)

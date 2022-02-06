@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _LIBFT_HEADER_IMPLEMENTATION	1
+#include "libft.h"
 #include "_ft_string.h"
 
 char	*ft_str_tolower(char *dst, const char *src)

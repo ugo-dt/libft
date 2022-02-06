@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 12:09:48 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 11:46:40 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 13:01:05 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#define _LIBFT_HEADER_IMPLEMENTATION	1
+#include "libft.h"
 #include "_ft_string.h"
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t n)

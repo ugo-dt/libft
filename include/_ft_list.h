@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:33:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 11:43:49 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/06 12:56:45 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 #ifndef _FT_LIST_H
 # define _FT_LIST_H	1
 
-# if !defined _LIBFT_HEADER_IMPLEMENTATION
+# if !defined _LIBFT_HEADER
 #  error "Do not include "_ft_list.h" directly. Use "libft.h" instead."
 # endif
 
