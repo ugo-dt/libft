@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2022/02/06 12:10:23 by ugdaniel         ###   ########.fr        #
+#    Updated: 2022/02/06 12:24:24 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -105,7 +105,7 @@ _cyan		= 	\033[96m
 all: $(NAME)
 
 $(NAME): text1 $(OBJS)
-	@ar rcs $(NAME) $(OBJS) && printf "\033[2K\r$(_green)$(NAME) ready!$(white)\n"
+	@ar rcs $(NAME) $(OBJS) && printf "\033[2K\r$(_green)$(NAME) ready!$(_white)\n"
 
 .c.o:
 	@printf "\033[2K\r$(_yellow)$< $(_red)"
@@ -122,6 +122,6 @@ fclean: clean
 re: fclean all
 
 text1:
-	@printf "$(gray)Compiling $(NAME)... \t$(_white)\n"
+	@printf "$(_gray)Compiling $(NAME)... \t$(_white)\n"
 
 .PHONY: all clean fclean re text1
