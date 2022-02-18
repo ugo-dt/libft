@@ -6,47 +6,48 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/10/10 11:26:05 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 13:00:40 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/18 15:36:39 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "_ft_array.h"
 
-size_t	ft_array_size(char **arr)
+size_t	ft_array_size(void **arr)
 {
-	int		size;
+	size_t	i;
 
 	if (!arr || !(*arr))
 		return (0);
-	size = 0;
-	while (arr[size])
-		size++;
-	return (size);
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }
 
 void	ft_free_array(void **arr)
 {
-	int		i;
+	size_t	i;
 
 	if (!arr)
 		return ;
-	i = -1;
-	while (arr[++i])
+	i = 0;
+	while (arr[i])
 	{
 		free(arr[i]);
 		arr[i] = NULL;
+		i++;
 	}
 	free(arr);
 	arr = NULL;
 }
 
-void	ft_free_array_n(void **tab, size_t n)
+void	ft_free_array_n(void **tab, size_t max)
 {
 	size_t	i;
 
 	i = 0;
-	while (i < n)
+	while (i < max)
 		free(tab[i++]);
 	free(tab);
 }

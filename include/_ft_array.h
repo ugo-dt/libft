@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 12:57:27 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/18 15:36:26 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 
 /* The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */
-extern size_t	ft_array_size(char **arr);
+size_t			ft_array_size(void **arr);
 
 /* The ft_free_array() function frees a each element from a two-dimensional
  * array, starting from index 0 up to the first NULL element encountered. */
@@ -31,7 +31,7 @@ extern void		ft_free_array(void **arr);
 
 /* The ft_free_array_n() function frees up to n elements from a
  * two-dimensional array, then frees the pointer to the array. */
-extern void		ft_free_array_n(void **tab, size_t n);
+extern void		ft_free_array_n(void **tab, size_t max);
 
 /*
  * The ft_copy_array() function returns a copy of the NULL-terminated

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:43:37 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 13:01:05 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/18 15:37:05 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	**ft_copy_array(char **arr)
 	size_t	size;
 	char	**copy;
 
-	size = ft_array_size(arr);
+	size = ft_array_size((void **)arr);
 	copy = malloc(sizeof(char *) * (size + 1));
 	if (!copy)
 		return (NULL);
