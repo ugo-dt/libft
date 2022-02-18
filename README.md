@@ -1,8 +1,8 @@
-# Libft
-## This library is an extended version of the Libft project at 42 School.
-#### Create libft.a with the `make` command.
+## Libft
+### This library is an extended version of the Libft project at 42 School.
+##### Create libft.a with the `make` command.
 
-##### Usage example
+###### Usage example
 ```C
 /* main.c - example file */
 #include "libft.h"
