@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:04:44 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 12:56:45 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/18 17:15:55 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,15 @@ void	*ft_memcpy(void *dest, const void *src, size_t n);
 /* The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string b. */
 void	*ft_memset(void *s, int c, size_t n);
+
+/*
+ * Allocate memory without fail. If ft_xmalloc() fails, this will print
+ * a message to @code{stderr} (using the name set by
+ * @code{xmalloc_set_program_name},
+ * if any) and then call @code{xexit}.  Note that it is therefore safe for
+ * a program to contain @code{#define malloc xmalloc} in its source.
+ */
+void	*ft_xmalloc(size_t size);
 
 /* _FT_MEM_H */
 #endif
