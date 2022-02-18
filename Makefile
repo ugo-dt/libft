@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2022/02/06 12:24:24 by ugdaniel         ###   ########.fr        #
+#    Updated: 2022/02/18 16:53:43 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,13 +26,17 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/char/ft_isupper.c \
 				srcs/char/ft_tolower.c \
 				srcs/char/ft_toupper.c \
-				srcs/ft_printf/ft_dprintf_internal.c \
-				srcs/ft_printf/ft_flags.c \
-				srcs/ft_printf/ft_flags_plus.c \
-				srcs/ft_printf/ft_out.c \
-				srcs/ft_printf/ft_out_plus.c \
 				srcs/ft_printf/ft_printf.c \
-				srcs/ft_printf/ft_utils.c \
+				srcs/ft_printf/ft_dprintf.c \
+				srcs/ft_printf/ft_dprintf-internal.c \
+				srcs/ft_printf/conversions/char.c \
+				srcs/ft_printf/conversions/hex.c \
+				srcs/ft_printf/conversions/int.c \
+				srcs/ft_printf/conversions/long.c \
+				srcs/ft_printf/conversions/ptr.c \
+				srcs/ft_printf/conversions/string.c \
+				srcs/ft_printf/conversions/uint.c \
+				srcs/ft_printf/conversions/ulong.c \
 				srcs/list/ft_lstadd_back.c \
 				srcs/list/ft_lstadd_front.c \
 				srcs/list/ft_lstclear.c \
@@ -42,6 +46,7 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/list/ft_lstmap.c \
 				srcs/list/ft_lstnew.c \
 				srcs/list/ft_lstsize.c \
+				srcs/math/ft_abs.c \
 				srcs/mem/ft_bzero.c \
 				srcs/mem/ft_calloc.c \
 				srcs/mem/ft_memccpy.c \
@@ -50,6 +55,7 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/mem/ft_memcpy.c \
 				srcs/mem/ft_memmove.c \
 				srcs/mem/ft_memset.c \
+				srcs/mem/ft_xmalloc.c \
 				srcs/string/ft_atoi.c \
 				srcs/string/ft_itoa.c \
 				srcs/string/ft_len_to_char.c \

@@ -5,12 +5,10 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 17:07:00 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 12:56:45 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/02/18 12:01:49 by ugdaniel          #+#    #+#             */
+/*   Updated: 2022/02/18 16:55:27 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/* The ft_printf function is a basic recreation of printf. */
 
 #ifndef _FT_PRINTF_H
 # define _FT_PRINTF_H	1
@@ -19,44 +17,48 @@
 #  error "Do not include "_ft_printf.h" directly. Use "libft.h" instead."
 # endif
 
-# include "_ft_char.h"
-# include "_ft_mem.h"
-# include "_ft_string.h"
-# include "_ft_write.h"
+# include "_ft_math.h"
 # include <stdarg.h>
+# include <unistd.h>
 # include <stdlib.h>
 
-# define NB_SPECS	8
-# define NB_FLAGS	8
+# define ASCII_0			48
 
-# define SPEC_CHAR	0
-# define SPEC_STR	1
-# define SPEC_PTR	2
-# define SPEC_INT	3
-# define SPEC_UINT	4
-# define SPEC_HEX	5
-# define SPEC_PCENT	6
-# define SPEC_NONE	7
+/* The function ft_putstr_len() writes the string pointed to by s to the file
+ * descriptor fd.
+ * @returns The number of characters written. */
+ssize_t	ft_putstr_len(char *s, int fd);
 
-# define FLAG_ZERO	0
-# define FLAG_MINUS	1
-# define FLAG_PLUS	2
-# define FLAG_SPACE	3
-# define FLAG_HASH	4
-# define FLAG_LEFT	5
-# define FLAG_PREC	6
-# define FLAG_UPPER	7
+/* The function ft_putchar_len() writes the character c to the file descriptor
+ * fd.
+ * @returns The number of characters written. */
+ssize_t	ft_putchar_len(char c, int fd);
 
-typedef struct s_flags
-{
-	unsigned int	specs[NB_SPECS];
-	unsigned int	flags[NB_FLAGS];
-	int				width;
-	int				precision;
-}t_flags;
+/* The function ft_putint_len() writes the number nb to the file
+ * descriptor fd.
+ * @returns The number of characters written. */
+ssize_t	ft_putint_len(int nb, int fd);
 
-extern int	ft_dprintf(int fd, const char *format, ...);
-extern int	ft_printf(const char *format, ...);
+/* The function ft_putuint_len() writes the unsigned number nb to the file
+ * descriptor fd.
+ * @returns The number of characters written. */
+ssize_t	ft_putuint_len(uint32_t nb, int fd);
+
+/* The function ft_putint_len() writes the number fd in hexadecimal to the file
+ * descriptor fd.
+ * @returns The number of characters written. */
+ssize_t	ft_puthex_len(char x, unsigned int nb, int fd);
+
+ssize_t	ft_putaddr_len(size_t nb, int fd);
+
+ssize_t	ft_putulong_len(size_t nb, int fd);
+
+ssize_t	ft_putlong_len(long nb, int fd);
+
+int		ft_dprintf_internal(int fd, const char *f, va_list *ap);
+
+int		ft_dprintf(int fd, const char *format, ...);
+int		ft_printf(const char *format, ...);
 
 /* _FT_PRINTF_H */
 #endif

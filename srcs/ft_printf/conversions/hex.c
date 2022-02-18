@@ -1,27 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   hex.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 11:48:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/18 16:59:17 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
+/*   Updated: 2022/02/18 16:27:27 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "_ft_printf.h"
 
-/* Write formatted output to stdout from the format string FORMAT.
- * @returns The number of written characters. */
-int	ft_printf(const char *format, ...)
+ssize_t	ft_puthex_len(char x, unsigned int nb, int fd)
 {
-	int		done;
-	va_list	ap;
+	ssize_t	done;
+	int		caps;
 
-	va_start(ap, format);
-	done = ft_dprintf_internal(STDOUT_FILENO, format, &ap);
-	va_end(ap);
+	if (x == 'X')
+		caps = 55;
+	else
+		caps = 87;
+	done = 0;
+	if (nb < 10)
+		done += ft_putchar_len(nb + ASCII_0, fd);
+	else if (nb < 16)
+		done += ft_putchar_len(nb + caps, fd);
+	else
+	{
+		done += ft_puthex_len(x, nb / 16, fd);
+		done += ft_puthex_len(x, nb % 16, fd);
+	}
 	return (done);
 }

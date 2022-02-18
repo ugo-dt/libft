@@ -1,28 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
+/*   string.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/06 11:48:35 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/18 17:15:43 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
+/*   Updated: 2022/02/18 17:13:03 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFT_H
-# define LIBFT_H	1
+#include "libft.h"
+#include "_ft_printf.h"
 
-# define _LIBFT_HEADER	1
+ssize_t	ft_putstr_len(char *s, int fd)
+{
+	ssize_t	i;
 
-# include "_ft_array.h"
-# include "_ft_char.h"
-# include "_ft_list.h"
-# include "_ft_math.h"
-# include "_ft_mem.h"
-# include "_ft_printf.h"
-# include "_ft_string.h"
-# include "_ft_write.h"
-
-/* LIBFT_H */
-#endif
+	if (!s)
+		return (write(fd, "(null)", 6));
+	i = 0;
+	while (s[i])
+		write(fd, &s[i++], 1);
+	return (i);
+}

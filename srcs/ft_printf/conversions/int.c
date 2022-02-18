@@ -1,37 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_flags_plus.c                                    :+:      :+:    :+:   */
+/*   int.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/12/08 17:50:36 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 13:01:05 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/02/18 12:23:32 by ugdaniel          #+#    #+#             */
+/*   Updated: 2022/02/18 16:29:22 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include "_ft_printf.h"
 
-void	check_flags(t_flags *flags)
+ssize_t	ft_putint_len(int nb, int fd)
 {
-	if (flags->specs[SPEC_INT])
+	ssize_t	done;
+
+	done = 0;
+	if (nb == -2147483648)
 	{
-		flags->specs[SPEC_PTR] = 0;
-		flags->flags[FLAG_HASH] = 0;
-		flags->flags[FLAG_PLUS] = 0;
-		flags->flags[FLAG_SPACE] = 0;
+		done += ft_putint_len(-214748364, fd);
+		done += ft_putchar_len('8', fd);
 	}
-	if (flags->width < 0)
+	else if (nb < 0)
 	{
-		flags->flags[FLAG_LEFT] = 1;
-		flags->width *= -1;
+		done += ft_putchar_len('-', fd);
+		done += ft_putint_len(-nb, fd);
 	}
-	if (flags->specs[SPEC_HEX])
+	else if (nb < 10)
+		done += ft_putchar_len(nb + ASCII_0, fd);
+	else
 	{
-		flags->specs[SPEC_INT] = 0;
-		flags->specs[SPEC_UINT] = 0;
+		done += ft_putint_len(nb / 10, fd);
+		done += ft_putint_len(nb % 10, fd);
 	}
-	if (flags->flags[FLAG_MINUS])
-		flags->flags[FLAG_ZERO] = 0;
+	return (done);
 }
