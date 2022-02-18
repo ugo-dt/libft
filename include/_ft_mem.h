@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:04:44 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/18 17:15:55 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/02/18 18:37:16 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,7 @@ void	*ft_memset(void *s, int c, size_t n);
 
 /*
  * Allocate memory without fail. If ft_xmalloc() fails, this will print
- * a message to @code{stderr} (using the name set by
- * @code{xmalloc_set_program_name},
- * if any) and then call @code{xexit}.  Note that it is therefore safe for
- * a program to contain @code{#define malloc xmalloc} in its source.
+ * a message to stderr and then call exit().
  */
 void	*ft_xmalloc(size_t size);
 
