@@ -21,6 +21,8 @@
 # include "_ft_write.h"
 # include <stdlib.h>
 
+/* Dependencies: malloc(3), free(3) */
+
 /* The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */
 size_t			ft_array_size(void **arr);
