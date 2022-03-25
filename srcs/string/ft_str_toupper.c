@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "_ft_string.h"
 
 char	*ft_str_toupper(char *dst, const char *src)
 {

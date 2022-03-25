@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:36:11 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/18 15:36:26 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/25 11:42:52 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,12 @@
 #  error Do not include "_ft_array.h" directly. Use "libft.h" instead.
 # endif
 
+/* Dependencies
+ * malloc(3), free(3), write(2) */
+
 # include "_ft_string.h"
 # include "_ft_write.h"
 # include <stdlib.h>
-
-/* Dependencies: malloc(3), free(3) */
 
 /* The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */
@@ -65,8 +66,7 @@ extern char		**ft_split(const char *s, char c);
  */
 extern void		ft_print_array_fd(const char **arr, int fd);
 
-/* Sort an array of string using ft_strcmp(). */
+/* Sort an array of strings using ft_strcmp(). */
 extern void		ft_sort_array(char **array);
 
-/* _FT_ARRAY_H */
-#endif
+#endif /* !defined _FT_ARRAY_H */

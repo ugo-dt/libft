@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:04:44 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/18 18:37:16 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/25 11:58:10 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,17 +54,10 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
 /* The ft_memcpy() function copies n bytes from memory area src to memory
  * area dst. If dst and src overlap, behavior is undefined. Applications in
  * which dst and src might overlap should use ft_memmove instead. */
-void	*ft_memcpy(void *dest, const void *src, size_t n);
+void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
 
 /* The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string b. */
 void	*ft_memset(void *s, int c, size_t n);
 
-/*
- * Allocate memory without fail. If ft_xmalloc() fails, this will print
- * a message to stderr and then call exit().
- */
-void	*ft_xmalloc(size_t size);
-
-/* _FT_MEM_H */
-#endif
+#endif /* !defined _FT_MEM_H */

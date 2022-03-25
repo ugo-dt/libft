@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:45:01 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 13:00:01 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:06:59 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # endif
 
 /* The ft_islower() function tests for any lower-case letters */
-extern int		ft_islower(char c);
+extern int		ft_islower(int c);
 /* The ft_isupper() function tests for any upper-case letter. */
-extern int		ft_isupper(char c);
+extern int		ft_isupper(int c);
 
 /* The ft_tolower() function converts an upper-case letter to the corresponding
  * lower-case letter. The argument must be representable as an unsigned char.*/
@@ -32,8 +32,10 @@ extern int		ft_toupper(int c);
 /* The ft_isalpha() function tests for any character
  * for which isupper(3) or islower(3) is true. */
 extern int		ft_isalpha(int c);
+
 /* The ft_isdigit() function tests for a decimal digit character. */
 extern int		ft_isdigit(int c);
+
 /* The ft_isalnum() function tests for any character for which
  * ft_isalpha() or ft_isdigit() is true. */
 extern int		ft_isalnum(int c);
@@ -49,7 +51,6 @@ extern int		ft_isprint(int c);
 /* The ft_isspace() function tests for the white-space characters.
  * This includes the following standard characters:
  * '\\t'   '\\n'    '\\v'    '\\f'    '\\r'    ' ' */
-extern int		ft_isspace(char c);
+extern int		ft_isspace(int c);
 
-/* _FT_CHAR_H */
-#endif
+#endif /* !defined _FT_CHAR_H */

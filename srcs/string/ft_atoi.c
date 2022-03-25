@@ -6,12 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 12:28:43 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/18 11:43:54 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/25 11:46:22 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "_ft_string.h"
 
 #ifndef INT_MAX
 # define INT_MAX 2147483647
@@ -41,7 +40,7 @@ int	ft_atoi(const char *nptr)
 	}
 	return (result * sign);
 }
-*/
+*/ 
 
 int	ft_atoi(const char *s)
 {

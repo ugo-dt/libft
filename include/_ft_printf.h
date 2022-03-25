@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:01:49 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/18 16:55:27 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/25 11:59:00 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,9 @@
 # if !defined _LIBFT_HEADER
 #  error "Do not include "_ft_printf.h" directly. Use "libft.h" instead."
 # endif
+
+/* Dependencies
+ * write(2), stdarg(3) */
 
 # include "_ft_math.h"
 # include <stdarg.h>
@@ -57,8 +60,9 @@ ssize_t	ft_putlong_len(long nb, int fd);
 
 int		ft_dprintf_internal(int fd, const char *f, va_list *ap);
 
-int		ft_dprintf(int fd, const char *format, ...);
-int		ft_printf(const char *format, ...);
+int		ft_dprintf(int fd, const char *restrict format, ...) \
+	__attribute__((__format__ (__printf__, 2, 3)));
+int		ft_printf(const char *restrict format, ...) \
+	__attribute__((__format__ (__printf__, 1, 2)));
 
-/* _FT_PRINTF_H */
-#endif
+#endif /* !defined _FT_PRINTF_H */

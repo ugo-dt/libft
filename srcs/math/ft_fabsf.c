@@ -1,18 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_putnbr.c                                        :+:      :+:    :+:   */
+/*   ft_fabsf.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/18 14:39:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/23 20:43:44 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/03/23 20:49:34 by ugdaniel          #+#    #+#             */
+/*   Updated: 2022/03/23 21:06:11 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putnbr(int n)
+int	ft_fabsl(float x)
 {
-	ft_putnbr_fd(n, STDOUT_FILENO);
+	if (x < 0)
+		return (-x);
+	return (x);
 }

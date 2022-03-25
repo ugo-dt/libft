@@ -6,12 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 15:39:36 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/18 16:27:52 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/23 20:45:03 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include "_ft_printf.h"
 
 ssize_t	ft_putaddr_len(size_t nb, int fd)
 {

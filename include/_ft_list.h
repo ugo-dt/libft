@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 16:33:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 12:56:45 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/25 11:42:44 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,9 @@
 # if !defined _LIBFT_HEADER
 #  error "Do not include "_ft_list.h" directly. Use "libft.h" instead."
 # endif
+
+/* Dependencies
+ * malloc(3), free(3) */
 
 # include <stdlib.h>
 
@@ -66,5 +69,4 @@ extern t_list	*ft_lstnew(void *content);
 /* Returns the numbers of elements in a list. */
 extern int		ft_lstsize(t_list *lst);
 
-/* _FT_LIST_H */
-#endif
+#endif /* !defined _FT_LIST_H */

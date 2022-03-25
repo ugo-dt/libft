@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/22 15:42:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/02/06 13:00:23 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/25 11:53:26 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -223,5 +223,4 @@ extern char		*ft_substr(char *s, unsigned int start, size_t len);
  */
 extern char		*ft_strtrim(char *s1, char *set);
 
-/* _FT_STRING_H */
-#endif
+#endif /* !defined _FT_STRING_H */

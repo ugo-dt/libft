@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2022/02/18 16:53:43 by ugdaniel         ###   ########.fr        #
+#    Updated: 2022/03/25 12:02:02 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -55,7 +55,6 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/mem/ft_memcpy.c \
 				srcs/mem/ft_memmove.c \
 				srcs/mem/ft_memset.c \
-				srcs/mem/ft_xmalloc.c \
 				srcs/string/ft_atoi.c \
 				srcs/string/ft_itoa.c \
 				srcs/string/ft_len_to_char.c \
@@ -83,7 +82,7 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/string/ft_strsplit.c \
 				srcs/string/ft_strtrim.c \
 				srcs/string/ft_substr.c \
-				srcs/write/ft_puchar.c \
+				srcs/write/ft_putchar.c \
 				srcs/write/ft_putchar_fd.c \
 				srcs/write/ft_putendl.c \
 				srcs/write/ft_putendl_fd.c \
