@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 17:08:57 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/23 20:42:55 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/26 12:51:05 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ void	ft_lstiter(t_list *lst, void (*f)(void *))
 	temp = lst;
 	while (temp != NULL)
 	{
-		f(temp->content);
+		if (f)
+			f(temp->content);
 		temp = temp->next;
 	}
 }

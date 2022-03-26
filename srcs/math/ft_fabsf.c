@@ -6,13 +6,13 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 20:49:34 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/23 21:06:11 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/26 12:51:05 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_fabsl(float x)
+int	ft_fabsf(float x)
 {
 	if (x < 0)
 		return (-x);
