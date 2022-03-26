@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 12:51:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/26 13:07:16 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/26 13:28:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,6 +201,13 @@ int		ft_lstsize(t_list *lst);
 /*
  * MATH functions 
  */
+
+# ifndef INT_MAX
+#  define INT_MAX	2147483647
+# endif
+# ifndef INT_MIN
+#  define INT_MIN	-2147483648
+# endif
 
 /** The ft_abs() function computes the absolute value of the integer i.
  *
