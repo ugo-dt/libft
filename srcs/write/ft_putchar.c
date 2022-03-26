@@ -6,11 +6,10 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:36:22 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/26 12:51:05 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/26 21:19:39 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
 #include "libft.h"
 
 void	ft_putchar(char c)
