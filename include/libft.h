@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/26 12:51:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/26 13:28:54 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/03/26 17:40:00 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,20 +303,13 @@ size_t	ft_len_to_char(const char *s, char c);
  * or the next '\\0' character. */
 size_t	ft_len_to_space(const char *s);
 
-/* 
- * The ft_str_tolower() function creates a NULL-terminated lowercase copy of
- * the string src.
- *
- * @returns A pointer to the first character on the newly created string.
- */
-char	*ft_str_tolower(char *dst, const char *src);
+/* The ft_str_tolower() function converts each uppercase letter to the 
+ * corresponding lowercase letter in the null-terminated string s. */
+void	ft_str_tolower(char *s);
 
-/* The ft_str_toupper() function creates a NULL-terminated uppercase copy of
- * the string src.
- *
- * @returns A pointer to the first character on the newly created string.
- */
-char	*ft_str_toupper(char *dst, const char *src);
+/* The ft_str_toupper() function converts each lowercase letter to the 
+ * corresponding uppercase letter in the null-terminated string s. */
+void	ft_str_toupper(char *s);
 
 /* 
  * The ft_strcmp() and ft_strncmp() functions lexicographically compare the
