@@ -18,6 +18,7 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <unistd.h>
+# include <stdint.h> // int types are defined here (linux)
 
 /*
  * ARRAY functions 
