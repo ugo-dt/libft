@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:46:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/26 13:07:46 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/04/28 11:01:15 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,6 @@
 
 int	ft_dprintf_internal(int fd, const char *f, va_list *ap);
 
-/* Write formatted output to the file descriptor fd
- * from the format string FORMAT.
- * @returns The number of written characters. */
 int	ft_dprintf(int fd, const char *restrict format, ...)
 {
 	int		done;
