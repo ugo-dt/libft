@@ -6,27 +6,19 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 15:39:36 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/26 13:35:42 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/04/28 11:26:19 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-ssize_t	ft_putchar_size(char c, int fd);
+ssize_t	ft_putstr_size(char *s, int fd);
+ssize_t	ft_puthex_size(char x, unsigned int nb, int fd);
 
-ssize_t	ft_putaddr_size(size_t nb, int fd)
+/** The function ft_putaddr_size() writes the address addr in hexadecimal
+ * to the file descriptor fd.
+ * @returns The number of characters written. */
+ssize_t	ft_putaddr_size(size_t addr, int fd)
 {
-	ssize_t	done;
-
-	done = 0;
-	if (nb < 10)
-		done += ft_putchar_size(nb + 48, fd);
-	else if (nb < 16)
-		done += ft_putchar_size(nb + 87, fd);
-	else
-	{
-		done += ft_putaddr_size(nb / 16, fd);
-		done += ft_putaddr_size(nb % 16, fd);
-	}
-	return (done);
+	return (ft_putstr_size("0x\0", fd) + ft_puthex_size('x', addr, fd));
 }

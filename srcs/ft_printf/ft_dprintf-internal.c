@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:46:57 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/04/28 11:10:20 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/04/28 11:26:32 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 ssize_t	ft_putchar_size(char c, int fd);
 ssize_t	ft_putstr_size(char *s, int fd);
-ssize_t	ft_putaddr_size(size_t nb, int fd);
+ssize_t	ft_putaddr_size(size_t addr, int fd);
 ssize_t	ft_putint_size(int nb, int fd);
 ssize_t	ft_putuint_size(uint32_t nb, int fd);
 ssize_t	ft_puthex_size(char x, unsigned int nb, int fd);
@@ -30,8 +30,7 @@ ssize_t	convert_identifier(int fd, const char *f, va_list *ap)
 	else if (*f == 's')
 		return (ft_putstr_size(va_arg(*ap, char *), fd));
 	else if (*f == 'p')
-		return (ft_putstr_size("0x\0", fd)
-			+ ft_putaddr_size(va_arg(*ap, size_t), fd));
+		return (ft_putaddr_size(va_arg(*ap, size_t), fd));
 	else if (*f == 'd' || *f == 'i')
 		return (ft_putint_size(va_arg(*ap, int), fd));
 	else if (*f == 'u')
