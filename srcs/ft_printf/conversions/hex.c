@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/04/28 11:13:25 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2022/05/14 09:49:59 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,9 @@
 
 ssize_t	ft_putchar_size(char c, int fd);
 
-/** The function ft_puthex_size() writes the number fd in hexadecimal to the file
- * descriptor fd.
+/** The function ft_puthex_size() writes the number fd in hexadecimal to the
+ * file descriptor fd.
+ * 
  * @returns The number of characters written. */
 ssize_t	ft_puthex_size(char x, unsigned int nb, int fd)
 {
