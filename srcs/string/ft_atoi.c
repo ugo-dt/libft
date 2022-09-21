@@ -12,13 +12,6 @@
 
 #include "libft.h"
 
-#ifndef INT_MAX
-# define INT_MAX 2147483647
-#endif
-#ifndef INT_MIN
-# define INT_MIN -2147483648
-#endif
-
 /*
 int	ft_atoi(const char *nptr)
 {

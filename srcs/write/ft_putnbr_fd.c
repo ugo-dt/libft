@@ -12,15 +12,11 @@
 
 #include "libft.h"
 
-#if !defined (INT_MIN)
-# define INT_MIN	-2147483648
-#endif
-
 void	ft_putnbr_fd(int n, int fd)
 {
 	if (n == INT_MIN)
 	{
-		ft_putnbr_fd(INT_MIN / 10, fd);
+		ft_putnbr_fd(-214748364, fd);
 		ft_putchar_fd('8', fd);
 	}
 	else if (n < 0)
