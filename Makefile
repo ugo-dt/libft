@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2023/06/11 21:06:57 by ugdaniel         ###   ########.fr        #
+#    Updated: 2023/06/11 21:22:43 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,6 @@ NAME		=	libft.a
 
 #@echo "$(foreach src,$(SRCS),$(src)\n)"
 SRCS		=	srcs/array/2d_array.c \
-				srcs/array/ft_split.c \
 				srcs/array/str_array.c \
 				srcs/char/ft_isalnum.c \
 				srcs/char/ft_isalpha.c \
@@ -59,6 +58,7 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/string/ft_itoa.c \
 				srcs/string/ft_len_to_char.c \
 				srcs/string/ft_len_to_space.c \
+				srcs/string/ft_split.c \
 				srcs/string/ft_str_tolower.c \
 				srcs/string/ft_str_toupper.c \
 				srcs/string/ft_strcat.c \
@@ -108,24 +108,21 @@ _cyan		= 	\033[96m
 
 all: $(NAME)
 
-$(NAME): text1 $(OBJS)
-	@ar rcs $(NAME) $(OBJS) && printf "\033[2K\r$(_green)$(NAME) ready!$(_white)\n"
+$(NAME): $(OBJS)
+	@ar rcs $(NAME) $(OBJS) && printf "\033[2K\r$(_green)libft: compiled successfully$(_white)\n"
 
 .c.o:
-	@printf "\033[2K\r$(_yellow)$< $(_red)"
+	@printf "\033[2K\r$(_yellow)libft: $< $(_red)"
 	@$(CC) $(FLAGS) $(INCLUDE) -o $@ -c $<
 
 clean:
 	@rm -f $(OBJS)
-	@printf "$(_magenta)Removed object files$(_white)\n"
+	@printf "$(_magenta)libft: removed object files$(_white)\n"
 
 fclean: clean
 	@test -f $(NAME) && rm -f $(NAME) || true
-	@printf "$(_red)Cleaned $(NAME)$(_white)\n"
+	@printf "$(_red)libft: removed $(NAME)$(_white)\n"
 
 re: fclean all
 
-text1:
-	@printf "$(_cyan)Compiling $(NAME)... \t$(_white)\n"
-
-.PHONY: all clean fclean re text1
+.PHONY: all clean fclean re
