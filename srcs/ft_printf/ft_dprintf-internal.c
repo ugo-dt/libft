@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:46:57 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/06/06 17:30:18 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/06/11 22:24:48 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,6 @@ ssize_t	convert_identifier(int fd, const char *f, va_list *ap)
 		return (ft_putuint_size(va_arg(*ap, uint32_t), fd));
 	else if (*f == 'x' || *f == 'X')
 		return (ft_puthex_size(*f, va_arg(*ap, int), fd));
-	else if (*f == 0)
-		write(fd, "", 1);
 	return (0);
 }
 
@@ -54,6 +52,8 @@ int	ft_dprintf_internal(int fd, const char *f, va_list *ap)
 		else
 		{
 			f++;
+			if (*f == '\0')
+				break ;
 			if (*f == 'l')
 			{
 				f++;

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:25:07 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 12:49:52 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/06/11 21:49:14 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@
 
 # if defined(__linux__)
 #  include <stdint.h>
+# endif
+
+# if !defined(BUFSIZ)
+#  define BUFSIZ 1024
 # endif
 
 /** Write formatted output to the file descriptor fd
