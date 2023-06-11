@@ -1,21 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   char.c                                             :+:      :+:    :+:   */
+/*   uint.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 12:06:10 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/05/14 09:55:47 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/02/18 14:51:43 by ugdaniel          #+#    #+#             */
+/*   Updated: 2023/02/22 13:11:02 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "_libft_printf.h"
 
-/** The function ft_putchar_size() writes the character c to the file descriptor
- * fd.
+ssize_t	ft_putchar_size(char c, int fd);
+
+/* The function ft_putuint_size() writes the unsigned number nb to the file
+ * descriptor fd.
  * @returns The number of characters written. */
-ssize_t	ft_putchar_size(char c, int fd)
+ssize_t	ft_putuint_size(uint32_t nb, int fd)
 {
-	return (write(fd, &c, sizeof(c)));
+	ssize_t	done;
+
+	done = 0;
+	if (nb < 10)
+		done += ft_putchar_size(nb + 48, fd);
+	else
+	{
+		done += ft_putuint_size(nb / 10, fd);
+		done += ft_putuint_size(nb % 10, fd);
+	}
+	return (done);
 }

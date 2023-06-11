@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/29 12:18:38 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/26 17:41:56 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/02/22 13:10:38 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "_libft_string.h"
 
 char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
 {

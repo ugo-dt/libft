@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "_libft_string.h"
 
 void	ft_str_toupper(char *s)
 {

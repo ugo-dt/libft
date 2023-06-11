@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   string.c                                           :+:      :+:    :+:   */
+/*   ulong.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2022/03/26 21:11:10 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/02/18 15:56:35 by ugdaniel          #+#    #+#             */
+/*   Updated: 2023/02/22 13:11:02 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "_libft_printf.h"
 
-/* The function ft_putstr_size() writes the string pointed to by s to the file
- * descriptor fd.
- * @returns The number of characters written. */
-ssize_t	ft_putstr_size(char *s, int fd)
+ssize_t	ft_putchar_size(char c, int fd);
+
+ssize_t	ft_putulong_size(size_t nb, int fd)
 {
-	ssize_t	i;
+	int		done;
 
-	if (!s)
-		return (write(fd, "(null)", 6));
-	i = 0;
-	while (s[i])
-		write(fd, &s[i++], 1);
-	return (i);
+	done = 0;
+	if (nb < 10)
+		done += ft_putchar_size(nb + 48, fd);
+	else
+	{
+		done += ft_putulong_size(nb / 10, fd);
+		done += ft_putulong_size(nb % 10, fd);
+	}
+	return (done);
 }
