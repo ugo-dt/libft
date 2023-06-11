@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2022/03/26 13:21:57 by ugdaniel         ###   ########.fr        #
+#    Updated: 2023/06/11 21:06:57 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,14 +29,14 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/ft_printf/ft_printf.c \
 				srcs/ft_printf/ft_dprintf.c \
 				srcs/ft_printf/ft_dprintf-internal.c \
-				srcs/ft_printf/conversions/char.c \
-				srcs/ft_printf/conversions/hex.c \
-				srcs/ft_printf/conversions/int.c \
-				srcs/ft_printf/conversions/long.c \
-				srcs/ft_printf/conversions/ptr.c \
-				srcs/ft_printf/conversions/string.c \
-				srcs/ft_printf/conversions/uint.c \
-				srcs/ft_printf/conversions/ulong.c \
+				srcs/ft_printf/char.c \
+				srcs/ft_printf/hex.c \
+				srcs/ft_printf/int.c \
+				srcs/ft_printf/long.c \
+				srcs/ft_printf/ptr.c \
+				srcs/ft_printf/string.c \
+				srcs/ft_printf/uint.c \
+				srcs/ft_printf/ulong.c \
 				srcs/list/ft_lstadd_back.c \
 				srcs/list/ft_lstadd_front.c \
 				srcs/list/ft_lstclear.c \
@@ -91,13 +91,12 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/write/ft_putstr.c \
 				srcs/write/ft_putstr_fd.c
 
-HEADERS		=	-I include
-
-CC			=	@clang
-FLAGS		=	-Wall -Wextra -Werror
 OBJS		=	$(SRCS:.c=.o)
+INCLUDE		=	-I include
 
-# Colors
+CC			=	clang
+FLAGS		=	-Wall -Wextra -Werror
+
 _white		=	\033[39m
 _green		= 	\033[92m
 _magenta	= 	\033[95m
@@ -114,7 +113,7 @@ $(NAME): text1 $(OBJS)
 
 .c.o:
 	@printf "\033[2K\r$(_yellow)$< $(_red)"
-	$(CC) $(FLAGS) $(HEADERS) -o $@ -c $<
+	@$(CC) $(FLAGS) $(INCLUDE) -o $@ -c $<
 
 clean:
 	@rm -f $(OBJS)
@@ -127,6 +126,6 @@ fclean: clean
 re: fclean all
 
 text1:
-	@printf "$(_gray)Compiling $(NAME)... \t$(_white)\n"
+	@printf "$(_cyan)Compiling $(NAME)... \t$(_white)\n"
 
 .PHONY: all clean fclean re text1
