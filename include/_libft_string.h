@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:31:02 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 12:50:00 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/26 15:46:55 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,7 +202,7 @@ char		*ft_strmapi(const char *s, char (*f)(unsigned int, char));
  * string of len characters (or up to the first '\\0' encountered), and starting
  * from index start of s.
  */
-char		*ft_substr(char *s, unsigned int start, size_t len);
+char		*ft_substr(const char *s, unsigned int start, size_t len);
 
 /*
  * The ft_strtrim() function allocates memory with malloc(3) then returns the
