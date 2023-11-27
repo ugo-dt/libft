@@ -1,26 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 11:48:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/11/27 19:51:31 by ugdaniel         ###   ########.fr       */
+/*   Created: 2023/11/27 20:04:05 by ugdaniel          #+#    #+#             */
+/*   Updated: 2023/11/27 20:05:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_printf.h"
+#include "_libft_write.h"
 
-int	_ft__dprintf_internal(int fd, const char *f, va_list *ap);
+#if defined libft_test_use_real
+# include <string.h>
+#endif
 
-int	ft_printf(const char *restrict format, ...)
+int main(void)
 {
-	int		done;
-	va_list	ap;
-
-	va_start(ap, format);
-	done = _ft__dprintf_internal(STDOUT_FILENO, format, &ap);
-	va_end(ap);
-	return (done);
 }

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:25:07 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/06/11 21:49:14 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/27 19:45:50 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,13 @@
 # include <stdlib.h>
 # include <stdarg.h>
 # include <unistd.h>
+
+# ifndef ____FILE_defined
+# define ____FILE_defined 1
+struct _IO_FILE;
+/* The opaque type of streams.  This is the definition used elsewhere.  */
+typedef struct _IO_FILE FILE;
+# endif
 
 # if defined(__linux__)
 #  include <stdint.h>

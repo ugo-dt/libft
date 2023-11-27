@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dprintf-internal.c                              :+:      :+:    :+:   */
+/*   _ft__dprintf.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:46:57 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/06/11 22:24:48 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/27 15:27:55 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ ssize_t	convert_identifier(int fd, const char *f, va_list *ap)
 	return (0);
 }
 
-int	ft_dprintf_internal(int fd, const char *f, va_list *ap)
+int	_ft__dprintf_internal(int fd, const char *f, va_list *ap)
 {
 	int		done;
 
