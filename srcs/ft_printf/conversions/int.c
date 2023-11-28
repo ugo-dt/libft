@@ -6,38 +6,38 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:23:32 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:11:02 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/28 20:08:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_libft_printf.h"
 
-ssize_t	ft_putchar_size(char c, int fd);
+size_t	_ft_printf_out_c(char c, int fd);
 
-/** The function ft_putint_size() writes the number nb to the file
+/** The function _ft_printf_out_di() writes the number nb to the file
  * descriptor fd.
  * @returns The number of characters written. */
-ssize_t	ft_putint_size(int nb, int fd)
+size_t	_ft_printf_out_di(int nb, int fd)
 {
-	ssize_t	done;
+	size_t	done;
 
 	done = 0;
 	if (nb == INT_MIN)
 	{
-		done += ft_putint_size(INT_MIN / 10, fd);
-		done += ft_putchar_size('8', fd);
+		done += _ft_printf_out_di(INT_MIN / 10, fd);
+		done += _ft_printf_out_c('8', fd);
 	}
 	else if (nb < 0)
 	{
-		done += ft_putchar_size('-', fd);
-		done += ft_putint_size(-nb, fd);
+		done += _ft_printf_out_c('-', fd);
+		done += _ft_printf_out_di(-nb, fd);
 	}
 	else if (nb < 10)
-		done += ft_putchar_size(nb + 48, fd);
+		done += _ft_printf_out_c(nb + 48, fd);
 	else
 	{
-		done += ft_putint_size(nb / 10, fd);
-		done += ft_putint_size(nb % 10, fd);
+		done += _ft_printf_out_di(nb / 10, fd);
+		done += _ft_printf_out_di(nb % 10, fd);
 	}
 	return (done);
 }

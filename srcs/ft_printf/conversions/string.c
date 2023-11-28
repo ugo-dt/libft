@@ -6,18 +6,18 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:11:02 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/28 20:08:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_libft_printf.h"
 
-/* The function ft_putstr_size() writes the string pointed to by s to the file
+/* The function _ft_printf_out_s() writes the string pointed to by s to the file
  * descriptor fd.
  * @returns The number of characters written. */
-ssize_t	ft_putstr_size(char *s, int fd)
+size_t	_ft_printf_out_s(char *s, int fd)
 {
-	ssize_t	i;
+	size_t	i;
 
 	if (!s)
 		return (write(fd, "(null)", 6));

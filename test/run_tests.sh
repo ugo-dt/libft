@@ -8,10 +8,10 @@ run_test()
 {
 	echo "----- $1 -----"
 	(
-		(clang -Wall -Wextra -Werror -Dlibft_test_use_real=1 $1/main.c -o $1/real -I ../include ../libft.a >/dev/null 2>&1 \
+		(clang -Wall -Wextra -Werror -Dlibft_test_use_real=1 $1/main.c -o $1/real -I ../include ../libft.a >/dev/null >&1 \
 			&& clang -Wall -Wextra -Werror $1/main.c -o $1/ft -I ../include ../libft.a >/dev/null >&1) \
 		|| (printf 'Does not compile. ' && exit 1) \
-		&& (diff <(./$1/ft) <(./$1/real) && printf "Test OK :)\n") || printf "Test KO :(\n"
+		&& (diff <(./$1/ft) <(./$1/real) && printf "Diff OK :)\n") || printf "Diff KO :(\n"
 	)
 	rm ./$1/ft ./$1/real 2> /dev/null
 }

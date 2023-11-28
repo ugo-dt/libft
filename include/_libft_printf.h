@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:25:07 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/11/28 15:43:25 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/28 19:45:34 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,22 +21,6 @@
 # if defined(__linux__)
 #  include <stdint.h>
 # endif
-
-# ifndef ____FILE_defined
-# define ____FILE_defined 1
-struct	_IO_FILE;
-/* The opaque type of streams.  This is the definition used elsewhere.  */
-typedef struct _IO_FILE	FILE;
-# endif
-
-/* Standard streams.  */
-extern FILE *stdin;		/* Standard input stream.  */
-extern FILE *stdout;		/* Standard output stream.  */
-extern FILE *stderr;		/* Standard error output stream.  */
-/* C89/C99 say they're macros.  Make them happy.  */
-# define stdin stdin
-# define stdout stdout
-# define stderr stderr
 
 # if !defined(BUFSIZ)
 #  define BUFSIZ 1024
