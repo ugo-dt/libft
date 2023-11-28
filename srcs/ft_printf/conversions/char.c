@@ -1,24 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ptr.c                                              :+:      :+:    :+:   */
+/*   char.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 15:39:36 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:11:02 by ugdaniel         ###   ########.fr       */
+/*   Created: 2022/02/18 12:06:10 by ugdaniel          #+#    #+#             */
+/*   Updated: 2023/11/28 15:51:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_libft_printf.h"
 
-ssize_t	ft_putstr_size(char *s, int fd);
-ssize_t	ft_puthex_size(char x, unsigned int nb, int fd);
-
-/** The function ft_putaddr_size() writes the address addr in hexadecimal
- * to the file descriptor fd.
+/** The function ft_putchar_size() writes the character c to the file descriptor
+ * fd.
  * @returns The number of characters written. */
-ssize_t	ft_putaddr_size(size_t addr, int fd)
+ssize_t	ft_putchar_size(char c, int fd)
 {
-	return (ft_putstr_size("0x\0", fd) + ft_puthex_size('x', addr, fd));
+	return (write(fd, &c, sizeof(c)));
 }

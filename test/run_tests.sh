@@ -8,7 +8,8 @@ run_test()
 {
 	echo "----- $1 -----"
 	(
-		(clang -Wall -Wextra -Werror -Dlibft_test_use_real=1 $1/main.c -o $1/real -I ../include ../libft.a >/dev/null 2>&1 && clang -Wall -Wextra -Werror $1/main.c -o $1/ft -I ../include ../libft.a >/dev/null 2>&1) \
+		(clang -Wall -Wextra -Werror -Dlibft_test_use_real=1 $1/main.c -o $1/real -I ../include ../libft.a >/dev/null 2>&1 \
+			&& clang -Wall -Wextra -Werror $1/main.c -o $1/ft -I ../include ../libft.a >/dev/null >&1) \
 		|| (printf 'Does not compile. ' && exit 1) \
 		&& (diff <(./$1/ft) <(./$1/real) && printf "Test OK :)\n") || printf "Test KO :(\n"
 	)
@@ -28,7 +29,7 @@ run_all_tests()
 }
 
 if [ "$#" -eq 0 ]; then
-	printf "No test provided.\nSynopsis: $0 ${underline}test${reset}\n\nAvailable tests: \narray\nchar\nft_printf\nlist\nmath\nmem\nstring\nwrite\n"
+	printf "Error: no tests provided.\nUsage: $0 ${underline}[TEST|all]${reset}\n\nAvailable tests: \n- array\n- char\n- ft_printf\n- list\n- math\n- mem\n- string\n- write\n"
 	exit 1
 fi
 

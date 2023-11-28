@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2023/11/27 19:36:23 by ugdaniel         ###   ########.fr        #
+#    Updated: 2023/11/28 15:53:45 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,15 +28,15 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/ft_printf/ft_dprintf.c \
 				srcs/ft_printf/ft_printf.c \
 				srcs/ft_printf/ft_sprintf.c \
-				srcs/ft_printf/internal/_ft__dprintf.c \
-				srcs/ft_printf/char.c \
-				srcs/ft_printf/hex.c \
-				srcs/ft_printf/int.c \
-				srcs/ft_printf/long.c \
-				srcs/ft_printf/ptr.c \
-				srcs/ft_printf/string.c \
-				srcs/ft_printf/uint.c \
-				srcs/ft_printf/ulong.c \
+				srcs/ft_printf/internal/_ft__vdprintf.c \
+				srcs/ft_printf/conversions/char.c \
+				srcs/ft_printf/conversions/hex.c \
+				srcs/ft_printf/conversions/int.c \
+				srcs/ft_printf/conversions/long.c \
+				srcs/ft_printf/conversions/ptr.c \
+				srcs/ft_printf/conversions/string.c \
+				srcs/ft_printf/conversions/uint.c \
+				srcs/ft_printf/conversions/ulong.c \
 				srcs/list/ft_lstadd_back.c \
 				srcs/list/ft_lstadd_front.c \
 				srcs/list/ft_lstclear.c \
@@ -98,7 +98,7 @@ INCLUDE		=	-I include
 CC			=	clang
 FLAGS		=	-Wall -Wextra -Werror
 
-_white		=	\033[39m
+_default	=	\033[39m
 _green		= 	\033[92m
 _magenta	= 	\033[95m
 _yellow		= 	\033[33m
@@ -108,9 +108,10 @@ _red		= 	\033[91m
 _cyan		= 	\033[96m
 
 all: $(NAME)
+.PHONY: all
 
 $(NAME): $(OBJS)
-	@ar rcs $(NAME) $(OBJS) && printf "\033[2K\r$(_green)libft: compiled successfully$(_white)\n"
+	@ar rcs $(NAME) $(OBJS) && printf "\033[2K\r$(_green)libft: compiled successfully$(_default)\n"
 
 .c.o:
 	@printf "\033[2K\r$(_yellow)libft: $< $(_red)"
@@ -118,12 +119,13 @@ $(NAME): $(OBJS)
 
 clean:
 	@rm -f $(OBJS)
-	@printf "$(_magenta)libft: removed object files$(_white)\n"
+	@printf "$(_magenta)libft: removed object files$(_default)\n"
+.PHONY: clean
 
 fclean: clean
 	@test -f $(NAME) && rm -f $(NAME) || true
-	@printf "$(_red)libft: removed $(NAME)$(_white)\n"
+	@printf "$(_red)libft: removed $(NAME)$(_default)\n"
+.PHONY: fclean
 
 re: fclean all
-
-.PHONY: all clean fclean re
+.PHONY: re

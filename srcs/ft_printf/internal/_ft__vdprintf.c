@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _ft__dprintf.c                                     :+:      :+:    :+:   */
+/*   _ft__vdprintf.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:46:57 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/11/27 15:27:55 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/28 16:02:55 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ ssize_t	ft_puthex_size(char x, unsigned int nb, int fd);
 ssize_t	ft_putulong_size(size_t nb, int fd);
 ssize_t	ft_putlong_size(long nb, int fd);
 
-ssize_t	convert_identifier(int fd, const char *f, va_list *ap)
+static ssize_t	convert_identifier(int fd, const char *f, va_list *ap)
 {
 	if (*f == '%')
 		return (ft_putchar_size('%', fd));
@@ -40,7 +40,7 @@ ssize_t	convert_identifier(int fd, const char *f, va_list *ap)
 	return (0);
 }
 
-int	_ft__dprintf_internal(int fd, const char *f, va_list *ap)
+int	_ft__vdprintf_internal(int fd, const char *f, va_list *ap)
 {
 	int		done;
 

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 15:19:59 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/11/27 20:28:44 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:42:33 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int fprintf(FILE *stream, const char *restrict format, ...)
 	va_list	ap;
 
 	va_start(ap, format);
-	done = _ft__fprintf_internal(stream, format, &ap);
+	done = _ft__fprintf_internal(stream, format, ap);
 	va_end(ap);
 	return (done);
 }
