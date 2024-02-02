@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:25:07 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/11/29 13:46:40 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/02 18:35:53 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,11 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stddef.h>
+# include <stdio.h>
 
 # if defined(__linux__)
 #  include <stdint.h>
 # endif
-
-# if !defined(BUFSIZ)
-#  define BUFSIZ 1024
-# endif
-
-__extern_always_inline const unsigned char	*_ft__find_spec(const unsigned char *format)
-{
-	const unsigned char	*c = (const unsigned char *)ft_strchr((const char *)format, '%');
-	if (!c)
-		return format + ft_strlen((const char *)format);
-	return (c);
-}
 
 /** Write formatted output to the file descriptor fd
  * from the format string FORMAT.

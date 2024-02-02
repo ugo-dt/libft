@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/02/02 10:29:51 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/02/02 19:20:41 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,7 @@ SRCS		=	srcs/array/2d_array.c \
 				srcs/ft_printf/ft_dprintf.c \
 				srcs/ft_printf/ft_printf.c \
 				srcs/ft_printf/ft_sprintf.c \
-				srcs/ft_printf/internal/_ft__vdprintf.c \
+				srcs/ft_printf/internal/_ft_vdprintf.c \
 				srcs/ft_printf/conversions/char.c \
 				srcs/ft_printf/conversions/hex.c \
 				srcs/ft_printf/conversions/int.c \
