@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/11/28 20:08:54 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/29 12:05:17 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,12 @@
 /* The function _ft_printf_out_s() writes the string pointed to by s to the file
  * descriptor fd.
  * @returns The number of characters written. */
-size_t	_ft_printf_out_s(char *s, int fd)
+size_t	_ft_printf_out_s(const char *s, int fd)
 {
-	size_t	i;
+	size_t	len;
 
 	if (!s)
-		return (write(fd, "(null)", 6));
-	i = 0;
-	while (s[i])
-		write(fd, &s[i++], 1);
-	return (i);
+		return _ft_printf_out_s("(null)", fd);
+	len = ft_strlen(s);
+	return (write(fd, s, len));
 }

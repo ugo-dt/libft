@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:25:07 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/11/28 19:45:34 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2023/11/29 13:46:40 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,11 @@
 # define _LIBFT_PRINTF_H
 
 # include "_libft_math.h"
+# include "_libft_string.h"
 # include <stdlib.h>
 # include <stdarg.h>
 # include <unistd.h>
+# include <stddef.h>
 
 # if defined(__linux__)
 #  include <stdint.h>
@@ -25,6 +27,14 @@
 # if !defined(BUFSIZ)
 #  define BUFSIZ 1024
 # endif
+
+__extern_always_inline const unsigned char	*_ft__find_spec(const unsigned char *format)
+{
+	const unsigned char	*c = (const unsigned char *)ft_strchr((const char *)format, '%');
+	if (!c)
+		return format + ft_strlen((const char *)format);
+	return (c);
+}
 
 /** Write formatted output to the file descriptor fd
  * from the format string FORMAT.

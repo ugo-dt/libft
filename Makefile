@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2023/11/28 15:53:45 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/02/02 10:29:51 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -119,12 +119,10 @@ $(NAME): $(OBJS)
 
 clean:
 	@rm -f $(OBJS)
-	@printf "$(_magenta)libft: removed object files$(_default)\n"
 .PHONY: clean
 
 fclean: clean
-	@test -f $(NAME) && rm -f $(NAME) || true
-	@printf "$(_red)libft: removed $(NAME)$(_default)\n"
+	@rm -f $(NAME)
 .PHONY: fclean
 
 re: fclean all
