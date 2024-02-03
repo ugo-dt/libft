@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 19:39:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/02 20:10:34 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/03 11:44:31 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,6 @@ int main(void)
 	
 	ft_printf("Testing multiple: %d %i %u %c %s %p %x %X\n", 42, -123, 456, 65, "Testing", (void *)999, 64, 100);
 	ft_printf("written: %d\n", done);
+	ft_printf("------------------------\n");
 	return (0);
 }
