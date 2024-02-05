@@ -6,12 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 20:06:56 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:10:38 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/03 16:13:50 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_libft_string.h"
-#include <string.h>
 
 char	*ft_strncpy(char *s1, const char *s2, size_t n)
 {

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:23:32 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/02 20:01:31 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/03 20:04:07 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,6 @@ static size_t _ft_printf_out_di_internal(int nb, int fd)
 	return (done);
 }
 
-#include <stdio.h>
-
 /** The function _ft_printf_out_di() writes the number nb to the file
  * descriptor fd.
  * @returns The number of characters written. */
@@ -47,12 +45,10 @@ size_t	_ft_printf_out_di(int nb, int fd, int flag_zero, int flag_left, int width
 {
 	size_t done, len;
 
-	GET_NUMBER_LENGTH(&len, int, nb, 10);
 	done = 0;
-	if (!flag_left)
-		done += _add_padding(width, flag_zero ? '0' : ' ', len, fd);
+	GET_NUMBER_LENGTH(&len, nb, 10);
+	_ADD_PADDING(flag_zero,
 	done += _ft_printf_out_di_internal(nb, fd);
-	if (flag_left)
-		done += _add_padding(width, ' ', done, fd);
+	);
 	return (done);
 }

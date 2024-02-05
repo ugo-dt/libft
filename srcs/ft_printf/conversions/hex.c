@@ -6,34 +6,12 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/02 19:45:15 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/03 19:54:23 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_libft_printf.h"
 #include "_conversions.h"
-
-static size_t _ft_printf_out_xX_internal(char x, unsigned int nb, int fd)
-{
-	size_t	done;
-	int		caps;
-
-	if (x == 'X')
-		caps = 55; // 'A' means 10; 'A' is 97 in ascii
-	else
-		caps = 87; // 'a' is 97
-	done = 0;
-	if (nb < 10)
-		done += _ft_printf_out_c_internal(nb + 48, fd);
-	else if (nb < 16)
-		done += _ft_printf_out_c_internal(nb + caps, fd);
-	else
-	{
-		done += _ft_printf_out_xX_internal(x, nb / 16, fd);
-		done += _ft_printf_out_xX_internal(x, nb % 16, fd);
-	}
-	return (done);
-}
 
 /** The function _ft_printf_out_xX() writes the number fd in hexadecimal to the
  * file descriptor fd.
@@ -41,19 +19,40 @@ static size_t _ft_printf_out_xX_internal(char x, unsigned int nb, int fd)
  * @returns The number of characters written. */
 size_t	_ft_printf_out_xX(char x, unsigned int nb, int fd, int flag_hash, int flag_zero, int flag_left, int width)
 {
-	size_t done, len;
+	char *s;
+	int	arg_length, caps;
+	size_t full_length;
 
-	GET_NUMBER_LENGTH(&len, unsigned int, nb, 16);
-	done = 0;
-	if (flag_hash && nb != 0)
+	GET_NUMBER_LENGTH(&arg_length, nb, 16);
+	if (flag_hash)
+		arg_length += 2;
+	if (width < arg_length)
+		width = arg_length;
+	full_length = width;
+	if (x == 'X')
+		caps = 55; // 'A' means 10; 'A' is 97 in ascii
+	else
+		caps = 87; // 'a' is 97
+	
+	CREATE_STRING(s, full_length, width - arg_length, flag_left, flag_zero,
+	if (flag_hash)
 	{
-		done += _ft_printf_out_c_internal('0', fd);
-		done += _ft_printf_out_c_internal(x, fd);
+		APPEND_CHAR('0', 1);
+		APPEND_CHAR(x, 1);
 	}
-	if (!flag_left)
-		done += _add_padding(width, flag_zero ? '0' : ' ', len, fd);
-	done += _ft_printf_out_xX_internal(x, nb, fd);
-	if (flag_left)
-		done += _add_padding(width, ' ', done, fd);
-	return (done);
+	size_t i = full_length - 1;
+	while (nb > 0)
+	{
+		int digit = nb % 16;
+        if (digit < 10)
+			s[i] = digit + 48;
+		else
+			s[i] = digit + caps;
+		i--;
+		nb /= 16;
+	}
+	);
+	write(fd, s, full_length);
+	free(s);
+	return (full_length);
 }

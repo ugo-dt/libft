@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _mem.h                                             :+:      :+:    :+:   */
+/*   _libft_mem.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:33:12 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 12:33:22 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/03 16:30:17 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void		*ft_memmove(void *dest, const void *src, size_t n);
 void		*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
 
 /* The ft_memset() function writes len bytes of value c (converted to an
- * unsigned char) to the string b. */
+ * unsigned char) to the string s. */
 void		*ft_memset(void *s, int c, size_t n);
 
 #endif // _LIBFT_MEM_H

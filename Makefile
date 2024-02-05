@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/02/03 11:56:40 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/02/03 14:41:33 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -128,6 +128,6 @@ fclean: clean
 re: fclean all
 .PHONY: re
 
-test:
+test: $(NAME)
 	./test/run_tests.sh all
 .PHONY: test

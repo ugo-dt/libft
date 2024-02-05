@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:25:07 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/02 18:35:53 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/03 14:35:27 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include <stdarg.h>
 # include <unistd.h>
 # include <stddef.h>
-# include <stdio.h>
 
 # if defined(__linux__)
 #  include <stdint.h>

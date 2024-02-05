@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 15:56:35 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/02 19:45:03 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/03 15:06:28 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,13 +32,11 @@ size_t	_ft_printf_out_ul(unsigned long nb, int fd, int flag_zero, int flag_left,
 {
 	size_t	done, len;
 
-	GET_NUMBER_LENGTH(&len, unsigned long, nb, 10);
 	done = 0;
-	if (!flag_left)
-		done += _add_padding(width, flag_zero ? '0' : ' ', len, fd);
+	GET_NUMBER_LENGTH(&len, nb, 10);
+	_ADD_PADDING(flag_zero,
 	done += _ft_printf_out_ul_internal(nb, fd);
-	if (flag_left)
-		done += _add_padding(width, ' ', done, fd);
+	);
 	return (done);
 }
 
@@ -61,12 +59,10 @@ size_t	_ft_printf_out_ull(unsigned long long nb, int fd, int flag_zero, int flag
 {
 	size_t done, len;
 
-	GET_NUMBER_LENGTH(&len, unsigned long long, nb, 10);
 	done = 0;
-	if (!flag_left)
-		done += _add_padding(width, flag_zero ? '0' : ' ', len, fd);
+	GET_NUMBER_LENGTH(&len, nb, 10);
+	_ADD_PADDING(flag_zero,
 	done += _ft_printf_out_ull_internal(nb, fd);
-	if (flag_left)
-		done += _add_padding(width, ' ', done, fd);
+	);
 	return (done);
 }

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/02 19:54:55 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/03 14:54:22 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,11 @@ size_t	_ft_printf_out_s(const char *s, int fd, int flag_left, int width)
 		len = ft_strlen(s);
 	else
 		len = 6;
-	if (!flag_left)
-		done += _add_padding(width, ' ', len, fd);
+	_ADD_PADDING_SPACES(
 	if (s)
 		done += write(fd, s, len);
 	else
 		done += write(fd, "(null)", 6);
-	if (flag_left)
-		done += _add_padding(width, ' ', done, fd);
+	);
 	return (done);
 }
