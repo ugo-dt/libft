@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:25:07 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/03 14:35:27 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/05 20:48:50 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,19 @@
 #  include <stdint.h>
 # endif
 
+/* Maximum chars of output to write in MAXLEN.  */
+int	ft_snprintf(char *str, size_t maxlen, const char *restrict format, ...)
+	__attribute__ ((__format__ (__printf__, 3, 4)));
+
 /** Write formatted output to the file descriptor fd
  * from the format string FORMAT.
  * @returns The number of written characters. */
-int			ft_dprintf(int fd, const char *restrict format, ...) \
+int	ft_dprintf(int fd, const char *restrict format, ...) \
 	__attribute__((__format__ (__printf__, 2, 3)));
 
 /** Write formatted output to stdout from the format string FORMAT.
  * @returns The number of written characters. */
-int			ft_printf(const char *restrict format, ...) \
+int	ft_printf(const char *restrict format, ...) \
 	__attribute__((__format__ (__printf__, 1, 2)));
 
 #endif /* _LIBFT_PRINTF_H */

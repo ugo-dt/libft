@@ -1,26 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_sprintf.c                                       :+:      :+:    :+:   */
+/*   ft_snprintf.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:46:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/06/11 22:10:27 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/05 20:45:09 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_libft_printf.h"
 
-int	ft_vsprintf_internal(char *s, const char *f, va_list *ap);
+int	ft_vsnprintf_internal(char *s, size_t maxlen, const char *f, va_list ap);
 
-int	ft_sprintf(char *str, const char *restrict format, ...)
+int	ft_snprintf(char *str, size_t maxlen, const char *restrict format, ...)
 {
 	int		done;
 	va_list	ap;
 
 	va_start(ap, format);
-	done = ft_vsprintf_internal(str, format, &ap);
+	done = ft_vsnprintf_internal(str, maxlen, format, ap);
 	va_end(ap);
 	return (done);
 }

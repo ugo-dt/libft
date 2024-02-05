@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:06:10 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/05 15:23:33 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/05 20:27:52 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	_ft_printf_out_c_internal(char c, int fd)
 	return (write(fd, &c, 1));
 }
 
-int	_ft_printf_out_c(char c, int fd, struct _specs *specs)
+char	*_ft_printf_create_c(char c, struct _specs *specs)
 {
 	int arg_length;
 	int arg_start;
@@ -30,7 +30,5 @@ int	_ft_printf_out_c(char c, int fd, struct _specs *specs)
 	arg_length = 1;
 	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
 	ft_memset(s + arg_start, c, arg_length);
-	write(fd, s, specs->info.width);
-	free(s);
-	return (specs->info.width);
+	return (s);
 }

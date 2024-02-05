@@ -6,17 +6,17 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/05 19:31:27 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/05 20:28:02 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_libft_printf.h"
 #include "_conversions.h"
 
-/** The function _ft_printf_out_s() writes the string pointed to by str to the file
+/** The function _ft_printf_create_s() writes the string pointed to by str to the file
  * descriptor fd.
  * @returns The number of characters written. */
-int	_ft_printf_out_s(const char *str, int fd, struct _specs *specs)
+char	*_ft_printf_create_s(const char *str, struct _specs *specs)
 {
 	int arg_length;
 	int arg_start;
@@ -34,7 +34,5 @@ int	_ft_printf_out_s(const char *str, int fd, struct _specs *specs)
 		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
 		ft_memcpy(s + arg_start, "(null)", 6);
 	}
-	write(fd, s, specs->info.width);
-	free(s);
-	return (specs->info.width);
+	return (s);
 }

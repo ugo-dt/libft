@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 19:39:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/03 16:55:36 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/05 21:12:28 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 #if defined libft_test_use_real
 # include <stdio.h>
+# define ft_dprintf dprintf
+# define ft_snprintf snprintf
 # define ft_printf printf
 #else 
 #endif
@@ -65,8 +67,12 @@ int main(void)
 	done += ft_printf("Testing width: |%20p|\n", nul);
 	done += ft_printf("Testing flag left: |%-20p|\n", NULL);
 	
-	ft_printf("Testing multiple: %d %i %u %c %s %p %x %X\n", 42, -123, 456, 65, "Testing", (void *)999, 64, 100);
+	ft_printf("Testing multiple: %d %i test %u %c test %s %p eeeee %x hello %X\n", 42, -123, 456, 65, "Testing", (void *)999, 64, 100);
 	ft_printf("written: %d\n", done);
 	ft_printf("------------------------\n");
+
+	char	test[20];
+	ft_snprintf(test, 12, "hello, %s", "world");
+	ft_printf("|%s|\n", test);
 	return (0);
 }

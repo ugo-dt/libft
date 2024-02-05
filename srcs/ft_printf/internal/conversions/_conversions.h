@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:51:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/05 19:52:41 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/05 20:34:56 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,17 +39,17 @@ struct _specs
 };
 
 int		_ft_printf_out_c_internal(char c, int fd);
-int		_ft_printf_out_c(char c, int fd, struct _specs *specs);
-int		_ft_printf_out_s(const char *s, int fd, struct _specs *specs);
-int		_ft_printf_out_p(size_t addr, int fd, struct _specs *specs);
-int		_ft_printf_out_di(int nb, int fd, struct _specs *specs);
-int		_ft_printf_out_u(unsigned int nb, int fd, struct _specs *specs);
-void	_ft_printf_make_hex_string(char *s, char x, unsigned int nb, int alt, int length);
-int		_ft_printf_out_xX(char x, unsigned int nb, int fd, struct _specs *specs);
-int		_ft_printf_out_l(long nb, int fd, struct _specs *specs);
-int		_ft_printf_out_ll(long long nb, int fd, struct _specs *specs);
-int		_ft_printf_out_ul(unsigned long nb, int fd, struct _specs *specs);
-int		_ft_printf_out_ull(unsigned long long nb, int fd, struct _specs *specs);
+char	*_ft_printf_create_c(char c, struct _specs *specs);
+char	*_ft_printf_create_s(const char *s, struct _specs *specs);
+char	*_ft_printf_create_p(size_t addr, struct _specs *specs);
+char	*_ft_printf_create_di(int nb, struct _specs *specs);
+char	*_ft_printf_create_u(unsigned int nb, struct _specs *specs);
+void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length);
+char	*_ft_printf_create_xX(char x, unsigned int nb, struct _specs *specs);
+char	*_ft_printf_create_l(long nb, struct _specs *specs);
+char	*_ft_printf_create_ll(long long nb, struct _specs *specs);
+char	*_ft_printf_create_ul(unsigned long nb, struct _specs *specs);
+char	*_ft_printf_create_ull(unsigned long long nb, struct _specs *specs);
 
 __extern_always_inline const unsigned char	*_ft_find_spec(const unsigned char *format)
 {
@@ -57,6 +57,40 @@ __extern_always_inline const unsigned char	*_ft_find_spec(const unsigned char *f
 	if (!c)
 		return format + ft_strlen((const char *)format);
 	return (c);
+}
+
+__extern_always_inline unsigned char *_ft_find_width(unsigned char *f, int *width)
+{
+	*width = 0;
+	if (ft_isdigit(*f))
+	{
+		*width = ft_atoi((const char *)f);
+		while (ft_isdigit(*f) && *f)
+			f++;
+	}
+	return f;
+}
+
+__extern_always_inline unsigned char *_ft_find_flags(unsigned char *f, struct _specs *specs)
+{
+	while (ft_strchr("#0- +", *f) && *f)
+	{
+		if (*f == '#')
+		{
+			specs->flags.alt = 1;
+		}
+		if (*f == '0')
+		{
+			specs->flags.zero = 1;
+		}
+		if (*f == '-')
+		{
+			specs->flags.left = 1;
+			specs->flags.zero = 0;
+		}
+		f++;
+	}
+	return f;
 }
 
 # define GET_NUMBER_LENGTH(_len_ptr, _nb, _base) \
