@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/02/05 12:13:31 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/02/05 12:18:48 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,28 +107,29 @@ _gray		= 	\033[37m
 _red		= 	\033[91m
 _cyan		= 	\033[96m
 
+ifndef verbose
+  SILENT = @
+endif
+
 all: $(NAME)
-.PHONY: all
 
 $(NAME): $(OBJS)
-	@ar rcs $(NAME) $(OBJS)
+	$(SILENT)ar rcs $(NAME) $(OBJS)
 	@echo "\033[2K\r$(_green)Successfully built $(NAME)$(_default)"
 
 .c.o:
 	@echo "Compiling $<"
-	@$(CC) $(FLAGS) $(INCLUDE) -o $@ -c $<
+	$(SILENT)$(CC) $(FLAGS) $(INCLUDE) -o $@ -c $<
 
 clean:
-	@rm -f $(OBJS)
-.PHONY: clean
+	$(SILENT)rm -f $(OBJS)
 
 fclean: clean
-	@rm -f $(NAME)
-.PHONY: fclean
+	$(SILENT)rm -f $(NAME)
 
 re: fclean all
-.PHONY: re
 
 test: $(NAME)
 	./test/run_tests.sh all
-.PHONY: test
+
+.PHONY: all clean fclean re test
