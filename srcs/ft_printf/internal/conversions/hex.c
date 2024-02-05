@@ -6,41 +6,23 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/03 19:54:23 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/05 19:26:49 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "_libft_printf.h"
 #include "_conversions.h"
 
-/** The function _ft_printf_out_xX() writes the number fd in hexadecimal to the
- * file descriptor fd.
- * 
- * @returns The number of characters written. */
-size_t	_ft_printf_out_xX(char x, unsigned int nb, int fd, int flag_hash, int flag_zero, int flag_left, int width)
+void	_ft_printf_make_hex_string(char *s, char x, unsigned int nb, int alt, int length)
 {
-	char *s;
-	int	arg_length, caps;
-	size_t full_length;
+	int caps = x == 'X' ? 55 : 87; // 'A' means 10; 'A' is 97 in ascii, 'a' is 97
 
-	GET_NUMBER_LENGTH(&arg_length, nb, 16);
-	if (flag_hash)
-		arg_length += 2;
-	if (width < arg_length)
-		width = arg_length;
-	full_length = width;
-	if (x == 'X')
-		caps = 55; // 'A' means 10; 'A' is 97 in ascii
-	else
-		caps = 87; // 'a' is 97
-	
-	CREATE_STRING(s, full_length, width - arg_length, flag_left, flag_zero,
-	if (flag_hash)
+	if (alt)
 	{
-		APPEND_CHAR('0', 1);
-		APPEND_CHAR(x, 1);
+		s[0] = '0';
+		s[1] = x;
 	}
-	size_t i = full_length - 1;
+	int i = length - 1;
 	while (nb > 0)
 	{
 		int digit = nb % 16;
@@ -51,8 +33,24 @@ size_t	_ft_printf_out_xX(char x, unsigned int nb, int fd, int flag_hash, int fla
 		i--;
 		nb /= 16;
 	}
-	);
-	write(fd, s, full_length);
+}
+
+/** The function _ft_printf_out_xX() writes the number fd in hexadecimal to the
+ * file descriptor fd.
+ * 
+ * @returns The number of characters written. */
+int	_ft_printf_out_xX(char x, unsigned int nb, int fd, struct _specs *specs)
+{
+	int arg_length;
+	int arg_start;
+	char *s;
+
+	GET_NUMBER_LENGTH(&arg_length, nb, 16);
+	if (specs->flags.alt)
+		arg_length += 2;
+	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+	_ft_printf_make_hex_string(s, x, nb, specs->flags.alt, arg_length);
+	write(fd, s, specs->info.width);
 	free(s);
-	return (full_length);
+	return (specs->info.width);
 }

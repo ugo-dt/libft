@@ -11,12 +11,12 @@
 /* ************************************************************************** */
 
 #include "_libft_printf.h"
-#include "../conversions/_conversions.h"
+#include "conversions/_conversions.h"
 
 /*
 	todo
 	flags
-		hash
+		alt
 			For x and X conversions, a nonzero result has the string
               "0x" (or "0X" for X conversions) prepended to it
 		zero
@@ -30,6 +30,40 @@
 		space
 		plus
 */
+
+static unsigned char *_ft_find_width(unsigned char *f, int *width)
+{
+	*width = 0;
+	if (ft_isdigit(*f))
+	{
+		*width = ft_atoi((const char *)f);
+		while (ft_isdigit(*f) && *f)
+			f++;
+	}
+	return f;
+}
+
+static unsigned char *_ft_find_flags(unsigned char *f, struct _specs *specs)
+{
+	while (ft_strchr("#0- +", *f) && *f)
+	{
+		if (*f == '#')
+		{
+			specs->flags.alt = 1;
+		}
+		if (*f == '0')
+		{
+			specs->flags.zero = 1;
+		}
+		if (*f == '-')
+		{
+			specs->flags.left = 1;
+			specs->flags.zero = 0;
+		}
+		f++;
+	}
+	return f;
+}
 
 /**
  * The format string is a character string, beginning and ending in its initial shift state, if any.
@@ -56,79 +90,55 @@ int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
 			done += _ft_printf_out_c_internal(*f++, fd);
 		else
 		{
-			int flag_hash = 0;
-			int flag_zero = 0;
-			int flag_left = 0;
-			int width = 0;
-			int ell = 0;
-			f++;
+			struct _specs specs = { 0 };
+			f = _ft_find_flags(++f, &specs);
 			if (*f == '\0')
-				break;
-			while (ft_strchr("#0- +", *f) && *f)
-			{
-				if (*f == '#')
-				{
-					flag_hash = 1;
-				}
-				if (*f == '0')
-				{
-					flag_zero = 1;
-				}
-				if (*f == '-')
-				{
-					flag_left = 1;
-					flag_zero = 0;
-				}
-				f++;
-			}
+				return (-1);
 
 			// field width
-			if (ft_isdigit(*f))
-			{
-				width = ft_atoi((const char *)f);
-				while (ft_isdigit(*f) && *f)
-					f++;
-			}
+			f = _ft_find_width(f, &specs.info.width);
+			if (*f == '\0')
+				return (-1);
 
 			// precision: If a precision is given with an integer conversion (d, i, o, u, x, and X), the 0 flag is ignored.
-
 			if (*f == 'l')
 			{
+				int is_long = 0;
 				f++;
 				if (*f == 'l')
 				{
 					f++;
-					ell = 1;
+					is_long = 1;
 				}
 				if (*f == 'u')
 				{
-					if (ell)
-						ret += _ft_printf_out_ull(va_arg(ap, unsigned long long), fd, flag_zero, flag_left, width);
+					if (is_long)
+						ret += _ft_printf_out_ull(va_arg(ap, unsigned long long), fd, &specs);
 					else
-						ret += _ft_printf_out_ul(va_arg(ap, unsigned long), fd, flag_zero, flag_left, width);
+						ret += _ft_printf_out_ul(va_arg(ap, unsigned long), fd, &specs);
 				}
 				else if (*f == 'd' || *f == 'i')
 				{
-					if (ell)
-						ret += _ft_printf_out_ll(va_arg(ap, long long), fd, flag_zero, flag_left, width);
+					if (is_long)
+						ret += _ft_printf_out_ll(va_arg(ap, long long), fd, &specs);
 					else
-						ret += _ft_printf_out_l(va_arg(ap, long), fd, flag_zero, flag_left, width);
+						ret += _ft_printf_out_l(va_arg(ap, long), fd, &specs);
 				}
 			}
 			else if (*f == '%')
-				ret += _ft_printf_out_c('%', fd, flag_left, width);
+				ret += _ft_printf_out_c('%', fd, &specs);
 			else if (*f == 'c')
-				ret += _ft_printf_out_c(va_arg(ap, int), fd, flag_left, width);
+				ret += _ft_printf_out_c(va_arg(ap, int), fd, &specs);
 			else if (*f == 's')
-				ret += _ft_printf_out_s(va_arg(ap, char *), fd, flag_left, width);
+				ret += _ft_printf_out_s(va_arg(ap, char *), fd, &specs);
 			else if (*f == 'p')
-				ret += _ft_printf_out_p(va_arg(ap, size_t), fd, flag_left, width);
+				ret += _ft_printf_out_p(va_arg(ap, size_t), fd, &specs);
 			else if (*f == 'd' || *f == 'i')
-				ret += _ft_printf_out_di(va_arg(ap, int), fd, flag_zero, flag_left, width);
+				ret += _ft_printf_out_di(va_arg(ap, int), fd, &specs);
 			else if (*f == 'u')
-				ret += _ft_printf_out_u(va_arg(ap, unsigned int), fd, flag_zero, flag_left, width);
+				ret += _ft_printf_out_u(va_arg(ap, unsigned int), fd, &specs);
 			else if (*f == 'x' || *f == 'X')
-				ret = _ft_printf_out_xX(*f, va_arg(ap, int), fd, flag_hash, flag_zero, flag_left, width);
+				ret = _ft_printf_out_xX(*f, va_arg(ap, int), fd, &specs);
 			if (ret == -1)
 				return (-1);
 			done += ret;
