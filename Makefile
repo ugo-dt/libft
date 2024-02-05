@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/02/03 14:41:33 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/02/05 12:13:31 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -111,10 +111,11 @@ all: $(NAME)
 .PHONY: all
 
 $(NAME): $(OBJS)
-	@ar rcs $(NAME) $(OBJS) && printf "\033[2K\r$(_green)libft: compiled successfully$(_default)\n"
+	@ar rcs $(NAME) $(OBJS)
+	@echo "\033[2K\r$(_green)Successfully built $(NAME)$(_default)"
 
 .c.o:
-	@printf "\033[2K\r$(_yellow)libft: $< $(_red)"
+	@echo "Compiling $<"
 	@$(CC) $(FLAGS) $(INCLUDE) -o $@ -c $<
 
 clean:
