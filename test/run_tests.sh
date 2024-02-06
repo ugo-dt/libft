@@ -16,15 +16,40 @@ _gray="\033[37m"
 _red="\033[91m"
 _cyan="\033[96m"
 
+log()
+{
+	if [ "$verbose" = true ]
+	then
+		printf "$_yellow"
+		printf "$1"
+		printf "$_default"
+	fi
+}
+
+_compile_ft()
+{
+	if [ "$verbose" = true ]
+	then
+		clang -Wall -Wextra -Werror -fsanitize=address $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/ft -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a
+	else
+		clang -Wall -Wextra -Werror -fsanitize=address $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/ft -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a >/dev/null 2>&1
+	fi
+}
+
+_compile_real()
+{
+	if [ "$verbose" = true ]
+	then
+		clang -Wall -Wextra -Werror -fsanitize=address -Dlibft_test_use_real=1 $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/real -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a
+	else
+		clang -Wall -Wextra -Werror -fsanitize=address -Dlibft_test_use_real=1 $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/real -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a >/dev/null 2>&1
+	fi
+}
+
 _compile()
 {
-	if [ "$verbose" = true ]; then
-		clang -Wall -Wextra -Werror -Dlibft_test_use_real=1 $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/real -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a && \
-		clang -Wall -Wextra -Werror                         $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/ft   -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a
-	else
-		clang -Wall -Wextra -Werror -Dlibft_test_use_real=1 $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/real -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a >/dev/null 2>&1 && \
-		clang -Wall -Wextra -Werror                         $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/ft   -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a >/dev/null 2>&1
-	fi
+	_compile_real $1 || (_print_color 'Error: original version does not compile.\nMake sure the tests are valid.\n' $_yellow && exit 1)
+	_compile_ft $1 || (_print_color 'Does not compile.\nDiff KO\n' $_red && exit 1)
 }
 
 _print_color()
@@ -47,8 +72,7 @@ run_test()
 {
     echo "----- $1 -----"
     (
-        _compile $1 || (printf 'Does not compile.\n' && exit 1) \
-        && _run $1
+		_compile $1 && _run $1
     )
     rm -f $SCRIPT_DIR/$1/ft $SCRIPT_DIR/$1/real
 }

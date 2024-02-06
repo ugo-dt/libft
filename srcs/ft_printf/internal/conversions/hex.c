@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/05 20:28:43 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/06 22:38:24 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, i
 		i--;
 		nb /= 16;
 	}
+	while (i >= (alt ? 2 : 0))
+		s[i--] = '0';
 }
 
 /** The function _ft_printf_create_xX() writes the number fd in hexadecimal to the
@@ -45,10 +47,10 @@ char	*_ft_printf_create_xX(char x, unsigned int nb, struct _specs *specs)
 	int arg_start;
 	char *s;
 
-	GET_NUMBER_LENGTH(&arg_length, nb, 16);
+	GET_NUMBER_LENGTH(&arg_length, nb, 16, specs->info.precision);
 	if (specs->flags.alt)
 		arg_length += 2;
 	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
-	_ft_printf_create_hex_internal(s, x, nb, specs->flags.alt, arg_length);
+	_ft_printf_create_hex_internal(s + arg_start, x, nb, specs->flags.alt, arg_length);
 	return (s);
 }

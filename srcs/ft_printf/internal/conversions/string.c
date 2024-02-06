@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/05 20:28:02 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/06 21:10:02 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ char	*_ft_printf_create_s(const char *str, struct _specs *specs)
 
 	if (str)
 	{
-		arg_length = ft_strlen(str);
+		if (specs->info.precision > -1)
+			arg_length = min((int)ft_strlen(str), specs->info.precision);
+		else
+			arg_length = ft_strlen(str);
 		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
 		ft_memcpy(s + arg_start, str, arg_length);
 	}
