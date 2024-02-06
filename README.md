@@ -6,7 +6,7 @@ It also includes it's own version of printf, along with other useful functions.
 
 ## Building Libft
 Libft is a C static library and only requires the standard C library headers.
-Build it with the ```make``` command
+You can build it using ```make```.
 ```
 git clone https://github.com/ugo-dt/libft.git
 cd libft
