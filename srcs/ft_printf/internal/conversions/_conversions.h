@@ -6,20 +6,16 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:51:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/07 10:41:51 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:13:15 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _CONVERSIONS_H
-#define _CONVERSIONS_H
+# define _CONVERSIONS_H
 
-#include <stdlib.h>
-
-typedef enum
-{
-	false,
-	true
-}bool;
+# include "_libft_printf.h"
+# include <stdlib.h>
+# include <stdbool.h>
 
 struct _specs
 {
@@ -34,8 +30,8 @@ struct _specs
 
 	struct
 	{
-		int width;
-		int precision;
+		int	width;
+		int	precision;
 	}info;
 };
 
@@ -58,7 +54,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 	return (c);
 }
 
-#define FIND_WIDTH(_f, _specs, _ap)                        \
+# define FIND_WIDTH(_f, _specs, _ap)                        \
 	do                                                     \
 	{                                                      \
 		_specs.info.width = 0;                             \
@@ -84,7 +80,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 			return (-1);                                   \
 	} while (0)
 
-#define FIND_PRECISION(_f, _specs, _ap)                           \
+# define FIND_PRECISION(_f, _specs, _ap)                           \
 	do                                                            \
 	{                                                             \
 		_specs.info.precision = -1;                               \
@@ -111,7 +107,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 			return (-1);                                          \
 	} while (0)
 
-#define FIND_FLAGS(_f, _specs)                 \
+# define FIND_FLAGS(_f, _specs)                 \
 	do                                         \
 	{                                          \
 		_f++;                                  \
@@ -143,7 +139,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 		}                                      \
 	} while (0)
 
-#define GET_NUMBER_LENGTH(_len_ptr, _nb, _base, _precision)     \
+# define GET_NUMBER_LENGTH(_len_ptr, _nb, _base, _precision)     \
 	do                                                          \
 	{                                                           \
 		(*(_len_ptr)) = 1;                                      \
@@ -170,7 +166,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 		}                                                       \
 	} while (0)
 
-#define MAKE_UNSIGNED_NUMBER_STRING(s, _n, _length) \
+# define MAKE_UNSIGNED_NUMBER_STRING(s, _n, _length) \
 	do                                              \
 	{                                               \
 		char *_s = (s);                             \
@@ -188,7 +184,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 			_s[_i--] = '0';                         \
 	} while (0)
 
-#define MAKE_NUMBER_STRING(s, _type, _abs_f, _n, _length) \
+# define MAKE_NUMBER_STRING(s, _type, _abs_f, _n, _length) \
 	do                                                    \
 	{                                                     \
 		char *_s = (s);                                   \
@@ -235,7 +231,7 @@ static inline char *_ft_printf_create_string_helper(struct _specs *specs, int ar
 	return (s);
 }
 
-#define DO_POSITIONAL(_f, _s, _specs, _ap)                                                \
+# define DO_POSITIONAL(_f, _s, _specs, _ap)                                                \
 	do                                                                                    \
 	{                                                                                     \
 		if (*_f == 'l')                                                                   \

@@ -6,11 +6,10 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/06 21:10:02 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:08:45 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_printf.h"
 #include "_conversions.h"
 
 /** The function _ft_printf_create_s() writes the string pointed to by str to the file

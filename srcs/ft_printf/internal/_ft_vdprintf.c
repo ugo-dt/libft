@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_printf.h"
 #include "conversions/_conversions.h"
 
 int _ft_vdprintf_internal(int fd, const char *format, va_list ap)

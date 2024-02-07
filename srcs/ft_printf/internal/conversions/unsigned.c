@@ -6,11 +6,10 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 15:56:35 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/06 21:40:56 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:08:47 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_printf.h"
 #include "_conversions.h"
 
 # define _UNSIGNED_CONVERSION_DEF(_name, _type) \

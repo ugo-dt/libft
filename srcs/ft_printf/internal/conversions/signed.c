@@ -6,11 +6,10 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:23:32 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/07 10:54:18 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/07 13:08:43 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_printf.h"
 #include "_conversions.h"
 
 # define _SIGNED_CONVERSION_DEF(_name, _type) \
