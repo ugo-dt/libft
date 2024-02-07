@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 19:39:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/06 22:41:56 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/07 10:53:34 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,56 @@ int main(void)
 	done += ft_printf("Testing precision: |%2.9x|\n", 1234);
 	done += ft_printf("Testing precision: |%2.2x|\n", 1234);
 	done += ft_printf("Testing precision: |%2.11x|\n", 1234);
+
+	done += ft_printf("Testing plus: |%+i|\n", 0);
+	done += ft_printf("Testing plus: |%+i|\n", 12);
+	done += ft_printf("Testing plus: |%+i|\n", 234);
+	done += ft_printf("Testing plus: |%+i|\n", 3567);
+	done += ft_printf("Testing plus: |%+i|\n", 1234);
+	done += ft_printf("Testing plus: |%+i|\n", 1234);
+	done += ft_printf("Testing plus -: |%+i|\n", -0);
+	done += ft_printf("Testing plus -: |%+i|\n", -12);
+	done += ft_printf("Testing plus -: |%+i|\n", -234);
+	done += ft_printf("Testing plus -: |%+i|\n", -3567);
+	done += ft_printf("Testing plus -: |%+i|\n", -1234);
+	done += ft_printf("Testing plus -: |%+i|\n", -1234);
+	done += ft_printf("Testing plus: |%+d|\n", 0);
+	done += ft_printf("Testing plus: |%+d|\n", 12);
+	done += ft_printf("Testing plus: |%+d|\n", 234);
+	done += ft_printf("Testing plus: |%+d|\n", 3567);
+	done += ft_printf("Testing plus: |%+d|\n", 1234);
+	done += ft_printf("Testing plus: |%+d|\n", 1234);
+	done += ft_printf("Testing plus -: |%+d|\n", -0);
+	done += ft_printf("Testing plus -: |%+d|\n", -12);
+	done += ft_printf("Testing plus -: |%+d|\n", -234);
+	done += ft_printf("Testing plus -: |%+d|\n", -3567);
+	done += ft_printf("Testing plus -: |%+d|\n", -1234);
+	done += ft_printf("Testing plus -: |%+d|\n", -1234);
+	
+	done += ft_printf("Testing space: |% i|\n", 0);
+	done += ft_printf("Testing space: |% i|\n", 12);
+	done += ft_printf("Testing space: |% i|\n", 234);
+	done += ft_printf("Testing space: |% i|\n", 3567);
+	done += ft_printf("Testing space: |% i|\n", 1234);
+	done += ft_printf("Testing space: |% i|\n", 1234);
+	done += ft_printf("Testing space -: |% i|\n", -0);
+	done += ft_printf("Testing space -: |% i|\n", -12);
+	done += ft_printf("Testing space -: |% i|\n", -234);
+	done += ft_printf("Testing space -: |% i|\n", -3567);
+	done += ft_printf("Testing space -: |% i|\n", -1234);
+	done += ft_printf("Testing space -: |% i|\n", -1234);
+	done += ft_printf("Testing space: |% d|\n", 0);
+	done += ft_printf("Testing space: |% d|\n", 12);
+	done += ft_printf("Testing space: |% d|\n", 234);
+	done += ft_printf("Testing space: |% d|\n", 3567);
+	done += ft_printf("Testing space: |% d|\n", 1234);
+	done += ft_printf("Testing space: |% d|\n", 1234);
+	done += ft_printf("Testing space -: |% d|\n", -0);
+	done += ft_printf("Testing space -: |% d|\n", -12);
+	done += ft_printf("Testing space -: |% d|\n", -234);
+	done += ft_printf("Testing space -: |% d|\n", -3567);
+	done += ft_printf("Testing space -: |% d|\n", -1234);
+	done += ft_printf("Testing space -: |% d|\n", -1234);
 	
 	done += ft_printf("Testing multiple: %d %i test %u %c test %s %p eeeee %x hello %X\n", 42, -123, 456, 65, "Testing", (void *)999, 64, 100);
 	ft_printf("written: %d\n", done);

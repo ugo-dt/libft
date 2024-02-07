@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:51:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/06 22:50:38 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/02/07 10:41:51 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,15 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 			{                                  \
 				_specs.flags.left = true;      \
 				_specs.flags.zero = false;     \
+			}                                  \
+			if (*_f == ' ')                    \
+			{                                  \
+				_specs.flags.space = true;     \
+			}                                  \
+			if (*_f == '+')                    \
+			{                                  \
+				_specs.flags.showsign = true;  \
+				_specs.flags.space = false;    \
 			}                                  \
 			_f++;                              \
 		}                                      \
