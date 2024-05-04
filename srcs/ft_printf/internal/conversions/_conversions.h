@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:51:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/07 16:30:33 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/05/04 22:41:41 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,23 @@
 # include "_libft_printf.h"
 # include <stdlib.h>
 # include <stdbool.h>
+
+# ifndef __extern_always_inline
+#  define __extern_always_inline static inline
+# endif
+
+# ifdef __GNUC__
+#  pragma GCC diagnostic ignored "-Wgnu-statement-expression-from-macro-expansion"
+#  pragma GCC diagnostic ignored "-Wlanguage-extension-token"
+# endif
+
+# if defined(__linux__) || defined(__LINUX__)
+#  define FT_PRINTF_NULL_STRING "(nil)"
+# elif defined(__APPLE__)
+#  define FT_PRINTF_NULL_STRING "0x0"
+# else
+#  define FT_PRINTF_NULL_STRING "(null)"
+# endif
 
 struct _specs
 {
@@ -143,7 +160,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 	do                                                          \
 	{                                                           \
 		(*(len_ptr_)) = 1;                                      \
-		typeof(nb_) tmp_ = nb_;                                 \
+		__typeof__(nb_) tmp_ = nb_;                             \
 		if (tmp_ < 0)                                           \
 		{                                                       \
 			(*(len_ptr_))++;                                    \

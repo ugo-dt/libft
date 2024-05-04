@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/02/05 20:34:14 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/05/04 22:27:36 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,7 +100,7 @@ OBJS		=	$(SRCS:.c=.o)
 INCLUDE		=	-I include
 
 CC			=	clang
-FLAGS		=	-Wall -Wextra -Werror
+C@FLAGS		=	-Wall -Wextra -Werror -pedantic
 
 _default	=	\033[39m
 _green		= 	\033[92m
@@ -123,7 +123,7 @@ $(NAME): $(OBJS)
 
 .c.o:
 	@echo "Compiling $<"
-	$(SILENT)$(CC) $(FLAGS) $(INCLUDE) -o $@ -c $<
+	$(SILENT)$(CC) $(C@FLAGS) $(INCLUDE) -o $@ -c $<
 
 clean:
 	$(SILENT)rm -f $(OBJS)

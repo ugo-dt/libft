@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:23:35 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/05 19:13:01 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/05/04 22:36:42 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <stdlib.h>
 
+# include <math.h>
+
 # ifndef INT_MAX
 #  define INT_MAX	2147483647
 # endif
@@ -22,25 +24,31 @@
 #  define INT_MIN	-2147483648
 # endif
 
+# ifdef __GNUC__
+# pragma GCC diagnostic ignored "-Wgnu-statement-expression-from-macro-expansion"
 # ifndef max
 #  define max(a, b) ({\
-    typeof(a) _a = (a); \
-    typeof(b) _b = (b); \
+    __typeof__(a) _a = (a); \
+    __typeof__(b) _b = (b); \
      _a > _b ? _a : _b; })
 # endif
 # ifndef min
 #  define min(a, b) ({\
-    typeof(a) _a = (a); \
-    typeof(b) _b = (b); \
+    __typeof__(a) _a = (a); \
+    __typeof__(b) _b = (b); \
     _a < _b ? _a : _b; })
 # endif
 # ifndef clamp
 #  define clamp(x, mn, mx) ({\
-    typeof(x) _x = (x); \
-    typeof(mn) _mn = (mn); \
-    typeof(mx) _mx = (mx); \
+    __typeof__(x) _x = (x); \
+    __typeof__(mn) _mn = (mn); \
+    __typeof__(mx) _mx = (mx); \
     max(_mn, min(_mx, _x)); })
 # endif
+#else
+# define min(a, b) (((a) < (b)) ? (a) : (b))
+# define max(a, b) (((a) > (b)) ? (a) : (b))
+#endif
 
 /** The ft_abs() function computes the absolute value of the integer i.
  *
