@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:51:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/04 22:41:41 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/05/05 11:11:11 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,18 +21,18 @@
 #  define __extern_always_inline static inline
 # endif
 
-# ifdef __GNUC__
-#  pragma GCC diagnostic ignored "-Wgnu-statement-expression-from-macro-expansion"
-#  pragma GCC diagnostic ignored "-Wlanguage-extension-token"
-# endif
-
-# if defined(__linux__) || defined(__LINUX__)
-#  define FT_PRINTF_NULL_STRING "(nil)"
-# elif defined(__APPLE__)
-#  define FT_PRINTF_NULL_STRING "0x0"
-# else
-#  define FT_PRINTF_NULL_STRING "(null)"
-# endif
+# ifndef _ft_printf__null_string
+#  if defined(__linux__)
+#   define _ft_printf__null_string	"(null)"
+#   define _ft_printf__null_ptr		"(nil)"
+#  elif defined(__APPLE__)
+#   define _ft_printf__null_string	"(null)"
+#   define _ft_printf__null_ptr		"0x0"
+#  else
+#   define _ft_printf__null_string	"(null)"
+#   define _ft_printf__null_ptr		"0x0"
+#  endif
+# endif // _ft_printf__null_string
 
 struct _specs
 {
