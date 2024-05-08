@@ -6,21 +6,15 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:23:35 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/05 11:08:11 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:58:13 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _LIBFT_MATH_H
 # define _LIBFT_MATH_H
 
+# include <stdint.h>
 # include <stdlib.h>
-
-# ifndef INT_MAX
-#  define INT_MAX	2147483647
-# endif
-# ifndef INT_MIN
-#  define INT_MIN	-2147483648
-# endif
 
 # ifdef __GNUC__
 #  if __has_warning("-Wgnu-statement-expression-from-macro-expansion")
@@ -52,8 +46,27 @@
     max(_mn, min(_mx, _x)); })
 #  endif
 # else
-#  define min(a, b) (((a) < (b)) ? (a) : (b))
-#  define max(a, b) (((a) > (b)) ? (a) : (b))
+# define _DECL_MIN(T, ...)                                       \
+	static inline T _ft__min##__VA_ARGS__(const T a, const T b) \
+		{ return ((a) < (b)) ? (a) : (b); }
+_DECL_MIN(int, i) _DECL_MIN(float, f) _DECL_MIN(double, d) _DECL_MIN(long, l) _DECL_MIN(long long, ll)
+# define min(a, b) _Generic((b), \
+	default:   _ft__mini,       \
+	float:     _ft__minf,       \
+	double:    _ft__mind,       \
+	long:      _ft__minl,       \
+	long long: _ft__minll)(a, b)
+
+# define _DECL_MAX(T, ...)                                       \
+	static inline T _ft__max##__VA_ARGS__(const T a, const T b) \
+		{ return ((a) > (b)) ? (a) : (b); }
+_DECL_MAX(int, i) _DECL_MAX(float, f) _DECL_MAX(double, d) _DECL_MAX(long, l) _DECL_MAX(long long, ll)
+# define max(a, b) _Generic((b), \
+	default:   _ft__maxi,       \
+	float:     _ft__maxf,       \
+	double:    _ft__maxd,       \
+	long:      _ft__maxl,       \
+	long long: _ft__maxll)(a, b)
 # endif // __GNUC__
 
 /** The ft_abs() function computes the absolute value of the integer i.

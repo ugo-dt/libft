@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 12:28:43 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:10:38 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:53:46 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ int	ft_atoi(const char *s)
 	while (*s >= '0' && *s <= '9')
 	{
 		digit = *s++ - 48;
-		if (result * sign > INT_MAX / 10
+		if (result * sign > INT32_MAX / 10
 			|| ((sign == 1 && result >= 214748364 && digit >= 7)))
-			return (INT_MAX);
-		if (result * sign < INT_MIN / 10
+			return (INT32_MAX);
+		if (result * sign < INT32_MIN / 10
 			|| ((sign == -1 && result >= 214748364 && digit >= 8)))
-			return (INT_MIN);
+			return (INT32_MIN);
 		result = result * 10 + digit;
 	}
 	return (result * sign);

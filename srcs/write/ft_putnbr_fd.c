@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:39:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:10:38 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/05/08 16:54:10 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	ft_putnbr_fd(int n, int fd)
 {
-	if (n == INT_MIN)
+	if (n == INT32_MIN)
 	{
 		ft_putnbr_fd(-214748364, fd);
 		ft_putchar_fd('8', fd);

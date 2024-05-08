@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:51:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/05 11:11:11 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/05/08 17:14:47 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,71 +156,71 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 		}                                      \
 	} while (0)
 
-# define GET_NUMBER_LENGTH(len_ptr_, nb_, base_, precision_)    \
-	do                                                          \
-	{                                                           \
-		(*(len_ptr_)) = 1;                                      \
-		__typeof__(nb_) tmp_ = nb_;                             \
-		if (tmp_ < 0)                                           \
-		{                                                       \
-			(*(len_ptr_))++;                                    \
-			tmp_ = -tmp_;                                       \
-		}                                                       \
-		while (tmp_ >= base_)                                   \
-		{                                                       \
-			tmp_ /= base_;                                      \
-			(*(len_ptr_))++;                                    \
-		}                                                       \
-		if (nb_ < 0)                                            \
-		{                                                       \
-			if (precision_ > -1 && (*(len_ptr_)) <= precision_) \
-				(*(len_ptr_)) = precision_ + 1;                 \
-		}                                                       \
-		else                                                    \
-		{                                                       \
-			if (precision_ > -1 && (*(len_ptr_)) < precision_)  \
-				(*(len_ptr_)) = precision_;                     \
-		}                                                       \
+# define GET_NUMBER_LENGTH(len_ptr_, nb_, base_, precision_, type_) \
+	do                                                              \
+	{                                                               \
+		(*(len_ptr_)) = 1;                                          \
+		type_ tmp_ = nb_;                                           \
+		if (tmp_ < 0)                                               \
+		{                                                           \
+			(*(len_ptr_))++;                                        \
+			tmp_ = -tmp_;                                           \
+		}                                                           \
+		while (tmp_ >= base_)                                       \
+		{                                                           \
+			tmp_ /= base_;                                          \
+			(*(len_ptr_))++;                                        \
+		}                                                           \
+		if (nb_ < 0)                                                \
+		{                                                           \
+			if (precision_ > -1 && (*(len_ptr_)) <= precision_)     \
+				(*(len_ptr_)) = precision_ + 1;                     \
+		}                                                           \
+		else                                                        \
+		{                                                           \
+			if (precision_ > -1 && (*(len_ptr_)) < precision_)      \
+				(*(len_ptr_)) = precision_;                         \
+		}                                                           \
 	} while (0)
 
-# define MAKE_UNSIGNED_NUMBER_STRING(s, n_, length_) \
-	do                                               \
-	{                                                \
-		char *s_ = (s);                              \
-		int i_ = length_ - 1;                        \
-		typeof(n_) nb_ = n_;                         \
-		while (nb_ >= 10)                            \
-		{                                            \
-			s_[i_] = nb_ % 10 + 48;                  \
-			nb_ /= 10;                               \
-			i_--;                                    \
-		}                                            \
-		s_[i_] = nb_ % 10 + 48;                      \
-		i_--;                                        \
-		while (i_ >= 0)                              \
-			s_[i_--] = '0';                          \
+# define MAKE_UNSIGNED_NUMBER_STRING(s, n_, length_, type_) \
+	do                                                      \
+	{                                                       \
+		char *s_ = (s);                                     \
+		int i_ = length_ - 1;                               \
+		type_ nb_ = n_;                                     \
+		while (nb_ >= 10)                                   \
+		{                                                   \
+			s_[i_] = nb_ % 10 + 48;                         \
+			nb_ /= 10;                                      \
+			i_--;                                           \
+		}                                                   \
+		s_[i_] = nb_ % 10 + 48;                             \
+		i_--;                                               \
+		while (i_ >= 0)                                     \
+			s_[i_--] = '0';                                 \
 	} while (0)
 
 # define MAKE_NUMBER_STRING(s, type_, abs_f_, n_, length_) \
-	do                                                    	\
-	{                                                     	\
-		char *s_ = (s);                                   	\
-		int i_;                                           	\
-		unsigned type_ nb_;                               	\
-		if ((n_ < 0))                                     	\
-			s_[0] = '-';                                  	\
-		i_ = length_ - 1;                                 	\
-		nb_ = abs_f_(n_);                                 	\
-		while (nb_ >= 10)                                 	\
-		{                                                 	\
-			s_[i_] = nb_ % 10 + 48;                       	\
-			nb_ /= 10;                                    	\
-			i_--;                                         	\
-		}                                                 	\
-		s_[i_] = nb_ % 10 + 48;                           	\
-		i_--;                                             	\
-		while (i_ >= (n_ < 0))                            	\
-			s_[i_--] = '0';                               	\
+	do                                                    \
+	{                                                     \
+		char *s_ = (s);                                   \
+		int i_;                                           \
+		unsigned type_ nb_;                               \
+		if ((n_ < 0))                                     \
+			s_[0] = '-';                                  \
+		i_ = length_ - 1;                                 \
+		nb_ = abs_f_(n_);                                 \
+		while (nb_ >= 10)                                 \
+		{                                                 \
+			s_[i_] = nb_ % 10 + 48;                       \
+			nb_ /= 10;                                    \
+			i_--;                                         \
+		}                                                 \
+		s_[i_] = nb_ % 10 + 48;                           \
+		i_--;                                             \
+		while (i_ >= (n_ < 0))                            \
+			s_[i_--] = '0';                               \
 	} while (0)
 
 static inline char *_ft_printf_create_string_helper(struct _specs *specs, int arg_length, int *arg_start)
@@ -248,7 +248,7 @@ static inline char *_ft_printf_create_string_helper(struct _specs *specs, int ar
 	return (s);
 }
 
-# define DO_POSITIONAL(_f, _s, _specs, ap_)                                                \
+# define DO_POSITIONAL(_f, _s, _specs, ap_)                                               \
 	do                                                                                    \
 	{                                                                                     \
 		if (*_f == 'l')                                                                   \

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 15:39:36 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/05 11:11:21 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/05/08 17:13:48 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*_ft_printf_create_p(size_t addr, struct _specs *specs)
 
 	if (addr)
 	{
-		GET_NUMBER_LENGTH(&arg_length, addr, 16, specs->info.precision);
+		GET_NUMBER_LENGTH(&arg_length, addr, 16, specs->info.precision, size_t);
 		arg_length += 2;
 		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
 		_ft_printf_create_hex_internal(s + arg_start,  'x', addr, 1, arg_length);

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/07 13:08:32 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/05/08 17:13:33 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ char	*_ft_printf_create_xX(char x, unsigned int nb, struct _specs *specs)
 	int arg_start;
 	char *s;
 
-	GET_NUMBER_LENGTH(&arg_length, nb, 16, specs->info.precision);
+	GET_NUMBER_LENGTH(&arg_length, nb, 16, specs->info.precision, int);
 	if (specs->flags.alt)
 		arg_length += 2;
 	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
