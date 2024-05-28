@@ -17,15 +17,6 @@
 # include <stdlib.h>
 
 # ifdef __GNUC__
-#  if __has_warning("-Wgnu-statement-expression-from-macro-expansion")
-#   pragma GCC diagnostic ignored	"-Wgnu-statement-expression-from-macro-expansion"
-#  endif
-#  if __has_warning("-Wgnu-statement-expression")
-#   pragma GCC diagnostic ignored	"-Wgnu-statement-expression"
-#  endif
-#  if __has_warning("-Wlanguage-extension-token")
-#   pragma GCC diagnostic ignored	"-Wlanguage-extension-token"
-#  endif
 #  ifndef max
 #   define max(a, b) ({\
      __typeof__(a) _a = (a); \
