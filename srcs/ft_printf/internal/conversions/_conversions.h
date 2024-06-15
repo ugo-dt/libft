@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:51:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/08 17:14:47 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:56:49 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include "_libft_printf.h"
 # include <stdlib.h>
 # include <stdbool.h>
+
+# ifdef __cplusplus
+extern "C" {
+# endif
 
 #ifdef __GNUC__
 # if __has_warning("-Wgnu-statement-expression-from-macro-expansion")
@@ -304,5 +308,9 @@ static inline char *_ft_printf_create_string_helper(struct _specs *specs, int ar
 		if (!_s)                                                                          \
 			return (-1);                                                                  \
 	} while (0)
+
+# ifdef __cplusplus
+}
+# endif
 
 #endif // _CONVERSIONS_H

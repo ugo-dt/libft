@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:18:04 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 12:49:44 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:56:41 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include "_libft_write.h"
 # include "_libft_string.h"
 # include <stdlib.h>
+
+# ifdef __cplusplus
+extern "C" {
+# endif
 
 /* The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */
@@ -61,5 +65,9 @@ void		ft_print_array_fd(const char **arr, int fd);
 
 /* Sort an array of strings using ft_strcmp(). */
 void		ft_sort_array(char **array);
+
+# ifdef __cplusplus
+}
+# endif
 
 #endif // _LIBFT_ARRAY_H

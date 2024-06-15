@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:36:03 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/11/28 18:25:21 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:56:52 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,10 @@
 
 # include "_libft_math.h"
 # include <unistd.h>
+
+# ifdef __cplusplus
+extern "C" {
+# endif
 
 /* Write a character on the standard output. */
 void		ft_putchar(char c);
@@ -39,5 +43,9 @@ void		ft_putendl(const char *restrict s);
 
 /* Print a string followed by a newline, on the file descriptor fd. */
 void		ft_putendl_fd(const char *s, int fd);
+
+# ifdef __cplusplus
+}
+# endif
 
 #endif // _LIBFT_WRITE_H

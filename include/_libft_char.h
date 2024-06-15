@@ -1,17 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   _char.h                                            :+:      :+:    :+:   */
+/*   _libft_char.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:19:26 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 12:20:09 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/06/15 16:02:12 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef _LIBFT_CHAR_H
 # define _LIBFT_CHAR_H
+
+# ifdef __cplusplus
+extern "C" {
+# endif
 
 /* The ft_islower() function tests for any lower-case letters */
 int			ft_islower(int c);
@@ -40,7 +44,7 @@ int			ft_isalpha(int c);
  * This includes the following characters only:
  * '0', '1', '2', '3', '4', '5', '6', '7', '8', '9'
  * 
- * @return Zero if the character tests false and return non-zero if the
+ * @returns Zero if the character tests false and return non-zero if the
  * character tests true.
  */
 int			ft_isdigit(int c);
@@ -61,5 +65,9 @@ int			ft_isprint(int c);
  * This includes the following standard characters:
  * '\\t'   '\\n'    '\\v'    '\\f'    '\\r'    ' ' */
 int			ft_isspace(int c);
+
+# ifdef __cplusplus
+}
+# endif
 
 #endif // _LIBFT_CHAR_H

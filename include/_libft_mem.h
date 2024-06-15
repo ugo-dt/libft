@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:33:12 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/03 16:30:17 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:57:03 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 
 # include <stdlib.h>
 
-/* MEM functions */
+# ifdef __cplusplus
+extern "C" {
+# endif
 
 /* The ft_bzero() function writes n zeroed bytes to the string s.
  * If n is zero, ft_bzero() does nothing. */
@@ -57,5 +59,9 @@ void		*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
 /* The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string s. */
 void		*ft_memset(void *s, int c, size_t n);
+
+# ifdef __cplusplus
+}
+# endif
 
 #endif // _LIBFT_MEM_H

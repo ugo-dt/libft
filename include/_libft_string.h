@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 12:31:02 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/04 22:26:03 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/06/15 15:55:08 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,29 +18,33 @@
 # include "_libft_mem.h"
 # include <stdlib.h>
 
+# ifdef __cplusplus
+extern "C" {
+# endif
+
 /* The ft_atoi() function converts the initial portion
  * of the string pointed by str to an int representation. */
-int			ft_atoi(const char *str);
+int		ft_atoi(const char *str);
 
 /* The ft_itoa() function converts an integer value to
  * a null-terminated string. */
-char		*ft_itoa(int n);
+char	*ft_itoa(int n);
 
 /* Returns the length from s to the next character c
  * or the next '\\0' character. */
-size_t		ft_len_to_char(const char *s, char c);
+size_t	ft_len_to_char(const char *s, char c);
 
 /* Returns the length from s to the next space character (using ft_isspace())
  * or the next '\\0' character. */
-size_t		ft_len_to_space(const char *s);
+size_t	ft_len_to_space(const char *s);
 
 /* The ft_str_tolower() function converts each uppercase letter to the 
  * corresponding lowercase letter in the null-terminated string s. */
-void		ft_str_tolower(char *s);
+void	ft_str_tolower(char *s);
 
 /* The ft_str_toupper() function converts each lowercase letter to the 
  * corresponding uppercase letter in the null-terminated string s. */
-void		ft_str_toupper(char *s);
+void	ft_str_toupper(char *s);
 
 /** 
  * The ft_strcmp() and ft_strncmp() functions lexicographically compare the
@@ -48,7 +52,7 @@ void		ft_str_toupper(char *s);
  * 
  * @returns 0 if the strings are identical.
  */
-int			ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 
 /** 
  * The ft_strcmp() and ft_strncmp() functions lexicographically compare the
@@ -60,7 +64,7 @@ int			ft_strcmp(const char *s1, const char *s2);
  * 
  * @returns 0 if the strings are identical.
  */
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /* 
  * The ft_strdup() function allocates sufficient memory for a copy of the string
@@ -69,7 +73,7 @@ int			ft_strncmp(const char *s1, const char *s2, size_t n);
  * 
  * If insufficient memory is available, NULL is returned.
  */
-char		*ft_strdup(const char *s);
+char	*ft_strdup(const char *s);
 
 /* 
  * The ft_strndup() function allocates sufficient memory for a copy of the string
@@ -81,7 +85,7 @@ char		*ft_strdup(const char *s);
  * 
  * If insufficient memory is available, NULL is returned.
  */
-char		*ft_strndup(const char *s, size_t n);
+char	*ft_strndup(const char *s, size_t n);
 
 /* 
  * The ft_strjoin() function appends the string s2 to the end of s1,
@@ -93,7 +97,7 @@ char		*ft_strndup(const char *s, size_t n);
  * Memory for the new string is obtained with malloc(3),
  * and can be freed with free(3);
  */
-char		*ft_strjoin(const char *s1, const char *s2);
+char	*ft_strjoin(const char *s1, const char *s2);
 
 /* 
  * The ft_strjoin_3() function appends a copy of the null-terminated strings
@@ -106,14 +110,14 @@ char		*ft_strjoin(const char *s1, const char *s2);
  * Memory for the new string is obtained with malloc(3),
  * and can be freed with free(3);
  */
-char		*ft_strjoin_3(const char *s1, const char *s2, const char *s3);
+char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3);
 
 /* 
  * The ft_strcat() and function append a copy of the null-terminated
  * string s2 to the end of the null-terminated string s1, then add a terminating
  * '\\0'. The string s1 must have sufficient space to hold the result.
  */
-char		*ft_strcat(char *s1, const char *s2);
+char	*ft_strcat(char *s1, const char *s2);
 
 /* 
  * The ft_strcat() and function append a copy of the null-terminated
@@ -123,7 +127,7 @@ char		*ft_strcat(char *s1, const char *s2);
  * The ft_strncat function appends not more than n characters from s2,
  * and then adds a terminating '\\0'.
  */
-char		*ft_strncat(char *s1, const char *s2, size_t n);
+char	*ft_strncat(char *s1, const char *s2, size_t n);
 
 /* 
  * The ft_strlcat() function appends the NUL-terminated
@@ -133,11 +137,11 @@ char		*ft_strncat(char *s1, const char *s2, size_t n);
  * 
  * The function returns the total length of the string it tried to create.
  */
-size_t		ft_strlcat(char *dst, const char *src, size_t size);
+size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
 /* The ft_strcpy() function copy the string src to dst
  * (including the terminating '\\0' character.) */
-char		*ft_strcpy(char *dest, const char *src);
+char	*ft_strcpy(char *dest, const char *src);
 
 /* 
  * The ft_strncpy() function copy the string src to dst
@@ -147,25 +151,25 @@ char		*ft_strcpy(char *dest, const char *src);
  * If src is less than n characters long, the remainder of dst is filled with
  * '\\0' characters. Otherwise, dst is not terminated.
  */
-char		*ft_strncpy(char *s1, const char *s2, size_t n);
+char	*ft_strncpy(char *s1, const char *s2, size_t n);
 
 /* The ft_strlcpy() function copies up to size - 1 characters from
  * the NUL-terminated string src to dst, NUL-terminating the result. */
-size_t		ft_strlcpy(char *dst, const char *src, size_t size);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
 /* The ft_strlen() function computes the length of the string s. */
-size_t		ft_strlen(const char *s);
+size_t	ft_strlen(const char *s);
 
 /* The ft_strnlen() function attempts to compute the length of s,
  * but never scans beyond the first maxlen bytes of s. */
-size_t		ft_strnlen(const char *s, size_t maxlen);
+size_t	ft_strnlen(const char *s, size_t maxlen);
 
 /* 
  * The ft_strnstr() function locates the first occurrence of the null-terminated
  * string needle in the string haystack, where not more than len characters are
  * searched. Characters that appear after a '\\0' character are not searched.
  */
-char		*ft_strnstr(const char *haystack, const char *needle, size_t n);
+char	*ft_strnstr(const char *haystack, const char *needle, size_t n);
 
 /* 
  * The ft_strchr() function locates the first occurrence of the char c in the
@@ -175,7 +179,7 @@ char		*ft_strnstr(const char *haystack, const char *needle, size_t n);
  * 
  * The function returns NULL if it cannot find the character c in the string s.
  */
-char		*ft_strchr(const char *s, int c);
+char	*ft_strchr(const char *s, int c);
 
 /* 
  * The ft_strchr() function locates the first occurrence of the char c in the
@@ -188,27 +192,31 @@ char		*ft_strchr(const char *s, int c);
  * The ft_strrchr() function is identical to ft_strchr(),
  * except it locates the last occurrence of c.
  */
-char		*ft_strrchr(const char *s, int c);
+char	*ft_strrchr(const char *s, int c);
 
 /* 
  * The ft_strmapi() applies the given function f to each character of the
  * string s to create a new string (with malloc(3))
  * resulting from successive applications of f.
  */
-char		*ft_strmapi(const char *s, char (*f)(unsigned int, char));
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 
 /* 
  * The ft_substr() function allocates memory with malloc(3) then returns a
  * string of len characters (or up to the first '\\0' encountered), and
  * starting from index start of s.
  */
-char		*ft_substr(const char *s, unsigned int start, size_t len);
+char	*ft_substr(const char *s, unsigned int start, size_t len);
 
 /*
  * The ft_strtrim() function allocates memory with malloc(3) then returns the
  * same string as s1, without the characters specified in set, at the start
  * and at the end of s1.
  */
-char		*ft_strtrim(char *s1, char *set);
+char	*ft_strtrim(char *s1, char *set);
+
+# ifdef __cplusplus
+}
+# endif
 
 #endif /* _LIBFT_STRING_H */
