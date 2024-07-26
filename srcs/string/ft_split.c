@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 12:05:25 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:10:03 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:09:25 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_array.h"
+#include "libft.h"
 
 static unsigned int	words(const char *s, char c)
 {
@@ -53,8 +53,8 @@ static char	**free_tab(void **tab, size_t n)
 
 	i = 0;
 	while (i < n)
-		free(tab[i++]);
-	free(tab);
+		LIBFT_FREE(tab[i++]);
+	LIBFT_FREE(tab);
 	return (NULL);
 }
 
@@ -64,7 +64,7 @@ char	**init_split(const char *s, char c)
 
 	if (!s)
 		return (NULL);
-	return (malloc(sizeof(*tab) * (words(s, c) + 1)));
+	return (LIBFT_MALLOC(sizeof(*tab) * (words(s, c) + 1)));
 }
 
 char	**ft_split(const char *s, char c)
@@ -83,7 +83,7 @@ char	**ft_split(const char *s, char c)
 	{
 		while (s[j] == c && s[j])
 			j++;
-		tab[i] = malloc(sizeof(*tab[i]) * len_to_sep(s, c, j) + 1);
+		tab[i] = LIBFT_MALLOC(sizeof(*tab[i]) * len_to_sep(s, c, j) + 1);
 		if (!tab[i])
 			return (free_tab((void **)tab, i));
 		k = 0;

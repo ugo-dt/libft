@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 16:19:04 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:10:38 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:09:38 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_string.h"
+#include "libft.h"
 
 static int	ft_wordslen(const char *s, char c, int i)
 {
@@ -54,7 +54,7 @@ char	**ft_strsplit(char const *s, char c)
 	i[1] = 0;
 	i[0] = 0;
 	n = 0;
-	split = malloc(8 * (ft_countwords(s, c) + 1));
+	split = LIBFT_MALLOC(8 * (ft_countwords(s, c) + 1));
 	if (!s || !c || !split)
 		return (NULL);
 	while (ft_countwords(s, c) > n)
@@ -62,7 +62,7 @@ char	**ft_strsplit(char const *s, char c)
 		i[1] = 0;
 		while (s[i[0]] == c)
 			i[0]++;
-		split[n] = malloc(ft_wordslen(s, c, i[0]) + 2);
+		split[n] = LIBFT_MALLOC(ft_wordslen(s, c, i[0]) + 2);
 		if (!split[n])
 			return (NULL);
 		while (s[i[0]] != c && s[i[0]] != '\0')

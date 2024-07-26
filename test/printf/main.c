@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 19:39:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/08 16:57:06 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:09:56 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_printf.h"
+#include "libft.h"
 
 #if defined libft_test_use_real
 # include <stdio.h>

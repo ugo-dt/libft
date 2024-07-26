@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/08 17:13:33 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:24:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_conversions.h"
+#include "_libft_printf.h"
 
 void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length)
 {
@@ -40,7 +40,7 @@ void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, i
  * file descriptor fd.
  * 
  * @returns The number of characters written. */
-char	*_ft_printf_create_xX(char x, unsigned int nb, struct _specs *specs)
+char	*_ft_printf_create_xX(char x, unsigned int nb, struct _libft_printf_specs *specs)
 {
 	int arg_length;
 	int arg_start;

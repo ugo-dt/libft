@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/09/23 08:43:37 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:10:03 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:08:30 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_array.h"
+#include "libft.h"
 
 void	ft_sort_array(char **array)
 {
@@ -23,11 +23,11 @@ void	ft_sort_array(char **array)
 		if (ft_strcmp(array[i], array[i + 1]) > 0)
 		{
 			temp = ft_strdup(array[i]);
-			free(array[i]);
+			LIBFT_FREE(array[i]);
 			array[i] = ft_strdup(array[i + 1]);
-			free(array[i + 1]);
+			LIBFT_FREE(array[i + 1]);
 			array[i + 1] = ft_strdup(temp);
-			free(temp);
+			LIBFT_FREE(temp);
 			i = 0;
 		}
 		else
@@ -42,7 +42,7 @@ char	**ft_copy_array(char **arr)
 	char	**copy;
 
 	size = ft_array_size((void **)arr);
-	copy = malloc(sizeof(char *) * (size + 1));
+	copy = LIBFT_MALLOC(sizeof(char *) * (size + 1));
 	if (!copy)
 		return (NULL);
 	i = 0;

@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 13:15:42 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:10:38 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:09:38 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_string.h"
+#include "libft.h"
 
 static int	digits(unsigned int n)
 {
@@ -38,7 +38,7 @@ static char	*create_string(int len, int nb, int n)
 	int		i;
 
 	i = 0;
-	dest = (char *)malloc(sizeof(*dest) * len + 1 + (nb < 0));
+	dest = (char *)LIBFT_MALLOC(sizeof(*dest) * len + 1 + (nb < 0));
 	if (dest)
 	{
 		if (n < 0)

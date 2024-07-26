@@ -6,13 +6,13 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:06:10 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/07 13:08:28 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:25:24 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_conversions.h"
+#include "_libft_printf.h"
 
-char	*_ft_printf_create_c(char c, struct _specs *specs)
+char	*_ft_printf_create_c(char c, struct _libft_printf_specs *specs)
 {
 	int arg_length;
 	int arg_start;

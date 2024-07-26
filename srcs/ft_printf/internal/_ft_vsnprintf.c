@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/05 20:33:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/08 16:55:25 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:24:06 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "conversions/_conversions.h"
+#include "_libft_printf.h"
 	
 int	ft_vsnprintf_internal(char *string, size_t maxlen, const char *format, va_list ap)
 {
@@ -34,7 +34,7 @@ int	ft_vsnprintf_internal(char *string, size_t maxlen, const char *format, va_li
 		}
 		else
 		{
-			struct _specs specs = { 0 };
+			struct _libft_printf_specs specs = { 0 };
 
 			FIND_FLAGS(f, specs);
 			FIND_WIDTH(f, specs, ap);
@@ -45,7 +45,7 @@ int	ft_vsnprintf_internal(char *string, size_t maxlen, const char *format, va_li
 
 			len = min(maxlen - 1 - curlen, specs.info.width + curlen);
 			ft_strncat(string, s, len);
-			free(s);
+			LIBFT_FREE(s);
 			curlen += len;
 
 			f++;

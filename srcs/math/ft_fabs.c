@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/23 20:37:26 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/05 19:11:57 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:09:34 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_math.h"
+#include "libft.h"
 
 double	ft_fabs(double x)
 {

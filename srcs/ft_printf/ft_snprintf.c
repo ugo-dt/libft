@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:46:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/05 20:45:09 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:22:40 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_printf.h"
+#include "libft.h"
 
 int	ft_vsnprintf_internal(char *s, size_t maxlen, const char *f, va_list ap);
 

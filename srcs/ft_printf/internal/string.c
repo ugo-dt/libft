@@ -6,16 +6,16 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/05 11:11:21 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:24:54 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_conversions.h"
+#include "_libft_printf.h"
 
 /** The function _ft_printf_create_s() writes the string pointed to by str to the file
  * descriptor fd.
  * @returns The number of characters written. */
-char	*_ft_printf_create_s(const char *str, struct _specs *specs)
+char	*_ft_printf_create_s(const char *str, struct _libft_printf_specs *specs)
 {
 	int arg_length;
 	int arg_start;
@@ -32,9 +32,9 @@ char	*_ft_printf_create_s(const char *str, struct _specs *specs)
 	}
 	else
 	{
-		arg_length = sizeof(_ft_printf__null_string) - 1; // Remove the null character
+		arg_length = sizeof(LIBFT_PRINTF_NULL_STRING) - 1; // Remove the null character
 		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
-		ft_memcpy(s + arg_start, _ft_printf__null_string, arg_length);
+		ft_memcpy(s + arg_start, LIBFT_PRINTF_NULL_STRING, arg_length);
 	}
 	return (s);
 }

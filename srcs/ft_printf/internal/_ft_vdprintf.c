@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "conversions/_conversions.h"
+#include "_libft_printf.h"
 
 int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
 {
@@ -28,7 +28,7 @@ int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
 			done += write(fd, f++, 1);
 		else
 		{
-			struct _specs specs = { 0 };
+			struct _libft_printf_specs specs = { 0 };
 
 			FIND_FLAGS(f, specs);
 			FIND_WIDTH(f, specs, ap);
@@ -37,7 +37,7 @@ int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
 			char	*s = NULL;
 			DO_POSITIONAL(f, s, specs, ap);
 			write(fd, s, specs.info.width);
-			free(s);
+			LIBFT_FREE(s);
 			done += specs.info.width;
 			f++;
 		}

@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/18 14:39:27 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/08 16:54:10 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:09:46 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_write.h"
+#include "libft.h"
 
 void	ft_putnbr_fd(int n, int fd)
 {

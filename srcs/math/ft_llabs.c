@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 16:24:07 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/02/05 19:07:26 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:09:34 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_math.h"
+#include "libft.h"
 
 long long	ft_llabs(long long i)
 {

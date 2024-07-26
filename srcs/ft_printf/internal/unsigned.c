@@ -6,14 +6,14 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 15:56:35 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/05/08 17:14:18 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:25:13 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_conversions.h"
+#include "_libft_printf.h"
 
 # define _UNSIGNED_CONVERSION_DEF(_name, _type) \
-	char	*_ft_printf_create_##_name(_type nb, struct _specs *specs) \
+	char	*_ft_printf_create_##_name(_type nb, struct _libft_printf_specs *specs) \
 	{ \
 		int arg_length; \
 		int arg_start; \

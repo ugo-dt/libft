@@ -6,11 +6,11 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/17 14:26:54 by ugdaniel          #+#    #+#             */
-/*   Updated: 2023/02/22 13:10:38 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/26 13:09:30 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "_libft_mem.h"
+#include "libft.h"
 
 void	*ft_calloc(size_t count, size_t size)
 {
@@ -21,7 +21,7 @@ void	*ft_calloc(size_t count, size_t size)
 		count = 1;
 		size = 1;
 	}
-	ptr = malloc(count * size);
+	ptr = LIBFT_MALLOC(count * size);
 	if (!ptr)
 		return (NULL);
 	ft_bzero(ptr, count * size);
