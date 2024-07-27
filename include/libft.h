@@ -42,31 +42,35 @@
 #  define LIBFT_UNREACHABLE() __builtin_unreachable()
 # endif
 
+# if !defined(LIBFT_TYPEOF)
+#  define LIBFT_TYPEOF	__typeof__
+# endif
+
 # ifdef __cplusplus
 extern "C" {
 # endif
 
-# ifdef __GNUC__
+# if defined(__GNUC__) && !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
 #  ifndef max
 #   define max(a, b) ({\
-	__typeof__(a) _a = (a); \
-	__typeof__(b) _b = (b); \
+	LIBFT_TYPEOF(a) _a = (a); \
+	LIBFT_TYPEOF(b) _b = (b); \
 	_a > _b ? _a : _b; })
 #  endif // max
 #  ifndef min
 #   define min(a, b) ({\
-	__typeof__(a) _a = (a); \
-	__typeof__(b) _b = (b); \
+	LIBFT_TYPEOF(a) _a = (a); \
+	LIBFT_TYPEOF(b) _b = (b); \
 	_a < _b ? _a : _b; })
 #  endif // min
 #  ifndef clamp
 #   define clamp(x, mn, mx) ({\
-	__typeof__(x) _x = (x); \
-	__typeof__(mn) _mn = (mn); \
-	__typeof__(mx) _mx = (mx); \
+	LIBFT_TYPEOF(x) _x = (x); \
+	LIBFT_TYPEOF(mn) _mn = (mn); \
+	LIBFT_TYPEOF(mx) _mx = (mx); \
 	max(_mn, min(_mx, _x)); })
 #  endif // clamp
-# else // ifndef __GNUC__
+# else // !defined(__GNUC__) || defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
 #  define _DECL_MIN_MAX_TYPE(T, ...) \
 	static inline T _libft__min_##__VA_ARGS__(const T a, const T b) { return ((a) < (b)) ? (a) : (b); } \
 	static inline T _libft__max_##__VA_ARGS__(const T a, const T b) { return ((a) > (b)) ? (a) : (b); }

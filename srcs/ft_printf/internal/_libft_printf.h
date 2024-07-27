@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:51:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/26 13:23:22 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:20:44 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,13 @@
 extern "C" {
 # endif
 
-#ifdef __GNUC__
-# if __has_warning("-Wgnu-statement-expression-from-macro-expansion")
-#  pragma GCC diagnostic ignored	"-Wgnu-statement-expression-from-macro-expansion"
+# if !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
+#  ifdef __GNUC__
+#   if __has_warning("-Wgnu-statement-expression")
+#    pragma GCC diagnostic ignored	"-Wgnu-statement-expression"
+#   endif
+#  endif // __GNUC
 # endif
-# if __has_warning("-Wgnu-statement-expression")
-#  pragma GCC diagnostic ignored	"-Wgnu-statement-expression"
-# endif
-# if __has_warning("-Wlanguage-extension-token")
-#  pragma GCC diagnostic ignored	"-Wlanguage-extension-token"
-# endif
-#endif // __GNUC
 
 # ifndef __extern_always_inline
 #  define __extern_always_inline static inline
