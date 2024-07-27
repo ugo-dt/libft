@@ -1,14 +1,14 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/26 12:51:19 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/26 21:02:46 by ugdaniel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+/** ************************************************************************** */
+/**                                                                            */
+/**                                                        :::      ::::::::   */
+/**   libft.h                                            :+:      :+:    :+:   */
+/**                                                    +:+ +:+         +:+     */
+/**   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
+/**                                                +#+#+#+#+#+   +#+           */
+/**   Created: 2022/03/26 12:51:19 by ugdaniel          #+#    #+#             */
+/**   Updated: 2024/07/27 11:20:09 by ugdaniel         ###   ########.fr       */
+/**                                                                            */
+/** ************************************************************************** */
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -38,6 +38,10 @@
 #  define LIBFT_FALSE	false
 # endif
 
+# if !defined(LIBFT_UNREACHABLE)
+#  define LIBFT_UNREACHABLE() __builtin_unreachable()
+# endif
+
 # ifdef __cplusplus
 extern "C" {
 # endif
@@ -45,22 +49,22 @@ extern "C" {
 # ifdef __GNUC__
 #  ifndef max
 #   define max(a, b) ({\
-     __typeof__(a) _a = (a); \
-     __typeof__(b) _b = (b); \
-      _a > _b ? _a : _b; })
+	__typeof__(a) _a = (a); \
+	__typeof__(b) _b = (b); \
+	_a > _b ? _a : _b; })
 #  endif // max
 #  ifndef min
 #   define min(a, b) ({\
-     __typeof__(a) _a = (a); \
-     __typeof__(b) _b = (b); \
-     _a < _b ? _a : _b; })
+	__typeof__(a) _a = (a); \
+	__typeof__(b) _b = (b); \
+	_a < _b ? _a : _b; })
 #  endif // min
 #  ifndef clamp
 #   define clamp(x, mn, mx) ({\
-    __typeof__(x) _x = (x); \
-    __typeof__(mn) _mn = (mn); \
-    __typeof__(mx) _mx = (mx); \
-    max(_mn, min(_mx, _x)); })
+	__typeof__(x) _x = (x); \
+	__typeof__(mn) _mn = (mn); \
+	__typeof__(mx) _mx = (mx); \
+	max(_mn, min(_mx, _x)); })
 #  endif // clamp
 # else // ifndef __GNUC__
 #  define _DECL_MIN_MAX_TYPE(T, ...) \
@@ -86,15 +90,15 @@ _DECL_MIN_MAX_TYPE(float, f) _DECL_MIN_MAX_TYPE(double, d) _DECL_MIN_MAX_TYPE(lo
 #  define max(a, b) _libft__min_max_type_generic(a, b, _libft__max_)
 # endif // __GNUC__
 
-/* The ft_array_size() function returns the size of a NULL terminated
+/** The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */
 size_t	ft_array_size(void **arr);
 
-/* The ft_free_array() function frees a each element from a two-dimensional
+/** The ft_free_array() function frees a each element from a two-dimensional
  * array, starting from index 0 up to the first NULL element encountered. */
 void	ft_free_array(void **arr);
 
-/* The ft_free_array_n() function frees up to n elements from a
+/** The ft_free_array_n() function frees up to n elements from a
  * two-dimensional array, then frees the pointer to the array. */
 void	ft_free_array_n(void **tab, size_t n);
 
@@ -108,7 +112,7 @@ void	ft_free_array_n(void **tab, size_t n);
  */
 char	**ft_copy_array(char **arr);
 
-/* 
+/** 
  * The ft_split() function splits a string it into words, and returns them as
  * a NULL-terminated array of strings.
  * 
@@ -128,20 +132,20 @@ char	**ft_split(const char *s, char c);
  */
 void	ft_print_array_fd(const char **arr, int fd);
 
-/* Sort an array of strings using ft_strcmp(). */
+/** Sort an array of strings using ft_strcmp(). */
 void	ft_sort_array(char **array);
 
-/* The ft_islower() function tests for any lower-case letters */
+/** The ft_islower() function tests for any lower-case letters */
 int		ft_islower(int c);
 
-/* The ft_isupper() function tests for any upper-case letter. */
+/** The ft_isupper() function tests for any upper-case letter. */
 int		ft_isupper(int c);
 
-/* The ft_tolower() function converts an upper-case letter to the corresponding
+/** The ft_tolower() function converts an upper-case letter to the corresponding
  * lower-case letter. The argument must be representable as an unsigned char.*/
 int		ft_tolower(int c);
 
-/* The ft_toupper() function converts an lower-case letter to the corresponding
+/** The ft_toupper() function converts an lower-case letter to the corresponding
  * upper-case letter. The argument must be representable as an unsigned char.*/
 int		ft_toupper(int c);
 
@@ -163,19 +167,19 @@ int		ft_isalpha(int c);
  */
 int		ft_isdigit(int c);
 
-/* The ft_isalnum() function tests for any character for which
+/** The ft_isalnum() function tests for any character for which
  * ft_isalpha() or ft_isdigit() is true. */
 int		ft_isalnum(int c);
 
-/* The isascii() function tests for an ASCII character, which is any character
+/** The isascii() function tests for an ASCII character, which is any character
  * between 0 and decimal 127 inclusive. */
 int		ft_isascii(int c);
 
-/* The ft_isprint() function tests for any printing character,
+/** The ft_isprint() function tests for any printing character,
  * including space (' '). */
 int		ft_isprint(int c);
 
-/* The ft_isspace() function tests for the white-space characters.
+/** The ft_isspace() function tests for the white-space characters.
  * This includes the following standard characters:
  * '\\t'   '\\n'    '\\v'    '\\f'    '\\r'    ' ' */
 int		ft_isspace(int c);
@@ -188,22 +192,23 @@ int		ft_isspace(int c);
  */
 typedef struct s_list
 {
-	void		*content;
+	void			*content;
 	struct s_list	*next;
 }t_list;
 
 /** Adds a new element at the end of the list.
  * 
  * @param lst The first element of the list.
+ * @param new_elem The new element to be added at the back of the list. Can be NULL.
  */
-void	ft_lstadd_back(t_list **lst, t_list *new);
+void	ft_lstadd_back(t_list **lst, t_list *new_elem);
 
 /** Adds a new element at the start of the list.
  * 
  * @param lst The first element of the list. Can be NULL. 
- * @param new The new element to be added at the front of the list. Can be NULL.
+ * @param new_elem The new element to be added at the front of the list. Can be NULL.
  */
-void	ft_lstadd_front(t_list **lst, t_list *new);
+void	ft_lstadd_front(t_list **lst, t_list *new_elem);
 
 /** Clears a linked list.
  * 
@@ -276,16 +281,16 @@ double		ft_fabs(double x);
 float		ft_fabsf(float x);
 long double	ft_fabsl(long double x);
 
-/* The ft_bzero() function writes n zeroed bytes to the string s.
+/** The ft_bzero() function writes n zeroed bytes to the string s.
  * If n is zero, ft_bzero() does nothing. */
 void	ft_bzero(void *s, size_t n);
 
-/* The ft_calloc() function allocates enough space for count objects
+/** The ft_calloc() function allocates enough space for count objects
  * that are size bytes of memory each and returns a pointer to the allocated
  * memory.  The allocated memory is filled with bytes of value zero. */
 void	*ft_calloc(size_t count, size_t size);
 
-/* The ft_memccpy() function copies bytes from string src to string dst. 
+/** The ft_memccpy() function copies bytes from string src to string dst. 
  * If the character c (converted to an unsigned char) occurs in the string
  * src, the copy stops and a pointer to the byte after the copy of c in the
  * string dst is returned. Otherwise, n bytes are copied, and a NULL pointer is
@@ -295,29 +300,29 @@ void	*ft_calloc(size_t count, size_t size);
  * as the behavior is undefined. */
 void	*ft_memccpy(void *dest, const void *src, int c, size_t n);
 
-/* The ft_memchr() function locates the first occurrence of c
+/** The ft_memchr() function locates the first occurrence of c
  * (as converted to an unsigned char) in the string s. */
 void	*ft_memchr(const void *s, int c, size_t n);
 
-/* The ft_memcmp() function compares byte string s1 against byte string s2.
+/** The ft_memcmp() function compares byte string s1 against byte string s2.
  * Both strings are assumed to be n bytes long. */
 int		ft_memcmp(const void *s1, const void *s2, size_t n);
 
-/* The memmove() function copies len bytes from string src to string dst.
+/** The memmove() function copies len bytes from string src to string dst.
  * The two strings may overlap; the copy is always done in a non-destructive
  * manner. */
 void	*ft_memmove(void *dest, const void *src, size_t n);
 
-/* The ft_memcpy() function copies n bytes from memory area src to memory
+/** The ft_memcpy() function copies n bytes from memory area src to memory
  * area dst. If dst and src overlap, behavior is undefined. Applications in
  * which dst and src might overlap should use ft_memmove instead. */
 void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
 
-/* The ft_memset() function writes len bytes of value c (converted to an
+/** The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string s. */
 void	*ft_memset(void *s, int c, size_t n);
 
-/* Maximum chars of output to write in MAXLEN.  */
+/** Maximum chars of output to write in MAXLEN.  */
 int	ft_snprintf(char *str, size_t maxlen, const char *restrict format, ...)
 	__attribute__ ((__format__ (__printf__, 3, 4)));
 
@@ -332,27 +337,27 @@ int	ft_dprintf(int fd, const char *restrict format, ...) \
 int	ft_printf(const char *restrict format, ...) \
 	__attribute__((__format__ (__printf__, 1, 2)));
 
-/* The ft_atoi() function converts the initial portion
+/** The ft_atoi() function converts the initial portion
  * of the string pointed by str to an int representation. */
 int		ft_atoi(const char *str);
 
-/* The ft_itoa() function converts an integer value to
+/** The ft_itoa() function converts an integer value to
  * a null-terminated string. */
 char	*ft_itoa(int n);
 
-/* Returns the length from s to the next character c
+/** Returns the length from s to the next character c
  * or the next '\\0' character. */
 size_t	ft_len_to_char(const char *s, char c);
 
-/* Returns the length from s to the next space character (using ft_isspace())
+/** Returns the length from s to the next space character (using ft_isspace())
  * or the next '\\0' character. */
 size_t	ft_len_to_space(const char *s);
 
-/* The ft_str_tolower() function converts each uppercase letter to the 
+/** The ft_str_tolower() function converts each uppercase letter to the 
  * corresponding lowercase letter in the null-terminated string s. */
 void	ft_str_tolower(char *s);
 
-/* The ft_str_toupper() function converts each lowercase letter to the 
+/** The ft_str_toupper() function converts each lowercase letter to the 
  * corresponding uppercase letter in the null-terminated string s. */
 void	ft_str_toupper(char *s);
 
@@ -376,7 +381,7 @@ int		ft_strcmp(const char *s1, const char *s2);
  */
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
-/* 
+/** 
  * The ft_strdup() function allocates sufficient memory for a copy of the string
  * s1, does the copy, and returns a pointer to it. The pointer may subsequently
  * be used as an argument tothe function free(3).
@@ -385,7 +390,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
  */
 char	*ft_strdup(const char *s);
 
-/* 
+/** 
  * The ft_strndup() function allocates sufficient memory for a copy of the string
  * s1, does the copy, and returns a pointer to it. The pointer may subsequently
  * be used as an argument tothe function free(3).
@@ -397,7 +402,7 @@ char	*ft_strdup(const char *s);
  */
 char	*ft_strndup(const char *s, size_t n);
 
-/* 
+/** 
  * The ft_strjoin() function appends the string s2 to the end of s1,
  * overwriting the terminating null character ('\\0') at the end of s1,
  * then adds a terminating null character.
@@ -409,7 +414,7 @@ char	*ft_strndup(const char *s, size_t n);
  */
 char	*ft_strjoin(const char *s1, const char *s2);
 
-/* 
+/** 
  * The ft_strjoin_3() function appends a copy of the null-terminated strings
  * s2 and s3 to the end of the null-terminated string s1, overwriting the
  * terminating null character ('\\0') at the end of s1, then adds a
@@ -422,14 +427,14 @@ char	*ft_strjoin(const char *s1, const char *s2);
  */
 char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3);
 
-/* 
+/** 
  * The ft_strcat() and function append a copy of the null-terminated
  * string s2 to the end of the null-terminated string s1, then add a terminating
  * '\\0'. The string s1 must have sufficient space to hold the result.
  */
 char	*ft_strcat(char *s1, const char *s2);
 
-/* 
+/** 
  * The ft_strcat() and function append a copy of the null-terminated
  * string s2 to the end of the null-terminated string s1, then add a terminating
  * '\\0'. The string s1 must have sufficient space to hold the result. 
@@ -439,7 +444,7 @@ char	*ft_strcat(char *s1, const char *s2);
  */
 char	*ft_strncat(char *s1, const char *s2, size_t n);
 
-/* 
+/** 
  * The ft_strlcat() function appends the NUL-terminated
  * string src to the end of dst.
  * It will append at most size - ft_strlen(dst) - 1 bytes,
@@ -449,11 +454,17 @@ char	*ft_strncat(char *s1, const char *s2, size_t n);
  */
 size_t	ft_strlcat(char *dst, const char *src, size_t size);
 
-/* The ft_strcpy() function copy the string src to dst
+/**
+ * The strcspn() function calculates the length of the initial segment of s
+ * which consists entirely of bytes not in reject.
+ */
+size_t	ft_strcspn(const char *s1, const char *s2);
+
+/** The ft_strcpy() function copy the string src to dst
  * (including the terminating '\\0' character.) */
 char	*ft_strcpy(char *dest, const char *src);
 
-/* 
+/** 
  * The ft_strncpy() function copy the string src to dst
  * (including the terminating '\\0' character.)
  *
@@ -463,25 +474,25 @@ char	*ft_strcpy(char *dest, const char *src);
  */
 char	*ft_strncpy(char *s1, const char *s2, size_t n);
 
-/* The ft_strlcpy() function copies up to size - 1 characters from
+/** The ft_strlcpy() function copies up to size - 1 characters from
  * the NUL-terminated string src to dst, NUL-terminating the result. */
 size_t	ft_strlcpy(char *dst, const char *src, size_t size);
 
-/* The ft_strlen() function computes the length of the string s. */
+/** The ft_strlen() function computes the length of the string s. */
 size_t	ft_strlen(const char *s);
 
-/* The ft_strnlen() function attempts to compute the length of s,
+/** The ft_strnlen() function attempts to compute the length of s,
  * but never scans beyond the first maxlen bytes of s. */
 size_t	ft_strnlen(const char *s, size_t maxlen);
 
-/* 
+/** 
  * The ft_strnstr() function locates the first occurrence of the null-terminated
  * string needle in the string haystack, where not more than len characters are
  * searched. Characters that appear after a '\\0' character are not searched.
  */
 char	*ft_strnstr(const char *haystack, const char *needle, size_t n);
 
-/* 
+/** 
  * The ft_strchr() function locates the first occurrence of the char c in the
  * string pointed to by s. The terminating null character is considered to be
  * part of the string; therefore if c is '\\0', the function locates the
@@ -491,7 +502,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t n);
  */
 char	*ft_strchr(const char *s, int c);
 
-/* 
+/** 
  * The ft_strchr() function locates the first occurrence of the char c in the
  * string pointed to by s. The terminating null character is considered to be
  * part of the string; therefore if c is '\\0', the function locates the
@@ -504,14 +515,14 @@ char	*ft_strchr(const char *s, int c);
  */
 char	*ft_strrchr(const char *s, int c);
 
-/* 
+/** 
  * The ft_strmapi() applies the given function f to each character of the
  * string s to create a new string (with malloc(3))
  * resulting from successive applications of f.
  */
 char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
 
-/* 
+/** 
  * The ft_substr() function allocates memory with malloc(3) then returns a
  * string of len characters (or up to the first '\\0' encountered), and
  * starting from index start of s.
@@ -525,32 +536,32 @@ char	*ft_substr(const char *s, unsigned int start, size_t len);
  */
 char	*ft_strtrim(char *s1, char *set);
 
-/* Write a character on the standard output. */
+/** Write a character on the standard output. */
 void	ft_putchar(char c);
 
-/* Write a character on the file descriptor fd. */
+/** Write a character on the file descriptor fd. */
 void	ft_putchar_fd(char c, int fd);
 
-/* Print a number on the standard output. */
+/** Print a number on the standard output. */
 void	ft_putnbr(int n);
 
-/* Print a number on the file descriptor fd. */
+/** Print a number on the file descriptor fd. */
 void	ft_putnbr_fd(int n, int fd);
 
-/* Print the string s on the standard output. */
+/** Print the string s on the standard output. */
 void	ft_putstr(const char *restrict s);
 
-/* Print the string s on the file descriptor fd. */
+/** Print the string s on the file descriptor fd. */
 void	ft_putstr_fd(const char *s, int fd);
 
-/* Print the string s followed by a newline, on the standard output. */
+/** Print the string s followed by a newline, on the standard output. */
 void	ft_putendl(const char *restrict s);
 
-/* Print a string followed by a newline, on the file descriptor fd. */
+/** Print a string followed by a newline, on the file descriptor fd. */
 void	ft_putendl_fd(const char *s, int fd);
 
 # ifdef __cplusplus
 }
 # endif
 
-#endif /* LIBFT_H */
+#endif /** LIBFT_H */
