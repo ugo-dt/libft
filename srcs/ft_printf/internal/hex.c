@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/26 13:24:54 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/27 11:56:36 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length)
 {
-	int caps = x == 'X' ? 55 : 87; // 'A' means 10; 'A' is 97 in ascii, 'a' is 97
+	int	caps = x == 'X' ? 55 : 87;
 
 	if (alt)
 	{
