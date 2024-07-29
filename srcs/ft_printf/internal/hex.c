@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/27 11:56:36 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:37:46 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ char	*_ft_printf_create_xX(char x, unsigned int nb, struct _libft_printf_specs *
 	if (specs->flags.alt)
 		arg_length += 2;
 	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+	if (!s)
+		return (NULL);
 	_ft_printf_create_hex_internal(s + arg_start, x, nb, specs->flags.alt, arg_length);
 	return (s);
 }

@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/26 13:24:54 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/07/29 15:39:28 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,16 @@ char	*_ft_printf_create_s(const char *str, struct _libft_printf_specs *specs)
 		else
 			arg_length = ft_strlen(str);
 		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+		if (!s)
+			return (NULL);
 		ft_memcpy(s + arg_start, str, arg_length);
 	}
 	else
 	{
 		arg_length = sizeof(LIBFT_PRINTF_NULL_STRING) - 1; // Remove the null character
 		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+		if (!s)
+			return (NULL);
 		ft_memcpy(s + arg_start, LIBFT_PRINTF_NULL_STRING, arg_length);
 	}
 	return (s);
