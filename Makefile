@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/07/31 21:21:14 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/07/31 21:30:35 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -109,8 +109,6 @@ COLOR_GREY		= 	\033[90m
 ifndef verbose
   SILENT = @
 endif
-
-MAKEFLAGS	+= -j$(shell nproc)
 
 all: $(NAME)
 
