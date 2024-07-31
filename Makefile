@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/07/31 21:15:20 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/07/31 21:21:14 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -97,7 +97,7 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/write/ft_putstr_fd.c
 
 OBJS		=	$(SRCS:.c=.o)
-INCLUDE		=	include
+INCLUDE		=	-I include
 
 CC			=	clang
 CFLAGS		=	-Wall -Wextra -Werror -pedantic
@@ -120,7 +120,7 @@ $(NAME): $(OBJS)
 
 .c.o:
 	@echo "$(COLOR_GREY)Compiling $<...$(COLOR_DEFAULT)"
-	$(SILENT)$(CC) $(CFLAGS) -I $(INCLUDE) -o $@ -c $<
+	$(SILENT)$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 clean:
 	$(SILENT)rm -f $(OBJS)
