@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 18:51:29 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/27 15:20:44 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:41:32 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,18 @@ extern "C" {
 # endif
 
 # ifndef LIBFT_PRINTF_NULL_STRING
-#  if defined(__linux__)
 #   define LIBFT_PRINTF_NULL_STRING	"(null)"
-#   define _ft_printf__null_ptr		"(nil)"
-#  elif defined(__APPLE__)
-#   define LIBFT_PRINTF_NULL_STRING	"(null)"
-#   define _ft_printf__null_ptr		"0x0"
-#  else
-#   define LIBFT_PRINTF_NULL_STRING	"(null)"
-#   define _ft_printf__null_ptr		"0x0"
-#  endif
 # endif // LIBFT_PRINTF_NULL_STRING
+
+# ifndef LIBFT_PRINTF_NULL_PTR
+#  if defined(__linux__)
+#   define LIBFT_PRINTF_NULL_PTR	"(nil)"
+#  elif defined(__APPLE__)
+#   define LIBFT_PRINTF_NULL_PTR	"0x0"
+#  else
+#   define LIBFT_PRINTF_NULL_PTR	"0x0"
+#  endif
+# endif // LIBFT_PRINTF_NULL_PTR
 
 struct _libft_printf_specs
 {

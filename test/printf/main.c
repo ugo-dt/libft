@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 19:39:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/26 13:09:56 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/09/09 12:42:45 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ int main(void)
 	done += ft_printf("Testing int with char: %i\n", 'A');
 	done += ft_printf("Testing string: %s\n", "Hello, world!");
 	done += ft_printf("Testing string: %s\n", str);
+	done += ft_printf("Testing string: %s\n", nul);
 	done += ft_printf("Testing pointer: %p\n", (void *)123); // 0x7b
 	done += ft_printf("Testing pointer: %p\n", (void *)456); // 0x1c8
+	done += ft_printf("Testing pointer: %p\n", (void *)0);   // null
 	done += ft_printf("Testing hex: %x\n", 42222); // a4ee
 	done += ft_printf("Testing hex: %X\n", 5050); // 13BA
 	done += ft_printf("Testing hex: %#X\n", 5050); // 0X13BA
