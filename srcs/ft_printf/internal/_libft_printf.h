@@ -8,7 +8,7 @@ extern "C" {
 # endif
 
 # if !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
-#  ifdef __GNUC__
+#  if __GNUC__ && defined(__has_warning)
 #   if __has_warning("-Wgnu-statement-expression")
 #    pragma GCC diagnostic ignored	"-Wgnu-statement-expression"
 #   endif

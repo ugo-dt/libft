@@ -587,7 +587,7 @@ extern "C" {
 # endif
 
 # if !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
-#  ifdef __GNUC__
+#  if __GNUC__ && defined(__has_warning)
 #   if __has_warning("-Wgnu-statement-expression")
 #    pragma GCC diagnostic ignored	"-Wgnu-statement-expression"
 #   endif
@@ -1027,6 +1027,251 @@ int	ft_tolower(int c)
 int	ft_isascii(int c)
 {
 	return (c >= 0 && c <= 127);
+}
+int	ft_vsnprintf_internal(char *string, size_t maxlen, const char *format, va_list ap)
+{
+	unsigned char	*f;
+	unsigned char	*lead_str_end;
+	size_t			curlen;
+	long			len;
+
+	ft_memset(string, 0, maxlen);
+	curlen = 0;
+	f = lead_str_end = (unsigned char *)_ft_find_spec((const unsigned char *)format);
+	len = min((const unsigned char *)lead_str_end - (const unsigned char *)format, (long)maxlen - 1);
+	ft_strncat(string, format, len);
+	curlen += len;
+	while (*f != '\0' && curlen < maxlen)
+	{
+		if (*f != '%')
+		{
+			ft_strncat(string, (const char *)f++, 1);
+			curlen++;
+		}
+		else
+		{
+			struct _libft_printf_specs specs = { 0 };
+
+			FIND_FLAGS(f, specs);
+			FIND_WIDTH(f, specs, ap);
+			FIND_PRECISION(f, specs, ap);
+
+			char	*s = NULL;
+			DO_POSITIONAL(f, s, specs, ap);
+
+			len = min(maxlen - 1 - curlen, specs.info.width + curlen);
+			ft_strncat(string, s, len);
+			LIBFT_FREE(s);
+			curlen += len;
+
+			f++;
+		}
+	}
+	return (curlen);
+}
+
+int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
+{
+	int				done;
+	unsigned char	*f;
+	unsigned char	*lead_str_end;
+
+	done = 0;
+	f = lead_str_end = (unsigned char *)_ft_find_spec((const unsigned char *)format);
+	if ((done = write(fd, format, (const unsigned char *)lead_str_end - (const unsigned char *)format)) < 0)
+		return -1;
+	while (*f != '\0')
+	{
+		if (*f != '%')
+			done += write(fd, f++, 1);
+		else
+		{
+			struct _libft_printf_specs specs = { 0 };
+
+			FIND_FLAGS(f, specs);
+			FIND_WIDTH(f, specs, ap);
+			FIND_PRECISION(f, specs, ap);
+
+			char	*s = NULL;
+			DO_POSITIONAL(f, s, specs, ap);
+			write(fd, s, specs.info.width);
+			LIBFT_FREE(s);
+			done += specs.info.width;
+			f++;
+		}
+	}
+	return (done);
+}
+
+#define _ft_printf__abs(x)	_Generic((x),	\
+	int:       ft_abs,						\
+	long:      ft_labs,						\
+	long long: ft_llabs						\
+	)(x)
+
+#define _SIGNED_CONVERSION_DEF(_name, _type)										\
+	char	*_ft_printf_create_##_name(_type nb, struct _libft_printf_specs *specs)	\
+	{																				\
+		int arg_length;																\
+		int arg_start;																\
+		char *s;																	\
+		GET_NUMBER_LENGTH(&arg_length, nb, 10, specs->info.precision, _type);		\
+		int	showfront = (nb >= 0 && (specs->flags.space || specs->flags.showsign));	\
+		arg_length += showfront;													\
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);			\
+		if (!s)																		\
+			return (NULL);															\
+		MAKE_NUMBER_STRING(s + arg_start, _type, _ft_printf__abs, nb, arg_length);	\
+		if (showfront)																\
+		{																			\
+			if (specs->flags.space)													\
+				s[0] = ' ';															\
+			else if (specs->flags.showsign)											\
+				s[0] = '+';															\
+		}																			\
+		return (s);																	\
+	}
+
+_SIGNED_CONVERSION_DEF(di, int)
+_SIGNED_CONVERSION_DEF(l, long)
+_SIGNED_CONVERSION_DEF(ll, long long)
+
+void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length)
+{
+	int	caps = x == 'X' ? 55 : 87;
+
+	if (alt)
+	{
+		s[0] = '0';
+		s[1] = x;
+	}
+	int i = length - 1;
+	while (nb > 0)
+	{
+		int digit = nb % 16;
+        if (digit < 10)
+			s[i] = digit + 48;
+		else
+			s[i] = digit + caps;
+		i--;
+		nb /= 16;
+	}
+	while (i >= (alt ? 2 : 0))
+		s[i--] = '0';
+}
+
+/** The function _ft_printf_create_xX() writes the number fd in hexadecimal to the
+ * file descriptor fd.
+ * 
+ * @returns The number of characters written. */
+char	*_ft_printf_create_xX(char x, unsigned int nb, struct _libft_printf_specs *specs)
+{
+	int arg_length;
+	int arg_start;
+	char *s;
+
+	GET_NUMBER_LENGTH(&arg_length, nb, 16, specs->info.precision, int);
+	if (specs->flags.alt)
+		arg_length += 2;
+	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+	if (!s)
+		return (NULL);
+	_ft_printf_create_hex_internal(s + arg_start, x, nb, specs->flags.alt, arg_length);
+	return (s);
+}
+
+#define _UNSIGNED_CONVERSION_DEF(_name, _type)										\
+	char	*_ft_printf_create_##_name(_type nb, struct _libft_printf_specs *specs)	\
+	{																				\
+		int arg_length;																\
+		int arg_start;																\
+		char *s;																	\
+																					\
+		GET_NUMBER_LENGTH(&arg_length, nb, 10, specs->info.precision, _type);		\
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);			\
+		if (!s)																		\
+			return (NULL);															\
+		MAKE_UNSIGNED_NUMBER_STRING(s + arg_start, nb, arg_length, _type);			\
+		return (s);																	\
+	}
+
+_UNSIGNED_CONVERSION_DEF(u, unsigned int)
+_UNSIGNED_CONVERSION_DEF(ul, unsigned long)
+_UNSIGNED_CONVERSION_DEF(ull, unsigned long long)
+
+char	*_ft_printf_create_c(char c, struct _libft_printf_specs *specs)
+{
+	int		arg_length;
+	int		arg_start;
+	char	*s;
+	arg_length = 1;
+	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+	if (!s)
+		return (NULL);
+	ft_memset(s + arg_start, c, arg_length);
+	return (s);
+}
+
+/** The function _ft_printf_create_s() writes the string pointed to by str to the file
+ * descriptor fd.
+ * @returns The number of characters written. */
+char	*_ft_printf_create_s(const char *str, struct _libft_printf_specs *specs)
+{
+	int arg_length;
+	int arg_start;
+	char *s;
+
+	if (str)
+	{
+		if (specs->info.precision > -1)
+			arg_length = min((int)ft_strlen(str), specs->info.precision);
+		else
+			arg_length = ft_strlen(str);
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+		if (!s)
+			return (NULL);
+		ft_memcpy(s + arg_start, str, arg_length);
+	}
+	else
+	{
+		arg_length = sizeof(LIBFT_PRINTF_NULL_STRING) - 1; // Remove the null character
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+		if (!s)
+			return (NULL);
+		ft_memcpy(s + arg_start, LIBFT_PRINTF_NULL_STRING, arg_length);
+	}
+	return (s);
+}
+
+void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length);
+
+/** The function _ft_printf_create_p() writes the address addr in hexadecimal
+ * to the file descriptor fd.
+ * @returns The number of characters written. */
+char	*_ft_printf_create_p(size_t addr, struct _libft_printf_specs *specs)
+{
+	int		arg_length;
+	int		arg_start;
+	char	*s;
+
+	if (addr)
+	{
+		GET_NUMBER_LENGTH(&arg_length, addr, 16, specs->info.precision, size_t);
+		arg_length += 2;
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+		if (!s)
+			return (NULL);
+		_ft_printf_create_hex_internal(s + arg_start,  'x', addr, 1, arg_length);
+	}
+	else
+	{
+		arg_length = (sizeof(LIBFT_PRINTF_NULL_PTR) - 1); // Remove null character
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+		if (!s)
+			return (NULL);
+		ft_memcpy(s + arg_start, LIBFT_PRINTF_NULL_PTR, arg_length);
+	}
+	return (s);
 }
 
 int	_ft_vdprintf_internal(int fd, const char *format, va_list ap);
@@ -1840,6 +2085,7 @@ char	*ft_itoa(int n)
 	return (create_string(len, nb, n));
 }
 
+/*
 int	ft_atoi(const char *nptr)
 {
 	int		sign;
