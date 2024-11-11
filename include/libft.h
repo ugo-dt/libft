@@ -94,6 +94,10 @@ _DECL_MIN_MAX_TYPE(float, f) _DECL_MIN_MAX_TYPE(double, d) _DECL_MIN_MAX_TYPE(lo
 #  define max(a, b) _libft__min_max_type_generic(a, b, _libft__max_)
 # endif // __GNUC__
 
+# ifndef LIBFT_BUFFERSIZE
+#  define LIBFT_BUFFERSIZE	42
+# endif
+
 /** The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */
 size_t	ft_array_size(void **arr);
@@ -563,6 +567,8 @@ void	ft_putendl(const char *restrict s);
 
 /** Print a string followed by a newline, on the file descriptor fd. */
 void	ft_putendl_fd(const char *s, int fd);
+
+int		ft_get_next_line(int fd, char **line);
 
 # ifdef __cplusplus
 }

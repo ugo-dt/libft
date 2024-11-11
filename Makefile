@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/07/31 21:30:35 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/11/11 13:08:50 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,6 +35,7 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/ft_printf/internal/signed.c		\
 			srcs/ft_printf/internal/string.c		\
 			srcs/ft_printf/internal/unsigned.c		\
+			srcs/get_next_line/get_next_line.c		\
 			srcs/list/ft_lstadd_back.c				\
 			srcs/list/ft_lstadd_front.c				\
 			srcs/list/ft_lstclear.c					\
