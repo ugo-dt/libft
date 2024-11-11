@@ -37,9 +37,9 @@ def main():
 		"srcs/write"
 	]
 
-	output_file = "libft.c"
+	output_file = "stb/libft.h"
 
-	with open(output_file, 'a') as outfile:
+	with open(output_file, 'w') as outfile:
 		outfile.write("#ifdef LIBFT_IMPL\n\n")
 		with open("include/libft.h", 'r') as infile:
 			for line in infile:
@@ -48,6 +48,8 @@ def main():
 		with open("srcs/ft_printf/internal/_libft_printf.h", 'r') as infile:
 			for line in infile:
 				if not line.strip().startswith('#include') and not line.strip().startswith('# include') and not line.strip().startswith('/*') and not len(line.strip()) == 0:
+					outfile.write(line)
+				elif line == '\n':
 					outfile.write(line)
 		for directory in directories:
 			combine_files(directory, outfile)
