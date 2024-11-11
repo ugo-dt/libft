@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   string.c                                           :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 11:56:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/29 15:39:28 by ugdaniel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "_libft_printf.h"
 
 /** The function _ft_printf_create_s() writes the string pointed to by str to the file

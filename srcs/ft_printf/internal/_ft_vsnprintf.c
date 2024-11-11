@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   _ft_vsnprintf.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/05 20:33:46 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/26 13:24:06 by ugdaniel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "_libft_printf.h"
 	
 int	ft_vsnprintf_internal(char *string, size_t maxlen, const char *format, va_list ap)

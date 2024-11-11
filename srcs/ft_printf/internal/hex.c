@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   hex.c                                              :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/18 12:29:51 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/07/29 15:37:46 by ugdaniel         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #include "_libft_printf.h"
 
 void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length)
