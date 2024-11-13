@@ -586,7 +586,6 @@ int		ft_get_next_line(int fd, char **line);
 #ifndef _LIBFT_PRINTF_H
 # define _LIBFT_PRINTF_H
 
-
 # ifdef __cplusplus
 extern "C" {
 # endif

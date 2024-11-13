@@ -3,11 +3,8 @@
 import os
 
 def copy_file(file_path, outfile):
-	# Check if it's a file (not a directory)
 	if os.path.isfile(file_path):
-		# Open and read the file
 		with open(file_path, 'r') as infile:
-			# Process and write the contents of the file
 			for line in infile:
 				if not line.strip().startswith('#include') and not line.strip().startswith('# include') and not len(line.strip()) == 0:
 					outfile.write(line)
@@ -42,16 +39,24 @@ def main():
 
 	with open(output_file, 'w') as outfile:
 		outfile.write("#ifdef LIBFT_IMPL\n\n")
+
 		with open("include/libft.h", 'r') as infile:
 			for line in infile:
 				outfile.write(line)
 		outfile.write('\n')
+
 		with open("srcs/ft_printf/internal/_libft_printf.h", 'r') as infile:
+			last_newline = False
 			for line in infile:
-				if not line.strip().startswith('#include') and not line.strip().startswith('# include') and not len(line.strip()) == 0:
-					outfile.write(line)
-				elif line == '\n':
-					outfile.write(line)
+				if not line.strip().startswith('#include') and not line.strip().startswith('# include'):
+					if line == "\n":
+						if not last_newline:
+							outfile.write(line)
+						last_newline = True
+					else:
+						outfile.write(line)
+						last_newline = False
+
 		for directory in directories:
 			combine_files(directory, outfile)
 			print(f'Contents of {directory} files have been written to {output_file}')
