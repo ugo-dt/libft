@@ -23,6 +23,11 @@
 #  include <stdint.h>
 # endif
 
+# ifndef INT32_MAX
+#  define INT32_MAX INT_MAX
+#  define INT32_MIN INT_MIN
+# endif // INT32_MAX
+
 # ifndef LIBFT_MALLOC
 #  include <stdlib.h>
 #  define LIBFT_MALLOC	malloc
@@ -761,6 +766,20 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 		}															\
 	} while (0)
 
+# define GET_UNSIGNED_NUMBER_LENGTH(len_ptr_, nb_, base_, precision_, type_)	\
+	do																			\
+	{																			\
+		(*(len_ptr_)) = 1;														\
+		type_ tmp_ = nb_;														\
+		while (tmp_ >= base_)													\
+		{																		\
+			tmp_ /= base_;														\
+			(*(len_ptr_))++;													\
+		}																		\
+		if (precision_ > -1 && (*(len_ptr_)) < precision_)						\
+			(*(len_ptr_)) = precision_;											\
+	} while (0)
+
 # define MAKE_UNSIGNED_NUMBER_STRING(s, n_, length_, type_)	\
 	do														\
 	{														\
@@ -1170,7 +1189,7 @@ char	*_ft_printf_create_xX(char x, unsigned int nb, struct _libft_printf_specs *
 	int arg_start;
 	char *s;
 
-	GET_NUMBER_LENGTH(&arg_length, nb, 16, specs->info.precision, int);
+	GET_UNSIGNED_NUMBER_LENGTH(&arg_length, nb, 16, specs->info.precision, int);
 	if (specs->flags.alt)
 		arg_length += 2;
 	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
@@ -1180,19 +1199,19 @@ char	*_ft_printf_create_xX(char x, unsigned int nb, struct _libft_printf_specs *
 	return (s);
 }
 
-#define _UNSIGNED_CONVERSION_DEF(_name, _type)										\
-	char	*_ft_printf_create_##_name(_type nb, struct _libft_printf_specs *specs)	\
-	{																				\
-		int arg_length;																\
-		int arg_start;																\
-		char *s;																	\
-																					\
-		GET_NUMBER_LENGTH(&arg_length, nb, 10, specs->info.precision, _type);		\
-		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);			\
-		if (!s)																		\
-			return (NULL);															\
-		MAKE_UNSIGNED_NUMBER_STRING(s + arg_start, nb, arg_length, _type);			\
-		return (s);																	\
+#define _UNSIGNED_CONVERSION_DEF(_name, _type)											\
+	char	*_ft_printf_create_##_name(_type nb, struct _libft_printf_specs *specs)		\
+	{																					\
+		int arg_length;																	\
+		int arg_start;																	\
+		char *s;																		\
+																						\
+		GET_UNSIGNED_NUMBER_LENGTH(&arg_length, nb, 10, specs->info.precision, _type);	\
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);				\
+		if (!s)																			\
+			return (NULL);																\
+		MAKE_UNSIGNED_NUMBER_STRING(s + arg_start, nb, arg_length, _type);				\
+		return (s);																		\
 	}
 
 _UNSIGNED_CONVERSION_DEF(u, unsigned int)
@@ -1256,7 +1275,7 @@ char	*_ft_printf_create_p(size_t addr, struct _libft_printf_specs *specs)
 
 	if (addr)
 	{
-		GET_NUMBER_LENGTH(&arg_length, addr, 16, specs->info.precision, size_t);
+		GET_UNSIGNED_NUMBER_LENGTH(&arg_length, addr, 16, specs->info.precision, size_t);
 		arg_length += 2;
 		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
 		if (!s)

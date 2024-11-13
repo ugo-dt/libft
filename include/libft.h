@@ -21,6 +21,11 @@
 #  include <stdint.h>
 # endif
 
+# ifndef INT32_MAX
+#  define INT32_MAX INT_MAX
+#  define INT32_MIN INT_MIN
+# endif // INT32_MAX
+
 # ifndef LIBFT_MALLOC
 #  include <stdlib.h>
 #  define LIBFT_MALLOC	malloc

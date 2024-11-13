@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/11/11 13:08:50 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/11/13 15:48:56 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,7 +101,7 @@ OBJS		=	$(SRCS:.c=.o)
 INCLUDE		=	-I include
 
 CC			=	clang
-CFLAGS		=	-Wall -Wextra -Werror -pedantic
+CFLAGS		=	-Wall -Wextra -Werror -pedantic -DLIBFT_NO_STATEMENT_EXPRESSIONS
 
 COLOR_DEFAULT	=	\033[39m
 COLOR_GREEN		= 	\033[92m

@@ -182,6 +182,20 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 		}															\
 	} while (0)
 
+# define GET_UNSIGNED_NUMBER_LENGTH(len_ptr_, nb_, base_, precision_, type_)	\
+	do																			\
+	{																			\
+		(*(len_ptr_)) = 1;														\
+		type_ tmp_ = nb_;														\
+		while (tmp_ >= base_)													\
+		{																		\
+			tmp_ /= base_;														\
+			(*(len_ptr_))++;													\
+		}																		\
+		if (precision_ > -1 && (*(len_ptr_)) < precision_)						\
+			(*(len_ptr_)) = precision_;											\
+	} while (0)
+
 # define MAKE_UNSIGNED_NUMBER_STRING(s, n_, length_, type_)	\
 	do														\
 	{														\

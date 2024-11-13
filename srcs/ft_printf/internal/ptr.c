@@ -13,7 +13,7 @@ char	*_ft_printf_create_p(size_t addr, struct _libft_printf_specs *specs)
 
 	if (addr)
 	{
-		GET_NUMBER_LENGTH(&arg_length, addr, 16, specs->info.precision, size_t);
+		GET_UNSIGNED_NUMBER_LENGTH(&arg_length, addr, 16, specs->info.precision, size_t);
 		arg_length += 2;
 		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
 		if (!s)
