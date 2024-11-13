@@ -39,12 +39,13 @@ def main():
 	output_file = "stb/libft.h"
 
 	with open(output_file, 'w') as outfile:
-		outfile.write("#ifdef LIBFT_IMPL\n\n")
 
 		with open("include/libft.h", 'r') as infile:
 			for line in infile:
 				outfile.write(line)
 		outfile.write('\n')
+		
+		outfile.write("#ifdef LIBFT_IMPL\n\n")
 
 		with open("srcs/ft_printf/internal/_libft_printf.h", 'r') as infile:
 			last_newline = False

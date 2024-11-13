@@ -1,5 +1,3 @@
-#ifdef LIBFT_IMPL
-
 /** ************************************************************************** */
 /**                                                                            */
 /**                                                        :::      ::::::::   */
@@ -582,6 +580,8 @@ int		ft_get_next_line(int fd, char **line);
 # endif
 
 #endif /** LIBFT_H */
+
+#ifdef LIBFT_IMPL
 
 #ifndef _LIBFT_PRINTF_H
 # define _LIBFT_PRINTF_H
