@@ -45,7 +45,9 @@ def main():
 				outfile.write(line)
 		outfile.write('\n')
 		
-		outfile.write("#ifdef LIBFT_IMPL\n\n")
+		outfile.write("#ifdef LIBFT_IMPL\n")
+		outfile.write("#ifndef LIBFT_IMPL_INCLUDED\n")
+		outfile.write("#define LIBFT_IMPL_INCLUDED\n\n")
 
 		with open("srcs/ft_printf/internal/_libft_printf.h", 'r') as infile:
 			last_newline = False
@@ -62,6 +64,7 @@ def main():
 		for directory in directories:
 			combine_files(directory, outfile)
 			print(f'Contents of {directory} files have been written to {output_file}')
+		outfile.write("\n#endif // LIBFT_IMPL_INCLUDED")
 		outfile.write("\n#endif // LIBFT_IMPL\n")
 
 if __name__ == "__main__":

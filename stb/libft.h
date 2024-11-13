@@ -582,6 +582,8 @@ int		ft_get_next_line(int fd, char **line);
 #endif /** LIBFT_H */
 
 #ifdef LIBFT_IMPL
+#ifndef LIBFT_IMPL_INCLUDED
+#define LIBFT_IMPL_INCLUDED
 
 #ifndef _LIBFT_PRINTF_H
 # define _LIBFT_PRINTF_H
@@ -2393,4 +2395,5 @@ void	ft_putchar(char c)
 	ft_putchar_fd(c, STDOUT_FILENO);
 }
 
+#endif // LIBFT_IMPL_INCLUDED
 #endif // LIBFT_IMPL
