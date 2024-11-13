@@ -28,6 +28,7 @@ def main():
 		"srcs/char",
 		"srcs/ft_printf/internal",
 		"srcs/ft_printf",
+		"srcs/get_next_line",
 		"srcs/list",
 		"srcs/math",
 		"srcs/mem",
