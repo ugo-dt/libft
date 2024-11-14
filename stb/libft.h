@@ -594,7 +594,7 @@ char				ft_string_at(const struct ft_string *s, size_t pos);
 LIBFT_BOOL			ft_string_empty(const struct ft_string *s);
 LIBFT_BOOL			ft_string_reserve(struct ft_string *s, size_t new_cap);
 size_t				ft_string_capacity(const struct ft_string *s);
-LIBFT_BOOL			 ft_string_shrink_to_fit(struct ft_string *s);
+LIBFT_BOOL			ft_string_shrink_to_fit(struct ft_string *s);
 LIBFT_BOOL			ft_string_add_string(struct ft_string *s, const char *_x);
 LIBFT_BOOL			ft_string_add_char(struct ft_string *s, const char _x, size_t n);
 LIBFT_BOOL			ft_string_assign(struct ft_string *s, const char *_x);

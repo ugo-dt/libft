@@ -12,7 +12,7 @@ static void *our_alloc(size_t size)
 #define LIBFT_IMPL
 #define LIBFT_MALLOC our_alloc
 #define LIBFT_FREE free
-#include "../stb/libft.h"
+#include "libft.h"
 
 int	main(void)
 {
@@ -22,16 +22,16 @@ int	main(void)
 	s = ft_string_create_from_string("Hello");
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
-	
-	ft_string_assign(s, "Helooooooooooooooooooooooo");
-	printf("|%s|\n", ft_string_data(s));
-	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 
 	ft_string_assign(s, "Hello");
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 
 	ft_string_add_string(s, ", world!");
+	printf("|%s|\n", ft_string_data(s));
+	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
+	
+	ft_string_add_char(s, ' ', 1);
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 	
@@ -56,6 +56,10 @@ int	main(void)
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 	
 	ft_string_add_string(s, " --- an other string");
+	printf("|%s|\n", ft_string_data(s));
+	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
+
+	ft_string_assign(s, "Helooooooooooooooooooooooo");
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 
