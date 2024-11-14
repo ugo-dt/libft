@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/11/13 15:48:56 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/11/14 13:32:01 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,6 +14,7 @@ NAME	=	libft.a
 
 SRCS	=	srcs/array/2d_array.c					\
 			srcs/array/str_array.c					\
+			srcs/basic_string/basic_string.c		\
 			srcs/char/ft_isalnum.c					\
 			srcs/char/ft_isalpha.c					\
 			srcs/char/ft_isascii.c					\

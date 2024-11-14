@@ -32,6 +32,11 @@
 #  define LIBFT_FREE	free
 # endif
 
+# ifndef LIBFT_ASSERT
+#  include <assert.h>
+#  define LIBFT_ASSERT	assert
+# endif
+
 # if defined(LIBFT_NOBOOL)
 #  define LIBFT_BOOL	int
 #  define LIBFT_TRUE	1
@@ -574,6 +579,26 @@ void	ft_putendl(const char *restrict s);
 void	ft_putendl_fd(const char *s, int fd);
 
 int		ft_get_next_line(int fd, char **line);
+
+struct ft_string;
+
+struct ft_string*	ft_string_create(void);
+struct ft_string*	ft_string_create_from_string(const char *_x);
+struct ft_string*	ft_string_create_from_char(const char _x, size_t count);
+void				ft_string_destroy(struct ft_string *s);
+LIBFT_BOOL			ft_string_equals(const struct ft_string *s, const char *_x);
+const char*			ft_string_data(const struct ft_string *s);
+size_t				ft_string_size(const struct ft_string *s);
+size_t				ft_string_length(const struct ft_string *s);
+char				ft_string_at(const struct ft_string *s, size_t pos);
+LIBFT_BOOL			ft_string_empty(const struct ft_string *s);
+LIBFT_BOOL			ft_string_reserve(struct ft_string *s, size_t new_cap);
+size_t				ft_string_capacity(const struct ft_string *s);
+LIBFT_BOOL			ft_string_shrink_to_fit(struct ft_string *s);
+LIBFT_BOOL			ft_string_add_string(struct ft_string *s, const char *_x);
+LIBFT_BOOL			ft_string_add_char(struct ft_string *s, const char _x, size_t n);
+LIBFT_BOOL			ft_string_assign(struct ft_string *s, const char *_x);
+LIBFT_BOOL			ft_string_assign_char(struct ft_string *s, const char _x, size_t count);
 
 # ifdef __cplusplus
 }
