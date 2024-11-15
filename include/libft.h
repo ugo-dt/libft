@@ -592,6 +592,7 @@ size_t				ft_string_size(const struct ft_string *s);
 size_t				ft_string_length(const struct ft_string *s);
 char				ft_string_at(const struct ft_string *s, size_t pos);
 LIBFT_BOOL			ft_string_empty(const struct ft_string *s);
+size_t				ft_string_max_size(void);
 LIBFT_BOOL			ft_string_reserve(struct ft_string *s, size_t new_cap);
 size_t				ft_string_capacity(const struct ft_string *s);
 LIBFT_BOOL			ft_string_shrink_to_fit(struct ft_string *s);
