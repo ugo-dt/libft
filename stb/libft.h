@@ -1029,13 +1029,13 @@ struct ft_string
 	size_t	_capacity;
 };
 
-static size_t	_ft_string_recommend(size_t new_size)
+static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
 {
 	// https://stackoverflow.com/a/51239423
 	const size_t max_size = 2305843009213693951;
 	LIBFT_ASSERT(new_size < max_size);
 
-    const size_t cap = capacity();
+    const size_t cap = capacity;
     if (cap >= max_size / 2)
         return max_size;
     return max(2 * cap, new_size);
@@ -1163,7 +1163,7 @@ LIBFT_BOOL ft_string_shrink_to_fit(struct ft_string *s)
 	return (LIBFT_TRUE);
 }
 
-static void	_ft_string_print_debug(const struct ft_string *s, const char *_info, const char *param, size_t param_size)
+void	_ft_string_print_debug(const struct ft_string *s, const char *_info, const char *param, size_t param_size)
 {
 	int	_size, _cap;
 
@@ -1229,7 +1229,7 @@ LIBFT_BOOL	ft_string_append_string(struct ft_string *s, const char *_x)
 	_newsize = s->_size + ft_strlen(_x);
 	if (s->_capacity < _newsize)
 	{
-		char *new_data = ft_calloc(_ft_string_recommend(_newsize), sizeof(char));
+		char *new_data = ft_calloc(_ft_string_recommend(s->_capacity, _newsize), sizeof(char));
 		if (!new_data)
 			return (LIBFT_FALSE);
 		s->_capacity = _newsize;
@@ -1245,7 +1245,7 @@ LIBFT_BOOL	ft_string_append_string(struct ft_string *s, const char *_x)
 		ft_strcat(s->_data, _x);
 	}
 	s->_size = _newsize;
-	_ft_string_print_debug(s, "append_string()", _x, ft_strlen(_x));
+	// _ft_string_print_debug(s, "append_string()", _x, ft_strlen(_x));
 	return (LIBFT_TRUE);
 }
 
@@ -1257,30 +1257,25 @@ LIBFT_BOOL	ft_string_append_char(struct ft_string *s, const char _x, size_t n)
 	_newsize = s->_size + n;
 	if (s->_capacity < _newsize)
 	{
-		char *new_data = ft_calloc(_ft_string_recommend(_newsize), sizeof(char));
+		char *new_data = ft_calloc(_ft_string_recommend(s->_capacity, _newsize), sizeof(char));
 		if (!new_data)
 			return (LIBFT_FALSE);
 		s->_capacity = _newsize;
 
-		ft_printf("2\n");
 		ft_strcpy(new_data, s->_data);
 		ft_memset(new_data + s->_size, _x, n);
 		new_data[_newsize] = '\0';
-		ft_printf("3\n");
 
-		ft_printf("4\n");
 		if (s->_data)
 			LIBFT_FREE(s->_data);
 		s->_data = new_data;
-		ft_printf("5\n");
 	}
 	else
 	{
 		ft_memset(s->_data + s->_size, _x, n);
 	}
 	s->_size = _newsize;
-	_ft_string_print_debug(s, "append_char()", &_x, 1);
-	ft_printf("6\n");
+	// _ft_string_print_debug(s, "append_char()", &_x, 1);
 	return (LIBFT_TRUE);
 }
 
