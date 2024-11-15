@@ -236,7 +236,6 @@ LIBFT_BOOL	ft_string_append_char(struct ft_string *s, const char _x, size_t n)
 {
 	size_t	_newsize;
 
-	ft_printf("1\n");
 	_newsize = s->_size + n;
 	if (s->_capacity < _newsize)
 	{
