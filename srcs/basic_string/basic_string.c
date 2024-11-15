@@ -9,6 +9,18 @@ struct ft_string
 	size_t	_capacity;
 };
 
+static size_t	_ft_string_recommend(size_t new_size)
+{
+	// https://stackoverflow.com/a/51239423
+	const size_t max_size = 2305843009213693951;
+	LIBFT_ASSERT(new_size < max_size);
+
+    const size_t cap = capacity();
+    if (cap >= max_size / 2)
+        return max_size;
+    return max(2 * cap, new_size);
+}
+
 LIBFT_BOOL	ft_string_equals(const struct ft_string *s, const char *_x)
 {
 	return (ft_strcmp(s->_data, _x) == 0);
@@ -132,18 +144,79 @@ LIBFT_BOOL ft_string_shrink_to_fit(struct ft_string *s)
 	return (LIBFT_TRUE);
 }
 
+static void	_ft_string_print_debug(const struct ft_string *s, const char *_info, const char *param, size_t param_size)
+{
+	int	_size, _cap;
+
+	if (!s)
+		return ;
+	_size = s->_size;
+	_cap = s->_capacity;
+	ft_printf("--- FT_STRING");
+	if (_info)
+	{
+		ft_printf(" %s", _info);
+		if (param)
+		{
+			ft_putstr(" '");
+			for (size_t i = 0; i < param_size; i++)
+			{
+				if (param[i] == '\0')
+					ft_putstr("\\0");
+				else if (param[i] == '\n')
+					ft_putstr("\\n");
+				else if (param[i] == '\t')
+					ft_putstr("\\t");
+				else if (ft_isascii(param[i]))
+					ft_putchar(param[i]);
+				else
+					ft_putchar('.');
+			}
+			ft_putchar('\'');
+		}
+	}
+	ft_printf(" ---\n");
+	ft_printf("DATA START\n%s\nDATA END\n", s->_data);
+	ft_printf("-----\n");
+	ft_printf("SIZE: %d\n", _size);
+	ft_printf("CAP : %d\n", _cap);
+
+	ft_printf("MEM : |");
+	for (int i = 0; i <= _cap; i++)
+	{
+		if (s->_data[i] == '\0')
+			ft_printf("\\0|");
+		else if (s->_data[i] == '\n')
+			ft_printf("\\n|");
+		else if (s->_data[i] == '\t')
+			ft_printf("\\t|");
+		else if (ft_isascii(s->_data[i]))
+			ft_printf("%2c|", s->_data[i]);
+		else
+			ft_printf("%2c|", '.');
+	}
+	ft_printf("\n");
+	ft_printf("      |");
+	for (int i = 0; i <= _cap; i++)
+		ft_printf("%2d|", i);
+	ft_printf("\n");
+	ft_printf("--- END ---\n");
+}
+
 LIBFT_BOOL	ft_string_append_string(struct ft_string *s, const char *_x)
 {
-	size_t _append_len;
+	size_t _newsize;
 
-	_append_len = ft_strlen(_x);
-	if (s->_capacity < s->_size + _append_len)
+	_newsize = s->_size + ft_strlen(_x);
+	if (s->_capacity < _newsize)
 	{
-		char *new_data = ft_strjoin(s->_data, _x);
+		char *new_data = ft_calloc(_ft_string_recommend(_newsize), sizeof(char));
 		if (!new_data)
 			return (LIBFT_FALSE);
-		s->_capacity = s->_size + _append_len;
-		
+		s->_capacity = _newsize;
+
+		ft_strcat(new_data, s->_data);
+		ft_strcat(new_data, _x);
 		if (s->_data)
 			LIBFT_FREE(s->_data);
 		s->_data = new_data;
@@ -152,7 +225,8 @@ LIBFT_BOOL	ft_string_append_string(struct ft_string *s, const char *_x)
 	{
 		ft_strcat(s->_data, _x);
 	}
-	s->_size += _append_len;
+	s->_size = _newsize;
+	_ft_string_print_debug(s, "append_string()", _x, ft_strlen(_x));
 	return (LIBFT_TRUE);
 }
 
@@ -160,26 +234,34 @@ LIBFT_BOOL	ft_string_append_char(struct ft_string *s, const char _x, size_t n)
 {
 	size_t	_newsize;
 
+	ft_printf("1\n");
 	_newsize = s->_size + n;
 	if (s->_capacity < _newsize)
 	{
-		char *new_data = ft_calloc(_newsize, sizeof(char));
+		char *new_data = ft_calloc(_ft_string_recommend(_newsize), sizeof(char));
 		if (!new_data)
 			return (LIBFT_FALSE);
 		s->_capacity = _newsize;
 
+		ft_printf("2\n");
 		ft_strcpy(new_data, s->_data);
-		ft_memset(new_data + s->_size - 1, _x, n);
+		ft_memset(new_data + s->_size, _x, n);
+		new_data[_newsize] = '\0';
+		ft_printf("3\n");
 
+		ft_printf("4\n");
 		if (s->_data)
 			LIBFT_FREE(s->_data);
 		s->_data = new_data;
+		ft_printf("5\n");
 	}
 	else
 	{
 		ft_memset(s->_data + s->_size, _x, n);
 	}
 	s->_size = _newsize;
+	_ft_string_print_debug(s, "append_char()", &_x, 1);
+	ft_printf("6\n");
 	return (LIBFT_TRUE);
 }
 
