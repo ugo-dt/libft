@@ -592,6 +592,7 @@ size_t				ft_string_size(const struct ft_string *s);
 size_t				ft_string_length(const struct ft_string *s);
 char				ft_string_at(const struct ft_string *s, size_t pos);
 LIBFT_BOOL			ft_string_empty(const struct ft_string *s);
+size_t				ft_string_max_size(void);
 LIBFT_BOOL			ft_string_reserve(struct ft_string *s, size_t new_cap);
 size_t				ft_string_capacity(const struct ft_string *s);
 LIBFT_BOOL			ft_string_shrink_to_fit(struct ft_string *s);
@@ -1031,14 +1032,11 @@ struct ft_string
 
 static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
 {
-	// https://stackoverflow.com/a/51239423
-	const size_t max_size = 2305843009213693951;
-	LIBFT_ASSERT(new_size < max_size);
-
+	LIBFT_ASSERT(new_size < SIZE_MAX);
     const size_t cap = capacity;
-    if (cap >= max_size / 2)
-        return max_size;
-    return max(2 * cap, new_size);
+    if (cap >= SIZE_MAX / 2)
+        return SIZE_MAX;
+    return (max(2 * cap, new_size));
 }
 
 LIBFT_BOOL	ft_string_equals(const struct ft_string *s, const char *_x)
@@ -1123,6 +1121,11 @@ char	ft_string_at(const struct ft_string *s, size_t pos)
 LIBFT_BOOL	ft_string_empty(const struct ft_string *s)
 {
 	return s->_size == 0;
+}
+
+size_t	ft_string_max_size(void)
+{
+	return (SIZE_MAX);
 }
 
 bool	ft_string_reserve(struct ft_string *s, size_t new_cap)
