@@ -132,17 +132,17 @@ LIBFT_BOOL ft_string_shrink_to_fit(struct ft_string *s)
 	return (LIBFT_TRUE);
 }
 
-LIBFT_BOOL	ft_string_add_string(struct ft_string *s, const char *_x)
+LIBFT_BOOL	ft_string_append_string(struct ft_string *s, const char *_x)
 {
-	size_t _add_len;
+	size_t _append_len;
 
-	_add_len = ft_strlen(_x);
-	if (s->_capacity < s->_size + _add_len)
+	_append_len = ft_strlen(_x);
+	if (s->_capacity < s->_size + _append_len)
 	{
 		char *new_data = ft_strjoin(s->_data, _x);
 		if (!new_data)
 			return (LIBFT_FALSE);
-		s->_capacity = s->_size + _add_len;
+		s->_capacity = s->_size + _append_len;
 		
 		if (s->_data)
 			LIBFT_FREE(s->_data);
@@ -152,11 +152,11 @@ LIBFT_BOOL	ft_string_add_string(struct ft_string *s, const char *_x)
 	{
 		ft_strcat(s->_data, _x);
 	}
-	s->_size += _add_len;
+	s->_size += _append_len;
 	return (LIBFT_TRUE);
 }
 
-LIBFT_BOOL	ft_string_add_char(struct ft_string *s, const char _x, size_t n)
+LIBFT_BOOL	ft_string_append_char(struct ft_string *s, const char _x, size_t n)
 {
 	size_t	_newsize;
 
@@ -236,3 +236,8 @@ LIBFT_BOOL	ft_string_assign_char(struct ft_string *s, const char _x, size_t coun
 	return (LIBFT_TRUE);
 }
 
+void	ft_string_clear(struct ft_string *s)
+{
+	ft_bzero(s->_data, s->_size);
+	s->_size = 0;
+}

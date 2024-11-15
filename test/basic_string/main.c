@@ -27,15 +27,15 @@ int	main(void)
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 
-	ft_string_add_string(s, ", world!");
+	ft_string_append_string(s, ", world!");
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 	
-	ft_string_add_char(s, ' ', 1);
+	ft_string_append_char(s, ' ', 1);
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 	
-	ft_string_add_char(s, 'e', 5);
+	ft_string_append_char(s, 'e', 5);
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 	
@@ -43,7 +43,7 @@ int	main(void)
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 
-	ft_string_add_char(s, 'a', 2);
+	ft_string_append_char(s, 'a', 2);
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 
@@ -55,7 +55,7 @@ int	main(void)
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 	
-	ft_string_add_string(s, " --- an other string");
+	ft_string_append_string(s, " --- an other string");
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 
