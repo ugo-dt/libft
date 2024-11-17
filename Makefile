@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/11/14 13:32:01 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/11/15 19:05:13 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,8 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/write/ft_putnbr.c					\
 			srcs/write/ft_putnbr_fd.c				\
 			srcs/write/ft_putstr.c					\
-			srcs/write/ft_putstr_fd.c
+			srcs/write/ft_putstr_fd.c				\
+			srcs/vector/vector.c
 
 OBJS		=	$(SRCS:.c=.o)
 INCLUDE		=	-I include

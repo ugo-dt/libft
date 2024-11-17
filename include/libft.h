@@ -601,6 +601,60 @@ LIBFT_BOOL			ft_string_append_char(struct ft_string *s, const char _x, size_t n)
 LIBFT_BOOL			ft_string_assign(struct ft_string *s, const char *_x);
 LIBFT_BOOL			ft_string_assign_char(struct ft_string *s, const char _x, size_t count);
 
+typedef void*				value_type;
+typedef const value_type	const_value_type;
+typedef void*				pointer;
+typedef const pointer		const_pointer;
+
+#define value_type(_type, _x) ((&(_type){_x}))
+
+typedef struct ft_vector
+{
+	size_t	type_size;
+	pointer	_begin;
+	pointer	_end;
+	pointer	_end_cap;
+}ft_vector;
+
+#define ft_vector(_name, _type)	ft_vector _name = { sizeof(_type) }
+
+ft_vector*	ft_vector_copy(ft_vector *_v, const ft_vector *_src);
+value_type	ft_vector_data(ft_vector *_v);
+value_type	ft_vector_at(ft_vector *_v, size_t n);
+LIBFT_BOOL	ft_vector_empty(const ft_vector *_v);
+size_t		ft_vector_size(const ft_vector *_v);
+size_t		ft_vector_capacity(const ft_vector *_v);
+void		ft_vector_reserve(ft_vector *_v, size_t n);
+void		ft_vector_resize(ft_vector *_v, size_t n, const_value_type value);
+void		ft_vector_assign(ft_vector *_v, size_t n, const_value_type x);
+void		ft_vector_assign_range(ft_vector *_v, pointer first, pointer last);
+void		ft_vector_push_back(ft_vector *_v, const_value_type x);
+void		ft_vector_swap(ft_vector *_v, ft_vector *_x);
+pointer		ft_vector_insert(ft_vector *_v, size_t position, const_value_type x);
+void		ft_vector_insert_count(ft_vector *_v, size_t position, size_t n, const_value_type x);
+void		ft_vector_insert_range(ft_vector *_v, size_t position, pointer first, pointer last);
+void		ft_vector_clear(ft_vector *_v);
+void		ft_vector_destroy(ft_vector *_v);
+void		ft_vector_pop_back(ft_vector *_v);
+pointer		ft_vector_erase(ft_vector *_v, size_t position);
+pointer		ft_vector_erase_range(ft_vector *_v, pointer first, pointer last);
+void		ft_vector_swap(ft_vector *_v, ft_vector *_x);
+
+static inline pointer	pointer_add(pointer p, size_t n, size_t type_size) { return (pointer)((size_t)p + (n * type_size)); }
+static inline pointer	pointer_sub(pointer p, size_t n, size_t type_size) { return (pointer)((size_t)p - (n * type_size)); }
+static inline pointer	pointer_addp(pointer a, pointer b) { return (pointer)((size_t)a + (size_t)b); }
+static inline pointer	pointer_subp(pointer a, pointer b) { return (pointer)((size_t)a - (size_t)b); }
+
+#define _ft_pointer_inc(_pointer, _typesize) (_pointer = pointer_add(_pointer, 1, _typesize))
+#define _ft_pointer_dec(_pointer, _typesize) (_pointer = pointer_sub(_pointer, 1, _typesize))
+
+#define iterator(_name, _type) _type *_name
+#define iterator_inc(_iter, _v) _ft_pointer_inc(_iter, (_v)->type_size)
+#define iterator_dec(_iter, _v) _ft_pointer_dec(_iter, (_v)->type_size)
+
+pointer	ft_vector_begin(ft_vector *_v);
+pointer	ft_vector_end(ft_vector *_v);
+
 # ifdef __cplusplus
 }
 # endif
