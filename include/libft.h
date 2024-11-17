@@ -651,12 +651,6 @@ static inline	ft_vector	_ft_make_vector_alloc(size_t type_size, ft_allocator all
 	};
 }
 
-#define ft_make_vector(_type)					_ft_make_vector(sizeof(_type))
-#define ft_make_vector_alloc(_type, _alloc)		_ft_make_vector_alloc(sizeof(_type), _alloc)
-
-#define ft_vector(_name, _type)					ft_vector _name = ft_make_vector(_type)
-#define ft_vector_alloc(_name, _type, _alloc)	ft_vector _name = ft_make_vector_alloc(_type, _alloc)
-
 ft_vector*	ft_vector_copy(ft_vector *_v, const ft_vector *_src);
 value_type	ft_vector_data(ft_vector *_v);
 value_type	ft_vector_at(ft_vector *_v, size_t n);
@@ -678,21 +672,31 @@ void		ft_vector_pop_back(ft_vector *_v);
 pointer		ft_vector_erase(ft_vector *_v, size_t position);
 pointer		ft_vector_erase_range(ft_vector *_v, pointer first, pointer last);
 void		ft_vector_swap(ft_vector *_v, ft_vector *_x);
+pointer		ft_vector_begin(ft_vector *_v);
+pointer		ft_vector_end(ft_vector *_v);
 
-static inline pointer	pointer_add(pointer p, size_t n, size_t type_size) { return (pointer)((size_t)p + (n * type_size)); }
-static inline pointer	pointer_sub(pointer p, size_t n, size_t type_size) { return (pointer)((size_t)p - (n * type_size)); }
-static inline pointer	pointer_addp(pointer a, pointer b) { return (pointer)((size_t)a + (size_t)b); }
-static inline pointer	pointer_subp(pointer a, pointer b) { return (pointer)((size_t)a - (size_t)b); }
+static inline pointer	_ft_pointer_add(pointer p, size_t n, size_t type_size) { return (pointer)((size_t)p + (n * type_size)); }
+static inline pointer	_ft_pointer_sub(pointer p, size_t n, size_t type_size) { return (pointer)((size_t)p - (n * type_size)); }
+static inline pointer	_ft_pointer_addp(pointer a, pointer b) { return (pointer)((size_t)a + (size_t)b); }
+static inline pointer	_ft_pointer_subp(pointer a, pointer b) { return (pointer)((size_t)a - (size_t)b); }
 
-#define _ft_pointer_inc(_pointer, _typesize) (_pointer = pointer_add(_pointer, 1, _typesize))
-#define _ft_pointer_dec(_pointer, _typesize) (_pointer = pointer_sub(_pointer, 1, _typesize))
+#define ft_make_vector(_type)					_ft_make_vector(sizeof(_type))
+#define ft_make_vector_alloc(_type, _alloc)		_ft_make_vector_alloc(sizeof(_type), _alloc)
 
-#define iterator(_name, _type) _type *_name
-#define iterator_inc(_iter, _v) _ft_pointer_inc(_iter, (_v)->type_size)
-#define iterator_dec(_iter, _v) _ft_pointer_dec(_iter, (_v)->type_size)
+#define ft_vector(_name, _type)					ft_vector _name = ft_make_vector(_type)
+#define ft_vector_alloc(_name, _type, _alloc)	ft_vector _name = ft_make_vector_alloc(_type, _alloc)
 
-pointer	ft_vector_begin(ft_vector *_v);
-pointer	ft_vector_end(ft_vector *_v);
+#define _ft_pointer_inc(_pointer, _typesize) (_pointer = _ft_pointer_add(_pointer, 1, _typesize))
+#define _ft_pointer_dec(_pointer, _typesize) (_pointer = _ft_pointer_sub(_pointer, 1, _typesize))
+
+#define ft_iterator(_name, _type) _type *_name
+#define ft_iterator_inc(_iter, _v) _ft_pointer_inc(_iter, (_v)->type_size)
+#define ft_iterator_dec(_iter, _v) _ft_pointer_dec(_iter, (_v)->type_size)
+
+#define ft_vector_iterate_range(_itername, _vecp, _type, _begin, _end) \
+	ft_iterator(_itername, _type) = (_begin); _itername != (_end); ft_iterator_inc(_itername, (_vecp))
+
+#define ft_vector_iterate(_itername, _vecp, _type) ft_vector_iterate_range(_itername, _vecp, _type, (_vecp)->_begin, (_vecp)->_end)
 
 # ifdef __cplusplus
 }

@@ -19,8 +19,10 @@ void	test_struct(void)
 	ft_vector_push_back(&v, &(struct test){1, 2});
 	ft_vector_push_back(&v, value_type(struct test, 3, 4));
 
-	for (iterator(it, struct test) = v._begin; it != v._end; iterator_inc(it, &v))
+	for (ft_vector_iterate(it, &v, struct test))
+	{
 		printf("%d %d\n", it->a, it->b);
+	}
 
 	ft_vector_destroy(&v);
 }
@@ -57,9 +59,7 @@ void	vec_debug(const ft_vector *v)
 	printf("END   : %p\n", v->_end);
 	printf("ENDCAP: %p\n", v->_end_cap);
 
-	// for (int *i = v->_begin; i != v->_end; _ft_pointer_inc(i, sizeof(int)))
-	// 	printf("%c\n", *i);
-	for (iterator(it, TYPE) = v->_begin; it != v->_end; iterator_inc(it, v))
+	for (ft_vector_iterate(it, v, TYPE))
 		printf("%d\n", *it);
 	
 	printf("----\n");
