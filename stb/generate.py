@@ -34,6 +34,7 @@ def main():
 		"srcs/math",
 		"srcs/mem",
 		"srcs/string",
+		"srcs/vector",
 		"srcs/write"
 	]
 

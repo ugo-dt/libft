@@ -1,26 +1,5 @@
 #include "libft.h"
 
-pointer	_allocator_allocate(size_t n, size_t type_size)
-{
-	return LIBFT_MALLOC(n * type_size);
-}
-
-void	_allocator_deallocate(pointer p, size_t n)
-{
-	(void)n;
-	LIBFT_FREE(p);
-}
-
-void	_allocator_construct(pointer p, const_value_type value, size_t type_size)
-{
-	ft_memcpy(p, value, type_size);
-}
-
-void	_allocator_destroy(pointer p)
-{
-	(void)p;
-}
-
 void	_swap(pointer *a, pointer *b)
 {
 	pointer tmp;
@@ -30,10 +9,10 @@ void	_swap(pointer *a, pointer *b)
 	*b = tmp;
 }
 
-void	*_fill_n(pointer first, size_t n, const_value_type x, size_t type_size)
+void	*_fill_n(const ft_allocator *_a, pointer first, size_t n, const_value_type x, size_t type_size)
 {
 	for (; n > 0; _ft_pointer_inc(first, type_size), (void)--n)
-		_allocator_construct(first, x, type_size);
+		_a->construct(first, x, type_size);
 	return first;
 }
 
@@ -49,7 +28,7 @@ size_t	_size(const ft_vector *_v)
 
 size_t	_recommend(const ft_vector *_v, size_t new_size)
 {
-	assert(new_size < SIZE_MAX);
+	LIBFT_ASSERT(new_size < SIZE_MAX);
     const size_t cap = ft_vector_capacity(_v);
     if (cap >= SIZE_MAX / 2)
         return SIZE_MAX;
@@ -63,7 +42,7 @@ void	_destruct_at_end(ft_vector *_v, pointer new_last)
 	while (new_last != soon_to_be_end)
 	{
 		_ft_pointer_dec(soon_to_be_end, _v->type_size);
-		_allocator_destroy(soon_to_be_end);
+		_v->alloc.destroy(soon_to_be_end);
 	}
 	_v->_end = new_last;
 }
@@ -75,8 +54,8 @@ void	_clear(ft_vector *_v)
 
 void	_vallocate(ft_vector *_v, size_t n)
 {
-	assert(n <= SIZE_MAX);
-	_v->_begin = _v->_end = _allocator_allocate(n, _v->type_size);
+	LIBFT_ASSERT(n <= SIZE_MAX);
+	_v->_begin = _v->_end = _v->alloc.allocate(n, _v->type_size);
 	_v->_end_cap = pointer_add(_v->_begin, n, _v->type_size);
 }
 
@@ -85,7 +64,7 @@ void	_vdeallocate(ft_vector *_v)
 	if (_v->_begin != 0)
 	{
 		_clear(_v);
-		_allocator_deallocate(_v->_begin, _capacity(_v));
+		_v->alloc.deallocate(_v->_begin, _capacity(_v));
 		_v->_begin = _v->_end = _v->_end_cap = 0;
 	}
 }
@@ -96,7 +75,7 @@ void	_construct_at_end(ft_vector *_v, size_t n, const_pointer _x)
 		return ;
 	while (n-- > 0)
 	{
-		_allocator_construct(_v->_end, _x, _v->type_size);
+		_v->alloc.construct(_v->_end, _x, _v->type_size);
 		_ft_pointer_inc(_v->_end, _v->type_size);
 	}
 }
@@ -107,7 +86,7 @@ void	_construct_at_end_range(ft_vector *_v, pointer first, pointer last, size_t 
 		return ;
 	for (; first != last; _ft_pointer_inc(first, _v->type_size))
 	{
-		_allocator_construct(_v->_end, first, _v->type_size);
+		_v->alloc.construct(_v->_end, first, _v->type_size);
 		_ft_pointer_inc(_v->_end, _v->type_size);
 	}
 }
@@ -116,7 +95,7 @@ ft_vector	*ft_vector_copy(ft_vector *_v, const ft_vector *_src)
 {
 	if (_v != _src)
 	{
-		//_copy_assign_alloc(_v, _src);
+		// _copy_assign_alloc(_v, _src);
 		ft_vector_reserve(_v, _capacity(_src));
 		ft_vector_assign_range(_v, _src->_begin, _src->_end);
 	}
@@ -130,13 +109,13 @@ LIBFT_BOOL	ft_vector_empty(const ft_vector *_v)
 
 size_t	ft_vector_size(const ft_vector *_v)
 {
-	assert(_v->type_size > 0);
+	LIBFT_ASSERT(_v->type_size > 0);
 	return (_size(_v) / _v->type_size);
 }
 
 size_t	ft_vector_capacity(const ft_vector *_v)
 {
-	assert(_v->type_size > 0);
+	LIBFT_ASSERT(_v->type_size > 0);
 	return (_capacity(_v) / _v->type_size);
 }
 
@@ -160,7 +139,7 @@ void	ft_vector_destroy(ft_vector *_v)
 	if (_v->_begin != NULL)
 	{
 		_clear(_v);
-		_allocator_deallocate(_v->_begin, _capacity(_v));
+		_v->alloc.deallocate(_v->_begin, _capacity(_v));
 	}
 }
 
@@ -174,7 +153,7 @@ void	ft_vector_reserve(ft_vector *_v, size_t n)
 	if (n * _v->type_size > _capacity(_v))
 	{
 		size_t cs = ft_vector_size(_v);
-		ft_vector	new_v = { .type_size = _v->type_size };
+		ft_vector	new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 
 		_vallocate(&new_v, n);
 		_construct_at_end_range(&new_v, _v->_begin, pointer_add(_v->_begin, cs, _v->type_size), cs);
@@ -190,7 +169,7 @@ void	_append(ft_vector *_v, size_t n, const_value_type x)
 	else
 	{
 		size_t cs = ft_vector_size(_v);
-		ft_vector new_v = { .type_size = _v->type_size };
+		ft_vector new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 
 		_vallocate(&new_v, _recommend(_v, cs + n));
 		_construct_at_end_range(&new_v, _v->_begin, pointer_add(_v->_begin, cs, _v->type_size), cs);
@@ -214,7 +193,7 @@ void	ft_vector_assign(ft_vector *_v, size_t n, const_value_type x)
 	if (n *_v->type_size <= _capacity(_v))
 	{
 		size_t s = ft_vector_size(_v);
-		_fill_n(_v->_begin, min(n, s), x, _v->type_size);
+		_fill_n(&_v->alloc, _v->_begin, min(n, s), x, _v->type_size);
 		if (n > s)
 			_construct_at_end(_v, n - s, x);
 		else
@@ -241,11 +220,11 @@ void	ft_vector_push_back(ft_vector *_v, const_value_type x)
 		_construct_at_end(_v, 1, x);
 	else
 	{
-		ft_vector	new_v = { .type_size = _v->type_size };
+		ft_vector	new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 
 		ft_vector_reserve(&new_v, _recommend(_v, ft_vector_size(_v) + 1));
 		ft_vector_assign_range(&new_v, _v->_begin, _v->_end);
-		_allocator_construct(new_v._end, x, new_v.type_size);
+		_v->alloc.construct(new_v._end, x, new_v.type_size);
 		_ft_pointer_inc(new_v._end, new_v.type_size);
 		ft_vector_swap(_v, &new_v);
 		ft_vector_destroy(&new_v);
@@ -262,7 +241,7 @@ void	_insert_in_array(ft_vector *_v, pointer p, size_t n, size_t position, const
 	data = NULL;
 	if (p >= _v->_begin && p <= _v->_end)
 	{
-		data = _allocator_allocate(size, 1);
+		data = _v->alloc.allocate(size, 1);
 		ft_memcpy(data, _v->_begin, size);
 		_src = data;
 	}
@@ -277,22 +256,22 @@ void	_insert_in_array(ft_vector *_v, pointer p, size_t n, size_t position, const
 	for (; _src != _pos; _ft_pointer_inc(_src, _v->type_size))
 	{
 		if (_src)
-			_allocator_construct(_dst, _src, _v->type_size);
+			_v->alloc.construct(_dst, _src, _v->type_size);
 		_ft_pointer_inc(_dst, _v->type_size);
 	}
 	while (n--)
 	{
-		_allocator_construct(_dst, x, _v->type_size);
+		_v->alloc.construct(_dst, x, _v->type_size);
 		_ft_pointer_inc(_dst, _v->type_size);
 	}
 	for (; _src != _end; _ft_pointer_inc(_src, _v->type_size))
 	{
 		if (_src)
-			_allocator_construct(_dst, _src, _v->type_size);
+			_v->alloc.construct(_dst, _src, _v->type_size);
 		_ft_pointer_inc(_dst, _v->type_size);
 	}
 	if (data)
-		_allocator_deallocate(data, size);
+		_v->alloc.deallocate(data, size);
 }
 
 void	_insert_in_array_range(ft_vector *_v, pointer p, size_t position, pointer first, pointer last)
@@ -305,7 +284,7 @@ void	_insert_in_array_range(ft_vector *_v, pointer p, size_t position, pointer f
 	data = NULL;
 	if (p >= _v->_begin && p <= _v->_end)
 	{
-		data = _allocator_allocate(size, 1);
+		data = _v->alloc.allocate(size, 1);
 		ft_memcpy(data, _v->_begin, size);
 		_src = data;
 	}
@@ -320,22 +299,22 @@ void	_insert_in_array_range(ft_vector *_v, pointer p, size_t position, pointer f
 	for (; _src != _pos; _ft_pointer_inc(_src, _v->type_size))
 	{
 		if (_src)
-			_allocator_construct(_dst, _src, _v->type_size);
+			_v->alloc.construct(_dst, _src, _v->type_size);
 		_ft_pointer_inc(_dst, _v->type_size);
 	}
 	for (; first != last; _ft_pointer_inc(first, _v->type_size))
 	{
-		_allocator_construct(_dst, first, _v->type_size);
+		_v->alloc.construct(_dst, first, _v->type_size);
 		_ft_pointer_inc(_dst, _v->type_size);
 	}
 	for (; _src != _end; _ft_pointer_inc(_src, _v->type_size))
 	{
 		if (_src)
-			_allocator_construct(_dst, _src, _v->type_size);
+			_v->alloc.construct(_dst, _src, _v->type_size);
 		_ft_pointer_inc(_dst, _v->type_size);
 	}
 	if (data)
-		_allocator_deallocate(data, size);
+		_v->alloc.deallocate(data, size);
 }
 
 pointer	ft_vector_insert(ft_vector *_v, size_t position, const_value_type x)
@@ -354,7 +333,7 @@ pointer	ft_vector_insert(ft_vector *_v, size_t position, const_value_type x)
 	}
 	else
 	{
-		ft_vector   new_v = { .type_size = _v->type_size };
+		ft_vector   new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 
 		ft_vector_reserve(&new_v, ft_vector_size(_v) + 1);
 		ft_vector_copy(&new_v, _v);
@@ -376,7 +355,7 @@ void	ft_vector_insert_count(ft_vector *_v, size_t position, size_t n, const_valu
 	}
 	else
 	{
-		ft_vector   new_v = { .type_size = _v->type_size };
+		ft_vector   new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 
 		ft_vector_reserve(&new_v, ft_vector_size(_v) + n);
 		ft_vector_copy(&new_v, _v);
@@ -400,7 +379,7 @@ void	ft_vector_insert_range(ft_vector *_v, size_t position, pointer first, point
 	}
 	else
 	{
-		ft_vector   new_v = { .type_size = _v->type_size };
+		ft_vector   new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 		
 		ft_vector_reserve(&new_v, ft_vector_size(_v) + n);
 		ft_vector_copy(&new_v, _v);
@@ -424,7 +403,7 @@ pointer ft_vector_erase_range(ft_vector *_v, pointer first, pointer last)
 	for (pointer tmp = first; tmp != last; _ft_pointer_inc(tmp, _v->type_size))
 		n++;
 	for (; last != _v->_end; _ft_pointer_inc(first, _v->type_size), _ft_pointer_inc(last, _v->type_size))
-		_allocator_construct(first, last, _v->type_size);
+		_v->alloc.construct(first, last, _v->type_size);
 	while (n--)
 		_destruct_at_end(_v, pointer_sub(_v->_end, 1, _v->type_size));
 	return (r);

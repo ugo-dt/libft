@@ -606,17 +606,56 @@ typedef const value_type	const_value_type;
 typedef void*				pointer;
 typedef const pointer		const_pointer;
 
-#define value_type(_type, _x) ((&(_type){_x}))
+#define value_type(_type, ...)	((&(_type){__VA_ARGS__}))
+
+pointer	_ft_allocator_allocate(size_t n, size_t type_size);
+void	_ft_allocator_deallocate(pointer p, size_t n);
+void	_ft_allocator_construct(pointer p, const_value_type value, size_t type_size);
+void	_ft_allocator_destroy(pointer p);
+
+typedef struct ft_allocator
+{
+	pointer	(*allocate)(size_t n, size_t type_size);
+	void	(*deallocate)(pointer p, size_t n);
+	void	(*construct)(pointer p, const_value_type value, size_t type_size);
+	void	(*destroy)(pointer p);
+}ft_allocator;
 
 typedef struct ft_vector
 {
-	size_t	type_size;
-	pointer	_begin;
-	pointer	_end;
-	pointer	_end_cap;
+	size_t			type_size;
+	ft_allocator	alloc;
+	pointer			_begin;
+	pointer			_end;
+	pointer			_end_cap;
 }ft_vector;
 
-#define ft_vector(_name, _type)	ft_vector _name = { sizeof(_type) }
+static inline	ft_vector	_ft_make_vector(size_t type_size)
+{
+	return (ft_vector){
+		.type_size = type_size,
+		.alloc = {
+			.allocate = _ft_allocator_allocate,
+			.deallocate = _ft_allocator_deallocate,
+			.construct = _ft_allocator_construct,
+			.destroy = _ft_allocator_destroy,
+		}
+	};
+}
+
+static inline	ft_vector	_ft_make_vector_alloc(size_t type_size, ft_allocator alloc)
+{
+	return (ft_vector){
+		.type_size = type_size,
+		.alloc = alloc,
+	};
+}
+
+#define ft_make_vector(_type)					_ft_make_vector(sizeof(_type))
+#define ft_make_vector_alloc(_type, _alloc)		_ft_make_vector_alloc(sizeof(_type), _alloc)
+
+#define ft_vector(_name, _type)					ft_vector _name = ft_make_vector(_type)
+#define ft_vector_alloc(_name, _type, _alloc)	ft_vector _name = ft_make_vector_alloc(_type, _alloc)
 
 ft_vector*	ft_vector_copy(ft_vector *_v, const ft_vector *_src);
 value_type	ft_vector_data(ft_vector *_v);
