@@ -675,10 +675,10 @@ void		ft_vector_swap(ft_vector *_v, ft_vector *_x);
 pointer		ft_vector_begin(ft_vector *_v);
 pointer		ft_vector_end(ft_vector *_v);
 
-static inline pointer	_ft_pointer_add(pointer p, size_t n, size_t type_size) { return (pointer)((size_t)p + (n * type_size)); }
-static inline pointer	_ft_pointer_sub(pointer p, size_t n, size_t type_size) { return (pointer)((size_t)p - (n * type_size)); }
-static inline pointer	_ft_pointer_addp(pointer a, pointer b) { return (pointer)((size_t)a + (size_t)b); }
-static inline pointer	_ft_pointer_subp(pointer a, pointer b) { return (pointer)((size_t)a - (size_t)b); }
+static inline pointer	_ft_pointer_add(const_pointer p, size_t n, size_t type_size)	{ return (pointer)((size_t)p + (n * type_size)); }
+static inline pointer	_ft_pointer_sub(const_pointer p, size_t n, size_t type_size)	{ return (pointer)((size_t)p - (n * type_size)); }
+static inline pointer	_ft_pointer_addp(const_pointer a, const_pointer b)				{ return (pointer)((size_t)a + (size_t)b); }
+static inline pointer	_ft_pointer_subp(const_pointer a, const_pointer b)				{ return (pointer)((size_t)a - (size_t)b); }
 
 #define ft_make_vector(_type)					_ft_make_vector(sizeof(_type))
 #define ft_make_vector_alloc(_type, _alloc)		_ft_make_vector_alloc(sizeof(_type), _alloc)
@@ -686,8 +686,8 @@ static inline pointer	_ft_pointer_subp(pointer a, pointer b) { return (pointer)(
 #define ft_vector(_name, _type)					ft_vector _name = ft_make_vector(_type)
 #define ft_vector_alloc(_name, _type, _alloc)	ft_vector _name = ft_make_vector_alloc(_type, _alloc)
 
-#define _ft_pointer_inc(_pointer, _typesize) (_pointer = _ft_pointer_add(_pointer, 1, _typesize))
-#define _ft_pointer_dec(_pointer, _typesize) (_pointer = _ft_pointer_sub(_pointer, 1, _typesize))
+#define _ft_pointer_inc(_pointer, _typesize) (_pointer = _ft_pointer_add((const_pointer)(_pointer), 1, _typesize))
+#define _ft_pointer_dec(_pointer, _typesize) (_pointer = _ft_pointer_sub((const_pointer)(_pointer), 1, _typesize))
 
 #define ft_iterator(_name, _type) _type *_name
 #define ft_iterator_inc(_iter, _v) _ft_pointer_inc(_iter, (_v)->type_size)
