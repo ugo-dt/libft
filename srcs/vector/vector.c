@@ -347,8 +347,6 @@ pointer	ft_vector_insert(ft_vector *_v, size_t position, const_value_type x)
 
 void	ft_vector_insert_count(ft_vector *_v, size_t position, size_t n, const_value_type x)
 {
-	if (n < 0)
-		return ;
 	if (n <= (size_t)pointer_subp(_v->_end_cap, _v->_end))
 	{
 		_insert_in_array(_v, _v->_begin, n, position, x);
@@ -371,8 +369,6 @@ void	ft_vector_insert_range(ft_vector *_v, size_t position, pointer first, point
 	size_t n = 0;
 	for (pointer tmp = first; tmp != last; _ft_pointer_inc(tmp, _v->type_size))
 		n++;
-	if (n < 0)
-		return ;
 	if (n <= (size_t)pointer_subp(_v->_end_cap, _v->_end))
 	{
 		_insert_in_array_range(_v, _v->_begin, position, first, last);
