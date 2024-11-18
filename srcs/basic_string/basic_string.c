@@ -2,13 +2,6 @@
 
 #define LIBFT_STRING_DEFAULT_CAPACITY	15
 
-struct ft_string
-{
-	char	*_data;
-	size_t	_size;
-	size_t	_capacity;
-};
-
 static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
 {
 	LIBFT_ASSERT(new_size < SIZE_MAX);
@@ -23,49 +16,40 @@ LIBFT_BOOL	ft_string_equals(const struct ft_string *s, const char *_x)
 	return (ft_strcmp(s->_data, _x) == 0);
 }
 
-struct ft_string	*ft_string_create(void)
+struct ft_string	ft_string_create(void)
 {
-	struct ft_string	*s;
+	struct ft_string	s;
 
-	s = ft_calloc(1, sizeof(struct ft_string));
-	if (!s)
-		return (NULL);
-
-	s->_size = 0;
-	s->_capacity = LIBFT_STRING_DEFAULT_CAPACITY;
-	s->_data = ft_calloc(s->_size, sizeof(char));
-	if (!s->_data)
-	{
-		LIBFT_FREE(s);
-		return (NULL);
-	}
+	s._size = 0;
+	s._capacity = LIBFT_STRING_DEFAULT_CAPACITY;
+	s._data = ft_calloc(s._capacity, sizeof(char));
+	LIBFT_ASSERT(s._data);
 	return s;
 }
 
-struct ft_string	*ft_string_create_from_string(const char *_x)
+struct ft_string	ft_string_create_from_string(const char *_x)
 {
-	struct ft_string	*s;
+	struct ft_string	s = ft_string_create();
 
-	s = ft_calloc(1, sizeof(struct ft_string));
-	if (!s)
-		return (NULL);
-	
-	s->_capacity = 0;
-	ft_string_assign(s, _x);
+	ft_string_assign(&s, _x);
 	return s;
 }
 
-struct ft_string	*ft_string_create_from_char(const char _x, size_t count)
+struct ft_string	ft_string_create_from_char(const char _x, size_t count)
 {
-	struct ft_string	*s;
+	struct ft_string	s = ft_string_create();
 
-	s = ft_calloc(1, sizeof(struct ft_string));
-	if (!s)
-		return (NULL);
-
-	s->_capacity = 0;
-	ft_string_assign_char(s, _x, count);
+	ft_string_assign_char(&s, _x, count);
 	return s;
+}
+
+struct ft_string	ft_string_create_from_ft_string(const ft_string *s)
+{
+	struct ft_string	t = ft_string_create();
+
+	if (s->_data)
+		ft_string_assign(&t, s->_data);
+	return t;
 }
 
 void	ft_string_destroy(struct ft_string *s)
@@ -73,8 +57,10 @@ void	ft_string_destroy(struct ft_string *s)
 	if (!s)
 		return ;
 	if (s->_data)
+	{
 		LIBFT_FREE(s->_data);
-	LIBFT_FREE(s);
+		s->_capacity = s->_size = 0;
+	}
 }
 
 const char	*ft_string_data(const struct ft_string *s)
@@ -84,7 +70,9 @@ const char	*ft_string_data(const struct ft_string *s)
 
 size_t	ft_string_size(const struct ft_string *s)
 {
-	return s->_size;
+	if (!s->_data)
+		return 0;
+	return ft_strlen(s->_data);
 }
 
 size_t	ft_string_length(const struct ft_string *s)
@@ -217,10 +205,12 @@ LIBFT_BOOL	ft_string_append_string(struct ft_string *s, const char *_x)
 			return (LIBFT_FALSE);
 		s->_capacity = _newsize;
 
-		ft_strcat(new_data, s->_data);
-		ft_strcat(new_data, _x);
 		if (s->_data)
+		{
+			ft_strcat(new_data, s->_data);
 			LIBFT_FREE(s->_data);
+		}
+		ft_strcat(new_data, _x);
 		s->_data = new_data;
 	}
 	else
@@ -316,6 +306,7 @@ LIBFT_BOOL	ft_string_assign_char(struct ft_string *s, const char _x, size_t coun
 
 void	ft_string_clear(struct ft_string *s)
 {
-	ft_bzero(s->_data, s->_size);
+	if (s->_data)
+		ft_bzero(s->_data, s->_size);
 	s->_size = 0;
 }

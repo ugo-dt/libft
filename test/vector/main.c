@@ -4,7 +4,43 @@
 #define TYPE	int
 
 void	vec_debug(const ft_vector *v);
-void	basic_test(ft_vector *v);
+
+void	basic_test(ft_vector *v)
+{
+	TYPE	array[5] = {0, 2, 4, 6, 8};
+	TYPE	array2[5] = {10, 12, 14, 16, 18};
+
+	ft_vector_assign_range(v, array, array + 5);
+	vec_debug(v);
+	
+	ft_vector_insert(v, 1, value_type(TYPE, 1));
+	ft_vector_insert(v, 3, value_type(TYPE, 3));
+	ft_vector_insert(v, 5, value_type(TYPE, 5));
+	ft_vector_insert(v, 7, value_type(TYPE, 7));
+	vec_debug(v);
+
+	ft_vector_assign(v, 3, value_type(TYPE, 3));
+	vec_debug(v);
+	ft_vector_resize(v, 10, value_type(TYPE, 0));
+	vec_debug(v);
+	ft_vector_resize(v, 1, value_type(TYPE, 0));
+	vec_debug(v);
+	ft_vector_resize(v, 0, value_type(TYPE, 0));
+	vec_debug(v);
+
+	for (TYPE i = 0; i < 5; i++)
+		ft_vector_push_back(v, value_type(TYPE, i));
+	vec_debug(v);
+
+	ft_vector_insert(v, 3, value_type(TYPE, 3));
+	vec_debug(v);
+	ft_vector_insert_count(v, 3, 3, value_type(TYPE, -3));
+	vec_debug(v);
+	ft_vector_insert_range(v, 0, array2, array2 + 5);
+	vec_debug(v);
+
+	ft_vector_destroy(v);
+}
 
 void	test_struct(void)
 {
@@ -65,50 +101,44 @@ void	vec_debug(const ft_vector *v)
 	printf("----\n");
 }
 
-void	basic_test(ft_vector *v)
+void	string_alloc_construct(ft_string *s, const ft_string *x, size_t type_size)
 {
-	TYPE	array[5] = {0, 2, 4, 6, 8};
-	TYPE	array2[5] = {10, 12, 14, 16, 18};
+	if (s != x)
+		*s = ft_string_create_from_string(x->_data);
+}
 
-	ft_vector_assign_range(v, array, array + 5);
-	vec_debug(v);
-	
-	ft_vector_insert(v, 1, value_type(TYPE, 1));
-	ft_vector_insert(v, 3, value_type(TYPE, 3));
-	ft_vector_insert(v, 5, value_type(TYPE, 5));
-	ft_vector_insert(v, 7, value_type(TYPE, 7));
-	vec_debug(v);
+void	string_alloc_destroy(ft_string *s)
+{
+	ft_string_destroy(s);
+}
 
-	ft_vector_assign(v, 3, value_type(TYPE, 3));
-	vec_debug(v);
-	ft_vector_resize(v, 10, value_type(TYPE, 0));
-	vec_debug(v);
-	ft_vector_resize(v, 1, value_type(TYPE, 0));
-	vec_debug(v);
-	ft_vector_resize(v, 0, value_type(TYPE, 0));
-	vec_debug(v);
+void	test_ft_string(void)
+{
+	{
+		ft_vector_alloc(v, ft_string, ft_allocator(0, 0, string_alloc_construct, string_alloc_destroy));
 
-	for (TYPE i = 0; i < 5; i++)
-		ft_vector_push_back(v, value_type(TYPE, i));
-	vec_debug(v);
+		ft_string s = ft_string("hello");
+		printf("s : %s|p: %p|data: %p\n", ft_string_data(&s), &s, ft_string_data(&s));
 
-	ft_vector_insert(v, 3, value_type(TYPE, 3));
-	vec_debug(v);
-	ft_vector_insert_count(v, 3, 3, value_type(TYPE, -3));
-	vec_debug(v);
-	ft_vector_insert_range(v, 0, array2, array2 + 5);
-	vec_debug(v);
+		ft_vector_push_back(&v, &s);
+		ft_string_assign(&s, "world");
+		ft_vector_push_back(&v, &s);
+		ft_string_destroy(&s);
 
-	ft_vector_destroy(v);
+		for (ft_vector_iterate(it, &v, ft_string))
+			printf("it: %s|p: %p|data: %p\n", ft_string_data(it), it, ft_string_data(it));
+
+		ft_vector_destroy(&v);
+	}
 }
 
 int	main(void)
 {
 	ft_vector(v, TYPE);
-
 	basic_test(&v);
 
-	test_alloc();
 	test_struct();
+	test_alloc();
+	test_ft_string();
 	return (0);
 }

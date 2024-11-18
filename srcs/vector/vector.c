@@ -223,6 +223,7 @@ void	ft_vector_push_back(ft_vector *_v, const_value_type x)
 		ft_vector	new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 
 		ft_vector_reserve(&new_v, _recommend(_v, ft_vector_size(_v) + 1));
+
 		ft_vector_assign_range(&new_v, _v->_begin, _v->_end);
 		_v->alloc.construct(new_v._end, x, new_v.type_size);
 		_ft_pointer_inc(new_v._end, new_v.type_size);

@@ -580,11 +580,17 @@ void	ft_putendl_fd(const char *s, int fd);
 
 int		ft_get_next_line(int fd, char **line);
 
-struct ft_string;
+typedef struct ft_string
+{
+	char*	_data;
+	size_t	_size;
+	size_t	_capacity;
+}ft_string;
 
-struct ft_string*	ft_string_create(void);
-struct ft_string*	ft_string_create_from_string(const char *_x);
-struct ft_string*	ft_string_create_from_char(const char _x, size_t count);
+struct ft_string	ft_string_create(void);
+struct ft_string	ft_string_create_from_string(const char *_x);
+struct ft_string	ft_string_create_from_char(const char _x, size_t count);
+struct ft_string	ft_string_create_from_ft_string(const ft_string *s);
 void				ft_string_destroy(struct ft_string *s);
 LIBFT_BOOL			ft_string_equals(const struct ft_string *s, const char *_x);
 const char*			ft_string_data(const struct ft_string *s);
@@ -600,11 +606,19 @@ LIBFT_BOOL			ft_string_append_string(struct ft_string *s, const char *_x);
 LIBFT_BOOL			ft_string_append_char(struct ft_string *s, const char _x, size_t n);
 LIBFT_BOOL			ft_string_assign(struct ft_string *s, const char *_x);
 LIBFT_BOOL			ft_string_assign_char(struct ft_string *s, const char _x, size_t count);
+void				ft_string_clear(struct ft_string *s);
+
+#  define ft_string(...) _Generic((__VA_ARGS__),\
+	char *: ft_string_create_from_string,		\
+	char: ft_string_create_from_char,			\
+	int: ft_string_create_from_char,			\
+	ft_string*: ft_string_create_from_ft_string	\
+)(__VA_ARGS__)
 
 typedef void*				value_type;
-typedef const value_type	const_value_type;
+typedef const void * const	const_value_type;
 typedef void*				pointer;
-typedef const pointer		const_pointer;
+typedef const void * const	const_pointer;
 
 #define value_type(_type, ...)	((&(_type){__VA_ARGS__}))
 
@@ -613,13 +627,43 @@ void	_ft_allocator_deallocate(pointer p, size_t n);
 void	_ft_allocator_construct(pointer p, const_value_type value, size_t type_size);
 void	_ft_allocator_destroy(pointer p);
 
+typedef pointer	(*AllocatorAllocateF)(size_t n, size_t type_size);
+typedef void	(*AllocatorDeallocateF)(pointer p, size_t n);
+typedef void	(*AllocatorConstructF)(pointer p, const_value_type value, size_t type_size);
+typedef void	(*AllocatorDestroyF)(pointer p);
+
 typedef struct ft_allocator
 {
-	pointer	(*allocate)(size_t n, size_t type_size);
-	void	(*deallocate)(pointer p, size_t n);
-	void	(*construct)(pointer p, const_value_type value, size_t type_size);
-	void	(*destroy)(pointer p);
+	AllocatorAllocateF		allocate;
+	AllocatorDeallocateF	deallocate;
+	AllocatorConstructF		construct;
+	AllocatorDestroyF		destroy;
 }ft_allocator;
+
+#define _ft_allocator_init(_allocate, _deallocate, _construct, _destroy) {	\
+	.allocate = _allocate,		\
+	.deallocate = _deallocate,	\
+	.construct = _construct,	\
+	.destroy = _destroy,		\
+}
+
+#define _ft_allocator_default_init() {		\
+	.allocate = _ft_allocator_allocate,		\
+	.deallocate = _ft_allocator_deallocate,	\
+	.construct = _ft_allocator_construct,	\
+	.destroy = _ft_allocator_destroy,		\
+}
+
+#define ft_allocator_default	(ft_allocator)_ft_allocator_default_init
+
+#define _ft__get_alloc_func(_type, _f, _default) ((_type)_f ? (_type)_f : _default)
+#define ft_allocator(_allocate, _deallocate, _construct, _destroy)										\
+	(ft_allocator){																						\
+		.allocate = _ft__get_alloc_func(AllocatorAllocateF, _allocate, _ft_allocator_allocate),			\
+		.deallocate = _ft__get_alloc_func(AllocatorDeallocateF, _deallocate, _ft_allocator_deallocate),	\
+		.construct = _ft__get_alloc_func(AllocatorConstructF, _construct, _ft_allocator_construct),		\
+		.destroy = _ft__get_alloc_func(AllocatorDestroyF, _destroy, _ft_allocator_destroy),				\
+	}
 
 typedef struct ft_vector
 {
@@ -630,20 +674,7 @@ typedef struct ft_vector
 	pointer			_end_cap;
 }ft_vector;
 
-static inline	ft_vector	_ft_make_vector(size_t type_size)
-{
-	return (ft_vector){
-		.type_size = type_size,
-		.alloc = {
-			.allocate = _ft_allocator_allocate,
-			.deallocate = _ft_allocator_deallocate,
-			.construct = _ft_allocator_construct,
-			.destroy = _ft_allocator_destroy,
-		}
-	};
-}
-
-static inline	ft_vector	_ft_make_vector_alloc(size_t type_size, ft_allocator alloc)
+static inline	ft_vector	_ft_make_vector(size_t type_size, ft_allocator alloc)
 {
 	return (ft_vector){
 		.type_size = type_size,
@@ -680,22 +711,19 @@ static inline pointer	_ft_pointer_sub(const_pointer p, size_t n, size_t type_siz
 static inline pointer	_ft_pointer_addp(const_pointer a, const_pointer b)				{ return (pointer)((size_t)a + (size_t)b); }
 static inline pointer	_ft_pointer_subp(const_pointer a, const_pointer b)				{ return (pointer)((size_t)a - (size_t)b); }
 
-#define ft_make_vector(_type)					_ft_make_vector(sizeof(_type))
-#define ft_make_vector_alloc(_type, _alloc)		_ft_make_vector_alloc(sizeof(_type), _alloc)
-
+#define ft_make_vector(_type)					_ft_make_vector(sizeof(_type), ft_allocator_default())
+#define ft_make_vector_alloc(_type, _alloc)		_ft_make_vector(sizeof(_type), _alloc)
 #define ft_vector(_name, _type)					ft_vector _name = ft_make_vector(_type)
-#define ft_vector_alloc(_name, _type, _alloc)	ft_vector _name = ft_make_vector_alloc(_type, _alloc)
+#define ft_vector_alloc(_name, _type, _alloc)	ft_vector _name = ft_make_vector_alloc(_type, (_alloc))
 
 #define _ft_pointer_inc(_pointer, _typesize) (_pointer = _ft_pointer_add((const_pointer)(_pointer), 1, _typesize))
 #define _ft_pointer_dec(_pointer, _typesize) (_pointer = _ft_pointer_sub((const_pointer)(_pointer), 1, _typesize))
-
 #define ft_iterator(_name, _type) _type *_name
-#define ft_iterator_inc(_iter, _v) _ft_pointer_inc(_iter, (_v)->type_size)
-#define ft_iterator_dec(_iter, _v) _ft_pointer_dec(_iter, (_v)->type_size)
+#define ft_iterator_inc(_iter, _v) _ft_pointer_inc((_iter), (_v)->type_size)
+#define ft_iterator_dec(_iter, _v) _ft_pointer_dec((_iter), (_v)->type_size)
 
 #define ft_vector_iterate_range(_itername, _vecp, _type, _begin, _end) \
 	ft_iterator(_itername, _type) = (_begin); _itername != (_end); ft_iterator_inc(_itername, (_vecp))
-
 #define ft_vector_iterate(_itername, _vecp, _type) ft_vector_iterate_range(_itername, _vecp, _type, (_vecp)->_begin, (_vecp)->_end)
 
 # ifdef __cplusplus
