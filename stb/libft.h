@@ -583,7 +583,6 @@ int		ft_get_next_line(int fd, char **line);
 typedef struct ft_string
 {
 	char*	_data;
-	size_t	_size;
 	size_t	_capacity;
 }ft_string;
 
@@ -591,6 +590,7 @@ struct ft_string	ft_string_create(void);
 struct ft_string	ft_string_create_from_string(const char *_x);
 struct ft_string	ft_string_create_from_char(const char _x, size_t count);
 struct ft_string	ft_string_create_from_ft_string(const ft_string *s);
+struct ft_string	ft_string_create_from_string_count(const char *_x, size_t count);
 void				ft_string_destroy(struct ft_string *s);
 LIBFT_BOOL			ft_string_equals(const struct ft_string *s, const char *_x);
 const char*			ft_string_data(const struct ft_string *s);
@@ -605,14 +605,16 @@ LIBFT_BOOL			ft_string_shrink_to_fit(struct ft_string *s);
 LIBFT_BOOL			ft_string_append_string(struct ft_string *s, const char *_x);
 LIBFT_BOOL			ft_string_append_char(struct ft_string *s, const char _x, size_t n);
 LIBFT_BOOL			ft_string_assign(struct ft_string *s, const char *_x);
+LIBFT_BOOL			ft_string_assign_count(struct ft_string *s, const char *_x, size_t count);
 LIBFT_BOOL			ft_string_assign_char(struct ft_string *s, const char _x, size_t count);
 void				ft_string_clear(struct ft_string *s);
 
-#  define ft_string(...) _Generic((__VA_ARGS__),\
-	char *: ft_string_create_from_string,		\
-	char: ft_string_create_from_char,			\
-	int: ft_string_create_from_char,			\
-	ft_string*: ft_string_create_from_ft_string	\
+#  define ft_string(...) _Generic((__VA_ARGS__),		\
+	char *: ft_string_create_from_string,				\
+	char: ft_string_create_from_char,					\
+	int: ft_string_create_from_char,					\
+	ft_string*: ft_string_create_from_ft_string,		\
+	const ft_string*: ft_string_create_from_ft_string	\
 )(__VA_ARGS__)
 
 typedef void*				value_type;
@@ -1151,10 +1153,9 @@ void	ft_print_array_fd(const char **arr, int fd)
 static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
 {
 	LIBFT_ASSERT(new_size < SIZE_MAX);
-    const size_t cap = capacity;
-    if (cap >= SIZE_MAX / 2)
+    if (capacity >= SIZE_MAX / 2)
         return SIZE_MAX;
-    return (max(2 * cap, new_size));
+    return (max(2 * capacity, new_size));
 }
 
 LIBFT_BOOL	ft_string_equals(const struct ft_string *s, const char *_x)
@@ -1166,10 +1167,9 @@ struct ft_string	ft_string_create(void)
 {
 	struct ft_string	s;
 
-	s._size = 0;
-	s._capacity = LIBFT_STRING_DEFAULT_CAPACITY;
-	s._data = ft_calloc(s._capacity, sizeof(char));
+	s._data = ft_calloc(LIBFT_STRING_DEFAULT_CAPACITY, sizeof(char));
 	LIBFT_ASSERT(s._data);
+	s._capacity = LIBFT_STRING_DEFAULT_CAPACITY;
 	return s;
 }
 
@@ -1178,6 +1178,14 @@ struct ft_string	ft_string_create_from_string(const char *_x)
 	struct ft_string	s = ft_string_create();
 
 	ft_string_assign(&s, _x);
+	return s;
+}
+
+struct ft_string	ft_string_create_from_string_count(const char *_x, size_t count)
+{
+	struct ft_string	s = ft_string_create();
+
+	ft_string_assign_count(&s, _x, count);
 	return s;
 }
 
@@ -1205,7 +1213,7 @@ void	ft_string_destroy(struct ft_string *s)
 	if (s->_data)
 	{
 		LIBFT_FREE(s->_data);
-		s->_capacity = s->_size = 0;
+		s->_capacity = 0;
 	}
 }
 
@@ -1223,18 +1231,18 @@ size_t	ft_string_size(const struct ft_string *s)
 
 size_t	ft_string_length(const struct ft_string *s)
 {
-	return s->_size;
+	return ft_strlen(s->_data);
 }
 
 char	ft_string_at(const struct ft_string *s, size_t pos)
 {
-	LIBFT_ASSERT(pos < s->_size);
+	LIBFT_ASSERT(pos < s->_capacity);
 	return s->_data[pos];
 }
 
 LIBFT_BOOL	ft_string_empty(const struct ft_string *s)
 {
-	return s->_size == 0;
+	return s->_capacity == 0 || s->_data[0] == '\0';
 }
 
 size_t	ft_string_max_size(void)
@@ -1267,26 +1275,28 @@ size_t	ft_string_capacity(const struct ft_string *s)
 
 LIBFT_BOOL ft_string_shrink_to_fit(struct ft_string *s)
 {
-	if (s->_capacity > s->_size)
+	size_t	len = ft_strlen(s->_data) + 1;
+
+	if (s->_capacity > len)
 	{
-		char *new_data = ft_strdup(s->_data);
+		char *new_data = malloc(sizeof(char) * len);
 		if (!new_data)
 			return (LIBFT_FALSE);
+		ft_memcpy(new_data, s->_data, len);
 		if (s->_data)
 			LIBFT_FREE(s->_data);
 		s->_data = new_data;
-		s->_capacity = s->_size;
+		s->_capacity = len;
 	}
 	return (LIBFT_TRUE);
 }
 
 void	_ft_string_print_debug(const struct ft_string *s, const char *_info, const char *param, size_t param_size)
 {
-	int	_size, _cap;
+	int	_cap;
 
 	if (!s)
 		return ;
-	_size = s->_size;
 	_cap = s->_capacity;
 	ft_printf("--- FT_STRING");
 	if (_info)
@@ -1314,7 +1324,6 @@ void	_ft_string_print_debug(const struct ft_string *s, const char *_info, const 
 	ft_printf(" ---\n");
 	ft_printf("DATA START\n%s\nDATA END\n", s->_data);
 	ft_printf("-----\n");
-	ft_printf("SIZE: %d\n", _size);
 	ft_printf("CAP : %d\n", _cap);
 
 	ft_printf("MEM : |");
@@ -1341,15 +1350,18 @@ void	_ft_string_print_debug(const struct ft_string *s, const char *_info, const 
 
 LIBFT_BOOL	ft_string_append_string(struct ft_string *s, const char *_x)
 {
-	size_t _newsize;
+	size_t _size, _newsize;
+	size_t len = ft_strlen(_x);
 
-	_newsize = s->_size + ft_strlen(_x);
+	_size = ft_strlen(s->_data);
+	_newsize = _size + len + 1;
 	if (s->_capacity < _newsize)
 	{
-		char *new_data = ft_calloc(_ft_string_recommend(s->_capacity, _newsize), sizeof(char));
+		size_t _newcap = _ft_string_recommend(s->_capacity, _newsize);
+		char *new_data = ft_calloc(_newcap, sizeof(char));
 		if (!new_data)
 			return (LIBFT_FALSE);
-		s->_capacity = _newsize;
+		s->_capacity = _newcap;
 
 		if (s->_data)
 		{
@@ -1363,36 +1375,36 @@ LIBFT_BOOL	ft_string_append_string(struct ft_string *s, const char *_x)
 	{
 		ft_strcat(s->_data, _x);
 	}
-	s->_size = _newsize;
 	// _ft_string_print_debug(s, "append_string()", _x, ft_strlen(_x));
 	return (LIBFT_TRUE);
 }
 
 LIBFT_BOOL	ft_string_append_char(struct ft_string *s, const char _x, size_t n)
 {
-	size_t	_newsize;
+	size_t _size, _newsize;
 
-	_newsize = s->_size + n;
+	_size = ft_strlen(s->_data);
+	_newsize = _size + n + 1;
 	if (s->_capacity < _newsize)
 	{
-		char *new_data = ft_calloc(_ft_string_recommend(s->_capacity, _newsize), sizeof(char));
+		size_t _newcap = _ft_string_recommend(s->_capacity, _newsize);
+		char *new_data = ft_calloc(_newcap, sizeof(char));
 		if (!new_data)
 			return (LIBFT_FALSE);
-		s->_capacity = _newsize;
-
-		ft_strcpy(new_data, s->_data);
-		ft_memset(new_data + s->_size, _x, n);
-		new_data[_newsize] = '\0';
+		s->_capacity = _newcap;
 
 		if (s->_data)
+		{
+			ft_strcpy(new_data, s->_data);
 			LIBFT_FREE(s->_data);
+		}
+		ft_memset(new_data + _size, _x, n);
 		s->_data = new_data;
 	}
 	else
 	{
-		ft_memset(s->_data + s->_size, _x, n);
+		ft_memset(s->_data + _size, _x, n);
 	}
-	s->_size = _newsize;
 	// _ft_string_print_debug(s, "append_char()", &_x, 1);
 	return (LIBFT_TRUE);
 }
@@ -1401,7 +1413,7 @@ LIBFT_BOOL	ft_string_assign(struct ft_string *s, const char *_x)
 {
 	size_t _xsize;
 
-	_xsize = ft_strlen(_x);
+	_xsize = ft_strlen(_x) + 1;
 	if (s->_capacity < _xsize)
 	{
 		char *new_data = ft_strdup(_x);
@@ -1418,21 +1430,44 @@ LIBFT_BOOL	ft_string_assign(struct ft_string *s, const char *_x)
 		ft_strcpy(s->_data, _x);
 		ft_memset(s->_data + _xsize, '\0', s->_capacity - _xsize);
 	}
-	s->_size = _xsize;
+	return (LIBFT_TRUE);
+}
+
+LIBFT_BOOL	ft_string_assign_count(struct ft_string *s, const char *_x, size_t count)
+{
+	size_t _xsize;
+
+	_xsize = ft_strnlen(_x, count) + 1;
+	if (s->_capacity < _xsize)
+	{
+		char *new_data = ft_strndup(_x, count);
+		if (!new_data)
+			return (LIBFT_FALSE);
+		s->_capacity = _xsize;
+
+		if (s->_data)
+			LIBFT_FREE(s->_data);
+		s->_data = new_data;
+	}
+	else
+	{
+		ft_strcpy(s->_data, _x);
+		ft_memset(s->_data + _xsize, '\0', s->_capacity - _xsize);
+	}
 	return (LIBFT_TRUE);
 }
 
 LIBFT_BOOL	ft_string_assign_char(struct ft_string *s, const char _x, size_t count)
 {
-	size_t	_newsize;
+	size_t	_newcap;
 
-	_newsize = count + 1;
+	_newcap = count + 1;
 	if (s->_capacity < count)
 	{
-		char *new_data = ft_calloc(_newsize, sizeof(char));
+		char *new_data = ft_calloc(_newcap, sizeof(char));
 		if (!new_data)
 			return (LIBFT_FALSE);
-		s->_capacity = _newsize;
+		s->_capacity = _newcap;
 
 		ft_memset(new_data, _x, count);
 		ft_memset(new_data + count, '\0', s->_capacity - count);
@@ -1446,15 +1481,13 @@ LIBFT_BOOL	ft_string_assign_char(struct ft_string *s, const char _x, size_t coun
 		ft_memset(s->_data, _x, count);
 		ft_memset(s->_data + count, '\0', s->_capacity - count);
 	}
-	s->_size = _newsize;
 	return (LIBFT_TRUE);
 }
 
 void	ft_string_clear(struct ft_string *s)
 {
 	if (s->_data)
-		ft_bzero(s->_data, s->_size);
-	s->_size = 0;
+		ft_bzero(s->_data, s->_capacity);
 }
 
 int	ft_isprint(int c)
@@ -2798,7 +2831,7 @@ size_t	ft_len_to_space(const char *s)
 	return (n);
 }
 
-void	_swap(pointer *a, pointer *b)
+void	_ft_vector_swap(pointer *a, pointer *b)
 {
 	pointer tmp;
 
@@ -2807,24 +2840,24 @@ void	_swap(pointer *a, pointer *b)
 	*b = tmp;
 }
 
-void	*_fill_n(const ft_allocator *_a, pointer first, size_t n, const_value_type x, size_t type_size)
+void	*_ft_fill_n(const ft_allocator *_a, pointer first, size_t n, const_value_type x, size_t type_size)
 {
 	for (; n > 0; _ft_pointer_inc(first, type_size), (void)--n)
 		_a->construct(first, x, type_size);
 	return first;
 }
 
-size_t	_capacity(const ft_vector *_v)
+size_t	_ft_vector_realcap(const ft_vector *_v)
 {
 	return (size_t)_ft_pointer_subp(_v->_end_cap, _v->_begin);
 }
 
-size_t	_size(const ft_vector *_v)
+size_t	_ft_vector_realsize(const ft_vector *_v)
 {
 	return (size_t)_ft_pointer_subp(_v->_end, _v->_begin);
 }
 
-size_t	_recommend(const ft_vector *_v, size_t new_size)
+size_t	_ft_vector_recommend(const ft_vector *_v, size_t new_size)
 {
 	LIBFT_ASSERT(new_size < SIZE_MAX);
     const size_t cap = ft_vector_capacity(_v);
@@ -2833,7 +2866,7 @@ size_t	_recommend(const ft_vector *_v, size_t new_size)
     return max(2 * cap, new_size);
 }
 
-void	_destruct_at_end(ft_vector *_v, pointer new_last)
+void	_ft_vector_destruct_at_end(ft_vector *_v, pointer new_last)
 {
 	pointer soon_to_be_end = _v->_end;
 
@@ -2845,31 +2878,31 @@ void	_destruct_at_end(ft_vector *_v, pointer new_last)
 	_v->_end = new_last;
 }
 
-void	_clear(ft_vector *_v)
+void	_ft_vector_clear(ft_vector *_v)
 {
-	_destruct_at_end(_v, _v->_begin);
+	_ft_vector_destruct_at_end(_v, _v->_begin);
 }
 
-void	_vallocate(ft_vector *_v, size_t n)
+void	_ft_vector_vallocate(ft_vector *_v, size_t n)
 {
 	LIBFT_ASSERT(n <= SIZE_MAX);
 	_v->_begin = _v->_end = _v->alloc.allocate(n, _v->type_size);
 	_v->_end_cap = _ft_pointer_add(_v->_begin, n, _v->type_size);
 }
 
-void	_vdeallocate(ft_vector *_v)
+void	_ft_vector_vdeallocate(ft_vector *_v)
 {
 	if (_v->_begin != 0)
 	{
-		_clear(_v);
-		_v->alloc.deallocate(_v->_begin, _capacity(_v));
+		_ft_vector_clear(_v);
+		_v->alloc.deallocate(_v->_begin, _ft_vector_realcap(_v));
 		_v->_begin = _v->_end = _v->_end_cap = 0;
 	}
 }
 
-void	_construct_at_end(ft_vector *_v, size_t n, const_pointer _x)
+void	_ft_vector_construct_at_end(ft_vector *_v, size_t n, const_pointer _x)
 {
-	if (_size(_v) + n * _v->type_size > _capacity(_v))
+	if (_ft_vector_realsize(_v) + n * _v->type_size > _ft_vector_realcap(_v))
 		return ;
 	while (n-- > 0)
 	{
@@ -2878,9 +2911,9 @@ void	_construct_at_end(ft_vector *_v, size_t n, const_pointer _x)
 	}
 }
 
-void	_construct_at_end_range(ft_vector *_v, pointer first, pointer last, size_t n)
+void	_ft_vector_construct_at_end_range(ft_vector *_v, pointer first, pointer last, size_t n)
 {
-	if (_size(_v) + n * _v->type_size > _capacity(_v) || n == 0)
+	if (_ft_vector_realsize(_v) + n * _v->type_size > _ft_vector_realcap(_v) || n == 0)
 		return ;
 	for (; first != last; _ft_pointer_inc(first, _v->type_size))
 	{
@@ -2894,7 +2927,7 @@ ft_vector	*ft_vector_copy(ft_vector *_v, const ft_vector *_src)
 	if (_v != _src)
 	{
 		// _copy_assign_alloc(_v, _src);
-		ft_vector_reserve(_v, _capacity(_src));
+		ft_vector_reserve(_v, _ft_vector_realcap(_src));
 		ft_vector_assign_range(_v, _src->_begin, _src->_end);
 	}
 	return _v;
@@ -2908,13 +2941,13 @@ LIBFT_BOOL	ft_vector_empty(const ft_vector *_v)
 size_t	ft_vector_size(const ft_vector *_v)
 {
 	LIBFT_ASSERT(_v->type_size > 0);
-	return (_size(_v) / _v->type_size);
+	return (_ft_vector_realsize(_v) / _v->type_size);
 }
 
 size_t	ft_vector_capacity(const ft_vector *_v)
 {
 	LIBFT_ASSERT(_v->type_size > 0);
-	return (_capacity(_v) / _v->type_size);
+	return (_ft_vector_realcap(_v) / _v->type_size);
 }
 
 value_type	ft_vector_data(ft_vector *_v)
@@ -2929,32 +2962,32 @@ value_type	ft_vector_at(ft_vector *_v, size_t n)
 
 void	ft_vector_clear(ft_vector *_v)
 {
-	_clear(_v);
+	_ft_vector_clear(_v);
 }
 
 void	ft_vector_destroy(ft_vector *_v)
 {
 	if (_v->_begin != NULL)
 	{
-		_clear(_v);
-		_v->alloc.deallocate(_v->_begin, _capacity(_v));
+		_ft_vector_clear(_v);
+		_v->alloc.deallocate(_v->_begin, _ft_vector_realcap(_v));
 	}
 }
 
 void	ft_vector_pop_back(ft_vector *_v)
 {
-	_destruct_at_end(_v, _ft_pointer_sub(_v->_end, 1, _v->type_size));
+	_ft_vector_destruct_at_end(_v, _ft_pointer_sub(_v->_end, 1, _v->type_size));
 }
 
 void	ft_vector_reserve(ft_vector *_v, size_t n)
 {
-	if (n * _v->type_size > _capacity(_v))
+	if (n * _v->type_size > _ft_vector_realcap(_v))
 	{
 		size_t cs = ft_vector_size(_v);
 		ft_vector	new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 
-		_vallocate(&new_v, n);
-		_construct_at_end_range(&new_v, _v->_begin, _ft_pointer_add(_v->_begin, cs, _v->type_size), cs);
+		_ft_vector_vallocate(&new_v, n);
+		_ft_vector_construct_at_end_range(&new_v, _v->_begin, _ft_pointer_add(_v->_begin, cs, _v->type_size), cs);
 		ft_vector_swap(_v, &new_v);
 		ft_vector_destroy(&new_v);
 	}
@@ -2963,15 +2996,15 @@ void	ft_vector_reserve(ft_vector *_v, size_t n)
 void	_append(ft_vector *_v, size_t n, const_value_type x)
 {
 	if ((size_t)_ft_pointer_subp(_v->_end_cap, _v->_end) >= n)
-		_construct_at_end(_v, n, x);
+		_ft_vector_construct_at_end(_v, n, x);
 	else
 	{
 		size_t cs = ft_vector_size(_v);
 		ft_vector new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 
-		_vallocate(&new_v, _recommend(_v, cs + n));
-		_construct_at_end_range(&new_v, _v->_begin, _ft_pointer_add(_v->_begin, cs, _v->type_size), cs);
-		_construct_at_end(&new_v, n, x);
+		_ft_vector_vallocate(&new_v, _ft_vector_recommend(_v, cs + n));
+		_ft_vector_construct_at_end_range(&new_v, _v->_begin, _ft_pointer_add(_v->_begin, cs, _v->type_size), cs);
+		_ft_vector_construct_at_end(&new_v, n, x);
 		ft_vector_swap(_v, &new_v);
 		ft_vector_destroy(&new_v);
 	}
@@ -2983,31 +3016,31 @@ void	ft_vector_resize(ft_vector *_v, size_t n, const_value_type value)
 	if (cs < n)
 		_append(_v, n - cs, value);
 	else if (cs > n)
-		_destruct_at_end(_v, ft_vector_at(_v, n));
+		_ft_vector_destruct_at_end(_v, ft_vector_at(_v, n));
 }
 
 void	ft_vector_assign(ft_vector *_v, size_t n, const_value_type x)
 {
-	if (n *_v->type_size <= _capacity(_v))
+	if (n *_v->type_size <= _ft_vector_realcap(_v))
 	{
 		size_t s = ft_vector_size(_v);
-		_fill_n(&_v->alloc, _v->_begin, min(n, s), x, _v->type_size);
+		_ft_fill_n(&_v->alloc, _v->_begin, min(n, s), x, _v->type_size);
 		if (n > s)
-			_construct_at_end(_v, n - s, x);
+			_ft_vector_construct_at_end(_v, n - s, x);
 		else
-			_destruct_at_end(_v, _ft_pointer_add(_v->_begin, n, _v->type_size));
+			_ft_vector_destruct_at_end(_v, _ft_pointer_add(_v->_begin, n, _v->type_size));
 	}
 	else
 	{
-		_vdeallocate(_v);
-		_vallocate(_v, n);
-		_construct_at_end(_v, n, x);
+		_ft_vector_vdeallocate(_v);
+		_ft_vector_vallocate(_v, n);
+		_ft_vector_construct_at_end(_v, n, x);
 	}
 }
 
 void	ft_vector_assign_range(ft_vector *_v, pointer first, pointer last)
 {
-	_clear(_v);
+	_ft_vector_clear(_v);
 	for (; first != last; _ft_pointer_inc(first, _v->type_size))
 		ft_vector_push_back(_v, first);
 }
@@ -3015,12 +3048,12 @@ void	ft_vector_assign_range(ft_vector *_v, pointer first, pointer last)
 void	ft_vector_push_back(ft_vector *_v, const_value_type x)
 {
 	if (_v->_end != _v->_end_cap)
-		_construct_at_end(_v, 1, x);
+		_ft_vector_construct_at_end(_v, 1, x);
 	else
 	{
 		ft_vector	new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
 
-		ft_vector_reserve(&new_v, _recommend(_v, ft_vector_size(_v) + 1));
+		ft_vector_reserve(&new_v, _ft_vector_recommend(_v, ft_vector_size(_v) + 1));
 
 		ft_vector_assign_range(&new_v, _v->_begin, _v->_end);
 		_v->alloc.construct(new_v._end, x, new_v.type_size);
@@ -3036,7 +3069,7 @@ void	_insert_in_array(ft_vector *_v, pointer p, size_t n, size_t position, const
 	pointer data;
 	pointer _dst, _src, _pos, _end;
 
-	size = _size(_v);
+	size = _ft_vector_realsize(_v);
 	data = NULL;
 	if (p >= _v->_begin && p <= _v->_end)
 	{
@@ -3079,7 +3112,7 @@ void	_insert_in_array_range(ft_vector *_v, pointer p, size_t position, pointer f
 	pointer data;
 	pointer _dst, _src, _pos, _end;
 
-	size = _size(_v);
+	size = _ft_vector_realsize(_v);
 	data = NULL;
 	if (p >= _v->_begin && p <= _v->_end)
 	{
@@ -3198,16 +3231,16 @@ pointer ft_vector_erase_range(ft_vector *_v, pointer first, pointer last)
 	for (; last != _v->_end; _ft_pointer_inc(first, _v->type_size), _ft_pointer_inc(last, _v->type_size))
 		_v->alloc.construct(first, last, _v->type_size);
 	while (n--)
-		_destruct_at_end(_v, _ft_pointer_sub(_v->_end, 1, _v->type_size));
+		_ft_vector_destruct_at_end(_v, _ft_pointer_sub(_v->_end, 1, _v->type_size));
 	return (r);
 }
 
 void	ft_vector_swap(ft_vector *_v, ft_vector *_x)
 {
-	_swap(&_v->_begin, &_x->_begin);
-	_swap(&_v->_end, &_x->_end);
-	_swap(&_v->_end_cap, &_x->_end_cap);
-	_swap((pointer)&_v->type_size, (pointer)&_x->type_size);
+	_ft_vector_swap(&_v->_begin, &_x->_begin);
+	_ft_vector_swap(&_v->_end, &_x->_end);
+	_ft_vector_swap(&_v->_end_cap, &_x->_end_cap);
+	_ft_vector_swap((pointer)&_v->type_size, (pointer)&_x->type_size);
 }
 
 pointer	ft_vector_begin(ft_vector *_v)
