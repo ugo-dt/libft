@@ -658,7 +658,7 @@ typedef struct ft_allocator
 
 #define ft_allocator_default	(ft_allocator)_ft_allocator_default_init
 
-#define _ft__get_alloc_func(_type, _f, _default) ((_type)_f ? (_type)_f : _default)
+#define _ft__get_alloc_func(_type, _f, _default) ((size_t)_f - 0 ? (_type)_f : _default)
 #define ft_allocator(_allocate, _deallocate, _construct, _destroy)										\
 	(ft_allocator){																						\
 		.allocate = _ft__get_alloc_func(AllocatorAllocateF, _allocate, _ft_allocator_allocate),			\
