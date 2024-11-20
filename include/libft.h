@@ -583,7 +583,6 @@ int		ft_get_next_line(int fd, char **line);
 typedef struct ft_string
 {
 	char*	_data;
-	size_t	_size;
 	size_t	_capacity;
 }ft_string;
 
@@ -591,6 +590,7 @@ struct ft_string	ft_string_create(void);
 struct ft_string	ft_string_create_from_string(const char *_x);
 struct ft_string	ft_string_create_from_char(const char _x, size_t count);
 struct ft_string	ft_string_create_from_ft_string(const ft_string *s);
+struct ft_string	ft_string_create_from_string_count(const char *_x, size_t count);
 void				ft_string_destroy(struct ft_string *s);
 LIBFT_BOOL			ft_string_equals(const struct ft_string *s, const char *_x);
 const char*			ft_string_data(const struct ft_string *s);
@@ -605,14 +605,16 @@ LIBFT_BOOL			ft_string_shrink_to_fit(struct ft_string *s);
 LIBFT_BOOL			ft_string_append_string(struct ft_string *s, const char *_x);
 LIBFT_BOOL			ft_string_append_char(struct ft_string *s, const char _x, size_t n);
 LIBFT_BOOL			ft_string_assign(struct ft_string *s, const char *_x);
+LIBFT_BOOL			ft_string_assign_count(struct ft_string *s, const char *_x, size_t count);
 LIBFT_BOOL			ft_string_assign_char(struct ft_string *s, const char _x, size_t count);
 void				ft_string_clear(struct ft_string *s);
 
-#  define ft_string(...) _Generic((__VA_ARGS__),\
-	char *: ft_string_create_from_string,		\
-	char: ft_string_create_from_char,			\
-	int: ft_string_create_from_char,			\
-	ft_string*: ft_string_create_from_ft_string	\
+#  define ft_string(...) _Generic((__VA_ARGS__),		\
+	char *: ft_string_create_from_string,				\
+	char: ft_string_create_from_char,					\
+	int: ft_string_create_from_char,					\
+	ft_string*: ft_string_create_from_ft_string,		\
+	const ft_string*: ft_string_create_from_ft_string	\
 )(__VA_ARGS__)
 
 typedef void*				value_type;
