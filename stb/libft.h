@@ -100,8 +100,12 @@ _DECL_MIN_MAX_TYPE(float, f) _DECL_MIN_MAX_TYPE(double, d) _DECL_MIN_MAX_TYPE(lo
 	double: _f##d,												\
 	long double: _f##ld											\
 )((a), (b))
+# ifndef min
 #  define min(a, b) _libft__min_max_type_generic(a, b, _libft__min_)
+# endif // min
+# ifndef max
 #  define max(a, b) _libft__min_max_type_generic(a, b, _libft__max_)
+# endif // max
 # endif // __GNUC__
 
 # ifndef LIBFT_BUFFERSIZE
@@ -588,9 +592,9 @@ typedef struct ft_string
 
 struct ft_string	ft_string_create(void);
 struct ft_string	ft_string_create_from_string(const char *_x);
+struct ft_string	ft_string_create_from_string_count(const char *_x, size_t count);
 struct ft_string	ft_string_create_from_char(const char _x, size_t count);
 struct ft_string	ft_string_create_from_ft_string(const ft_string *s);
-struct ft_string	ft_string_create_from_string_count(const char *_x, size_t count);
 void				ft_string_destroy(struct ft_string *s);
 LIBFT_BOOL			ft_string_equals(const struct ft_string *s, const char *_x);
 const char*			ft_string_data(const struct ft_string *s);
@@ -1828,7 +1832,7 @@ int	ft_dprintf(int fd, const char *restrict format, ...)
 	return (done);
 }
 
-static char	*gnl_join(char *s1, char *s2)
+static char	*_ft_gnl_join(char *s1, char *s2)
 {
 	int		s1_len;
 	int		s2_len;
@@ -1850,7 +1854,7 @@ static char	*gnl_join(char *s1, char *s2)
 	return (s);
 }
 
-static int	find_endl(char *s)
+static int	_ft_gnl_find_endl(char *s)
 {
 	int		i;
 
@@ -1863,7 +1867,7 @@ static int	find_endl(char *s)
 	return (0);
 }
 
-static char	*save_string(char *str)
+static char	*_ft_gnl_save_string(char *str)
 {
 	char	*dest;
 	int		i;
@@ -1890,7 +1894,7 @@ static char	*save_string(char *str)
 	return (dest);
 }
 
-static char	*create_line(char *str)
+static char	*_ft_gnl_create_line(char *str)
 {
 	char	*line;
 	int		i;
@@ -1900,7 +1904,7 @@ static char	*create_line(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	if (!(line = (char*)LIBFT_MALLOC(sizeof(char) * i + 1)))
+	if (!(line = LIBFT_MALLOC(sizeof(char) * i + 1)))
 		return (NULL);
 	i = 0;
 	while (str[i] && str[i] != '\n')
@@ -1920,10 +1924,10 @@ int	ft_get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || LIBFT_BUFFERSIZE <= 0)
 		return (-1);
-	if (!(buffer = (char*)LIBFT_MALLOC(sizeof(char) * LIBFT_BUFFERSIZE + 1)))
+	if (!(buffer = LIBFT_MALLOC(sizeof(char) * LIBFT_BUFFERSIZE + 1)))
 		return (-1);
 	nb_read = 1;
-	while (!find_endl(str[fd]) && nb_read != 0)
+	while (!_ft_gnl_find_endl(str[fd]) && nb_read != 0)
 	{
 		if ((nb_read = read(fd, buffer, LIBFT_BUFFERSIZE)) == -1)
 		{
@@ -1931,11 +1935,11 @@ int	ft_get_next_line(int fd, char **line)
 			return (-1);
 		}
 		buffer[nb_read] = '\0';
-		str[fd] = gnl_join(str[fd], buffer);
+		str[fd] = _ft_gnl_join(str[fd], buffer);
 	}
 	LIBFT_FREE(buffer);
-	*line = create_line(str[fd]);
-	str[fd] = save_string(str[fd]);
+	*line = _ft_gnl_create_line(str[fd]);
+	str[fd] = _ft_gnl_save_string(str[fd]);
 	return (nb_read == 0 ? 0 : 1);
 }
 
@@ -2525,13 +2529,13 @@ char	*ft_strndup(const char *s, size_t n)
 	size_t	len;
 	char	*d;
 
-	len = ft_strlen(s) + 1;
-	if (len > n)
-		len = n;
-	d = LIBFT_MALLOC(sizeof(*d) * len);
+	len = ft_strnlen(s, n);
+	d = LIBFT_MALLOC(sizeof(*d) * len + 1);
 	if (!d)
 		return (NULL);
-	return (ft_memcpy(d, s, len));
+	ft_memcpy(d, s, len);
+	d[len] = '\0';
+	return d;
 }
 
 char	*ft_strdup(const char *s)
@@ -2654,7 +2658,7 @@ size_t	ft_strnlen(const char *s, size_t maxlen)
 	return (i);
 }
 
-static int	digits(unsigned int n)
+static int	_ft_itoa_digits(unsigned int n)
 {
 	unsigned int	i;
 
@@ -2667,20 +2671,20 @@ static int	digits(unsigned int n)
 	return (i + 1);
 }
 
-static int	get_nb(int n)
+static int	_ft_itoa_get_nb(int n)
 {
 	if (n < 0)
 		return (-n);
 	return (n);
 }
 
-static char	*create_string(int len, int nb, int n)
+static char	*_ft_itoa_create_string(int len, int nb, int n)
 {
 	char	*dest;
 	int		i;
 
 	i = 0;
-	dest = (char *)LIBFT_MALLOC(sizeof(*dest) * len + 1 + (nb < 0));
+	dest = LIBFT_MALLOC(sizeof(*dest) * len + 1 + (nb < 0));
 	if (dest)
 	{
 		if (n < 0)
@@ -2706,9 +2710,9 @@ char	*ft_itoa(int n)
 	unsigned int	len;
 	unsigned int	nb;
 
-	nb = get_nb(n);
-	len = digits(nb);
-	return (create_string(len, nb, n));
+	nb = _ft_itoa_get_nb(n);
+	len = _ft_itoa_digits(nb);
+	return (_ft_itoa_create_string(len, nb, n));
 }
 
 /*

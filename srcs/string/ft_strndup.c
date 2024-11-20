@@ -5,11 +5,11 @@ char	*ft_strndup(const char *s, size_t n)
 	size_t	len;
 	char	*d;
 
-	len = ft_strlen(s) + 1;
-	if (len > n)
-		len = n;
-	d = LIBFT_MALLOC(sizeof(*d) * len);
+	len = ft_strnlen(s, n);
+	d = LIBFT_MALLOC(sizeof(*d) * len + 1);
 	if (!d)
 		return (NULL);
-	return (ft_memcpy(d, s, len));
+	ft_memcpy(d, s, len);
+	d[len] = '\0';
+	return d;
 }

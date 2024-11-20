@@ -1,6 +1,6 @@
 #include "libft.h"
 
-static int	digits(unsigned int n)
+static int	_ft_itoa_digits(unsigned int n)
 {
 	unsigned int	i;
 
@@ -13,20 +13,20 @@ static int	digits(unsigned int n)
 	return (i + 1);
 }
 
-static int	get_nb(int n)
+static int	_ft_itoa_get_nb(int n)
 {
 	if (n < 0)
 		return (-n);
 	return (n);
 }
 
-static char	*create_string(int len, int nb, int n)
+static char	*_ft_itoa_create_string(int len, int nb, int n)
 {
 	char	*dest;
 	int		i;
 
 	i = 0;
-	dest = (char *)LIBFT_MALLOC(sizeof(*dest) * len + 1 + (nb < 0));
+	dest = LIBFT_MALLOC(sizeof(*dest) * len + 1 + (nb < 0));
 	if (dest)
 	{
 		if (n < 0)
@@ -52,7 +52,7 @@ char	*ft_itoa(int n)
 	unsigned int	len;
 	unsigned int	nb;
 
-	nb = get_nb(n);
-	len = digits(nb);
-	return (create_string(len, nb, n));
+	nb = _ft_itoa_get_nb(n);
+	len = _ft_itoa_digits(nb);
+	return (_ft_itoa_create_string(len, nb, n));
 }

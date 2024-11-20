@@ -1,6 +1,6 @@
 #include "libft.h"
 
-static char	*gnl_join(char *s1, char *s2)
+static char	*_ft_gnl_join(char *s1, char *s2)
 {
 	int		s1_len;
 	int		s2_len;
@@ -22,7 +22,7 @@ static char	*gnl_join(char *s1, char *s2)
 	return (s);
 }
 
-static int	find_endl(char *s)
+static int	_ft_gnl_find_endl(char *s)
 {
 	int		i;
 
@@ -35,7 +35,7 @@ static int	find_endl(char *s)
 	return (0);
 }
 
-static char	*save_string(char *str)
+static char	*_ft_gnl_save_string(char *str)
 {
 	char	*dest;
 	int		i;
@@ -62,7 +62,7 @@ static char	*save_string(char *str)
 	return (dest);
 }
 
-static char	*create_line(char *str)
+static char	*_ft_gnl_create_line(char *str)
 {
 	char	*line;
 	int		i;
@@ -72,7 +72,7 @@ static char	*create_line(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	if (!(line = (char*)LIBFT_MALLOC(sizeof(char) * i + 1)))
+	if (!(line = LIBFT_MALLOC(sizeof(char) * i + 1)))
 		return (NULL);
 	i = 0;
 	while (str[i] && str[i] != '\n')
@@ -92,10 +92,10 @@ int	ft_get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || LIBFT_BUFFERSIZE <= 0)
 		return (-1);
-	if (!(buffer = (char*)LIBFT_MALLOC(sizeof(char) * LIBFT_BUFFERSIZE + 1)))
+	if (!(buffer = LIBFT_MALLOC(sizeof(char) * LIBFT_BUFFERSIZE + 1)))
 		return (-1);
 	nb_read = 1;
-	while (!find_endl(str[fd]) && nb_read != 0)
+	while (!_ft_gnl_find_endl(str[fd]) && nb_read != 0)
 	{
 		if ((nb_read = read(fd, buffer, LIBFT_BUFFERSIZE)) == -1)
 		{
@@ -103,10 +103,10 @@ int	ft_get_next_line(int fd, char **line)
 			return (-1);
 		}
 		buffer[nb_read] = '\0';
-		str[fd] = gnl_join(str[fd], buffer);
+		str[fd] = _ft_gnl_join(str[fd], buffer);
 	}
 	LIBFT_FREE(buffer);
-	*line = create_line(str[fd]);
-	str[fd] = save_string(str[fd]);
+	*line = _ft_gnl_create_line(str[fd]);
+	str[fd] = _ft_gnl_save_string(str[fd]);
 	return (nb_read == 0 ? 0 : 1);
 }

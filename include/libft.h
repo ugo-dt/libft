@@ -100,8 +100,12 @@ _DECL_MIN_MAX_TYPE(float, f) _DECL_MIN_MAX_TYPE(double, d) _DECL_MIN_MAX_TYPE(lo
 	double: _f##d,												\
 	long double: _f##ld											\
 )((a), (b))
+# ifndef min
 #  define min(a, b) _libft__min_max_type_generic(a, b, _libft__min_)
+# endif // min
+# ifndef max
 #  define max(a, b) _libft__min_max_type_generic(a, b, _libft__max_)
+# endif // max
 # endif // __GNUC__
 
 # ifndef LIBFT_BUFFERSIZE
@@ -588,9 +592,9 @@ typedef struct ft_string
 
 struct ft_string	ft_string_create(void);
 struct ft_string	ft_string_create_from_string(const char *_x);
+struct ft_string	ft_string_create_from_string_count(const char *_x, size_t count);
 struct ft_string	ft_string_create_from_char(const char _x, size_t count);
 struct ft_string	ft_string_create_from_ft_string(const ft_string *s);
-struct ft_string	ft_string_create_from_string_count(const char *_x, size_t count);
 void				ft_string_destroy(struct ft_string *s);
 LIBFT_BOOL			ft_string_equals(const struct ft_string *s, const char *_x);
 const char*			ft_string_data(const struct ft_string *s);
