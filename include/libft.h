@@ -121,7 +121,7 @@ size_t	ft_array_size(void **arr);
 void	ft_free_array(void **arr);
 
 /** The ft_free_array_n() function frees up to n elements from a
- * two-dimensional array, then frees the pointer to the array. */
+ * two-dimensional array, then frees the void *to the array. */
 void	ft_free_array_n(void **tab, size_t n);
 
 /*
@@ -263,15 +263,15 @@ t_list	*ft_lstlast(t_list *lst);
  * 
  * @param lst The first element of the list. Can be NULL.
  *
- * @returns A pointer to the first element of the copy. 
+ * @returns A void *to the first element of the copy. 
  */
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 
 /** Creates a new t_list element.
  * 
- * @param content A pointer to any type of data. Can be NULL.
+ * @param content A void *to any type of data. Can be NULL.
  *
- * @returns A pointer to the new element, or NULL if the allocation failed.
+ * @returns A void *to the new element, or NULL if the allocation failed.
  */
 t_list	*ft_lstnew(void *content);
 
@@ -308,14 +308,14 @@ long double	ft_fabsl(long double x);
 void	ft_bzero(void *s, size_t n);
 
 /** The ft_calloc() function allocates enough space for count objects
- * that are size bytes of memory each and returns a pointer to the allocated
+ * that are size bytes of memory each and returns a void *to the allocated
  * memory.  The allocated memory is filled with bytes of value zero. */
 void	*ft_calloc(size_t count, size_t size);
 
 /** The ft_memccpy() function copies bytes from string src to string dst. 
  * If the character c (converted to an unsigned char) occurs in the string
- * src, the copy stops and a pointer to the byte after the copy of c in the
- * string dst is returned. Otherwise, n bytes are copied, and a NULL pointer is
+ * src, the copy stops and a void *to the byte after the copy of c in the
+ * string dst is returned. Otherwise, n bytes are copied, and a NULL void *is
  * returned.
  *
  * The source and destination strings should not overlap,
@@ -405,7 +405,7 @@ int		ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /** 
  * The ft_strdup() function allocates sufficient memory for a copy of the string
- * s1, does the copy, and returns a pointer to it. The pointer may subsequently
+ * s1, does the copy, and returns a void *to it. The void *may subsequently
  * be used as an argument tothe function free(3).
  * 
  * If insufficient memory is available, NULL is returned.
@@ -414,7 +414,7 @@ char	*ft_strdup(const char *s);
 
 /** 
  * The ft_strndup() function allocates sufficient memory for a copy of the string
- * s1, does the copy, and returns a pointer to it. The pointer may subsequently
+ * s1, does the copy, and returns a void *to it. The void *may subsequently
  * be used as an argument tothe function free(3).
  * 
  * The function copies at most n characters from the string s1 and always
@@ -584,59 +584,55 @@ void	ft_putendl_fd(const char *s, int fd);
 
 int		ft_get_next_line(int fd, char **line);
 
-typedef struct ft_string
-{
-	char*	_data;
-	size_t	_capacity;
-}ft_string;
+/* Forward declaration. */
+typedef struct ft_string ft_string;
 
-struct ft_string	ft_string_create(void);
-struct ft_string	ft_string_create_from_string(const char *_x);
-struct ft_string	ft_string_create_from_string_count(const char *_x, size_t count);
-struct ft_string	ft_string_create_from_char(const char _x, size_t count);
-struct ft_string	ft_string_create_from_ft_string(const ft_string *s);
-void				ft_string_destroy(struct ft_string *s);
-LIBFT_BOOL			ft_string_equals(const struct ft_string *s, const char *_x);
-const char*			ft_string_data(const struct ft_string *s);
-size_t				ft_string_size(const struct ft_string *s);
-size_t				ft_string_length(const struct ft_string *s);
-char				ft_string_at(const struct ft_string *s, size_t pos);
-LIBFT_BOOL			ft_string_empty(const struct ft_string *s);
-size_t				ft_string_max_size(void);
-LIBFT_BOOL			ft_string_reserve(struct ft_string *s, size_t new_cap);
-size_t				ft_string_capacity(const struct ft_string *s);
-LIBFT_BOOL			ft_string_shrink_to_fit(struct ft_string *s);
-LIBFT_BOOL			ft_string_append_string(struct ft_string *s, const char *_x);
-LIBFT_BOOL			ft_string_append_char(struct ft_string *s, const char _x, size_t n);
-LIBFT_BOOL			ft_string_assign(struct ft_string *s, const char *_x);
-LIBFT_BOOL			ft_string_assign_count(struct ft_string *s, const char *_x, size_t count);
-LIBFT_BOOL			ft_string_assign_char(struct ft_string *s, const char _x, size_t count);
-void				ft_string_clear(struct ft_string *s);
+#define LIBFT_STRING_DEFAULT_CAPACITY	15
 
-#  define ft_string(...) _Generic((__VA_ARGS__),		\
-	char *: ft_string_create_from_string,				\
-	char: ft_string_create_from_char,					\
-	int: ft_string_create_from_char,					\
-	ft_string*: ft_string_create_from_ft_string,		\
-	const ft_string*: ft_string_create_from_ft_string	\
+ft_string	*ft_string_create(void);
+ft_string	*ft_string_create_from_str(const char *_x);
+ft_string	*ft_string_create_from_str_count(const char *_x, size_t count);
+ft_string	*ft_string_create_from_char(const char _x, size_t count);
+ft_string	*ft_string_create_from_ft_string(const ft_string *s);
+void		ft_string_destroy(ft_string *s);
+LIBFT_BOOL	ft_string_equals(const ft_string *a, const ft_string *b);
+LIBFT_BOOL	ft_string_equals_str(const ft_string *s, const char *_x);
+const char*	ft_string_data(const ft_string *s);
+size_t		ft_string_size(const ft_string *s);
+size_t		ft_string_length(const ft_string *s);
+char		ft_string_at(const ft_string *s, size_t pos);
+LIBFT_BOOL	ft_string_empty(const ft_string *s);
+size_t		ft_string_max_size(void);
+void		ft_string_reserve(ft_string *s, size_t new_cap);
+size_t		ft_string_capacity(const ft_string *s);
+void		ft_string_shrink_to_fit(ft_string *s);
+void		ft_string_append_str(ft_string *s, const char *_x);
+void		ft_string_append_char(ft_string *s, const char _x, size_t n);
+void		ft_string_append_ft_string(ft_string *s, const ft_string *x);
+void		ft_string_assign(ft_string *s, const char *_x);
+void		ft_string_assign_count(ft_string *s, const char *_x, size_t count);
+void		ft_string_assign_char(ft_string *s, const char _x, size_t count);
+void		ft_string_clear(ft_string *s);
+
+#  define make_ft_string(...) _Generic((__VA_ARGS__),			\
+	char *: ft_string_create_from_str,							\
+	char: ft_string_create_from_char,							\
+	int: ft_string_create_from_char,							\
+	struct ft_string*: ft_string_create_from_ft_string,		\
+	const struct ft_string*: ft_string_create_from_ft_string	\
 )(__VA_ARGS__)
 
-typedef void*				value_type;
-typedef const void * const	const_value_type;
-typedef void*				pointer;
-typedef const void * const	const_pointer;
+#define ft_value_type(_type, ...)	((&(_type){__VA_ARGS__}))
 
-#define value_type(_type, ...)	((&(_type){__VA_ARGS__}))
+void	*_ft_allocator_allocate(size_t n, size_t type_size);
+void	_ft_allocator_deallocate(void *p, size_t n);
+void	_ft_allocator_construct(void *p, const void *value, size_t type_size);
+void	_ft_allocator_destroy(void *p);
 
-pointer	_ft_allocator_allocate(size_t n, size_t type_size);
-void	_ft_allocator_deallocate(pointer p, size_t n);
-void	_ft_allocator_construct(pointer p, const_value_type value, size_t type_size);
-void	_ft_allocator_destroy(pointer p);
-
-typedef pointer	(*AllocatorAllocateF)(size_t n, size_t type_size);
-typedef void	(*AllocatorDeallocateF)(pointer p, size_t n);
-typedef void	(*AllocatorConstructF)(pointer p, const_value_type value, size_t type_size);
-typedef void	(*AllocatorDestroyF)(pointer p);
+typedef void	*(*AllocatorAllocateF)(size_t n, size_t type_size);
+typedef void	(*AllocatorDeallocateF)(void *p, size_t n);
+typedef void	(*AllocatorConstructF)(void *p, const void *value, size_t type_size);
+typedef void	(*AllocatorDestroyF)(void *p);
 
 typedef struct ft_allocator
 {
@@ -671,66 +667,51 @@ typedef struct ft_allocator
 		.destroy = _ft__get_alloc_func(AllocatorDestroyF, _destroy, _ft_allocator_destroy),				\
 	}
 
-typedef struct ft_vector
-{
-	size_t			type_size;
-	ft_allocator	alloc;
-	pointer			_begin;
-	pointer			_end;
-	pointer			_end_cap;
-}ft_vector;
+typedef struct ft_vector ft_vector;
 
-static inline	ft_vector	_ft_make_vector(size_t type_size, ft_allocator alloc)
-{
-	return (ft_vector){
-		.type_size = type_size,
-		.alloc = alloc,
-	};
-}
+ft_vector	*_ft_vector_create(size_t type_size, ft_allocator alloc);
+ft_vector	*ft_vector_copy(ft_vector *vector, const ft_vector *_src);
+void		*ft_vector_data(ft_vector *vector);
+void		*ft_vector_at(ft_vector *vector, size_t n);
+LIBFT_BOOL	ft_vector_empty(const ft_vector *vector);
+size_t		ft_vector_type_size(const ft_vector *vector);
+size_t		ft_vector_size(const ft_vector *vector);
+size_t		ft_vector_capacity(const ft_vector *vector);
+void		ft_vector_reserve(ft_vector *vector, size_t n);
+void		ft_vector_resize(ft_vector *vector, size_t n, const void *value);
+void		ft_vector_assign(ft_vector *vector, size_t n, const void *value_ptr);
+void		ft_vector_assign_range(ft_vector *vector, void *first, void *last);
+void		ft_vector_push_back(ft_vector *vector, const void *value_ptr);
+void		ft_vector_swap(ft_vector *vector, ft_vector *_x);
+void		*ft_vector_insert(ft_vector *vector, size_t position, const void *value_ptr);
+void		ft_vector_insert_count(ft_vector *vector, size_t position, size_t n, const void *value_ptr);
+void		ft_vector_insert_range(ft_vector *vector, size_t position, void *first, void *last);
+void		ft_vector_clear(ft_vector *vector);
+void		ft_vector_destroy(ft_vector *vector);
+void		ft_vector_pop_back(ft_vector *vector);
+void		*ft_vector_erase(ft_vector *vector, size_t position);
+void		*ft_vector_erase_range(ft_vector *vector, void *first, void *last);
+void		ft_vector_swap(ft_vector *vector, ft_vector *_x);
+void		*ft_vector_begin(const ft_vector *vector);
+void		*ft_vector_end(const ft_vector *vector);
 
-ft_vector*	ft_vector_copy(ft_vector *_v, const ft_vector *_src);
-value_type	ft_vector_data(ft_vector *_v);
-value_type	ft_vector_at(ft_vector *_v, size_t n);
-LIBFT_BOOL	ft_vector_empty(const ft_vector *_v);
-size_t		ft_vector_size(const ft_vector *_v);
-size_t		ft_vector_capacity(const ft_vector *_v);
-void		ft_vector_reserve(ft_vector *_v, size_t n);
-void		ft_vector_resize(ft_vector *_v, size_t n, const_value_type value);
-void		ft_vector_assign(ft_vector *_v, size_t n, const_value_type x);
-void		ft_vector_assign_range(ft_vector *_v, pointer first, pointer last);
-void		ft_vector_push_back(ft_vector *_v, const_value_type x);
-void		ft_vector_swap(ft_vector *_v, ft_vector *_x);
-pointer		ft_vector_insert(ft_vector *_v, size_t position, const_value_type x);
-void		ft_vector_insert_count(ft_vector *_v, size_t position, size_t n, const_value_type x);
-void		ft_vector_insert_range(ft_vector *_v, size_t position, pointer first, pointer last);
-void		ft_vector_clear(ft_vector *_v);
-void		ft_vector_destroy(ft_vector *_v);
-void		ft_vector_pop_back(ft_vector *_v);
-pointer		ft_vector_erase(ft_vector *_v, size_t position);
-pointer		ft_vector_erase_range(ft_vector *_v, pointer first, pointer last);
-void		ft_vector_swap(ft_vector *_v, ft_vector *_x);
-pointer		ft_vector_begin(ft_vector *_v);
-pointer		ft_vector_end(ft_vector *_v);
+static inline void *_ft_pointer_add(const void *p, size_t n, size_t type_size)	{ return (void *)((size_t)p + (n * type_size)); }
+static inline void *_ft_pointer_sub(const void *p, size_t n, size_t type_size)	{ return (void *)((size_t)p - (n * type_size)); }
+static inline void *_ft_pointer_addp(const void *a, const void *b)				{ return (void *)((size_t)a + (size_t)b); }
+static inline void *_ft_pointer_subp(const void *a, const void *b)				{ return (void *)((size_t)a - (size_t)b); }
 
-static inline pointer	_ft_pointer_add(const_pointer p, size_t n, size_t type_size)	{ return (pointer)((size_t)p + (n * type_size)); }
-static inline pointer	_ft_pointer_sub(const_pointer p, size_t n, size_t type_size)	{ return (pointer)((size_t)p - (n * type_size)); }
-static inline pointer	_ft_pointer_addp(const_pointer a, const_pointer b)				{ return (pointer)((size_t)a + (size_t)b); }
-static inline pointer	_ft_pointer_subp(const_pointer a, const_pointer b)				{ return (pointer)((size_t)a - (size_t)b); }
+#define ft_vector_create(_type)					_ft_vector_create(sizeof(_type), ft_allocator_default())
+#define ft_vector_create_alloc(_type, _alloc)	_ft_vector_create(sizeof(_type), _alloc)
 
-#define ft_make_vector(_type)					_ft_make_vector(sizeof(_type), ft_allocator_default())
-#define ft_make_vector_alloc(_type, _alloc)		_ft_make_vector(sizeof(_type), _alloc)
-#define ft_vector(_name, _type)					ft_vector _name = ft_make_vector(_type)
-#define ft_vector_alloc(_name, _type, _alloc)	ft_vector _name = ft_make_vector_alloc(_type, (_alloc))
-
-#define _ft_pointer_inc(_pointer, _typesize) (_pointer = _ft_pointer_add((const_pointer)(_pointer), 1, _typesize))
-#define _ft_pointer_dec(_pointer, _typesize) (_pointer = _ft_pointer_sub((const_pointer)(_pointer), 1, _typesize))
+#define _ft_pointer_inc(_pointer, _typesize) (_pointer = _ft_pointer_add((const void *)(_pointer), 1, _typesize))
+#define _ft_pointer_dec(_pointer, _typesize) (_pointer = _ft_pointer_sub((const void *)(_pointer), 1, _typesize))
 #define ft_iterator(_name, _type) _type *_name
-#define ft_iterator_inc(_iter, _v) _ft_pointer_inc((_iter), (_v)->type_size)
-#define ft_iterator_dec(_iter, _v) _ft_pointer_dec((_iter), (_v)->type_size)
+#define ft_iterator_inc(_iter, _v) _ft_pointer_inc((_iter), ft_vector_type_size(_v))
+#define ft_iterator_dec(_iter, _v) _ft_pointer_dec((_iter), ft_vector_type_size(_v))
 
 #define ft_vector_iterate_range(_itername, _vecp, _type, _begin, _end) \
 	ft_iterator(_itername, _type) = (_begin); _itername != (_end); ft_iterator_inc(_itername, (_vecp))
-#define ft_vector_iterate(_itername, _vecp, _type) ft_vector_iterate_range(_itername, _vecp, _type, (_vecp)->_begin, (_vecp)->_end)
+#define ft_vector_iterate(_itername, _vecp, _type) ft_vector_iterate_range(_itername, _vecp, _type, ft_vector_begin(_vecp), ft_vector_end(_vecp))
 
 # ifdef __cplusplus
 }

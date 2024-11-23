@@ -586,8 +586,8 @@ int		ft_get_next_line(int fd, char **line);
 
 typedef struct ft_string
 {
-	char*	_data;
-	size_t	_capacity;
+	char*	data;
+	size_t	capacity;
 }ft_string;
 
 struct ft_string	ft_string_create(void);
@@ -680,12 +680,15 @@ typedef struct ft_vector
 	pointer			_end_cap;
 }ft_vector;
 
-static inline	ft_vector	_ft_make_vector(size_t type_size, ft_allocator alloc)
+ft_vector	*_ft_make_vector(size_t type_size, ft_allocator alloc)
 {
-	return (ft_vector){
-		.type_size = type_size,
-		.alloc = alloc,
-	};
+	ft_vector	*v = LIBFT_MALLOC(sizeof(struct ft_vector));
+
+	LIBFT_ASSERT(v);
+	v->type_size = type_size;
+	v->alloc = alloc;
+	v->_begin = v->_end = v->_end_cap = NULL;
+	return v;
 }
 
 ft_vector*	ft_vector_copy(ft_vector *_v, const ft_vector *_src);
@@ -704,7 +707,7 @@ pointer		ft_vector_insert(ft_vector *_v, size_t position, const_value_type x);
 void		ft_vector_insert_count(ft_vector *_v, size_t position, size_t n, const_value_type x);
 void		ft_vector_insert_range(ft_vector *_v, size_t position, pointer first, pointer last);
 void		ft_vector_clear(ft_vector *_v);
-void		ft_vector_destroy(ft_vector *_v);
+void		_ft_vector_destroy(ft_vector *_v);
 void		ft_vector_pop_back(ft_vector *_v);
 pointer		ft_vector_erase(ft_vector *_v, size_t position);
 pointer		ft_vector_erase_range(ft_vector *_v, pointer first, pointer last);

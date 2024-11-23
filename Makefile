@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/11/19 15:56:28 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/11/23 14:25:45 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -130,7 +130,9 @@ clean:
 fclean: clean
 	$(SILENT)rm -f $(NAME)
 
-re: fclean all
+re:
+	$(SILENT)$(MAKE) --no-print-directory fclean
+	$(SILENT)$(MAKE) --no-print-directory all
 
 test: $(NAME)
 	./test/run_tests.sh all
