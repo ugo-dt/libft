@@ -1,13 +1,26 @@
 #include "libft.h"
 
-#ifndef ft_vector_type
-// TODO
+#ifdef ft_vector_type
+# ifndef ft_vector_type_name
+#  define ft_vector_type_name ft_vector_type
+# endif
+#else
 # error "Please define ft_vector_type"
 #endif
+
+#define ft_vector_value_type		ft_vector_type *
+#define ft_vector_const_value_type	const ft_vector_type *
+#define ft_vector_pointer			ft_vector_type *
+#define ft_vector_const_pointer		const ft_vector_type *
 
 #include "vector_impl.inl"
 
 #undef ft_vector_type
+#undef ft_vector_type_name
+#undef ft_vector_value_type
+#undef ft_vector_const_value_type
+#undef ft_vector_pointer
+#undef ft_vector_const_pointer
 
 #ifndef FT_VECTOR_H
 #define FT_VECTOR_H
@@ -18,7 +31,7 @@ struct ft_allocator
 {
 	void*	(*allocate)(size_t n);
 	void	(*deallocate)(void* p, size_t n);
-	void	(*construct)(void* p, const void *value);
+	void	(*construct)(void* p, const void *value_ptr);
 	void	(*destroy)(void* p);
 };
 
@@ -40,7 +53,7 @@ struct ft_vector
 	size_t		(*size)(const ft_vector *vector);
 	size_t		(*capacity)(const ft_vector *vector);
 	void		(*reserve)(ft_vector *vector, size_t n);
-	void		(*resize)(ft_vector *vector, size_t n, const void* value);
+	void		(*resize)(ft_vector *vector, size_t n, const void* value_ptr);
 	void		(*assign)(ft_vector *vector, size_t n, const void* value_ptr);
 	void		(*assign_range)(ft_vector *vector, void * first, void * last);
 	void		(*push_back)(ft_vector *vector, const void* value_ptr);

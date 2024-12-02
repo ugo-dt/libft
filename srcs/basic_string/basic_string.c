@@ -1,10 +1,10 @@
 #include "libft.h"
 
-typedef struct ft_string
+typedef struct _ft_string
 {
 	size_t	capacity;
 	char*	data;
-}ft_string;
+}_ft_string;
 
 static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
 {
@@ -14,24 +14,24 @@ static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
     return max(2 * capacity, new_size);
 }
 
-LIBFT_BOOL	ft_string_equals(const ft_string *a, const ft_string *b)
+LIBFT_BOOL	ft_string_equals(const ft_string a, const ft_string b)
 {
 	return ft_strcmp(a->data, b->data) == 0;
 }
 
-LIBFT_BOOL	ft_string_equals_str(const ft_string *s, const char *_x)
+LIBFT_BOOL	ft_string_equals_str(const ft_string s, const char *_x)
 {
 	return ft_strcmp(s->data, _x) == 0;
 }
 
-struct ft_string	*_ft_string_alloc_impl(void)
+ft_string	_ft_string_alloc_impl(void)
 {
-	return LIBFT_MALLOC(sizeof(struct ft_string));
+	return LIBFT_MALLOC(sizeof(struct _ft_string));
 }
 
-ft_string	*ft_string_create(void)
+_ft_string	*ft_string_create(void)
 {
-	struct ft_string	*string;
+	ft_string	string;
 	
 	string = _ft_string_alloc_impl();
 	LIBFT_ASSERT(string);
@@ -42,9 +42,9 @@ ft_string	*ft_string_create(void)
 	return string;
 }
 
-ft_string	*ft_string_create_from_str(const char *_x)
+_ft_string	*ft_string_create_from_str(const char *_x)
 {
-	struct ft_string *string;
+	ft_string string;
 	
 	string = _ft_string_alloc_impl();
 	LIBFT_ASSERT(string);
@@ -54,9 +54,9 @@ ft_string	*ft_string_create_from_str(const char *_x)
 	return string;
 }
 
-ft_string	*ft_string_create_from_str_count(const char *_x, size_t count)
+_ft_string	*ft_string_create_from_str_count(const char *_x, size_t count)
 {
-	struct ft_string *string;
+	ft_string string;
 	
 	string = _ft_string_alloc_impl();
 	string->capacity = 0;
@@ -65,9 +65,9 @@ ft_string	*ft_string_create_from_str_count(const char *_x, size_t count)
 	return string;
 }
 
-ft_string	*ft_string_create_from_char(const char _x, size_t count)
+_ft_string	*ft_string_create_from_char(const char _x, size_t count)
 {
-	struct ft_string *string;
+	ft_string string;
 	
 	string = _ft_string_alloc_impl();
 	string->capacity = 0;
@@ -76,20 +76,20 @@ ft_string	*ft_string_create_from_char(const char _x, size_t count)
 	return string;
 }
 
-ft_string	*ft_string_create_from_ft_string(const ft_string *x)
+_ft_string	*ft_string_create_from_ft_string(const ft_string x)
 {
-	struct ft_string	*string, *_x;
+	ft_string	string, _x;
 	
 	string = _ft_string_alloc_impl();
 	string->capacity = 0;
 	string->data = NULL;
-	_x = (struct ft_string *)x;
+	_x = (ft_string )x;
 	if (_x->data)
 		ft_string_assign(string, _x->data);
 	return string;
 }
 
-void	ft_string_destroy(ft_string *s)
+void	ft_string_destroy(ft_string s)
 {
 	if (!s)
 		return ;
@@ -101,30 +101,30 @@ void	ft_string_destroy(ft_string *s)
 	LIBFT_FREE(s);
 }
 
-const char	*ft_string_data(const ft_string *s)
+const char	*ft_string_data(const ft_string s)
 {
 	return s->data;
 }
 
-size_t	ft_string_size(const ft_string *s)
+size_t	ft_string_size(const ft_string s)
 {
 	if (!s->data)
 		return 0;
 	return ft_strlen(s->data);
 }
 
-size_t	ft_string_length(const ft_string *s)
+size_t	ft_string_length(const ft_string s)
 {
 	return ft_strlen(s->data);
 }
 
-char	ft_string_at(const ft_string *s, size_t pos)
+char	ft_string_at(const ft_string s, size_t pos)
 {
 	LIBFT_ASSERT(pos < s->capacity);
 	return s->data[pos];
 }
 
-LIBFT_BOOL	ft_string_empty(const ft_string *s)
+LIBFT_BOOL	ft_string_empty(const ft_string s)
 {
 	return s->capacity == 0 || s->data[0] == '\0';
 }
@@ -134,7 +134,7 @@ size_t	ft_string_max_size(void)
 	return (SIZE_MAX);
 }
 
-void	ft_string_reserve(ft_string *s, size_t new_cap)
+void	ft_string_reserve(_ft_string *s, size_t new_cap)
 {
 	if (s->capacity < new_cap)
 	{
@@ -150,12 +150,12 @@ void	ft_string_reserve(ft_string *s, size_t new_cap)
 	}
 }
 
-size_t	ft_string_capacity(const ft_string *s)
+size_t	ft_string_capacity(const ft_string s)
 {
 	return s->capacity;
 }
 
-void	ft_string_shrink_to_fit(ft_string *s)
+void	ft_string_shrink_to_fit(_ft_string *s)
 {
 	size_t	len = ft_strlen(s->data) + 1;
 
@@ -171,7 +171,7 @@ void	ft_string_shrink_to_fit(ft_string *s)
 	}
 }
 
-void	_ft_string_print_debug(const ft_string *s, const char *_info, const char *param, size_t param_size)
+void	_ft_string_print_debug(const ft_string s, const char *_info, const char *param, size_t param_size)
 {
 	int	_cap;
 
@@ -228,7 +228,7 @@ void	_ft_string_print_debug(const ft_string *s, const char *_info, const char *p
 	ft_printf("--- END ---\n");
 }
 
-void	ft_string_append_str(ft_string *s, const char *_x)
+void	ft_string_append_str(_ft_string *s, const char *_x)
 {
 	size_t _size, _newsize;
 	size_t len = ft_strlen(_x);
@@ -257,7 +257,7 @@ void	ft_string_append_str(ft_string *s, const char *_x)
 	// _ft_string_print_debug(s, "append_string()", _x, ft_strlen(_x));
 }
 
-void	ft_string_append_char(ft_string *s, const char _x, size_t n)
+void	ft_string_append_char(ft_string s, const char _x, size_t n)
 {
 	size_t _size, _newsize;
 
@@ -285,13 +285,13 @@ void	ft_string_append_char(ft_string *s, const char _x, size_t n)
 	// _ft_string_print_debug(s, "append_char()", &_x, 1);
 }
 
-void		ft_string_append_ft_string(ft_string *s, const ft_string *x)
+void		ft_string_append_ft_string(ft_string s, const ft_string x)
 {
 	if (x->capacity && x->data)
 		ft_string_append_str(s, x->data);
 }
 
-void	ft_string_assign(ft_string *s, const char *_x)
+void	ft_string_assign(ft_string s, const char *_x)
 {
 	size_t _xsize;
 
@@ -314,7 +314,7 @@ void	ft_string_assign(ft_string *s, const char *_x)
 	}
 }
 
-void	ft_string_assign_count(ft_string *s, const char *_x, size_t count)
+void	ft_string_assign_count(ft_string s, const char *_x, size_t count)
 {
 	size_t _xsize;
 
@@ -336,7 +336,7 @@ void	ft_string_assign_count(ft_string *s, const char *_x, size_t count)
 	}
 }
 
-void	ft_string_assign_char(ft_string *s, const char _x, size_t count)
+void	ft_string_assign_char(ft_string s, const char _x, size_t count)
 {
 	size_t	_newcap;
 
@@ -361,7 +361,7 @@ void	ft_string_assign_char(ft_string *s, const char _x, size_t count)
 	}
 }
 
-void	ft_string_clear(ft_string *s)
+void	ft_string_clear(_ft_string *s)
 {
 	if (s->data)
 		ft_bzero(s->data, s->capacity);

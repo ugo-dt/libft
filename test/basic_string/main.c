@@ -16,7 +16,7 @@ static void *our_alloc(size_t size)
 
 int	main(void)
 {
-	ft_string	*s;
+	ft_string	s;
 
 	allocations = 0;
 	s = ft_string_create_from_str("Hello");

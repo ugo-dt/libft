@@ -1,9 +1,11 @@
 #include "libft.h"
 #include <stdio.h>
 
-#define ft_vector_type	int
+#define ft_vector_type		int
 #include "srcs/vector/vector.h"
-#define ft_vector_type	char
+#define ft_vector_type		char
+#include "srcs/vector/vector.h"
+#define ft_vector_type		ft_string
 #include "srcs/vector/vector.h"
 
 #define VEC_DEBUG(Type, _v)								\
@@ -69,7 +71,7 @@ DEFINE_BASIC_TEST(char)
 
 void	test_struct(void)
 {
-	ft_vector_TestStruct *v = ft_vector_TestStruct_create();
+	ft_vector *v = ft_vector_TestStruct_create(0);
 
 	v->push_back(v, &(TestStruct){1, 2});
 	v->push_back(v, &(TestStruct){3, 4});
@@ -79,89 +81,87 @@ void	test_struct(void)
 	v->destroy(v);
 }
 
-// static unsigned int allocations;
-// static unsigned int frees;
+static unsigned int allocations;
+static unsigned int frees;
 
-// void	*allocate(size_t n, size_t int_size)
-// {
-// 	allocations++;
-// 	return _ft_allocator_allocate(n, int_size);
-// }
+void	*allocate(size_t n)
+{
+	allocations++;
+	return ft_allocator_int_allocate(n);
+}
 
-// void	deallocate(void *ptr, size_t int_size)
-// {
-// 	frees++;
-// 	_ft_allocator_deallocate(ptr, int_size);
-// }
+void	deallocate(void *ptr, size_t n)
+{
+	frees++;
+	ft_allocator_int_deallocate(ptr, n);
+}
 
-// void	test_alloc(void)
-// {
-// 	ft_allocator alloc = {
-// 		.allocate = allocate,
-// 		.deallocate = deallocate,
-// 		.construct = _ft_allocator_construct,
-// 		.destroy = _ft_allocator_destroy,
-// 	};
-// 	ft_vector	*v = ft_vector_create_alloc(int, alloc);
+void	test_alloc(void)
+{
+	ft_vector	*v = ft_vector_int_create(&(ft_allocator_int){
+		.allocate = allocate,
+		.deallocate = deallocate,
+		.construct = ft_allocator_int_construct,
+		.destroy = ft_allocator_int_destroy,
+	});
 
-// 	allocations = 0;
-// 	frees = 0;
-// 	basic_test(v);
-// 	ft_vector_destroy(v);
-// 	printf("Allocations: %u\nFrees: %u\n----\n", allocations, frees);
-// }
+	allocations = 0;
+	frees = 0;
+	basic_test_int(v);
+	v->destroy(v);
+	printf("Allocations: %u\nFrees: %u\n----\n", allocations, frees);
+}
 
+void	string_alloc_construct(ft_string *s, const ft_string *x)
+{
+	*s = ft_string_create_from_str(ft_string_data(*x));
+}
 
+void	string_alloc_destroy(ft_string *s)
+{
+	printf("destroy %s\n", ft_string_data(*s));
+	ft_string_destroy(*s);
+}
 
-// void	string_alloc_construct(ft_string **s, const ft_string **x, size_t int_size)
-// {
-// 	printf("push: %p\n", x);
-// 	*s = ft_string_create_from_str(ft_string_data(*x));
-// }
+void	test_ft_string(void)
+{
+	ft_vector	*v = ft_vector_ft_string_create(&(ft_allocator_ft_string){
+		.allocate = ft_allocator_ft_string_allocate,
+		.deallocate = ft_allocator_ft_string_deallocate,
+		.construct = string_alloc_construct,
+		.destroy = string_alloc_destroy,
+	});
+	ft_string	s = ft_string("hello");
 
-// void	string_alloc_destroy(ft_string **s)
-// {
-// 	ft_string_destroy(*s);
-// }
+	v->push_back(v, &s);
+	ft_string_assign(s, "world");
+	v->push_back(v, &s);
+	ft_string_destroy(s);
 
-// void	test_ft_string(void)
-// {
-// 	ft_vector	*v;
-// 	ft_string	*s;
+	for (ft_string* it = v->_begin; it != v->_end; it++)
+		printf("it: %s\n", ft_string_data(*it));
 
-// 	v = ft_vector_create_alloc(ft_string*, ft_allocator(0, 0, string_alloc_construct, string_alloc_destroy));
-// 	s = make_ft_string("hello");
-// 	printf("s : %s|p: %p|addr: %p|data: %p\n", ft_string_data(s), s, &s, ft_string_data(s));
-
-// 	ft_vector_push_back(v, &s);
-// 	ft_string_assign(s, "world");
-
-// 	ft_vector_push_back(v, &s);
-// 	ft_string_destroy(s);
-
-// 	for (ft_vector_iterate(it, v, ft_string*))
-// 		printf("it: %s|p: %p|data: %p\n", ft_string_data(*it), *it, ft_string_data(*it));
-
-// 	ft_vector_destroy(v);
-// }
+	v->destroy(v);
+}
 
 int	main(void)
 {
 	{
-		ft_vector_int	*v = ft_vector_int_create();
+		ft_vector	*v = ft_vector_int_create(0);
 
 		basic_test_int((ft_vector *)v);
 		v->destroy(v);
 	}
 	{
-		ft_vector_char	*v = ft_vector_char_create();
+		ft_vector	*v = ft_vector_char_create(0);
 
-		basic_test_char((ft_vector *)v);
-		ft_vector_char_destroy(v);
+		basic_test_char(v);
+		v->destroy(v);
 	}
-
-	test_struct();
-	// test_alloc();
-	// test_ft_string();
+	{
+		test_struct();
+		test_alloc();
+		test_ft_string();
+	}
 	return (0);
 }
