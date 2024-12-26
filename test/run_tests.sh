@@ -30,9 +30,9 @@ _compile_ft()
 {
 	if [ "$verbose" = true ]
 	then
-		clang -Wall -Wextra -Werror -fsanitize=address $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/ft -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a
+		gcc -Wall -Wextra -Werror -fsanitize=address $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/ft -I $SCRIPT_DIR/../include/libft $SCRIPT_DIR/../libft.a
 	else
-		clang -Wall -Wextra -Werror -fsanitize=address $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/ft -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a >/dev/null 2>&1
+		gcc -Wall -Wextra -Werror -fsanitize=address $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/ft -I $SCRIPT_DIR/../include/libft $SCRIPT_DIR/../libft.a >/dev/null 2>&1
 	fi
 }
 
@@ -40,9 +40,9 @@ _compile_real()
 {
 	if [ "$verbose" = true ]
 	then
-		clang -Wall -Wextra -Werror -fsanitize=address -Dlibft_test_use_real=1 $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/real -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a
+		gcc -Wall -Wextra -Werror -fsanitize=address -Dlibft_test_use_real=1 $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/real -I $SCRIPT_DIR/../include/libft $SCRIPT_DIR/../libft.a
 	else
-		clang -Wall -Wextra -Werror -fsanitize=address -Dlibft_test_use_real=1 $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/real -I $SCRIPT_DIR/../include $SCRIPT_DIR/../libft.a >/dev/null 2>&1
+		gcc -Wall -Wextra -Werror -fsanitize=address -Dlibft_test_use_real=1 $SCRIPT_DIR/$1/main.c -o $SCRIPT_DIR/$1/real -I $SCRIPT_DIR/../include/libft $SCRIPT_DIR/../libft.a >/dev/null 2>&1
 	fi
 }
 

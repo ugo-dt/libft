@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/12/02 13:55:38 by ugdaniel         ###   ########.fr        #
+#    Updated: 2024/12/26 15:53:14 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -101,9 +101,9 @@ SRCS	=	srcs/array/2d_array.c					\
 			# srcs/vector/vector.c
 
 OBJS		=	$(SRCS:.c=.o)
-INCLUDE		=	-I include
+INCLUDE		=	-I include/libft -I include/libft/internal
 
-CC			=	clang
+CC			=	gcc
 CFLAGS		=	-Wall -Wextra -Werror -pedantic -DLIBFT_NO_STATEMENT_EXPRESSIONS
 
 COLOR_DEFAULT	=	\033[39m

@@ -674,7 +674,7 @@ ft_vector	*ft_vector_copy(ft_vector *vector, const ft_vector *_src);
 void		*ft_vector_data(ft_vector *vector);
 void		*ft_vector_at(ft_vector *vector, size_t n);
 LIBFT_BOOL	ft_vector_empty(const ft_vector *vector);
-size_t		ft_vector_type_size(const ft_vector *vector);
+size_t		LIBFT_VECTOR_TYPE_size(const ft_vector *vector);
 size_t		ft_vector_size(const ft_vector *vector);
 size_t		ft_vector_capacity(const ft_vector *vector);
 void		ft_vector_reserve(ft_vector *vector, size_t n);
@@ -706,8 +706,8 @@ static inline void *_ft_pointer_subp(const void *a, const void *b)				{ return (
 #define _ft_pointer_inc(_pointer, _typesize) (_pointer = _ft_pointer_add((const void *)(_pointer), 1, _typesize))
 #define _ft_pointer_dec(_pointer, _typesize) (_pointer = _ft_pointer_sub((const void *)(_pointer), 1, _typesize))
 #define ft_iterator(_name, _type) _type *_name
-#define ft_iterator_inc(_iter, _v) _ft_pointer_inc((_iter), ft_vector_type_size(_v))
-#define ft_iterator_dec(_iter, _v) _ft_pointer_dec((_iter), ft_vector_type_size(_v))
+#define ft_iterator_inc(_iter, _v) _ft_pointer_inc((_iter), LIBFT_VECTOR_TYPE_size(_v))
+#define ft_iterator_dec(_iter, _v) _ft_pointer_dec((_iter), LIBFT_VECTOR_TYPE_size(_v))
 
 #define ft_vector_iterate_range(_itername, _vecp, _type, _begin, _end) \
 	ft_iterator(_itername, _type) = (_begin); _itername != (_end); ft_iterator_inc(_itername, (_vecp))
@@ -2984,7 +2984,7 @@ size_t	ft_vector_size(const ft_vector *_v)
 	return (_ft_vector_realsize(_v) / _v->type_size);
 }
 
-size_t	ft_vector_type_size(const ft_vector *_v)
+size_t	LIBFT_VECTOR_TYPE_size(const ft_vector *_v)
 {
 	return _v->type_size;
 }

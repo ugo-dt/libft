@@ -1,31 +1,30 @@
-#include "libft.h"
-#include <stdio.h>
+#include <libft/libft.h>
 
-#define ft_vector_type		int
-#include "srcs/vector/vector.h"
-#define ft_vector_type		char
-#include "srcs/vector/vector.h"
-#define ft_vector_type		ft_string
-#include "srcs/vector/vector.h"
+#define LIBFT_VECTOR_TYPE	int
+#include <libft/ft_vector.h>
+#define LIBFT_VECTOR_TYPE	char
+#include <libft/ft_vector.h>
+#define LIBFT_VECTOR_TYPE	ft_string
+#include <libft/ft_vector.h>
 
 #define VEC_DEBUG(Type, _v)								\
 {														\
-	printf("---- VECTOR ---\n");						\
-	printf("SIZE: %zu\n", _v->size(_v));				\
-	printf("CAP : %zu\n", _v->capacity(_v));			\
-	printf("BEGIN : %p\n", _v->begin(_v));				\
-	printf("END   : %p\n", _v->end(_v));				\
-	printf("ENDCAP: %p\n", _v->_end_cap);				\
+	ft_printf("---- VECTOR ---\n");						\
+	ft_printf("SIZE: %zu\n", _v->size(_v));				\
+	ft_printf("CAP : %zu\n", _v->capacity(_v));			\
+	ft_printf("BEGIN : %p\n", _v->begin(_v));			\
+	ft_printf("END   : %p\n", _v->end(_v));				\
+	ft_printf("ENDCAP: %p\n", _v->_end_cap);			\
 														\
 	for (Type *it = _v->_begin; it != _v->_end; it++)	\
-		printf("it    : %p -- %d\n", it, *it);			\
-	printf("----\n");									\
+		ft_printf("it    : %p -- %d\n", it, *it);		\
+	ft_printf("----\n");								\
 }
 
 #define DEFINE_BASIC_TEST(Type)							\
 void	basic_test_ ## Type(ft_vector *v)				\
 {														\
-	printf("=== VECTOR TEST - %s ===\n", #Type);		\
+	ft_printf("=== VECTOR TEST - %s ===\n", #Type);		\
 	Type	array[5] = {0, 2, 4, 6, 8};					\
 	Type	array2[5] = {10, 12, 14, 16, 18};			\
 														\
@@ -63,8 +62,8 @@ typedef struct test
 	int a, b;
 }TestStruct;
 
-#define ft_vector_type	TestStruct
-#include "srcs/vector/vector.h"
+#define LIBFT_VECTOR_TYPE	TestStruct
+#include <libft/ft_vector.h>
 
 DEFINE_BASIC_TEST(int)
 DEFINE_BASIC_TEST(char)
@@ -77,7 +76,7 @@ void	test_struct(void)
 	v->push_back(v, &(TestStruct){3, 4});
 
 	for (TestStruct *it = v->_begin; it != v->_end; it++)
-		printf("it    : %p -- %d %d\n", it, it->a, it->b);
+		ft_printf("it    : %p -- %d %d\n", it, it->a, it->b);
 	v->destroy(v);
 }
 
@@ -109,7 +108,7 @@ void	test_alloc(void)
 	frees = 0;
 	basic_test_int(v);
 	v->destroy(v);
-	printf("Allocations: %u\nFrees: %u\n----\n", allocations, frees);
+	ft_printf("Allocations: %u\nFrees: %u\n----\n", allocations, frees);
 }
 
 void	string_alloc_construct(ft_string *s, const ft_string *x)
@@ -119,7 +118,7 @@ void	string_alloc_construct(ft_string *s, const ft_string *x)
 
 void	string_alloc_destroy(ft_string *s)
 {
-	printf("destroy %s\n", ft_string_data(*s));
+	ft_printf("destroy %s\n", ft_string_data(*s));
 	ft_string_destroy(*s);
 }
 
@@ -139,7 +138,7 @@ void	test_ft_string(void)
 	ft_string_destroy(s);
 
 	for (ft_string* it = v->_begin; it != v->_end; it++)
-		printf("it: %s\n", ft_string_data(*it));
+		ft_printf("it: %s\n", ft_string_data(*it));
 
 	v->destroy(v);
 }

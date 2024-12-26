@@ -6,7 +6,7 @@
 /*   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/27 19:39:58 by ugdaniel          #+#    #+#             */
-/*   Updated: 2024/09/09 12:42:45 by ugdaniel         ###   ########.fr       */
+/*   Updated: 2024/12/26 15:58:53 by ugdaniel         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int main(void)
 	done += ft_printf("Testing precision: |%18.35s|\n", "hello");
 
 	done += ft_printf("Testing precision: |%8.3d|\n", 1234);
-	done += ft_printf("Testing precision: |%08.3d|\n", 1234);
+	// done += ft_printf("Testing precision: |%08.3d|\n", 1234); // gcc error: '0' flag ignored with precision and ‘%d’ gnu_printf format [-Werror=format=]
 	done += ft_printf("Testing precision: |%1.5d|\n", 1234);
 	done += ft_printf("Testing precision: |%10.5d|\n", 1234);
 	done += ft_printf("Testing precision: |%10.6d|\n", 1234);
@@ -196,7 +196,7 @@ int main(void)
 	ft_printf("written: %d\n", done);
 
 	char	test[20];
-	ft_snprintf(test, 12, "hello, %s", "world");
+	ft_snprintf(test, 13, "hello, %s", "world");
 	ft_printf("|%s|\n", test);
 	ft_printf("------------------------\n");
 	return (0);

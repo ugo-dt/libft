@@ -6,8 +6,8 @@
 
 DECL_ALLOCATOR_FUNCTION(ft_vector_type_name, void*, allocate, size_t n);
 DECL_ALLOCATOR_FUNCTION(ft_vector_type_name, void, deallocate, void *p, size_t n);
-DECL_ALLOCATOR_FUNCTION(ft_vector_type_name, void, construct, ft_vector_type *p, ft_vector_const_value_type value);
-DECL_ALLOCATOR_FUNCTION(ft_vector_type_name, void, destroy, ft_vector_type *p);
+DECL_ALLOCATOR_FUNCTION(ft_vector_type_name, void, construct, LIBFT_VECTOR_TYPE *p, ft_vector_const_value_type value);
+DECL_ALLOCATOR_FUNCTION(ft_vector_type_name, void, destroy, LIBFT_VECTOR_TYPE *p);
 
 #define _DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, Name) ft_allocator_##ft_vector_type_name##_##Name
 #define DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, Name) _DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, Name)
@@ -22,7 +22,7 @@ DECL_ALLOCATOR_FUNCTION(ft_vector_type_name, void, destroy, ft_vector_type *p);
  */
 void*	DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, allocate)(size_t n)
 {
-	return LIBFT_MALLOC(n * sizeof(ft_vector_type));
+	return LIBFT_MALLOC(n * sizeof(LIBFT_VECTOR_TYPE));
 }
 
 /**
@@ -37,15 +37,15 @@ void	DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, deallocate)(void *p, size_t n)
 /**
  * ft_allocator_construct()
  */ 
-void	DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, construct)(ft_vector_type *p, ft_vector_const_value_type value)
+void	DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, construct)(LIBFT_VECTOR_TYPE *p, ft_vector_const_value_type value)
 {
-	ft_memcpy(p, value, sizeof(ft_vector_type));
+	ft_memcpy(p, value, sizeof(LIBFT_VECTOR_TYPE));
 }
 
 /**
  * ft_allocator_destroy
  */
-void	DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, destroy)(ft_vector_type *p)
+void	DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, destroy)(LIBFT_VECTOR_TYPE *p)
 {
 	(void)p;
 }
@@ -291,7 +291,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_in_array)(ft_vector(ft_vect
 	if (p >= _v->_begin && p <= _v->_end)
 	{
 		data = _v->alloc.allocate(size);
-		ft_memcpy(data, _v->_begin, size * sizeof(ft_vector_type));
+		ft_memcpy(data, _v->_begin, size * sizeof(LIBFT_VECTOR_TYPE));
 		_src = data;
 	}
 	else
@@ -337,7 +337,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_in_array_range)(ft_vector(f
 	if (p >= _v->_begin && p <= _v->_end)
 	{
 		data = _v->alloc.allocate(size);
-		ft_memcpy(data, _v->_begin, size * sizeof(ft_vector_type));
+		ft_memcpy(data, _v->_begin, size * sizeof(LIBFT_VECTOR_TYPE));
 		_src = data;
 	}
 	else

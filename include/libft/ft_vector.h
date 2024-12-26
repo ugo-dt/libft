@@ -1,21 +1,21 @@
 #include "libft.h"
 
-#ifdef ft_vector_type
+#ifdef LIBFT_VECTOR_TYPE
 # ifndef ft_vector_type_name
-#  define ft_vector_type_name ft_vector_type
+#  define ft_vector_type_name LIBFT_VECTOR_TYPE
 # endif
 #else
-# error "Please define ft_vector_type"
+# error "Please define LIBFT_VECTOR_TYPE"
 #endif
 
-#define ft_vector_value_type		ft_vector_type *
-#define ft_vector_const_value_type	const ft_vector_type *
-#define ft_vector_pointer			ft_vector_type *
-#define ft_vector_const_pointer		const ft_vector_type *
+#define ft_vector_value_type		LIBFT_VECTOR_TYPE *
+#define ft_vector_const_value_type	const LIBFT_VECTOR_TYPE *
+#define ft_vector_pointer			LIBFT_VECTOR_TYPE *
+#define ft_vector_const_pointer		const LIBFT_VECTOR_TYPE *
 
-#include "vector_impl.inl"
+#include "internal/vector_impl.inl"
 
-#undef ft_vector_type
+#undef LIBFT_VECTOR_TYPE
 #undef ft_vector_type_name
 #undef ft_vector_value_type
 #undef ft_vector_const_value_type
@@ -71,4 +71,4 @@ struct ft_vector
 #endif
 };
 
-#endif
+#endif // FT_VECTOR_H

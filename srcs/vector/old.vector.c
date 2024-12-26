@@ -148,7 +148,7 @@ size_t	ft_vector_size(const ft_vector *_v)
 	return (_ft_vector_realsize(_v) / _v->type_size);
 }
 
-size_t	ft_vector_type_size(const ft_vector *_v)
+size_t	LIBFT_VECTOR_TYPE_size(const ft_vector *_v)
 {
 	return _v->type_size;
 }
