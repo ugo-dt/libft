@@ -42,7 +42,7 @@ def main():
 
 	with open(output_file, 'w') as outfile:
 
-		with open("include/libft.h", 'r') as infile:
+		with open("include/libft/libft.h", 'r') as infile:
 			for line in infile:
 				outfile.write(line)
 		outfile.write('\n')
@@ -51,7 +51,7 @@ def main():
 		outfile.write("#ifndef LIBFT_IMPL_INCLUDED\n")
 		outfile.write("#define LIBFT_IMPL_INCLUDED\n\n")
 
-		with open("srcs/ft_printf/internal/_libft_printf.h", 'r') as infile:
+		with open("include/libft/internal/_libft_printf.h", 'r') as infile:
 			last_newline = False
 			for line in infile:
 				if not line.strip().startswith('#include') and not line.strip().startswith('# include'):
