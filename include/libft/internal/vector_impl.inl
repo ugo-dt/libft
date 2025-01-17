@@ -80,7 +80,7 @@ struct ft_vector(ft_vector_type_name)
 	ft_vector_pointer					_end;
 	ft_vector_pointer					_end_cap;
 
-#ifndef FT_VECTOR_NO_FUNCTION_POINTERS
+#ifndef LIBFT_VECTOR_NO_FUNCTION_POINTERS
 	// ft_vector(ft_vector_type_name)* (*create)(void);
 	ft_vector(ft_vector_type_name)*	(*copy)(ft_vector(ft_vector_type_name) *vector, const ft_vector(ft_vector_type_name) *_src);
 	ft_vector_pointer			(*data)(ft_vector(ft_vector_type_name) *vector);
@@ -199,7 +199,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, destruct_at_end)(ft_vector(ft_vect
 	ft_vector_pointer soon_to_be_end = _v->_end;
 
 	while (new_last != soon_to_be_end)
-		_v->alloc.destroy(--soon_to_be_end);
+		_v->_alloc.destroy(--soon_to_be_end);
 	_v->_end = new_last;
 }
 
@@ -208,14 +208,14 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, destroy_impl)(ft_vector(ft_vector_
 	if (_v->_begin != NULL)
 	{
 		ft_vector_clear(_v);
-		_v->alloc.deallocate(_v->_begin, ft_vector_capacity(_v));
+		_v->_alloc.deallocate(_v->_begin, ft_vector_capacity(_v));
 	}
 }
 
 void	DEF_VECTOR_FUNCTION(ft_vector_type_name, vallocate)(ft_vector(ft_vector_type_name) *_v, size_t n)
 {
 	LIBFT_ASSERT(n <= SIZE_MAX);
-	_v->_begin = _v->_end = _v->alloc.allocate(n);
+	_v->_begin = _v->_end = _v->_alloc.allocate(n);
 	_v->_end_cap = _v->_begin + n;
 }
 
@@ -224,7 +224,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, vdeallocate)(ft_vector(ft_vector_t
 	if (_v->_begin != 0)
 	{
 		ft_vector_clear(_v);
-		_v->alloc.deallocate(_v->_begin, ft_vector_capacity(_v));
+		_v->_alloc.deallocate(_v->_begin, ft_vector_capacity(_v));
 		_v->_begin = _v->_end = _v->_end_cap = 0;
 	}
 }
@@ -235,7 +235,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, construct_at_end)(ft_vector(ft_vec
 		return ;
 	while (n-- > 0)
 	{
-		_v->alloc.construct(_v->_end, _x);
+		_v->_alloc.construct(_v->_end, _x);
 		_v->_end++;
 	}
 }
@@ -246,7 +246,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, construct_at_end_range)(ft_vector(
 		return ;
 	for (; first != last; first++)
 	{
-		_v->alloc.construct(_v->_end, (ft_vector_const_pointer)first);
+		_v->_alloc.construct(_v->_end, (ft_vector_const_pointer)first);
 		_v->_end++;
 	}
 }
@@ -267,7 +267,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, append)(ft_vector(ft_vector_type_n
 	else
 	{
 		size_t cs = ft_vector_size(_v);
-		ft_vector(ft_vector_type_name) new_v = { .alloc = _v->alloc };
+		ft_vector(ft_vector_type_name) new_v = { ._alloc = _v->_alloc };
 
 		_ft_vector_vallocate(&new_v, _ft_vector_recommend(_v, cs + n));
 		_ft_vector_construct_at_end_range(&new_v, _v->_begin, _v->_begin + cs, cs);
@@ -290,7 +290,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_in_array)(ft_vector(ft_vect
 	data = NULL;
 	if (p >= _v->_begin && p <= _v->_end)
 	{
-		data = _v->alloc.allocate(size);
+		data = _v->_alloc.allocate(size);
 		ft_memcpy(data, _v->_begin, size * sizeof(LIBFT_VECTOR_TYPE));
 		_src = data;
 	}
@@ -305,22 +305,22 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_in_array)(ft_vector(ft_vect
 	for (; _src != _pos; _src++)
 	{
 		if (_src)
-			_v->alloc.construct(_dst, (ft_vector_const_pointer)_src);
+			_v->_alloc.construct(_dst, (ft_vector_const_pointer)_src);
 		_dst++;
 	}
 	while (n--)
 	{
-		_v->alloc.construct(_dst, x);
+		_v->_alloc.construct(_dst, x);
 		_dst++;
 	}
 	for (; _src != _end; _src++)
 	{
 		if (_src)
-			_v->alloc.construct(_dst,(ft_vector_const_pointer) _src);
+			_v->_alloc.construct(_dst,(ft_vector_const_pointer) _src);
 		_dst++;
 	}
 	if (data)
-		_v->alloc.deallocate(data, size);
+		_v->_alloc.deallocate(data, size);
 }
 
 void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_in_array_range)(ft_vector(ft_vector_type_name) *_v, ft_vector_pointer p, size_t position, ft_vector_pointer first, ft_vector_pointer last)
@@ -336,7 +336,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_in_array_range)(ft_vector(f
 	data = NULL;
 	if (p >= _v->_begin && p <= _v->_end)
 	{
-		data = _v->alloc.allocate(size);
+		data = _v->_alloc.allocate(size);
 		ft_memcpy(data, _v->_begin, size * sizeof(LIBFT_VECTOR_TYPE));
 		_src = data;
 	}
@@ -351,22 +351,22 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_in_array_range)(ft_vector(f
 	for (; _src != _pos; _src++)
 	{
 		if (_src)
-			_v->alloc.construct(_dst, (ft_vector_const_pointer)_src);
+			_v->_alloc.construct(_dst, (ft_vector_const_pointer)_src);
 		_dst++;
 	}
 	for (; first != last; first++)
 	{
-		_v->alloc.construct(_dst, (ft_vector_const_pointer)first);
+		_v->_alloc.construct(_dst, (ft_vector_const_pointer)first);
 		_dst++;
 	}
 	for (; _src != _end; _src++)
 	{
 		if (_src)
-			_v->alloc.construct(_dst, (ft_vector_const_pointer)_src);
+			_v->_alloc.construct(_dst, (ft_vector_const_pointer)_src);
 		_dst++;
 	}
 	if (data)
-		_v->alloc.deallocate(data, size);
+		_v->_alloc.deallocate(data, size);
 }
 
 
@@ -393,7 +393,7 @@ ft_vector	*DEF_VECTOR_FUNCTION(ft_vector_type_name, create)(const ft_allocator(f
 	}
 	v->_begin = v->_end = v->_end_cap = NULL;
 
-#ifndef FT_VECTOR_NO_FUNCTION_POINTERS
+#ifndef LIBFT_VECTOR_NO_FUNCTION_POINTERS
 	v->copy = DEF_VECTOR_FUNCTION(ft_vector_type_name, copy);
 	v->data = DEF_VECTOR_FUNCTION(ft_vector_type_name, data);
 	v->at = DEF_VECTOR_FUNCTION(ft_vector_type_name, at);
@@ -416,7 +416,7 @@ ft_vector	*DEF_VECTOR_FUNCTION(ft_vector_type_name, create)(const ft_allocator(f
 	v->swap = DEF_VECTOR_FUNCTION(ft_vector_type_name, swap);
 	v->begin = DEF_VECTOR_FUNCTION(ft_vector_type_name, begin);
 	v->end = DEF_VECTOR_FUNCTION(ft_vector_type_name, end);
-#endif // FT_VECTOR_NO_FUNCTION_POINTERS
+#endif // LIBFT_VECTOR_NO_FUNCTION_POINTERS
 	return (ft_vector*)v;
 }
 
@@ -522,7 +522,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, reserve)(ft_vector(ft_vector_type_
 	if (n > ft_vector_capacity(_v))
 	{
 		size_t cs = ft_vector_size(_v);
-		ft_vector(ft_vector_type_name)	new_v = { .alloc = _v->alloc };
+		ft_vector(ft_vector_type_name)	new_v = { ._alloc = _v->_alloc };
 
 		_ft_vector_vallocate(&new_v, n);
 		_ft_vector_construct_at_end_range(&new_v, _v->_begin, _v->_begin + cs, cs);
@@ -584,12 +584,12 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, push_back)(ft_vector(ft_vector_typ
 		_ft_vector_construct_at_end(_v, 1, x);
 	else
 	{
-		ft_vector(ft_vector_type_name)	new_v = { .alloc = _v->alloc };
+		ft_vector(ft_vector_type_name)	new_v = { ._alloc = _v->_alloc };
 
 		ft_vector_reserve(&new_v, _ft_vector_recommend(_v, ft_vector_size(_v) + 1));
 
 		ft_vector_assign_range(&new_v, _v->_begin, _v->_end);
-		_v->alloc.construct(new_v._end, x);
+		_v->_alloc.construct(new_v._end, x);
 		new_v._end++;
 		ft_vector_swap_vectors(_v, &new_v);
 		_ft_vector_destroy_impl(&new_v);
@@ -615,7 +615,7 @@ ft_vector_pointer	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert)(ft_vector(ft_
 	}
 	else
 	{
-		ft_vector(ft_vector_type_name)   new_v = { .alloc = _v->alloc };
+		ft_vector(ft_vector_type_name)   new_v = { ._alloc = _v->_alloc };
 
 		ft_vector_reserve(&new_v, ft_vector_size(_v) + 1);
 		ft_vector_copy(&new_v, _v);
@@ -638,7 +638,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_count)(ft_vector(ft_vector_
 	}
 	else
 	{
-		ft_vector(ft_vector_type_name)   new_v = { .alloc = _v->alloc };
+		ft_vector(ft_vector_type_name)   new_v = { ._alloc = _v->_alloc };
 
 		ft_vector_reserve(&new_v, ft_vector_size(_v) + n);
 		ft_vector_copy(&new_v, _v);
@@ -663,7 +663,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_range)(ft_vector(ft_vector_
 	}
 	else
 	{
-		ft_vector(ft_vector_type_name)   new_v = { .alloc = _v->alloc };
+		ft_vector(ft_vector_type_name)   new_v = { ._alloc = _v->_alloc };
 		
 		ft_vector_reserve(&new_v, ft_vector_size(_v) + n);
 		ft_vector_copy(&new_v, _v);
@@ -693,7 +693,7 @@ ft_vector_pointer	DEF_VECTOR_FUNCTION(ft_vector_type_name, erase_range)(ft_vecto
 	for (ft_vector_pointer tmp = first; tmp != last; tmp++)
 		n++;
 	for (; last != _v->_end; first++, last++)
-		_v->alloc.construct(first, (ft_vector_const_pointer)last);
+		_v->_alloc.construct(first, (ft_vector_const_pointer)last);
 	while (n--)
 		_ft_vector_destruct_at_end(_v, _v->_end - 1);
 	return (r);

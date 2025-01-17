@@ -39,12 +39,12 @@ typedef struct ft_vector ft_vector;
 
 struct ft_vector
 {
-	ft_allocator	alloc;
+	ft_allocator	_alloc;
 	void*			_begin;
 	void*			_end;
 	void*			_end_cap;
 
-#ifndef FT_VECTOR_NO_FUNCTION_POINTERS
+#ifndef LIBFT_VECTOR_NO_FUNCTION_POINTERS
 	// ft_vector* (*create)(void);
 	ft_vector*	(*copy)(ft_vector *vector, const ft_vector *_src);
 	void*		(*data)(ft_vector *vector);
