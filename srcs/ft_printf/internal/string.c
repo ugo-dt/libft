@@ -1,4 +1,4 @@
-#include "_libft_printf.h"
+#include "internal/_libft_printf.h"
 
 /** The function _ft_printf_create_s() writes the string pointed to by str to the file
  * descriptor fd.
