@@ -46,15 +46,20 @@
 #  define LIBFT_BOOL	bool
 #  define LIBFT_TRUE	true
 #  define LIBFT_FALSE	false
-# endif
+# endif // defined(LIBFT_NOBOOL)
 
 # if !defined(LIBFT_UNREACHABLE)
 #  define LIBFT_UNREACHABLE() __builtin_unreachable()
-# endif
+# endif // !defined(LIBFT_UNREACHABLE)
 
 # if !defined(LIBFT_TYPEOF)
 #  define LIBFT_TYPEOF	__typeof__
-# endif
+# endif // !defined(LIBFT_TYPEOF)
+
+# if defined(LIBFT_NO_FUNCTION_POINTERS)
+#  define LIBFT_STRING_NO_FUNCTION_POINTERS
+#  define LIBFT_VECTOR_NO_FUNCTION_POINTERS
+# endif // defined(LIBFT_NO_FUNCTION_POINTERS)
 
 # ifdef __cplusplus
 extern "C" {
@@ -81,16 +86,16 @@ extern "C" {
 	max(_mn, min(_mx, _x)); })
 #  endif // clamp
 # else // !defined(__GNUC__) || defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
-#  define _DECL_MIN_MAX_TYPE(T, ...) \
+#  define LIBFT_DECL_MIN_MAX_TYPE(T, ...) \
 	static inline T _libft__min_##__VA_ARGS__(const T a, const T b) { return ((a) < (b)) ? (a) : (b); } \
 	static inline T _libft__max_##__VA_ARGS__(const T a, const T b) { return ((a) > (b)) ? (a) : (b); }
-_DECL_MIN_MAX_TYPE(signed char, c) _DECL_MIN_MAX_TYPE(unsigned char, uc)
-_DECL_MIN_MAX_TYPE(signed short, s) _DECL_MIN_MAX_TYPE(unsigned short, us)
-_DECL_MIN_MAX_TYPE(signed int, i) _DECL_MIN_MAX_TYPE(unsigned int, ui)
-_DECL_MIN_MAX_TYPE(signed long, l) _DECL_MIN_MAX_TYPE(unsigned long, ul)
-_DECL_MIN_MAX_TYPE(signed long long, ll) _DECL_MIN_MAX_TYPE(unsigned long long, ull)
-_DECL_MIN_MAX_TYPE(float, f) _DECL_MIN_MAX_TYPE(double, d) _DECL_MIN_MAX_TYPE(long double, ld)
-#  define _libft__min_max_type_generic(a, b, _f) _Generic((b),	\
+LIBFT_DECL_MIN_MAX_TYPE(signed char, c) LIBFT_DECL_MIN_MAX_TYPE(unsigned char, uc)
+LIBFT_DECL_MIN_MAX_TYPE(signed short, s) LIBFT_DECL_MIN_MAX_TYPE(unsigned short, us)
+LIBFT_DECL_MIN_MAX_TYPE(signed int, i) LIBFT_DECL_MIN_MAX_TYPE(unsigned int, ui)
+LIBFT_DECL_MIN_MAX_TYPE(signed long, l) LIBFT_DECL_MIN_MAX_TYPE(unsigned long, ul)
+LIBFT_DECL_MIN_MAX_TYPE(signed long long, ll) LIBFT_DECL_MIN_MAX_TYPE(unsigned long long, ull)
+LIBFT_DECL_MIN_MAX_TYPE(float, f) LIBFT_DECL_MIN_MAX_TYPE(double, d) LIBFT_DECL_MIN_MAX_TYPE(long double, ld)
+#  define LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _f) _Generic((b),	\
 	signed char: _f##c,			unsigned char: _f##uc,			\
 	signed short: _f##s,		unsigned short: _f##us,			\
 	signed int: _f##i,			unsigned int: _f##ui,			\
@@ -101,10 +106,10 @@ _DECL_MIN_MAX_TYPE(float, f) _DECL_MIN_MAX_TYPE(double, d) _DECL_MIN_MAX_TYPE(lo
 	long double: _f##ld											\
 )((a), (b))
 # ifndef min
-#  define min(a, b) _libft__min_max_type_generic(a, b, _libft__min_)
+#  define min(a, b) LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _libft__min_)
 # endif // min
 # ifndef max
-#  define max(a, b) _libft__min_max_type_generic(a, b, _libft__max_)
+#  define max(a, b) LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _libft__max_)
 # endif // max
 # endif // __GNUC__
 
@@ -584,37 +589,36 @@ void	ft_putendl_fd(const char *s, int fd);
 
 int		ft_get_next_line(int fd, char **line);
 
-/* Forward declaration. */
-struct _ft_string;
+typedef struct ft_string ft_string;
 
-typedef struct _ft_string* ft_string;
+# ifndef LIBFT_STRING_DEFAULT_CAPACITY
+#  define LIBFT_STRING_DEFAULT_CAPACITY	15
+# endif // LIBFT_STRING_DEFAULT_CAPACITY
 
-#define LIBFT_STRING_DEFAULT_CAPACITY	15
-
-ft_string	ft_string_create(void);
-ft_string	ft_string_create_from_str(const char *_x);
-ft_string	ft_string_create_from_str_count(const char *_x, size_t count);
-ft_string	ft_string_create_from_char(const char _x, size_t count);
-ft_string	ft_string_create_from_ft_string(const ft_string s);
-void		ft_string_destroy(ft_string s);
-LIBFT_BOOL	ft_string_equals(const ft_string a, const ft_string b);
-LIBFT_BOOL	ft_string_equals_str(const ft_string s, const char *_x);
-const char*	ft_string_data(const ft_string s);
-size_t		ft_string_size(const ft_string s);
-size_t		ft_string_length(const ft_string s);
-char		ft_string_at(const ft_string s, size_t pos);
-LIBFT_BOOL	ft_string_empty(const ft_string s);
+ft_string*	ft_string_create(void);
+ft_string*	ft_string_create_from_str(const char *_x);
+ft_string*	ft_string_create_from_str_count(const char *_x, size_t count);
+ft_string*	ft_string_create_from_char(const char _x, size_t count);
+ft_string*	ft_string_create_from_ft_string(const ft_string* s);
+void		ft_string_destroy(ft_string* s);
+LIBFT_BOOL	ft_string_equals(const ft_string* a, const ft_string* b);
+LIBFT_BOOL	ft_string_equals_str(const ft_string* s, const char *_x);
+const char*	ft_string_data(const ft_string* s);
+size_t		ft_string_size(const ft_string* s);
+size_t		ft_string_length(const ft_string* s);
+char		ft_string_at(const ft_string* s, size_t pos);
+LIBFT_BOOL	ft_string_empty(const ft_string* s);
 size_t		ft_string_max_size(void);
-void		ft_string_reserve(ft_string s, size_t new_cap);
-size_t		ft_string_capacity(const ft_string s);
-void		ft_string_shrink_to_fit(ft_string s);
-void		ft_string_append_str(ft_string s, const char *_x);
-void		ft_string_append_char(ft_string s, const char _x, size_t n);
-void		ft_string_append_ft_string(ft_string s, const ft_string x);
-void		ft_string_assign(ft_string s, const char *_x);
-void		ft_string_assign_count(ft_string s, const char *_x, size_t count);
-void		ft_string_assign_char(ft_string s, const char _x, size_t count);
-void		ft_string_clear(ft_string s);
+void		ft_string_reserve(ft_string* s, size_t new_cap);
+size_t		ft_string_capacity(const ft_string* s);
+void		ft_string_shrink_to_fit(ft_string* s);
+void		ft_string_append_str(ft_string* s, const char *_x);
+void		ft_string_append_char(ft_string* s, const char _x, size_t n);
+void		ft_string_append_ft_string(ft_string* s, const ft_string* x);
+void		ft_string_assign(ft_string* s, const char *_x);
+void		ft_string_assign_count(ft_string* s, const char *_x, size_t count);
+void		ft_string_assign_char(ft_string* s, const char _x, size_t count);
+void		ft_string_clear(ft_string* s);
 
 #  define ft_string(...) _Generic((__VA_ARGS__),				\
 	char *: ft_string_create_from_str,							\
@@ -1044,11 +1048,11 @@ char	**ft_copy_array(char **arr)
 	return (copy);
 }
 
-typedef struct _ft_string
+typedef struct ft_string
 {
-	size_t	capacity;
-	char*	data;
-}_ft_string;
+	char*	_data;
+	size_t	_capacity;
+}ft_string;
 
 static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
 {
@@ -1058,114 +1062,116 @@ static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
     return max(2 * capacity, new_size);
 }
 
-LIBFT_BOOL	ft_string_equals(const ft_string a, const ft_string b)
+ft_string*	_ft_string_alloc_impl(void)
 {
-	return ft_strcmp(a->data, b->data) == 0;
+	ft_string*	s = LIBFT_MALLOC(sizeof(struct ft_string));
+	return s;
 }
 
-LIBFT_BOOL	ft_string_equals_str(const ft_string s, const char *_x)
+ft_string*	ft_string_create(void)
 {
-	return ft_strcmp(s->data, _x) == 0;
-}
-
-ft_string	_ft_string_alloc_impl(void)
-{
-	return LIBFT_MALLOC(sizeof(struct _ft_string));
-}
-
-_ft_string	*ft_string_create(void)
-{
-	ft_string	string;
+	ft_string*	string;
 	string = _ft_string_alloc_impl();
 	LIBFT_ASSERT(string);
-	string->capacity = LIBFT_STRING_DEFAULT_CAPACITY;
-	string->data = LIBFT_MALLOC(string->capacity * sizeof(*string->data));
-	LIBFT_ASSERT(string->data);
-	string->data[0] = '\0';
+	string->_capacity = LIBFT_STRING_DEFAULT_CAPACITY;
+	string->_data = LIBFT_MALLOC(string->_capacity * sizeof(*string->_data));
+	LIBFT_ASSERT(string->_data);
+	string->_data[0] = '\0';
 	return string;
 }
 
-_ft_string	*ft_string_create_from_str(const char *_x)
+ft_string*	ft_string_create_from_str(const char *_x)
 {
-	ft_string string;
+	ft_string*	string;
 	string = _ft_string_alloc_impl();
 	LIBFT_ASSERT(string);
-	string->capacity = 0;
-	string->data = NULL;
+	string->_capacity = 0;
+	string->_data = NULL;
 	ft_string_assign(string, _x);
 	return string;
 }
 
-_ft_string	*ft_string_create_from_str_count(const char *_x, size_t count)
+ft_string*	ft_string_create_from_str_count(const char *_x, size_t count)
 {
-	ft_string string;
+	ft_string* string;
 	string = _ft_string_alloc_impl();
-	string->capacity = 0;
-	string->data = NULL;
+	string->_capacity = 0;
+	string->_data = NULL;
 	ft_string_assign_count(string, _x, count);
 	return string;
 }
 
-_ft_string	*ft_string_create_from_char(const char _x, size_t count)
+ft_string*	ft_string_create_from_char(const char _x, size_t count)
 {
-	ft_string string;
+	ft_string* string;
 	string = _ft_string_alloc_impl();
-	string->capacity = 0;
-	string->data = NULL;
+	string->_capacity = 0;
+	string->_data = NULL;
 	ft_string_assign_char(string, _x, count);
 	return string;
 }
 
-_ft_string	*ft_string_create_from_ft_string(const ft_string x)
+ft_string*	ft_string_create_from_ft_string(const ft_string* x)
 {
-	ft_string	string, _x;
+	ft_string*	string;
+	ft_string*	_x;
 	string = _ft_string_alloc_impl();
-	string->capacity = 0;
-	string->data = NULL;
-	_x = (ft_string )x;
-	if (_x->data)
-		ft_string_assign(string, _x->data);
+	string->_capacity = 0;
+	string->_data = NULL;
+	_x = (ft_string*)x;
+	if (_x->_data)
+		ft_string_assign(string, _x->_data);
 	return string;
 }
 
-void	ft_string_destroy(ft_string s)
+void	ft_string_destroy(ft_string* s)
 {
 	if (!s)
 		return ;
-	if (s->data)
+	if (s->_data)
 	{
-		LIBFT_FREE(s->data);
-		s->capacity = 0;
+		LIBFT_FREE(s->_data);
+		s->_capacity = 0;
 	}
 	LIBFT_FREE(s);
 }
 
-const char	*ft_string_data(const ft_string s)
+LIBFT_BOOL	ft_string_equals(const ft_string* a, const ft_string* b)
 {
-	return s->data;
+	return ft_strcmp(a->_data, b->_data) == 0;
 }
 
-size_t	ft_string_size(const ft_string s)
+LIBFT_BOOL	ft_string_equals_str(const ft_string* s, const char *_x)
 {
-	if (!s->data)
+	return ft_strcmp(s->_data, _x) == 0;
+}
+
+const char*	ft_string_data(const ft_string* s)
+{
+	return s->_data;
+}
+
+size_t	ft_string_size(const ft_string* s)
+{
+	if (!s->_data)
 		return 0;
-	return ft_strlen(s->data);
+	return ft_strlen(s->_data);
 }
 
-size_t	ft_string_length(const ft_string s)
+size_t	ft_string_length(const ft_string* s)
 {
-	return ft_strlen(s->data);
+	return ft_strlen(s->_data);
 }
 
-char	ft_string_at(const ft_string s, size_t pos)
+char	ft_string_at(const ft_string* s, size_t pos)
 {
-	LIBFT_ASSERT(pos < s->capacity);
-	return s->data[pos];
+	LIBFT_ASSERT(pos < s->_capacity);
+	return s->_data[pos];
 }
 
-LIBFT_BOOL	ft_string_empty(const ft_string s)
+LIBFT_BOOL	ft_string_empty(const ft_string* s)
 {
-	return s->capacity == 0 || s->data[0] == '\0';
+	return s->_capacity == 0 || s->_data[0] == '\0';
 }
 
 size_t	ft_string_max_size(void)
@@ -1173,50 +1179,50 @@ size_t	ft_string_max_size(void)
 	return (SIZE_MAX);
 }
 
-void	ft_string_reserve(_ft_string *s, size_t new_cap)
+void	ft_string_reserve(ft_string *s, size_t new_cap)
 {
-	if (s->capacity < new_cap)
+	if (s->_capacity < new_cap)
 	{
 		char *new_data = ft_calloc(new_cap, sizeof(char));
 		LIBFT_ASSERT(new_data);
-		s->capacity = new_cap;
+		s->_capacity = new_cap;
 
-		ft_strcpy(new_data, s->data);
+		ft_strcpy(new_data, s->_data);
 
-		if (s->data)
-			LIBFT_FREE(s->data);
-		s->data = new_data;
+		if (s->_data)
+			LIBFT_FREE(s->_data);
+		s->_data = new_data;
 	}
 }
 
-size_t	ft_string_capacity(const ft_string s)
+size_t	ft_string_capacity(const ft_string* s)
 {
-	return s->capacity;
+	return s->_capacity;
 }
 
-void	ft_string_shrink_to_fit(_ft_string *s)
+void	ft_string_shrink_to_fit(ft_string *s)
 {
-	size_t	len = ft_strlen(s->data) + 1;
+	size_t	len = ft_strlen(s->_data) + 1;
 
-	if (s->capacity > len)
+	if (s->_capacity > len)
 	{
-		char *new_data = malloc(sizeof(char) * len);
+		char *new_data = LIBFT_MALLOC(sizeof(char) * len);
 		LIBFT_ASSERT(new_data);
-		ft_memcpy(new_data, s->data, len);
-		if (s->data)
-			LIBFT_FREE(s->data);
-		s->data = new_data;
-		s->capacity = len;
+		ft_memcpy(new_data, s->_data, len);
+		if (s->_data)
+			LIBFT_FREE(s->_data);
+		s->_data = new_data;
+		s->_capacity = len;
 	}
 }
 
-void	_ft_string_print_debug(const ft_string s, const char *_info, const char *param, size_t param_size)
+void	_ft_string_print_debug(const ft_string* s, const char *_info, const char *param, size_t param_size)
 {
 	int	_cap;
 
 	if (!s)
 		return ;
-	_cap = s->capacity;
+	_cap = s->_capacity;
 	ft_printf("--- FT_STRING");
 	if (_info)
 	{
@@ -1241,21 +1247,21 @@ void	_ft_string_print_debug(const ft_string s, const char *_info, const char *pa
 		}
 	}
 	ft_printf(" ---\n");
-	ft_printf("DATA START\n%s\nDATA END\n", s->data);
+	ft_printf("DATA START\n%s\nDATA END\n", s->_data);
 	ft_printf("-----\n");
 	ft_printf("CAP : %d\n", _cap);
 
 	ft_printf("MEM : |");
 	for (int i = 0; i <= _cap; i++)
 	{
-		if (s->data[i] == '\0')
+		if (s->_data[i] == '\0')
 			ft_printf("\\0|");
-		else if (s->data[i] == '\n')
+		else if (s->_data[i] == '\n')
 			ft_printf("\\n|");
-		else if (s->data[i] == '\t')
+		else if (s->_data[i] == '\t')
 			ft_printf("\\t|");
-		else if (ft_isascii(s->data[i]))
-			ft_printf("%2c|", s->data[i]);
+		else if (ft_isascii(s->_data[i]))
+			ft_printf("%2c|", s->_data[i]);
 		else
 			ft_printf("%2c|", '.');
 	}
@@ -1267,182 +1273,148 @@ void	_ft_string_print_debug(const ft_string s, const char *_info, const char *pa
 	ft_printf("--- END ---\n");
 }
 
-void	ft_string_append_str(_ft_string *s, const char *_x)
+void	ft_string_append_str(ft_string *s, const char *_x)
 {
 	size_t _size, _newsize;
 	size_t len = ft_strlen(_x);
 
-	_size = ft_strlen(s->data);
+	_size = ft_strlen(s->_data);
 	_newsize = _size + len + 1;
-	if (s->capacity < _newsize)
+	if (s->_capacity < _newsize)
 	{
-		size_t _newcap = _ft_string_recommend(s->capacity, _newsize);
+		size_t _newcap = _ft_string_recommend(s->_capacity, _newsize);
 		char *new_data = ft_calloc(_newcap, sizeof(char));
 		LIBFT_ASSERT(new_data);
-		s->capacity = _newcap;
+		s->_capacity = _newcap;
 
-		if (s->data)
+		if (s->_data)
 		{
-			ft_strcat(new_data, s->data);
-			LIBFT_FREE(s->data);
+			ft_strcat(new_data, s->_data);
+			LIBFT_FREE(s->_data);
 		}
 		ft_strcat(new_data, _x);
-		s->data = new_data;
+		s->_data = new_data;
 	}
 	else
 	{
-		ft_strcat(s->data, _x);
+		ft_strcat(s->_data, _x);
 	}
 	// _ft_string_print_debug(s, "append_string()", _x, ft_strlen(_x));
 }
 
-void	ft_string_append_char(ft_string s, const char _x, size_t n)
+void	ft_string_append_char(ft_string* s, const char _x, size_t n)
 {
 	size_t _size, _newsize;
 
-	_size = ft_strlen(s->data);
+	_size = ft_strlen(s->_data);
 	_newsize = _size + n + 1;
-	if (s->capacity < _newsize)
+	if (s->_capacity < _newsize)
 	{
-		size_t _newcap = _ft_string_recommend(s->capacity, _newsize);
+		size_t _newcap = _ft_string_recommend(s->_capacity, _newsize);
 		char *new_data = ft_calloc(_newcap, sizeof(char));
 		LIBFT_ASSERT(new_data);
-		s->capacity = _newcap;
+		s->_capacity = _newcap;
 
-		if (s->data)
+		if (s->_data)
 		{
-			ft_strcpy(new_data, s->data);
-			LIBFT_FREE(s->data);
+			ft_strcpy(new_data, s->_data);
+			LIBFT_FREE(s->_data);
 		}
 		ft_memset(new_data + _size, _x, n);
-		s->data = new_data;
+		s->_data = new_data;
 	}
 	else
 	{
-		ft_memset(s->data + _size, _x, n);
+		ft_memset(s->_data + _size, _x, n);
 	}
 	// _ft_string_print_debug(s, "append_char()", &_x, 1);
 }
 
-void		ft_string_append_ft_string(ft_string s, const ft_string x)
+void	ft_string_append_ft_string(ft_string* s, const ft_string* x)
 {
-	if (x->capacity && x->data)
-		ft_string_append_str(s, x->data);
+	if (x->_capacity && x->_data)
+		ft_string_append_str(s, x->_data);
 }
 
-void	ft_string_assign(ft_string s, const char *_x)
+void	ft_string_assign(ft_string* s, const char *_x)
 {
 	size_t _xsize;
 
 	_xsize = ft_strlen(_x) + 1;
-	if (s->capacity < _xsize)
+	if (s->_capacity < _xsize)
 	{
 		char *new_data = ft_strdup(_x);
 		LIBFT_ASSERT(new_data);
 		LIBFT_ASSERT(new_data);
-		s->capacity = _xsize;
+		s->_capacity = _xsize;
 
-		if (s->data)
-			LIBFT_FREE(s->data);
-		s->data = new_data;
+		if (s->_data)
+			LIBFT_FREE(s->_data);
+		s->_data = new_data;
 	}
 	else
 	{
-		ft_strcpy(s->data, _x);
-		ft_memset(s->data + _xsize, '\0', s->capacity - _xsize);
+		ft_strcpy(s->_data, _x);
+		ft_memset(s->_data + _xsize, '\0', s->_capacity - _xsize);
 	}
 }
 
-void	ft_string_assign_count(ft_string s, const char *_x, size_t count)
+void	ft_string_assign_count(ft_string* s, const char *_x, size_t count)
 {
 	size_t _xsize;
 
 	_xsize = ft_strnlen(_x, count) + 1;
-	if (s->capacity < _xsize)
+	if (s->_capacity < _xsize)
 	{
 		char *new_data = ft_strndup(_x, count);
 		LIBFT_ASSERT(new_data);
-		s->capacity = _xsize;
+		s->_capacity = _xsize;
 
-		if (s->data)
-			LIBFT_FREE(s->data);
-		s->data = new_data;
+		if (s->_data)
+			LIBFT_FREE(s->_data);
+		s->_data = new_data;
 	}
 	else
 	{
-		ft_strcpy(s->data, _x);
-		ft_memset(s->data + _xsize, '\0', s->capacity - _xsize);
+		ft_strcpy(s->_data, _x);
+		ft_memset(s->_data + _xsize, '\0', s->_capacity - _xsize);
 	}
 }
 
-void	ft_string_assign_char(ft_string s, const char _x, size_t count)
+void	ft_string_assign_char(ft_string* s, const char _x, size_t count)
 {
 	size_t	_newcap;
 
 	_newcap = count + 1;
-	if (s->capacity < count)
+	if (s->_capacity < count)
 	{
 		char *new_data = ft_calloc(_newcap, sizeof(char));
 		LIBFT_ASSERT(new_data);
-		s->capacity = _newcap;
+		s->_capacity = _newcap;
 
 		ft_memset(new_data, _x, count);
-		ft_memset(new_data + count, '\0', s->capacity - count);
+		ft_memset(new_data + count, '\0', s->_capacity - count);
 
-		if (s->data)
-			LIBFT_FREE(s->data);
-		s->data = new_data;
+		if (s->_data)
+			LIBFT_FREE(s->_data);
+		s->_data = new_data;
 	}
 	else
 	{
-		ft_memset(s->data, _x, count);
-		ft_memset(s->data + count, '\0', s->capacity - count);
+		ft_memset(s->_data, _x, count);
+		ft_memset(s->_data + count, '\0', s->_capacity - count);
 	}
 }
 
-void	ft_string_clear(_ft_string *s)
+void	ft_string_clear(ft_string *s)
 {
-	if (s->data)
-		ft_bzero(s->data, s->capacity);
-}
-
-int	ft_isalpha(int c)
-{
-	return (ft_isupper(c) || ft_islower(c));
+	if (s->_data)
+		ft_bzero(s->_data, s->_capacity);
 }
 
 int	ft_isdigit(int c)
 {
 	return (c >= '0' && c <= '9');
-}
-
-int	ft_tolower(int c)
-{
-	if (ft_isupper(c))
-		return (c - 'A' + 'a');
-	return (c);
-}
-
-int	ft_isspace(int c)
-{
-	return ((c >= 9 && c <= 13) || c == 32);
-}
-
-int	ft_isupper(int c)
-{
-	return (c >= 'A' && c <= 'Z');
-}
-
-int	ft_toupper(int c)
-{
-	if (ft_islower(c))
-		return (c - 'a' + 'A');
-	return (c);
-}
-
-int	ft_isalnum(int c)
-{
-	return (ft_isalpha(c) || ft_isdigit(c));
 }
 
 int	ft_isascii(int c)
@@ -1455,160 +1427,43 @@ int	ft_isprint(int c)
 	return (c >= 32 && c <= 126);
 }
 
+int	ft_toupper(int c)
+{
+	if (ft_islower(c))
+		return (c - 'a' + 'A');
+	return (c);
+}
+
+int	ft_isalpha(int c)
+{
+	return (ft_isupper(c) || ft_islower(c));
+}
+
 int	ft_islower(int c)
 {
 	return (c >= 'a' && c <= 'z');
 }
 
-#define _ft_printf__abs(x)	_Generic((x),	\
-	int:       ft_abs,						\
-	long:      ft_labs,						\
-	long long: ft_llabs						\
-	)(x)
-
-#define _SIGNED_CONVERSION_DEF(_name, _type)										\
-	char	*_ft_printf_create_##_name(_type nb, struct _libft_printf_specs *specs)	\
-	{																				\
-		int arg_length;																\
-		int arg_start;																\
-		char *s;																	\
-		GET_NUMBER_LENGTH(&arg_length, nb, 10, specs->info.precision, _type);		\
-		int	showfront = (nb >= 0 && (specs->flags.space || specs->flags.showsign));	\
-		arg_length += showfront;													\
-		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);			\
-		if (!s)																		\
-			return (NULL);															\
-		MAKE_NUMBER_STRING(s + arg_start, _type, _ft_printf__abs, nb, arg_length);	\
-		if (showfront)																\
-		{																			\
-			if (specs->flags.space)													\
-				s[0] = ' ';															\
-			else if (specs->flags.showsign)											\
-				s[0] = '+';															\
-		}																			\
-		return (s);																	\
-	}
-
-_SIGNED_CONVERSION_DEF(di, int)
-_SIGNED_CONVERSION_DEF(l, long)
-_SIGNED_CONVERSION_DEF(ll, long long)
-int	ft_vsnprintf_internal(char *string, size_t maxlen, const char *format, va_list ap)
+int	ft_isupper(int c)
 {
-	unsigned char	*f;
-	unsigned char	*lead_str_end;
-	size_t			curlen;
-	long			len;
-
-	ft_memset(string, 0, maxlen);
-	curlen = 0;
-	f = lead_str_end = (unsigned char *)_ft_find_spec((const unsigned char *)format);
-	len = min((const unsigned char *)lead_str_end - (const unsigned char *)format, (long)maxlen - 1);
-	ft_strncat(string, format, len);
-	curlen += len;
-	while (*f != '\0' && curlen < maxlen)
-	{
-		if (*f != '%')
-		{
-			ft_strncat(string, (const char *)f++, 1);
-			curlen++;
-		}
-		else
-		{
-			struct _libft_printf_specs specs = { 0 };
-
-			FIND_FLAGS(f, specs);
-			FIND_WIDTH(f, specs, ap);
-			FIND_PRECISION(f, specs, ap);
-
-			char	*s = NULL;
-			DO_POSITIONAL(f, s, specs, ap);
-
-			len = min(maxlen - 1 - curlen, specs.info.width + curlen);
-			ft_strncat(string, s, len);
-			LIBFT_FREE(s);
-			curlen += len;
-
-			f++;
-		}
-	}
-	return (curlen);
+	return (c >= 'A' && c <= 'Z');
 }
 
-void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length);
-
-/** The function _ft_printf_create_p() writes the address addr in hexadecimal
- * to the file descriptor fd.
- * @returns The number of characters written. */
-char	*_ft_printf_create_p(size_t addr, struct _libft_printf_specs *specs)
+int	ft_isalnum(int c)
 {
-	int		arg_length;
-	int		arg_start;
-	char	*s;
-
-	if (addr)
-	{
-		GET_UNSIGNED_NUMBER_LENGTH(&arg_length, addr, 16, specs->info.precision, size_t);
-		arg_length += 2;
-		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
-		if (!s)
-			return (NULL);
-		_ft_printf_create_hex_internal(s + arg_start,  'x', addr, 1, arg_length);
-	}
-	else
-	{
-		arg_length = (sizeof(LIBFT_PRINTF_NULL_PTR) - 1); // Remove null character
-		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
-		if (!s)
-			return (NULL);
-		ft_memcpy(s + arg_start, LIBFT_PRINTF_NULL_PTR, arg_length);
-	}
-	return (s);
+	return (ft_isalpha(c) || ft_isdigit(c));
 }
 
-int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
+int	ft_isspace(int c)
 {
-	int				done;
-	unsigned char	*f;
-	unsigned char	*lead_str_end;
-
-	done = 0;
-	f = lead_str_end = (unsigned char *)_ft_find_spec((const unsigned char *)format);
-	if ((done = write(fd, format, (const unsigned char *)lead_str_end - (const unsigned char *)format)) < 0)
-		return -1;
-	while (*f != '\0')
-	{
-		if (*f != '%')
-			done += write(fd, f++, 1);
-		else
-		{
-			struct _libft_printf_specs specs = { 0 };
-
-			FIND_FLAGS(f, specs);
-			FIND_WIDTH(f, specs, ap);
-			FIND_PRECISION(f, specs, ap);
-
-			char	*s = NULL;
-			DO_POSITIONAL(f, s, specs, ap);
-			write(fd, s, specs.info.width);
-			LIBFT_FREE(s);
-			done += specs.info.width;
-			f++;
-		}
-	}
-	return (done);
+	return ((c >= 9 && c <= 13) || c == 32);
 }
 
-char	*_ft_printf_create_c(char c, struct _libft_printf_specs *specs)
+int	ft_tolower(int c)
 {
-	int		arg_length;
-	int		arg_start;
-	char	*s;
-	arg_length = 1;
-	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
-	if (!s)
-		return (NULL);
-	ft_memset(s + arg_start, c, arg_length);
-	return (s);
+	if (ft_isupper(c))
+		return (c - 'A' + 'a');
+	return (c);
 }
 
 void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length)
@@ -1654,25 +1509,124 @@ char	*_ft_printf_create_xX(char x, unsigned int nb, struct _libft_printf_specs *
 	_ft_printf_create_hex_internal(s + arg_start, x, nb, specs->flags.alt, arg_length);
 	return (s);
 }
+int	ft_vsnprintf_internal(char *string, size_t maxlen, const char *format, va_list ap)
+{
+	unsigned char	*f;
+	unsigned char	*lead_str_end;
+	size_t			curlen;
+	long			len;
 
-#define _UNSIGNED_CONVERSION_DEF(_name, _type)											\
-	char	*_ft_printf_create_##_name(_type nb, struct _libft_printf_specs *specs)		\
-	{																					\
-		int arg_length;																	\
-		int arg_start;																	\
-		char *s;																		\
-																						\
-		GET_UNSIGNED_NUMBER_LENGTH(&arg_length, nb, 10, specs->info.precision, _type);	\
-		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);				\
-		if (!s)																			\
-			return (NULL);																\
-		MAKE_UNSIGNED_NUMBER_STRING(s + arg_start, nb, arg_length, _type);				\
-		return (s);																		\
+	ft_memset(string, 0, maxlen);
+	curlen = 0;
+	f = lead_str_end = (unsigned char *)_ft_find_spec((const unsigned char *)format);
+	len = min((const unsigned char *)lead_str_end - (const unsigned char *)format, (long)maxlen - 1);
+	ft_strncat(string, format, len);
+	curlen += len;
+	while (*f != '\0' && curlen < maxlen)
+	{
+		if (*f != '%')
+		{
+			ft_strncat(string, (const char *)f++, 1);
+			curlen++;
+		}
+		else
+		{
+			struct _libft_printf_specs specs = { 0 };
+
+			FIND_FLAGS(f, specs);
+			FIND_WIDTH(f, specs, ap);
+			FIND_PRECISION(f, specs, ap);
+
+			char	*s = NULL;
+			DO_POSITIONAL(f, s, specs, ap);
+
+			len = min(maxlen - 1 - curlen, specs.info.width + curlen);
+			ft_strncat(string, s, len);
+			LIBFT_FREE(s);
+			curlen += len;
+
+			f++;
+		}
+	}
+	return (curlen);
+}
+
+char	*_ft_printf_create_c(char c, struct _libft_printf_specs *specs)
+{
+	int		arg_length;
+	int		arg_start;
+	char	*s;
+	arg_length = 1;
+	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+	if (!s)
+		return (NULL);
+	ft_memset(s + arg_start, c, arg_length);
+	return (s);
+}
+
+void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length);
+
+/** The function _ft_printf_create_p() writes the address addr in hexadecimal
+ * to the file descriptor fd.
+ * @returns The number of characters written. */
+char	*_ft_printf_create_p(size_t addr, struct _libft_printf_specs *specs)
+{
+	int		arg_length;
+	int		arg_start;
+	char	*s;
+
+	if (addr)
+	{
+		GET_UNSIGNED_NUMBER_LENGTH(&arg_length, addr, 16, specs->info.precision, size_t);
+		arg_length += 2;
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+		if (!s)
+			return (NULL);
+		_ft_printf_create_hex_internal(s + arg_start,  'x', addr, 1, arg_length);
+	}
+	else
+	{
+		arg_length = (sizeof(LIBFT_PRINTF_NULL_PTR) - 1); // Remove null character
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
+		if (!s)
+			return (NULL);
+		ft_memcpy(s + arg_start, LIBFT_PRINTF_NULL_PTR, arg_length);
+	}
+	return (s);
+}
+
+#define _ft_printf__abs(x)	_Generic((x),	\
+	int:       ft_abs,						\
+	long:      ft_labs,						\
+	long long: ft_llabs						\
+	)(x)
+
+#define _SIGNED_CONVERSION_DEF(_name, _type)										\
+	char	*_ft_printf_create_##_name(_type nb, struct _libft_printf_specs *specs)	\
+	{																				\
+		int arg_length;																\
+		int arg_start;																\
+		char *s;																	\
+		GET_NUMBER_LENGTH(&arg_length, nb, 10, specs->info.precision, _type);		\
+		int	showfront = (nb >= 0 && (specs->flags.space || specs->flags.showsign));	\
+		arg_length += showfront;													\
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);			\
+		if (!s)																		\
+			return (NULL);															\
+		MAKE_NUMBER_STRING(s + arg_start, _type, _ft_printf__abs, nb, arg_length);	\
+		if (showfront)																\
+		{																			\
+			if (specs->flags.space)													\
+				s[0] = ' ';															\
+			else if (specs->flags.showsign)											\
+				s[0] = '+';															\
+		}																			\
+		return (s);																	\
 	}
 
-_UNSIGNED_CONVERSION_DEF(u, unsigned int)
-_UNSIGNED_CONVERSION_DEF(ul, unsigned long)
-_UNSIGNED_CONVERSION_DEF(ull, unsigned long long)
+_SIGNED_CONVERSION_DEF(di, int)
+_SIGNED_CONVERSION_DEF(l, long)
+_SIGNED_CONVERSION_DEF(ll, long long)
 
 /** The function _ft_printf_create_s() writes the string pointed to by str to the file
  * descriptor fd.
@@ -1704,6 +1658,58 @@ char	*_ft_printf_create_s(const char *str, struct _libft_printf_specs *specs)
 	}
 	return (s);
 }
+
+int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
+{
+	int				done;
+	unsigned char	*f;
+	unsigned char	*lead_str_end;
+
+	done = 0;
+	f = lead_str_end = (unsigned char *)_ft_find_spec((const unsigned char *)format);
+	if ((done = write(fd, format, (const unsigned char *)lead_str_end - (const unsigned char *)format)) < 0)
+		return -1;
+	while (*f != '\0')
+	{
+		if (*f != '%')
+			done += write(fd, f++, 1);
+		else
+		{
+			struct _libft_printf_specs specs = { 0 };
+
+			FIND_FLAGS(f, specs);
+			FIND_WIDTH(f, specs, ap);
+			FIND_PRECISION(f, specs, ap);
+
+			char	*s = NULL;
+			DO_POSITIONAL(f, s, specs, ap);
+			write(fd, s, specs.info.width);
+			LIBFT_FREE(s);
+			done += specs.info.width;
+			f++;
+		}
+	}
+	return (done);
+}
+
+#define _UNSIGNED_CONVERSION_DEF(_name, _type)											\
+	char	*_ft_printf_create_##_name(_type nb, struct _libft_printf_specs *specs)		\
+	{																					\
+		int arg_length;																	\
+		int arg_start;																	\
+		char *s;																		\
+																						\
+		GET_UNSIGNED_NUMBER_LENGTH(&arg_length, nb, 10, specs->info.precision, _type);	\
+		s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);				\
+		if (!s)																			\
+			return (NULL);																\
+		MAKE_UNSIGNED_NUMBER_STRING(s + arg_start, nb, arg_length, _type);				\
+		return (s);																		\
+	}
+
+_UNSIGNED_CONVERSION_DEF(u, unsigned int)
+_UNSIGNED_CONVERSION_DEF(ul, unsigned long)
+_UNSIGNED_CONVERSION_DEF(ull, unsigned long long)
 
 int	_ft_vdprintf_internal(int fd, const char *format, va_list ap);
 
@@ -1871,31 +1877,6 @@ void	ft_lstadd_back(t_list **lst, t_list *new_elem)
 	}
 }
 
-t_list	*ft_lstlast(t_list *lst)
-{
-	t_list	*temp;
-
-	temp = lst;
-	if (!temp)
-		return (NULL);
-	while (temp->next)
-		temp = temp->next;
-	return (temp);
-}
-
-void	ft_lstiter(t_list *lst, void (*f)(void *))
-{
-	t_list	*temp;
-
-	temp = lst;
-	while (temp != NULL)
-	{
-		if (f)
-			f(temp->content);
-		temp = temp->next;
-	}
-}
-
 t_list	*ft_lstnew(void *content)
 {
 	t_list	*elem;
@@ -1906,6 +1887,18 @@ t_list	*ft_lstnew(void *content)
 	elem->content = content;
 	elem->next = NULL;
 	return (elem);
+}
+
+t_list	*ft_lstlast(t_list *lst)
+{
+	t_list	*temp;
+
+	temp = lst;
+	if (!temp)
+		return (NULL);
+	while (temp->next)
+		temp = temp->next;
+	return (temp);
 }
 
 void	ft_lstclear(t_list **lst, void (*del)(void *))
@@ -1924,37 +1917,17 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 	}
 }
 
-void	ft_lstadd_front(t_list **lst, t_list *new)
+void	ft_lstiter(t_list *lst, void (*f)(void *))
 {
-	if (lst != NULL && new != NULL)
-	{
-		new->next = *lst;
-		*lst = new;
-	}
-}
-
-int	ft_lstsize(t_list *lst)
-{
-	int		size;
 	t_list	*temp;
 
-	size = 0;
 	temp = lst;
 	while (temp != NULL)
 	{
-		size++;
+		if (f)
+			f(temp->content);
 		temp = temp->next;
 	}
-	return (size);
-}
-
-void	ft_lstdelone(t_list *lst, void (*del)(void *))
-{
-	if (!lst)
-		return ;
-	if (del)
-		del(lst->content);
-	LIBFT_FREE(lst);
 }
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
@@ -1977,18 +1950,37 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 	return (new_list);
 }
 
-long long	ft_llabs(long long i)
+int	ft_lstsize(t_list *lst)
 {
-	if (i < 0)
-		return (-i);
-	return (i);
+	int		size;
+	t_list	*temp;
+
+	size = 0;
+	temp = lst;
+	while (temp != NULL)
+	{
+		size++;
+		temp = temp->next;
+	}
+	return (size);
 }
 
-int	ft_abs(int i)
+void	ft_lstadd_front(t_list **lst, t_list *new)
 {
-	if (i < 0)
-		return (-i);
-	return (i);
+	if (lst != NULL && new != NULL)
+	{
+		new->next = *lst;
+		*lst = new;
+	}
+}
+
+void	ft_lstdelone(t_list *lst, void (*del)(void *))
+{
+	if (!lst)
+		return ;
+	if (del)
+		del(lst->content);
+	LIBFT_FREE(lst);
 }
 
 double	ft_fabs(double x)
@@ -1998,14 +1990,28 @@ double	ft_fabs(double x)
 	return (x);
 }
 
-long double	ft_fabsl(long double x)
+int	ft_abs(int i)
+{
+	if (i < 0)
+		return (-i);
+	return (i);
+}
+
+long	ft_labs(long x)
 {
 	if (x < 0)
 		return (-x);
 	return (x);
 }
 
-long	ft_labs(long x)
+long long	ft_llabs(long long i)
+{
+	if (i < 0)
+		return (-i);
+	return (i);
+}
+
+long double	ft_fabsl(long double x)
 {
 	if (x < 0)
 		return (-x);
@@ -2019,18 +2025,40 @@ float	ft_fabsf(float x)
 	return (x);
 }
 
-void	*ft_memchr(const void *s, int c, size_t n)
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	unsigned char	*str;
+	unsigned char	*c1;
+	unsigned char	*c2;
 
-	str = (unsigned char *)s;
+	c1 = (unsigned char *)s1;
+	c2 = (unsigned char *)s2;
 	while (n--)
 	{
-		if (*str == (unsigned char)c)
-			return (str);
-		str++;
+		if (*c1 != *c2)
+			return (*c1 - *c2);
+		c1++;
+		c2++;
 	}
-	return (NULL);
+	return (0);
+}
+
+void	ft_bzero(void *s, size_t n)
+{
+	ft_memset(s, 0, n);
+}
+
+void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
+{
+	char	*d;
+	char	*s;
+
+	if (!src && !dst)
+		return (NULL);
+	d = (char *)dst;
+	s = (char *)src;
+	while (n-- > 0)
+		*d++ = *s++;
+	return (dst);
 }
 
 void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
@@ -2051,20 +2079,18 @@ void	*ft_memccpy(void *dest, const void *src, int c, size_t n)
 	return (NULL);
 }
 
-void	*ft_calloc(size_t count, size_t size)
+void	*ft_memchr(const void *s, int c, size_t n)
 {
-	void	*ptr;
+	unsigned char	*str;
 
-	if (count == 0 || size == 0)
+	str = (unsigned char *)s;
+	while (n--)
 	{
-		count = 1;
-		size = 1;
+		if (*str == (unsigned char)c)
+			return (str);
+		str++;
 	}
-	ptr = LIBFT_MALLOC(count * size);
-	if (!ptr)
-		return (NULL);
-	ft_bzero(ptr, count * size);
-	return (ptr);
+	return (NULL);
 }
 
 void	*ft_memset(void *s, int c, size_t n)
@@ -2075,11 +2101,6 @@ void	*ft_memset(void *s, int c, size_t n)
 	while (n-- > 0)
 		*ptr++ = c;
 	return (s);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	ft_memset(s, 0, n);
 }
 
 void	*ft_memmove(void *dest, const void *src, size_t n)
@@ -2102,35 +2123,243 @@ void	*ft_memmove(void *dest, const void *src, size_t n)
 	return (dest);
 }
 
-void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
+void	*ft_calloc(size_t count, size_t size)
 {
-	char	*d;
-	char	*s;
+	void	*ptr;
 
-	if (!src && !dst)
+	if (count == 0 || size == 0)
+	{
+		count = 1;
+		size = 1;
+	}
+	ptr = LIBFT_MALLOC(count * size);
+	if (!ptr)
 		return (NULL);
-	d = (char *)dst;
-	s = (char *)src;
-	while (n-- > 0)
-		*d++ = *s++;
-	return (dst);
+	ft_bzero(ptr, count * size);
+	return (ptr);
 }
 
-int	ft_memcmp(const void *s1, const void *s2, size_t n)
+char	*ft_strncat(char *restrict s1, const char *restrict s2, size_t n)
 {
-	unsigned char	*c1;
-	unsigned char	*c2;
+	char	*s;
+	size_t	ss;
 
-	c1 = (unsigned char *)s1;
-	c2 = (unsigned char *)s2;
-	while (n--)
+	s = s1;
+	s1 += ft_strlen(s1);
+	ss = ft_strnlen(s2, n);
+	s1[ss] = '\0';
+	ft_memcpy(s1, s2, ss);
+	return (s);
+}
+
+char	*ft_strnstr(const char *haystack, const char *needle, size_t n)
+{
+	size_t	i;
+	size_t	j;
+
+	if (*needle == '\0' || needle == NULL)
+		return ((char *)haystack);
+	i = 0;
+	while (haystack[i] != '\0' && i < n)
 	{
-		if (*c1 != *c2)
-			return (*c1 - *c2);
-		c1++;
-		c2++;
+		j = 0;
+		while (needle[j] == haystack[i + j] && i + j < n)
+		{
+			if (needle[j + 1] == '\0')
+				return ((char *)haystack + i);
+			j++;
+		}
+		i++;
 	}
-	return (0);
+	return (NULL);
+}
+
+size_t	ft_strcspn(const char *s1, const char *s2)
+{
+	const char	*s;
+	const char	*c;
+
+	s = s1;
+	while (*s1)
+	{
+		c = s2;
+		while (*c)
+		{
+			if (*s1 == *c)
+				break ;
+			c++;
+		}
+		if (*c)
+			break ;
+		s1++;
+	}
+	return (s1 - s);
+}
+
+char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
+{
+	char			*dst;
+
+	if (!s1 || !s2 || !s3)
+		return (NULL);
+	dst = LIBFT_MALLOC(sizeof(char)
+			* (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3)) + 1);
+	if (!dst)
+		return (NULL);
+	return (ft_strcat(ft_strcat(ft_strcpy(dst, s1), s2), s3));
+}
+
+size_t	ft_len_to_char(const char *s, char c)
+{
+	int	n;
+
+	n = 0;
+	while (s[n] && s[n] != c)
+		n++;
+	return (n);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	unsigned int	i;
+
+	if (!dst || !src)
+		return (0);
+	i = 0;
+	if (size > 0)
+	{
+		while (--size && src[i] != '\0')
+		{
+			dst[i] = src[i];
+			i++;
+		}
+		dst[i] = '\0';
+	}
+	while (src[i])
+		i++;
+	return (i);
+}
+
+size_t	ft_strlen(const char *s)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0')
+		i++;
+	return (i);
+}
+
+static int	ft_wordslen(const char *s, char c, int i)
+{
+	int	n;
+
+	n = 0;
+	while (s[i++] != c && s[i] != '\0')
+		n++;
+	return (n);
+}
+
+static int	ft_countwords(char const *s, char c)
+{
+	int	i;
+	int	words;
+	int	j;
+
+	i = 0;
+	words = 0;
+	j = 0;
+	while (s[i] != '\0')
+	{
+		if ((s[i] == c && j > 0) || (s[i] != c && s[i + 1] == '\0'))
+		{
+			words++;
+			j = 0;
+		}
+		else if (s[i] != c)
+			j++;
+		i++;
+	}
+	return (words);
+}
+
+char	**ft_strsplit(char const *s, char c)
+{
+	char	**split;
+	int		n;
+	int		i[2];
+
+	i[1] = 0;
+	i[0] = 0;
+	n = 0;
+	split = LIBFT_MALLOC(8 * (ft_countwords(s, c) + 1));
+	if (!s || !c || !split)
+		return (NULL);
+	while (ft_countwords(s, c) > n)
+	{
+		i[1] = 0;
+		while (s[i[0]] == c)
+			i[0]++;
+		split[n] = LIBFT_MALLOC(ft_wordslen(s, c, i[0]) + 2);
+		if (!split[n])
+			return (NULL);
+		while (s[i[0]] != c && s[i[0]] != '\0')
+			split[n][i[1]++] = s[i[0]++];
+		split[n++][i[1]] = '\0';
+	}
+	split[n] = NULL;
+	return (split);
+}
+
+size_t	ft_strnlen(const char *s, size_t maxlen)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i] != '\0' && i < maxlen)
+		i++;
+	return (i);
+}
+
+char	*ft_strchr(const char *s, int c)
+{
+	while (*s)
+	{
+		if (*s == (char)c)
+			return ((char *)s);
+		s++;
+	}
+	if ((char)c == '\0')
+		return ((char *)s);
+	return (NULL);
+}
+
+char	*ft_strjoin(const char *s1, const char *s2)
+{
+	char			*d;
+
+	if (!s1 || !s2)
+		return (NULL);
+	d = LIBFT_MALLOC(sizeof(*d) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
+	if (!d)
+		return (NULL);
+	return (ft_strcat(ft_strcpy(d, s1), s2));
+}
+
+char	*ft_strcat(char *restrict s1, const char *restrict s2)
+{
+	ft_strcpy(s1 + ft_strlen(s1), s2);
+	return (s1);
+}
+
+size_t	ft_len_to_space(const char *s)
+{
+	size_t	n;
+
+	n = 0;
+	while (s[n] && !ft_isspace(s[n]))
+		n++;
+	return (n);
 }
 
 static unsigned int	words(const char *s, char c)
@@ -2217,6 +2446,184 @@ char	**ft_split(const char *s, char c)
 	return (tab);
 }
 
+char	*ft_strrchr(const char *s, int c)
+{
+	int		len;
+
+	len = ft_strlen((char *)s);
+	while (len && s[len] != (char)c)
+		len--;
+	if (s[len] == (char)c)
+		return ((char *)&s[len]);
+	return (NULL);
+}
+
+char	*ft_substr(const char *s, unsigned int start, size_t len)
+{
+	size_t	i;
+	size_t	j;
+	char	*str;
+
+	if (!s)
+		return (NULL);
+	str = LIBFT_MALLOC(sizeof(*s) * (len + 1));
+	if (!str)
+		return (NULL);
+	i = 0;
+	j = 0;
+	while (s[i])
+	{
+		if (i >= start && j < len)
+		{
+			str[j] = s[i];
+			j++;
+		}
+		i++;
+	}
+	str[j] = 0;
+	return (str);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (s1[i] && s2[i] && s1[i] == s2[i] && i < n - 1)
+		i++;
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+char	*ft_strcpy(char *dest, const char *src)
+{
+	int		i;
+
+	i = 0;
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
+}
+
+void	ft_str_toupper(char *s)
+{
+	int		i;
+
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i])
+	{
+		if (ft_islower(s[i]))
+			s[i] = (char)ft_toupper(s[i]);
+		i++;
+	}
+}
+
+char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
+{
+	char			*d;
+	unsigned int	i;
+
+	if (!s)
+		return (NULL);
+	d = LIBFT_MALLOC(sizeof(*d) * ft_strlen(s) + 1);
+	if (!d)
+		return (NULL);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		d[i] = f(i, s[i]);
+		i++;
+	}
+	d[i] = '\0';
+	return (d);
+}
+
+char	*ft_strtrim(char *s1, char *set)
+{
+	size_t	size_s;
+	char	*dest;
+
+	if (!s1 || !set)
+		return (NULL);
+	while (*s1 && ft_strchr(set, *s1))
+		s1++;
+	size_s = ft_strlen(s1);
+	while (size_s && ft_strchr(set, s1[size_s]))
+		size_s--;
+	dest = ft_substr(s1, 0, size_s + 1);
+	return (dest);
+}
+
+char	*ft_strndup(const char *s, size_t n)
+{
+	size_t	len;
+	char	*d;
+
+	len = ft_strnlen(s, n);
+	d = LIBFT_MALLOC(sizeof(*d) * len + 1);
+	if (!d)
+		return (NULL);
+	ft_memcpy(d, s, len);
+	d[len] = '\0';
+	return d;
+}
+
+size_t	ft_strlcat(char *dst, const char *src, size_t size)
+{
+	size_t	i;
+	size_t	j;
+	size_t	len;
+
+	i = 0;
+	j = 0;
+	len = 0;
+	while (dst[i])
+		i++;
+	while (src[len])
+		len++;
+	if (size <= i)
+		return (size + len);
+	while (src[j] != '\0' && j + i < size - 1)
+	{
+		dst[i + j] = src[j];
+		j++;
+	}
+	dst[i + j] = '\0';
+	return (len + i);
+}
+
+void	ft_str_tolower(char *s)
+{
+	int		i;
+
+	if (!s)
+		return ;
+	i = 0;
+	while (s[i])
+	{
+		if (ft_isupper(s[i]))
+			s[i] = (char)ft_tolower(s[i]);
+		i++;
+	}
+}
+
+char	*ft_strdup(const char *s)
+{
+	size_t	len;
+	char	*d;
+
+	len = ft_strlen(s) + 1;
+	d = LIBFT_MALLOC(sizeof(*d) * len);
+	if (!d)
+		return (NULL);
+	return (ft_memcpy(d, s, len));
+}
+
 /*
 int	ft_atoi(const char *nptr)
 {
@@ -2267,305 +2674,6 @@ int	ft_atoi(const char *s)
 		result = result * 10 + digit;
 	}
 	return (result * sign);
-}
-
-static int	ft_wordslen(const char *s, char c, int i)
-{
-	int	n;
-
-	n = 0;
-	while (s[i++] != c && s[i] != '\0')
-		n++;
-	return (n);
-}
-
-static int	ft_countwords(char const *s, char c)
-{
-	int	i;
-	int	words;
-	int	j;
-
-	i = 0;
-	words = 0;
-	j = 0;
-	while (s[i] != '\0')
-	{
-		if ((s[i] == c && j > 0) || (s[i] != c && s[i + 1] == '\0'))
-		{
-			words++;
-			j = 0;
-		}
-		else if (s[i] != c)
-			j++;
-		i++;
-	}
-	return (words);
-}
-
-char	**ft_strsplit(char const *s, char c)
-{
-	char	**split;
-	int		n;
-	int		i[2];
-
-	i[1] = 0;
-	i[0] = 0;
-	n = 0;
-	split = LIBFT_MALLOC(8 * (ft_countwords(s, c) + 1));
-	if (!s || !c || !split)
-		return (NULL);
-	while (ft_countwords(s, c) > n)
-	{
-		i[1] = 0;
-		while (s[i[0]] == c)
-			i[0]++;
-		split[n] = LIBFT_MALLOC(ft_wordslen(s, c, i[0]) + 2);
-		if (!split[n])
-			return (NULL);
-		while (s[i[0]] != c && s[i[0]] != '\0')
-			split[n][i[1]++] = s[i[0]++];
-		split[n++][i[1]] = '\0';
-	}
-	split[n] = NULL;
-	return (split);
-}
-
-char	*ft_strdup(const char *s)
-{
-	size_t	len;
-	char	*d;
-
-	len = ft_strlen(s) + 1;
-	d = LIBFT_MALLOC(sizeof(*d) * len);
-	if (!d)
-		return (NULL);
-	return (ft_memcpy(d, s, len));
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	unsigned int	i;
-
-	if (!dst || !src)
-		return (0);
-	i = 0;
-	if (size > 0)
-	{
-		while (--size && src[i] != '\0')
-		{
-			dst[i] = src[i];
-			i++;
-		}
-		dst[i] = '\0';
-	}
-	while (src[i])
-		i++;
-	return (i);
-}
-
-int	ft_strcmp(const char *s1, const char *s2)
-{
-	int		i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i])
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
-char	*ft_strjoin(const char *s1, const char *s2)
-{
-	char			*d;
-
-	if (!s1 || !s2)
-		return (NULL);
-	d = LIBFT_MALLOC(sizeof(*d) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
-	if (!d)
-		return (NULL);
-	return (ft_strcat(ft_strcpy(d, s1), s2));
-}
-
-int	ft_strncmp(const char *s1, const char *s2, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (s1[i] && s2[i] && s1[i] == s2[i] && i < n - 1)
-		i++;
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-}
-
-size_t	ft_strcspn(const char *s1, const char *s2)
-{
-	const char	*s;
-	const char	*c;
-
-	s = s1;
-	while (*s1)
-	{
-		c = s2;
-		while (*c)
-		{
-			if (*s1 == *c)
-				break ;
-			c++;
-		}
-		if (*c)
-			break ;
-		s1++;
-	}
-	return (s1 - s);
-}
-
-char	*ft_strcat(char *restrict s1, const char *restrict s2)
-{
-	ft_strcpy(s1 + ft_strlen(s1), s2);
-	return (s1);
-}
-
-void	ft_str_toupper(char *s)
-{
-	int		i;
-
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i])
-	{
-		if (ft_islower(s[i]))
-			s[i] = (char)ft_toupper(s[i]);
-		i++;
-	}
-}
-
-char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
-{
-	char			*d;
-	unsigned int	i;
-
-	if (!s)
-		return (NULL);
-	d = LIBFT_MALLOC(sizeof(*d) * ft_strlen(s) + 1);
-	if (!d)
-		return (NULL);
-	i = 0;
-	while (s[i] != '\0')
-	{
-		d[i] = f(i, s[i]);
-		i++;
-	}
-	d[i] = '\0';
-	return (d);
-}
-
-char	*ft_substr(const char *s, unsigned int start, size_t len)
-{
-	size_t	i;
-	size_t	j;
-	char	*str;
-
-	if (!s)
-		return (NULL);
-	str = LIBFT_MALLOC(sizeof(*s) * (len + 1));
-	if (!str)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (s[i])
-	{
-		if (i >= start && j < len)
-		{
-			str[j] = s[i];
-			j++;
-		}
-		i++;
-	}
-	str[j] = 0;
-	return (str);
-}
-
-char	*ft_strrchr(const char *s, int c)
-{
-	int		len;
-
-	len = ft_strlen((char *)s);
-	while (len && s[len] != (char)c)
-		len--;
-	if (s[len] == (char)c)
-		return ((char *)&s[len]);
-	return (NULL);
-}
-
-char	*ft_strndup(const char *s, size_t n)
-{
-	size_t	len;
-	char	*d;
-
-	len = ft_strnlen(s, n);
-	d = LIBFT_MALLOC(sizeof(*d) * len + 1);
-	if (!d)
-		return (NULL);
-	ft_memcpy(d, s, len);
-	d[len] = '\0';
-	return d;
-}
-
-void	ft_str_tolower(char *s)
-{
-	int		i;
-
-	if (!s)
-		return ;
-	i = 0;
-	while (s[i])
-	{
-		if (ft_isupper(s[i]))
-			s[i] = (char)ft_tolower(s[i]);
-		i++;
-	}
-}
-
-char	*ft_strtrim(char *s1, char *set)
-{
-	size_t	size_s;
-	char	*dest;
-
-	if (!s1 || !set)
-		return (NULL);
-	while (*s1 && ft_strchr(set, *s1))
-		s1++;
-	size_s = ft_strlen(s1);
-	while (size_s && ft_strchr(set, s1[size_s]))
-		size_s--;
-	dest = ft_substr(s1, 0, size_s + 1);
-	return (dest);
-}
-
-char	*ft_strcpy(char *dest, const char *src)
-{
-	int		i;
-
-	i = 0;
-	while (src[i])
-	{
-		dest[i] = src[i];
-		i++;
-	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-char	*ft_strchr(const char *s, int c)
-{
-	while (*s)
-	{
-		if (*s == (char)c)
-			return ((char *)s);
-		s++;
-	}
-	if ((char)c == '\0')
-		return ((char *)s);
-	return (NULL);
 }
 
 static int	_ft_itoa_digits(unsigned int n)
@@ -2625,16 +2733,6 @@ char	*ft_itoa(int n)
 	return (_ft_itoa_create_string(len, nb, n));
 }
 
-size_t	ft_strlen(const char *s)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0')
-		i++;
-	return (i);
-}
-
 char	*ft_strncpy(char *s1, const char *s2, size_t n)
 {
 	size_t	size;
@@ -2645,596 +2743,14 @@ char	*ft_strncpy(char *s1, const char *s2, size_t n)
 	return (ft_memcpy(s1, s2, size));
 }
 
-char	*ft_strnstr(const char *haystack, const char *needle, size_t n)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	size_t	i;
-	size_t	j;
-
-	if (*needle == '\0' || needle == NULL)
-		return ((char *)haystack);
-	i = 0;
-	while (haystack[i] != '\0' && i < n)
-	{
-		j = 0;
-		while (needle[j] == haystack[i + j] && i + j < n)
-		{
-			if (needle[j + 1] == '\0')
-				return ((char *)haystack + i);
-			j++;
-		}
-		i++;
-	}
-	return (NULL);
-}
-
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	j;
-	size_t	len;
+	int		i;
 
 	i = 0;
-	j = 0;
-	len = 0;
-	while (dst[i])
+	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
-	while (src[len])
-		len++;
-	if (size <= i)
-		return (size + len);
-	while (src[j] != '\0' && j + i < size - 1)
-	{
-		dst[i + j] = src[j];
-		j++;
-	}
-	dst[i + j] = '\0';
-	return (len + i);
-}
-
-size_t	ft_len_to_space(const char *s)
-{
-	size_t	n;
-
-	n = 0;
-	while (s[n] && !ft_isspace(s[n]))
-		n++;
-	return (n);
-}
-
-char	*ft_strncat(char *restrict s1, const char *restrict s2, size_t n)
-{
-	char	*s;
-	size_t	ss;
-
-	s = s1;
-	s1 += ft_strlen(s1);
-	ss = ft_strnlen(s2, n);
-	s1[ss] = '\0';
-	ft_memcpy(s1, s2, ss);
-	return (s);
-}
-
-char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
-{
-	char			*dst;
-
-	if (!s1 || !s2 || !s3)
-		return (NULL);
-	dst = LIBFT_MALLOC(sizeof(char)
-			* (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3)) + 1);
-	if (!dst)
-		return (NULL);
-	return (ft_strcat(ft_strcat(ft_strcpy(dst, s1), s2), s3));
-}
-
-size_t	ft_strnlen(const char *s, size_t maxlen)
-{
-	size_t	i;
-
-	i = 0;
-	while (s[i] != '\0' && i < maxlen)
-		i++;
-	return (i);
-}
-
-size_t	ft_len_to_char(const char *s, char c)
-{
-	int	n;
-
-	n = 0;
-	while (s[n] && s[n] != c)
-		n++;
-	return (n);
-}
-
-typedef void*				value_type;
-typedef const void * const	const_value_type;
-typedef void*				pointer;
-typedef const void * const	const_pointer;
-
-typedef struct ft_vector
-{
-	size_t			type_size;
-	ft_allocator	alloc;
-	void *		_begin;
-	void *		_end;
-	void *		_end_cap;
-}ft_vector;
-
-ft_vector	*_ft_vector_create(size_t type_size, ft_allocator alloc)
-{
-	ft_vector	*v = LIBFT_MALLOC(sizeof(struct ft_vector));
-
-	LIBFT_ASSERT(v);
-	v->type_size = type_size;
-	v->alloc = alloc;
-	v->_begin = v->_end = v->_end_cap = NULL;
-	return v;
-}
-
-void	_ft_vector_swap(pointer *a, pointer *b)
-{
-	pointer tmp;
-
-	tmp = *a;
-	*a = *b;
-	*b = tmp;
-}
-
-void	*_ft_fill_n(const ft_allocator *_a, pointer first, size_t n, const_value_type x, size_t type_size)
-{
-	for (; n > 0; _ft_pointer_inc(first, type_size), (void)--n)
-		_a->construct(first, x, type_size);
-	return first;
-}
-
-size_t	_ft_vector_realcap(const ft_vector *_v)
-{
-	return (size_t)_ft_pointer_subp(_v->_end_cap, _v->_begin);
-}
-
-size_t	_ft_vector_realsize(const ft_vector *_v)
-{
-	return (size_t)_ft_pointer_subp(_v->_end, _v->_begin);
-}
-
-size_t	_ft_vector_recommend(const ft_vector *_v, size_t new_size)
-{
-	LIBFT_ASSERT(new_size < SIZE_MAX);
-    const size_t cap = ft_vector_capacity(_v);
-    if (cap >= SIZE_MAX / 2)
-        return SIZE_MAX;
-    return max(2 * cap, new_size);
-}
-
-void	_ft_vector_destruct_at_end(ft_vector *_v, pointer new_last)
-{
-	pointer soon_to_be_end = _v->_end;
-
-	while (new_last != soon_to_be_end)
-	{
-		_ft_pointer_dec(soon_to_be_end, _v->type_size);
-		_v->alloc.destroy(soon_to_be_end);
-	}
-	_v->_end = new_last;
-}
-
-void	_ft_vector_clear(ft_vector *_v)
-{
-	if (_v->_begin != NULL)
-		_ft_vector_destruct_at_end(_v, _v->_begin);
-}
-
-void	_ft_vector_destroy(ft_vector *_v)
-{
-	if (_v->_begin != NULL)
-	{
-		_ft_vector_clear(_v);
-		_v->alloc.deallocate(_v->_begin, _ft_vector_realcap(_v));
-	}
-}
-
-void	_ft_vector_vallocate(ft_vector *_v, size_t n)
-{
-	LIBFT_ASSERT(n <= SIZE_MAX);
-	_v->_begin = _v->_end = _v->alloc.allocate(n, _v->type_size);
-	_v->_end_cap = _ft_pointer_add(_v->_begin, n, _v->type_size);
-}
-
-void	_ft_vector_vdeallocate(ft_vector *_v)
-{
-	if (_v->_begin != 0)
-	{
-		_ft_vector_clear(_v);
-		_v->alloc.deallocate(_v->_begin, _ft_vector_realcap(_v));
-		_v->_begin = _v->_end = _v->_end_cap = 0;
-	}
-}
-
-void	_ft_vector_construct_at_end(ft_vector *_v, size_t n, const_pointer _x)
-{
-	if (_ft_vector_realsize(_v) + n * _v->type_size > _ft_vector_realcap(_v))
-		return ;
-	while (n-- > 0)
-	{
-		_v->alloc.construct(_v->_end, _x, _v->type_size);
-		_ft_pointer_inc(_v->_end, _v->type_size);
-	}
-}
-
-void	_ft_vector_construct_at_end_range(ft_vector *_v, pointer first, pointer last, size_t n)
-{
-	if (_ft_vector_realsize(_v) + n * _v->type_size > _ft_vector_realcap(_v) || n == 0)
-		return ;
-	for (; first != last; _ft_pointer_inc(first, _v->type_size))
-	{
-		_v->alloc.construct(_v->_end, first, _v->type_size);
-		_ft_pointer_inc(_v->_end, _v->type_size);
-	}
-}
-
-ft_vector	*ft_vector_copy(ft_vector *_v, const ft_vector *_src)
-{
-	if (_v != _src)
-	{
-		// _copy_assign_alloc(_v, _src);
-		ft_vector_reserve(_v, _ft_vector_realcap(_src));
-		ft_vector_assign_range(_v, _src->_begin, _src->_end);
-	}
-	return _v;
-}
-
-LIBFT_BOOL	ft_vector_empty(const ft_vector *_v)
-{
-	return _v->_begin == _v->_end;
-}
-
-size_t	ft_vector_size(const ft_vector *_v)
-{
-	LIBFT_ASSERT(_v->type_size > 0);
-	return (_ft_vector_realsize(_v) / _v->type_size);
-}
-
-size_t	LIBFT_VECTOR_TYPE_size(const ft_vector *_v)
-{
-	return _v->type_size;
-}
-
-size_t	ft_vector_capacity(const ft_vector *_v)
-{
-	LIBFT_ASSERT(_v->type_size > 0);
-	return (_ft_vector_realcap(_v) / _v->type_size);
-}
-
-value_type	ft_vector_data(ft_vector *_v)
-{
-	return _v->_begin;
-}
-
-value_type	ft_vector_at(ft_vector *_v, size_t n)
-{
-	return _ft_pointer_add(_v->_begin, n, _v->type_size);
-}
-
-void	ft_vector_clear(ft_vector *_v)
-{
-	_ft_vector_clear(_v);
-}
-
-void	ft_vector_destroy(ft_vector *_v)
-{
-	_ft_vector_destroy(_v);
-	LIBFT_FREE(_v);
-}
-
-void	ft_vector_pop_back(ft_vector *_v)
-{
-	_ft_vector_destruct_at_end(_v, _ft_pointer_sub(_v->_end, 1, _v->type_size));
-}
-
-void	ft_vector_reserve(ft_vector *_v, size_t n)
-{
-	if (n * _v->type_size > _ft_vector_realcap(_v))
-	{
-		size_t cs = ft_vector_size(_v);
-		ft_vector	new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
-
-		_ft_vector_vallocate(&new_v, n);
-		_ft_vector_construct_at_end_range(&new_v, _v->_begin, _ft_pointer_add(_v->_begin, cs, _v->type_size), cs);
-		ft_vector_swap(_v, &new_v);
-		_ft_vector_destroy(&new_v);
-	}
-}
-
-void	_ft_vector_append(ft_vector *_v, size_t n, const_value_type x)
-{
-	if ((size_t)_ft_pointer_subp(_v->_end_cap, _v->_end) >= n)
-		_ft_vector_construct_at_end(_v, n, x);
-	else
-	{
-		size_t cs = ft_vector_size(_v);
-		ft_vector new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
-
-		_ft_vector_vallocate(&new_v, _ft_vector_recommend(_v, cs + n));
-		_ft_vector_construct_at_end_range(&new_v, _v->_begin, _ft_pointer_add(_v->_begin, cs, _v->type_size), cs);
-		_ft_vector_construct_at_end(&new_v, n, x);
-		ft_vector_swap(_v, &new_v);
-		_ft_vector_destroy(&new_v);
-	}
-}
-
-void	ft_vector_resize(ft_vector *_v, size_t n, const_value_type value)
-{
-	size_t cs = ft_vector_size(_v);
-	if (cs < n)
-		_ft_vector_append(_v, n - cs, value);
-	else if (cs > n)
-		_ft_vector_destruct_at_end(_v, ft_vector_at(_v, n));
-}
-
-void	ft_vector_assign(ft_vector *_v, size_t n, const_value_type x)
-{
-	if (n *_v->type_size <= _ft_vector_realcap(_v))
-	{
-		size_t s = ft_vector_size(_v);
-		_ft_fill_n(&_v->alloc, _v->_begin, min(n, s), x, _v->type_size);
-		if (n > s)
-			_ft_vector_construct_at_end(_v, n - s, x);
-		else
-			_ft_vector_destruct_at_end(_v, _ft_pointer_add(_v->_begin, n, _v->type_size));
-	}
-	else
-	{
-		_ft_vector_vdeallocate(_v);
-		_ft_vector_vallocate(_v, n);
-		_ft_vector_construct_at_end(_v, n, x);
-	}
-}
-
-void	ft_vector_assign_range(ft_vector *_v, pointer first, pointer last)
-{
-	_ft_vector_clear(_v);
-	for (; first != last; _ft_pointer_inc(first, _v->type_size))
-		ft_vector_push_back(_v, first);
-}
-
-void	ft_vector_push_back(ft_vector *_v, const_value_type x)
-{
-	if (_v->_end != _v->_end_cap)
-		_ft_vector_construct_at_end(_v, 1, x);
-	else
-	{
-		ft_vector	new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
-
-		ft_vector_reserve(&new_v, _ft_vector_recommend(_v, ft_vector_size(_v) + 1));
-
-		ft_vector_assign_range(&new_v, _v->_begin, _v->_end);
-		_v->alloc.construct(new_v._end, x, new_v.type_size);
-		_ft_pointer_inc(new_v._end, new_v.type_size);
-		ft_vector_swap(_v, &new_v);
-		_ft_vector_destroy(&new_v);
-	}
-}
-
-void	_insert_in_array(ft_vector *_v, pointer p, size_t n, size_t position, const_value_type x)
-{
-	size_t	size;
-	pointer data;
-	pointer _dst, _src, _pos, _end;
-
-	size = _ft_vector_realsize(_v);
-	data = NULL;
-	if (p >= _v->_begin && p <= _v->_end)
-	{
-		data = _v->alloc.allocate(size, 1);
-		ft_memcpy(data, _v->_begin, size);
-		_src = data;
-	}
-	else
-	{
-		_src = _v->_begin;
-	}
-
-	_dst = p;
-	_pos = _ft_pointer_add(_src, position, _v->type_size);
-	_end = _ft_pointer_add(_src, size, 1);
-	for (; _src != _pos; _ft_pointer_inc(_src, _v->type_size))
-	{
-		if (_src)
-			_v->alloc.construct(_dst, _src, _v->type_size);
-		_ft_pointer_inc(_dst, _v->type_size);
-	}
-	while (n--)
-	{
-		_v->alloc.construct(_dst, x, _v->type_size);
-		_ft_pointer_inc(_dst, _v->type_size);
-	}
-	for (; _src != _end; _ft_pointer_inc(_src, _v->type_size))
-	{
-		if (_src)
-			_v->alloc.construct(_dst, _src, _v->type_size);
-		_ft_pointer_inc(_dst, _v->type_size);
-	}
-	if (data)
-		_v->alloc.deallocate(data, size);
-}
-
-void	_insert_in_array_range(ft_vector *_v, pointer p, size_t position, pointer first, pointer last)
-{
-	size_t	size;
-	pointer data;
-	pointer _dst, _src, _pos, _end;
-
-	size = _ft_vector_realsize(_v);
-	data = NULL;
-	if (p >= _v->_begin && p <= _v->_end)
-	{
-		data = _v->alloc.allocate(size, 1);
-		ft_memcpy(data, _v->_begin, size);
-		_src = data;
-	}
-	else
-	{
-		_src = _v->_begin;
-	}
-
-	_dst = p;
-	_pos = _ft_pointer_add(_src, position, _v->type_size);
-	_end = _ft_pointer_add(_src, size, 1);
-	for (; _src != _pos; _ft_pointer_inc(_src, _v->type_size))
-	{
-		if (_src)
-			_v->alloc.construct(_dst, _src, _v->type_size);
-		_ft_pointer_inc(_dst, _v->type_size);
-	}
-	for (; first != last; _ft_pointer_inc(first, _v->type_size))
-	{
-		_v->alloc.construct(_dst, first, _v->type_size);
-		_ft_pointer_inc(_dst, _v->type_size);
-	}
-	for (; _src != _end; _ft_pointer_inc(_src, _v->type_size))
-	{
-		if (_src)
-			_v->alloc.construct(_dst, _src, _v->type_size);
-		_ft_pointer_inc(_dst, _v->type_size);
-	}
-	if (data)
-		_v->alloc.deallocate(data, size);
-}
-
-pointer	ft_vector_insert(ft_vector *_v, size_t position, const_value_type x)
-{
-	LIBFT_ASSERT(position <= ft_vector_size(_v));
-
-	ptrdiff_t d = (ptrdiff_t)_ft_pointer_subp(ft_vector_at(_v, position), _v->_begin);
-	pointer p = _ft_pointer_add(_v->_begin, d, _v->type_size);
-
-	if (_v->_end < _v->_end_cap)
-	{
-		if (p == _v->_end)
-			ft_vector_push_back(_v, x);
-		else
-			_insert_in_array(_v, _v->_begin, 1, position, x);
-	}
-	else
-	{
-		ft_vector   new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
-
-		ft_vector_reserve(&new_v, ft_vector_size(_v) + 1);
-		ft_vector_copy(&new_v, _v);
-		_insert_in_array(_v, new_v._begin, 1, position, x);
-		ft_vector_swap(_v, &new_v);
-		_ft_vector_destroy(&new_v);
-	}
-	_ft_pointer_inc(_v->_end, _v->type_size);
-	return _ft_pointer_add(_v->_begin, d, _v->type_size);
-}
-
-void	ft_vector_insert_count(ft_vector *_v, size_t position, size_t n, const_value_type x)
-{
-	if (n <= (size_t)_ft_pointer_subp(_v->_end_cap, _v->_end))
-	{
-		_insert_in_array(_v, _v->_begin, n, position, x);
-	}
-	else
-	{
-		ft_vector   new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
-
-		ft_vector_reserve(&new_v, ft_vector_size(_v) + n);
-		ft_vector_copy(&new_v, _v);
-		_insert_in_array(_v, new_v._begin, n, position, x);
-		ft_vector_swap(_v, &new_v);
-		_ft_vector_destroy(&new_v);
-	}
-	_v->_end = _ft_pointer_add(_v->_end, n, _v->type_size);
-}
-
-void	ft_vector_insert_range(ft_vector *_v, size_t position, pointer first, pointer last)
-{
-	size_t n = 0;
-	for (pointer tmp = first; tmp != last; _ft_pointer_inc(tmp, _v->type_size))
-		n++;
-	if (n <= (size_t)_ft_pointer_subp(_v->_end_cap, _v->_end))
-	{
-		_insert_in_array_range(_v, _v->_begin, position, first, last);
-	}
-	else
-	{
-		ft_vector   new_v = { .type_size = _v->type_size, .alloc = _v->alloc };
-		ft_vector_reserve(&new_v, ft_vector_size(_v) + n);
-		ft_vector_copy(&new_v, _v);
-		_insert_in_array_range(_v, new_v._begin, position, first, last);
-		ft_vector_swap(_v, &new_v);
-		_ft_vector_destroy(&new_v);
-	}
-	_v->_end = _ft_pointer_add(_v->_end, n, _v->type_size);
-}
-
-pointer	ft_vector_erase(ft_vector *_v, size_t position)
-{
-	return (ft_vector_erase_range(_v, ft_vector_at(_v, position), ft_vector_at(_v, position + 1)));
-}
-
-pointer ft_vector_erase_range(ft_vector *_v, pointer first, pointer last)
-{
-	pointer r = first;
-	size_t n = 0;
-	for (pointer tmp = first; tmp != last; _ft_pointer_inc(tmp, _v->type_size))
-		n++;
-	for (; last != _v->_end; _ft_pointer_inc(first, _v->type_size), _ft_pointer_inc(last, _v->type_size))
-		_v->alloc.construct(first, last, _v->type_size);
-	while (n--)
-		_ft_vector_destruct_at_end(_v, _ft_pointer_sub(_v->_end, 1, _v->type_size));
-	return (r);
-}
-
-void	ft_vector_swap(ft_vector *_v, ft_vector *_x)
-{
-	_ft_vector_swap(&_v->_begin, &_x->_begin);
-	_ft_vector_swap(&_v->_end, &_x->_end);
-	_ft_vector_swap(&_v->_end_cap, &_x->_end_cap);
-	_ft_vector_swap((pointer)&_v->type_size, (pointer)&_x->type_size);
-}
-
-pointer	ft_vector_begin(const ft_vector *_v)
-{
-	return _v->_begin;
-}
-
-pointer	ft_vector_end(const ft_vector *_v)
-{
-	return _v->_end;
-}
-
-void	ft_putstr(const char *restrict s)
-{
-	ft_putstr_fd(s, STDOUT_FILENO);
-}
-
-void	ft_putchar(char c)
-{
-	ft_putchar_fd(c, STDOUT_FILENO);
-}
-
-void	ft_putchar_fd(char c, int fd)
-{
-	write(fd, &c, 1);
-}
-
-void	ft_putnbr(int n)
-{
-	ft_putnbr_fd(n, STDOUT_FILENO);
-}
-
-void	ft_putendl_fd(const char *s, int fd)
-{
-	ft_putstr_fd(s, fd);
-	ft_putchar_fd('\n', fd);
-}
-
-void	ft_putendl(const char *restrict s)
-{
-	ft_putendl_fd(s, STDOUT_FILENO);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }
 
 void	ft_putstr_fd(const char *s, int fd)
@@ -3242,6 +2758,11 @@ void	ft_putstr_fd(const char *s, int fd)
 	if (s)
 		while (*s)
 			ft_putchar_fd(*s++, fd);
+}
+
+void	ft_putnbr(int n)
+{
+	ft_putnbr_fd(n, STDOUT_FILENO);
 }
 
 void	ft_putnbr_fd(int n, int fd)
@@ -3263,6 +2784,32 @@ void	ft_putnbr_fd(int n, int fd)
 		ft_putnbr_fd(n / 10, fd);
 		ft_putnbr_fd(n % 10, fd);
 	}
+}
+
+void	ft_putendl(const char *restrict s)
+{
+	ft_putendl_fd(s, STDOUT_FILENO);
+}
+
+void	ft_putendl_fd(const char *s, int fd)
+{
+	ft_putstr_fd(s, fd);
+	ft_putchar_fd('\n', fd);
+}
+
+void	ft_putchar(char c)
+{
+	ft_putchar_fd(c, STDOUT_FILENO);
+}
+
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
+
+void	ft_putstr(const char *restrict s)
+{
+	ft_putstr_fd(s, STDOUT_FILENO);
 }
 
 #endif // LIBFT_IMPL_INCLUDED

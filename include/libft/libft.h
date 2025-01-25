@@ -46,15 +46,20 @@
 #  define LIBFT_BOOL	bool
 #  define LIBFT_TRUE	true
 #  define LIBFT_FALSE	false
-# endif
+# endif // defined(LIBFT_NOBOOL)
 
 # if !defined(LIBFT_UNREACHABLE)
 #  define LIBFT_UNREACHABLE() __builtin_unreachable()
-# endif
+# endif // !defined(LIBFT_UNREACHABLE)
 
 # if !defined(LIBFT_TYPEOF)
 #  define LIBFT_TYPEOF	__typeof__
-# endif
+# endif // !defined(LIBFT_TYPEOF)
+
+# if defined(LIBFT_NO_FUNCTION_POINTERS)
+#  define LIBFT_STRING_NO_FUNCTION_POINTERS
+#  define LIBFT_VECTOR_NO_FUNCTION_POINTERS
+# endif // defined(LIBFT_NO_FUNCTION_POINTERS)
 
 # ifdef __cplusplus
 extern "C" {
@@ -81,16 +86,16 @@ extern "C" {
 	max(_mn, min(_mx, _x)); })
 #  endif // clamp
 # else // !defined(__GNUC__) || defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
-#  define _DECL_MIN_MAX_TYPE(T, ...) \
+#  define LIBFT_DECL_MIN_MAX_TYPE(T, ...) \
 	static inline T _libft__min_##__VA_ARGS__(const T a, const T b) { return ((a) < (b)) ? (a) : (b); } \
 	static inline T _libft__max_##__VA_ARGS__(const T a, const T b) { return ((a) > (b)) ? (a) : (b); }
-_DECL_MIN_MAX_TYPE(signed char, c) _DECL_MIN_MAX_TYPE(unsigned char, uc)
-_DECL_MIN_MAX_TYPE(signed short, s) _DECL_MIN_MAX_TYPE(unsigned short, us)
-_DECL_MIN_MAX_TYPE(signed int, i) _DECL_MIN_MAX_TYPE(unsigned int, ui)
-_DECL_MIN_MAX_TYPE(signed long, l) _DECL_MIN_MAX_TYPE(unsigned long, ul)
-_DECL_MIN_MAX_TYPE(signed long long, ll) _DECL_MIN_MAX_TYPE(unsigned long long, ull)
-_DECL_MIN_MAX_TYPE(float, f) _DECL_MIN_MAX_TYPE(double, d) _DECL_MIN_MAX_TYPE(long double, ld)
-#  define _libft__min_max_type_generic(a, b, _f) _Generic((b),	\
+LIBFT_DECL_MIN_MAX_TYPE(signed char, c) LIBFT_DECL_MIN_MAX_TYPE(unsigned char, uc)
+LIBFT_DECL_MIN_MAX_TYPE(signed short, s) LIBFT_DECL_MIN_MAX_TYPE(unsigned short, us)
+LIBFT_DECL_MIN_MAX_TYPE(signed int, i) LIBFT_DECL_MIN_MAX_TYPE(unsigned int, ui)
+LIBFT_DECL_MIN_MAX_TYPE(signed long, l) LIBFT_DECL_MIN_MAX_TYPE(unsigned long, ul)
+LIBFT_DECL_MIN_MAX_TYPE(signed long long, ll) LIBFT_DECL_MIN_MAX_TYPE(unsigned long long, ull)
+LIBFT_DECL_MIN_MAX_TYPE(float, f) LIBFT_DECL_MIN_MAX_TYPE(double, d) LIBFT_DECL_MIN_MAX_TYPE(long double, ld)
+#  define LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _f) _Generic((b),	\
 	signed char: _f##c,			unsigned char: _f##uc,			\
 	signed short: _f##s,		unsigned short: _f##us,			\
 	signed int: _f##i,			unsigned int: _f##ui,			\
@@ -101,10 +106,10 @@ _DECL_MIN_MAX_TYPE(float, f) _DECL_MIN_MAX_TYPE(double, d) _DECL_MIN_MAX_TYPE(lo
 	long double: _f##ld											\
 )((a), (b))
 # ifndef min
-#  define min(a, b) _libft__min_max_type_generic(a, b, _libft__min_)
+#  define min(a, b) LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _libft__min_)
 # endif // min
 # ifndef max
-#  define max(a, b) _libft__min_max_type_generic(a, b, _libft__max_)
+#  define max(a, b) LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _libft__max_)
 # endif // max
 # endif // __GNUC__
 
@@ -584,37 +589,36 @@ void	ft_putendl_fd(const char *s, int fd);
 
 int		ft_get_next_line(int fd, char **line);
 
-/* Forward declaration. */
-struct _ft_string;
+typedef struct ft_string ft_string;
 
-typedef struct _ft_string* ft_string;
+# ifndef LIBFT_STRING_DEFAULT_CAPACITY
+#  define LIBFT_STRING_DEFAULT_CAPACITY	15
+# endif // LIBFT_STRING_DEFAULT_CAPACITY
 
-#define LIBFT_STRING_DEFAULT_CAPACITY	15
-
-ft_string	ft_string_create(void);
-ft_string	ft_string_create_from_str(const char *_x);
-ft_string	ft_string_create_from_str_count(const char *_x, size_t count);
-ft_string	ft_string_create_from_char(const char _x, size_t count);
-ft_string	ft_string_create_from_ft_string(const ft_string s);
-void		ft_string_destroy(ft_string s);
-LIBFT_BOOL	ft_string_equals(const ft_string a, const ft_string b);
-LIBFT_BOOL	ft_string_equals_str(const ft_string s, const char *_x);
-const char*	ft_string_data(const ft_string s);
-size_t		ft_string_size(const ft_string s);
-size_t		ft_string_length(const ft_string s);
-char		ft_string_at(const ft_string s, size_t pos);
-LIBFT_BOOL	ft_string_empty(const ft_string s);
+ft_string*	ft_string_create(void);
+ft_string*	ft_string_create_from_str(const char *_x);
+ft_string*	ft_string_create_from_str_count(const char *_x, size_t count);
+ft_string*	ft_string_create_from_char(const char _x, size_t count);
+ft_string*	ft_string_create_from_ft_string(const ft_string* s);
+void		ft_string_destroy(ft_string* s);
+LIBFT_BOOL	ft_string_equals(const ft_string* a, const ft_string* b);
+LIBFT_BOOL	ft_string_equals_str(const ft_string* s, const char *_x);
+const char*	ft_string_data(const ft_string* s);
+size_t		ft_string_size(const ft_string* s);
+size_t		ft_string_length(const ft_string* s);
+char		ft_string_at(const ft_string* s, size_t pos);
+LIBFT_BOOL	ft_string_empty(const ft_string* s);
 size_t		ft_string_max_size(void);
-void		ft_string_reserve(ft_string s, size_t new_cap);
-size_t		ft_string_capacity(const ft_string s);
-void		ft_string_shrink_to_fit(ft_string s);
-void		ft_string_append_str(ft_string s, const char *_x);
-void		ft_string_append_char(ft_string s, const char _x, size_t n);
-void		ft_string_append_ft_string(ft_string s, const ft_string x);
-void		ft_string_assign(ft_string s, const char *_x);
-void		ft_string_assign_count(ft_string s, const char *_x, size_t count);
-void		ft_string_assign_char(ft_string s, const char _x, size_t count);
-void		ft_string_clear(ft_string s);
+void		ft_string_reserve(ft_string* s, size_t new_cap);
+size_t		ft_string_capacity(const ft_string* s);
+void		ft_string_shrink_to_fit(ft_string* s);
+void		ft_string_append_str(ft_string* s, const char *_x);
+void		ft_string_append_char(ft_string* s, const char _x, size_t n);
+void		ft_string_append_ft_string(ft_string* s, const ft_string* x);
+void		ft_string_assign(ft_string* s, const char *_x);
+void		ft_string_assign_count(ft_string* s, const char *_x, size_t count);
+void		ft_string_assign_char(ft_string* s, const char _x, size_t count);
+void		ft_string_clear(ft_string* s);
 
 #  define ft_string(...) _Generic((__VA_ARGS__),				\
 	char *: ft_string_create_from_str,							\

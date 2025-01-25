@@ -34,11 +34,10 @@ def main():
 		"srcs/math",
 		"srcs/mem",
 		"srcs/string",
-		"srcs/vector",
 		"srcs/write"
 	]
 
-	output_file = "stb/libft.h"
+	output_file = "single_header/libft.h"
 
 	with open(output_file, 'w') as outfile:
 

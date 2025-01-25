@@ -6,7 +6,7 @@
 #    By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/11/16 12:23:21 by ugdaniel          #+#    #+#              #
-#    Updated: 2024/12/26 15:53:14 by ugdaniel         ###   ########.fr        #
+#    Updated: 2025/01/25 13:39:52 by ugdaniel         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -100,15 +100,17 @@ SRCS	=	srcs/array/2d_array.c					\
 			# srcs/vector/allocator.c					
 			# srcs/vector/vector.c
 
-OBJS		=	$(SRCS:.c=.o)
-INCLUDE		=	-I include/libft -I include/libft/internal
+OBJS		= $(SRCS:.c=.o)
+INCLUDE		= -I include/libft
 
-CC			=	gcc
-CFLAGS		=	-Wall -Wextra -Werror -pedantic -DLIBFT_NO_STATEMENT_EXPRESSIONS
+CC			= gcc
+CFLAGS		= -Wall -Wextra -Werror
+AR			= ar
+ARFLAGS		= rcs
 
-COLOR_DEFAULT	=	\033[39m
-COLOR_GREEN		= 	\033[92m
-COLOR_GREY		= 	\033[90m
+COLOR_DEFAULT	= \033[39m
+COLOR_GREEN		= \033[92m
+COLOR_GREY		= \033[90m
 
 ifndef verbose
   SILENT = @

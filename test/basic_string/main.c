@@ -1,26 +1,13 @@
-#include <stdlib.h>
 #include <stdio.h>
-
-static int allocations;
-
-static void *our_alloc(size_t size)
-{
-	allocations++;
-	return malloc(size);
-}
-
-#define LIBFT_IMPL
-#define LIBFT_MALLOC our_alloc
-#define LIBFT_FREE free
-#include "libft.h"
+#include <libft/libft.h>
 
 int	main(void)
 {
-	ft_string	s;
+	ft_string*	s;
 
-	allocations = 0;
 	s = ft_string_create_from_str("Hello");
 	printf("|%s|\n", ft_string_data(s));
+	printf("|%s|\n", *((char **)s)); // data is the first member of the ft_string struct
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
 
 	ft_string_assign(s, "Hello");
@@ -62,8 +49,6 @@ int	main(void)
 	ft_string_assign(s, "Helooooooooooooooooooooooo");
 	printf("|%s|\n", ft_string_data(s));
 	printf("size: %zu\ncap: %zu\n", ft_string_size(s), ft_string_capacity(s));
-
-	printf("Allocations: %d\n", allocations);
 
 	ft_string_destroy(s);
 	return (0);
