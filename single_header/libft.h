@@ -345,13 +345,18 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
  * which dst and src might overlap should use ft_memmove instead. */
 void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
 
+#include <stdio.h>
 /** The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string s. */
 void	*ft_memset(void *s, int c, size_t n);
 
 /** Maximum chars of output to write in MAXLEN.  */
-int	ft_snprintf(char *str, size_t maxlen, const char *restrict format, ...)
+int	ft_snprintf(char* str, size_t maxlen, const char *restrict format, ...)
 	__attribute__ ((__format__ (__printf__, 3, 4)));
+
+/** Maximum chars of output to write in MAXLEN.  */
+int	ft_vsnprintf(char* str, size_t maxlen, const char *restrict format, va_list ap)
+	__attribute__ ((__format__ (__printf__, 3, 0)));
 
 /** Write formatted output to the file descriptor fd
  * from the format string FORMAT.
@@ -1280,7 +1285,7 @@ void	_ArgParse_SetOptionsDefaultValues(const ArgParse_Desc* desc)
 LIBFT_BOOL	_ArgParse_OptionTakesArgument(const ArgParse_Desc* desc, const char *option)
 {
 	for (size_t i = 0; i < desc->opt_count; i++)
-		if (desc->options[i].short_name == option[1] || strcmp(desc->options[i].long_name, &option[2]) == 0)
+		if (desc->options[i].short_name == option[1] || ft_strcmp(desc->options[i].long_name, &option[2]) == 0)
 			return desc->options[i].type > ArgParse_OptionType_Bool;
 	return LIBFT_FALSE;
 }
@@ -1937,7 +1942,8 @@ char	*_ft_printf_create_xX(char x, unsigned int nb, struct _libft_printf_specs *
 	_ft_printf_create_hex_internal(s + arg_start, x, nb, specs->flags.alt, arg_length);
 	return (s);
 }
-int	ft_vsnprintf_internal(char *string, size_t maxlen, const char *format, va_list ap)
+
+int	_ft_vsnprintf_internal(char* string, size_t maxlen, const char *format, va_list ap)
 {
 	unsigned char	*f;
 	unsigned char	*lead_str_end;
@@ -2152,6 +2158,19 @@ int	ft_dprintf(int fd, const char *restrict format, ...)
 	return (done);
 }
 
+int	_ft_vsnprintf_internal(char *s, size_t maxlen, const char *f, va_list ap);
+
+int	ft_vsnprintf(char* str, size_t size, const char* restrict format, va_list ap)
+{
+	int		done;
+	va_list	ap_copy;
+
+	va_copy(ap_copy, ap);
+	done = _ft_vsnprintf_internal(str, size, format, ap_copy);
+	va_end(ap_copy);
+	return (done);
+}
+
 int	_ft_vdprintf_internal(int fd, const char *format, va_list ap);
 
 int	ft_printf(const char *restrict format, ...)
@@ -2165,15 +2184,15 @@ int	ft_printf(const char *restrict format, ...)
 	return (done);
 }
 
-int	ft_vsnprintf_internal(char *s, size_t maxlen, const char *f, va_list ap);
+int	_ft_vsnprintf_internal(char *s, size_t maxlen, const char *f, va_list ap);
 
-int	ft_snprintf(char *str, size_t maxlen, const char *restrict format, ...)
+int	ft_snprintf(char* str, size_t maxlen, const char *restrict format, ...)
 {
 	int		done;
 	va_list	ap;
 
 	va_start(ap, format);
-	done = ft_vsnprintf_internal(str, maxlen, format, ap);
+	done = _ft_vsnprintf_internal(str, maxlen, format, ap);
 	va_end(ap);
 	return (done);
 }

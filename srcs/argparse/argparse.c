@@ -260,7 +260,7 @@ void	_ArgParse_SetOptionsDefaultValues(const ArgParse_Desc* desc)
 LIBFT_BOOL	_ArgParse_OptionTakesArgument(const ArgParse_Desc* desc, const char *option)
 {
 	for (size_t i = 0; i < desc->opt_count; i++)
-		if (desc->options[i].short_name == option[1] || strcmp(desc->options[i].long_name, &option[2]) == 0)
+		if (desc->options[i].short_name == option[1] || ft_strcmp(desc->options[i].long_name, &option[2]) == 0)
 			return desc->options[i].type > ArgParse_OptionType_Bool;
 	return LIBFT_FALSE;
 }

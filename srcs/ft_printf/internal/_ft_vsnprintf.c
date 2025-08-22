@@ -1,6 +1,6 @@
 #include "internal/_libft_printf.h"
-	
-int	ft_vsnprintf_internal(char *string, size_t maxlen, const char *format, va_list ap)
+
+int	_ft_vsnprintf_internal(char* string, size_t maxlen, const char *format, va_list ap)
 {
 	unsigned char	*f;
 	unsigned char	*lead_str_end;

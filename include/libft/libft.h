@@ -345,13 +345,18 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
  * which dst and src might overlap should use ft_memmove instead. */
 void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
 
+#include <stdio.h>
 /** The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string s. */
 void	*ft_memset(void *s, int c, size_t n);
 
 /** Maximum chars of output to write in MAXLEN.  */
-int	ft_snprintf(char *str, size_t maxlen, const char *restrict format, ...)
+int	ft_snprintf(char* str, size_t maxlen, const char *restrict format, ...)
 	__attribute__ ((__format__ (__printf__, 3, 4)));
+
+/** Maximum chars of output to write in MAXLEN.  */
+int	ft_vsnprintf(char* str, size_t maxlen, const char *restrict format, va_list ap)
+	__attribute__ ((__format__ (__printf__, 3, 0)));
 
 /** Write formatted output to the file descriptor fd
  * from the format string FORMAT.

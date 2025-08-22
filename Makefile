@@ -28,6 +28,7 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/ft_printf/ft_dprintf.c				\
 			srcs/ft_printf/ft_printf.c				\
 			srcs/ft_printf/ft_snprintf.c			\
+			srcs/ft_printf/ft_vsnprintf.c			\
 			srcs/ft_printf/internal/_ft_vdprintf.c	\
 			srcs/ft_printf/internal/_ft_vsnprintf.c	\
 			srcs/ft_printf/internal/char.c			\
