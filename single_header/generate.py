@@ -24,6 +24,7 @@ def combine_files(input_directory, outfile):
 
 def main():
 	directories = [
+		"srcs/argparse",
 		"srcs/array",
 		"srcs/basic_string",
 		"srcs/char",

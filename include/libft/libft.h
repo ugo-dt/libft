@@ -628,6 +628,77 @@ void		ft_string_clear(ft_string* s);
 	const struct ft_string*: ft_string_create_from_ft_string	\
 )(__VA_ARGS__)
 
+// ArgParse
+
+#define ARGPARSE_INT_MIN			(INT32_MIN)
+#define ARGPARSE_INT_MAX			(INT32_MAX)
+#define ARGPARSE_VALUE(T_, value_)	(&(T_){value_})
+
+typedef enum ArgParse_OptionType
+{
+	// options without arguments
+	ArgParse_OptionType_Bool, // default
+
+	// options with arguments
+	// expect the address of the variable that will store the value
+	ArgParse_OptionType_String,
+	ArgParse_OptionType_Int,
+	ArgParse_OptionType_Float,
+} ArgParse_OptionType;
+
+typedef void*	ArgParse_Value;
+
+typedef struct ArgParse_OptionDesc
+{
+	ArgParse_OptionType	type;
+	char				short_name;
+	char*				long_name;
+	void*				value; // pointer to the variable that will store the value
+	ArgParse_Value		min;
+	ArgParse_Value		max;
+	ArgParse_Value		default_value;
+} ArgParse_OptionDesc;
+
+typedef struct ArgParse_Desc
+{
+	char*	program_name;
+	char*	usage;
+
+	// Options
+	ArgParse_OptionDesc*	options;
+	size_t					opt_count;
+	bool					opt_ignore_unknown;
+	bool					opt_allow_merge_short;
+} ArgParse_Desc;
+
+typedef struct ArgParse_Option
+{
+	bool	is_set;
+} ArgParse_Option;
+
+typedef enum ArgParse_Status
+{
+	ArgParse_Status_Success,
+	ArgParse_Status_InvalidOption,
+	ArgParse_Status_UnrecognizedOption,
+	ArgParse_Status_OptionInvalidValue,
+	ArgParse_Status_OptionRequiresAnArgument,
+	ArgParse_Status_TooManyArguments,
+	ArgParse_Status_AllocationError,
+} ArgParse_Status;
+
+typedef struct
+{
+	size_t				opt_count;
+	ArgParse_Option*	options;
+	char**				arguments;
+	ArgParse_Status		_status;
+} ArgParse_State;
+
+ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* state);
+void			ArgParse_ClearState(ArgParse_State* state);
+bool			ArgParse_IsStateValid(const ArgParse_State* state);
+
 # ifdef __cplusplus
 }
 # endif
