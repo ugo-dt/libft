@@ -704,6 +704,47 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* state)
 void			ArgParse_ClearState(ArgParse_State* state);
 bool			ArgParse_IsStateValid(const ArgParse_State* state);
 
+// FileParse
+
+typedef struct
+{
+	int			type;
+	const char*	value;
+}FileParse_TokenDesc;
+
+// todo: comments
+typedef struct
+{
+	FileParse_TokenDesc*	tokens;
+	size_t					token_count;
+	LIBFT_BOOL				skip_newlines;
+	LIBFT_BOOL				(*isspace)(int);
+	LIBFT_BOOL				(*isseparator)(int);
+}FileParse_Desc;
+
+typedef struct
+{
+	uint64_t	type;
+	char*		value;
+	int			row, col;
+}FileParse_Token;
+
+typedef enum
+{
+	FileParse_Status_Success = 0,
+	FileParse_Status_Error,
+}FileParse_Status;
+
+typedef struct
+{
+	FileParse_Status	_status;
+	FileParse_Token*	tokens;
+	size_t				count;
+}FileParse_State;
+
+FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc);
+void			FileParse_ClearState(FileParse_State* state);
+
 # ifdef __cplusplus
 }
 # endif

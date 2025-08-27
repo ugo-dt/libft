@@ -28,6 +28,7 @@ def main():
 		"srcs/array",
 		"srcs/basic_string",
 		"srcs/char",
+		"srcs/fileparse",
 		"srcs/ft_printf/internal",
 		"srcs/ft_printf",
 		"srcs/get_next_line",

@@ -25,6 +25,7 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/char/ft_isupper.c					\
 			srcs/char/ft_tolower.c					\
 			srcs/char/ft_toupper.c					\
+			srcs/fileparse/fileparse.c				\
 			srcs/ft_printf/ft_dprintf.c				\
 			srcs/ft_printf/ft_printf.c				\
 			srcs/ft_printf/ft_snprintf.c			\
