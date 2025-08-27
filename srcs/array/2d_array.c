@@ -21,11 +21,11 @@ void	ft_free_array(void **arr)
 	i = 0;
 	while (arr[i])
 	{
-		LIBFT_FREE(arr[i]);
+		free(arr[i]);
 		arr[i] = NULL;
 		i++;
 	}
-	LIBFT_FREE(arr);
+	free(arr);
 	arr = NULL;
 }
 
@@ -35,8 +35,8 @@ void	ft_free_array_n(void **tab, size_t n)
 
 	i = 0;
 	while (i < n)
-		LIBFT_FREE(tab[i++]);
-	LIBFT_FREE(tab);
+		free(tab[i++]);
+	free(tab);
 }
 
 void	ft_print_array_fd(const char **arr, int fd)

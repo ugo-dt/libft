@@ -13,48 +13,19 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <assert.h>
+# include <fcntl.h>
 # include <stdarg.h>
+# include <stdbool.h>
 # include <stddef.h>
+# include <stdint.h>
+# include <stdlib.h>
 # include <unistd.h>
-
-# if defined(__linux__)
-#  include <stdint.h>
-# endif
 
 # ifndef INT32_MAX
 #  define INT32_MAX INT_MAX
 #  define INT32_MIN INT_MIN
 # endif // INT32_MAX
-
-# ifndef LIBFT_MALLOC
-#  include <stdlib.h>
-#  define LIBFT_MALLOC	malloc
-#  define LIBFT_FREE	free
-# endif
-
-# ifndef LIBFT_ASSERT
-#  include <assert.h>
-#  define LIBFT_ASSERT	assert
-# endif
-
-# if defined(LIBFT_NOBOOL)
-#  define LIBFT_BOOL	int
-#  define LIBFT_TRUE	1
-#  define LIBFT_FALSE	0
-# else
-#  include <stdbool.h>
-#  define LIBFT_BOOL	bool
-#  define LIBFT_TRUE	true
-#  define LIBFT_FALSE	false
-# endif // defined(LIBFT_NOBOOL)
-
-# if !defined(LIBFT_UNREACHABLE)
-#  define LIBFT_UNREACHABLE() __builtin_unreachable()
-# endif // !defined(LIBFT_UNREACHABLE)
-
-# if !defined(LIBFT_TYPEOF)
-#  define LIBFT_TYPEOF	__typeof__
-# endif // !defined(LIBFT_TYPEOF)
 
 # if defined(LIBFT_NO_FUNCTION_POINTERS)
 #  define LIBFT_STRING_NO_FUNCTION_POINTERS
@@ -68,21 +39,21 @@ extern "C" {
 # if defined(__GNUC__) && !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
 #  ifndef max
 #   define max(a, b) ({\
-	LIBFT_TYPEOF(a) _a = (a); \
-	LIBFT_TYPEOF(b) _b = (b); \
+	__typeof__(a) _a = (a); \
+	__typeof__(b) _b = (b); \
 	_a > _b ? _a : _b; })
 #  endif // max
 #  ifndef min
 #   define min(a, b) ({\
-	LIBFT_TYPEOF(a) _a = (a); \
-	LIBFT_TYPEOF(b) _b = (b); \
+	__typeof__(a) _a = (a); \
+	__typeof__(b) _b = (b); \
 	_a < _b ? _a : _b; })
 #  endif // min
 #  ifndef clamp
 #   define clamp(x, mn, mx) ({\
-	LIBFT_TYPEOF(x) _x = (x); \
-	LIBFT_TYPEOF(mn) _mn = (mn); \
-	LIBFT_TYPEOF(mx) _mx = (mx); \
+	__typeof__(x) _x = (x); \
+	__typeof__(mn) _mn = (mn); \
+	__typeof__(mx) _mx = (mx); \
 	max(_mn, min(_mx, _x)); })
 #  endif // clamp
 # else // !defined(__GNUC__) || defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
@@ -345,7 +316,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
  * which dst and src might overlap should use ft_memmove instead. */
 void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
 
-#include <stdio.h>
 /** The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string s. */
 void	*ft_memset(void *s, int c, size_t n);
@@ -606,13 +576,13 @@ ft_string*	ft_string_create_from_str_count(const char *_x, size_t count);
 ft_string*	ft_string_create_from_char(const char _x, size_t count);
 ft_string*	ft_string_create_from_ft_string(const ft_string* s);
 void		ft_string_destroy(ft_string* s);
-LIBFT_BOOL	ft_string_equals(const ft_string* a, const ft_string* b);
-LIBFT_BOOL	ft_string_equals_str(const ft_string* s, const char *_x);
+bool		ft_string_equals(const ft_string* a, const ft_string* b);
+bool		ft_string_equals_str(const ft_string* s, const char *_x);
 const char*	ft_string_data(const ft_string* s);
 size_t		ft_string_size(const ft_string* s);
 size_t		ft_string_length(const ft_string* s);
 char		ft_string_at(const ft_string* s, size_t pos);
-LIBFT_BOOL	ft_string_empty(const ft_string* s);
+bool		ft_string_empty(const ft_string* s);
 size_t		ft_string_max_size(void);
 void		ft_string_reserve(ft_string* s, size_t new_cap);
 size_t		ft_string_capacity(const ft_string* s);
@@ -717,9 +687,9 @@ typedef struct
 {
 	FileParse_TokenDesc*	tokens;
 	size_t					token_count;
-	LIBFT_BOOL				skip_newlines;
-	LIBFT_BOOL				(*isspace)(int);
-	LIBFT_BOOL				(*isseparator)(int);
+	bool					skip_newlines;
+	bool					(*isspace)(int);
+	bool					(*isseparator)(int);
 }FileParse_Desc;
 
 typedef struct

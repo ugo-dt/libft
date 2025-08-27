@@ -42,7 +42,7 @@ char	**ft_strsplit(char const *s, char c)
 	i[1] = 0;
 	i[0] = 0;
 	n = 0;
-	split = LIBFT_MALLOC(8 * (ft_countwords(s, c) + 1));
+	split = malloc(8 * (ft_countwords(s, c) + 1));
 	if (!s || !c || !split)
 		return (NULL);
 	while (ft_countwords(s, c) > n)
@@ -50,7 +50,7 @@ char	**ft_strsplit(char const *s, char c)
 		i[1] = 0;
 		while (s[i[0]] == c)
 			i[0]++;
-		split[n] = LIBFT_MALLOC(ft_wordslen(s, c, i[0]) + 2);
+		split[n] = malloc(ft_wordslen(s, c, i[0]) + 2);
 		if (!split[n])
 			return (NULL);
 		while (s[i[0]] != c && s[i[0]] != '\0')

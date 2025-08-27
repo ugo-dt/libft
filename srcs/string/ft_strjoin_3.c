@@ -6,7 +6,7 @@ char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
 
 	if (!s1 || !s2 || !s3)
 		return (NULL);
-	dst = LIBFT_MALLOC(sizeof(char)
+	dst = malloc(sizeof(char)
 			* (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3)) + 1);
 	if (!dst)
 		return (NULL);

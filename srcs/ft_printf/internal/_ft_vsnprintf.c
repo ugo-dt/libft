@@ -33,7 +33,7 @@ int	_ft_vsnprintf_internal(char* string, size_t maxlen, const char *format, va_l
 
 			len = min(maxlen - 1 - curlen, specs.info.width + curlen);
 			ft_strncat(string, s, len);
-			LIBFT_FREE(s);
+			free(s);
 			curlen += len;
 
 			f++;

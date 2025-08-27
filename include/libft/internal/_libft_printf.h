@@ -37,11 +37,11 @@ struct _libft_printf_specs
 {
 	struct
 	{
-		LIBFT_BOOL	alt:1;
-		LIBFT_BOOL	zero:1;
-		LIBFT_BOOL	left:1;
-		LIBFT_BOOL	space:1;
-		LIBFT_BOOL	showsign:1;
+		bool	alt:1;
+		bool	zero:1;
+		bool	left:1;
+		bool	space:1;
+		bool	showsign:1;
 	}flags;
 
 	struct
@@ -85,7 +85,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 			int _w = va_arg(ap_, int);						\
 			if (_w < 0)										\
 			{												\
-				specs_.flags.left = LIBFT_TRUE;				\
+				specs_.flags.left = true;					\
 				specs_.info.width = -_w;					\
 			}												\
 			else											\
@@ -118,7 +118,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 		while (*f_ == '*' || *f_ == '.' || ft_isdigit(*f_))			\
 			f_++;													\
 		if (specs_.info.precision > -1)								\
-			specs_.flags.zero = LIBFT_FALSE;						\
+			specs_.flags.zero = false;								\
 		if (*f_ == '\0')											\
 			return (-1);											\
 	} while (0)
@@ -131,25 +131,25 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 	{												\
 			if (*f_ == '#')							\
 			{										\
-				specs_.flags.alt = LIBFT_TRUE;		\
+				specs_.flags.alt = true;			\
 			}										\
 			if (*f_ == '0')							\
 			{										\
-				specs_.flags.zero = LIBFT_TRUE;		\
+				specs_.flags.zero = true;			\
 			}										\
 			if (*f_ == '-')							\
 			{										\
-				specs_.flags.left = LIBFT_TRUE;		\
-				specs_.flags.zero = LIBFT_FALSE;	\
+				specs_.flags.left = true;			\
+				specs_.flags.zero = false;			\
 			}										\
 			if (*f_ == ' ')							\
 			{										\
-				specs_.flags.space = LIBFT_TRUE;	\
+				specs_.flags.space = true;			\
 			}										\
 			if (*f_ == '+')							\
 			{										\
-				specs_.flags.showsign = LIBFT_TRUE;	\
-				specs_.flags.space = LIBFT_FALSE;	\
+				specs_.flags.showsign = true;		\
+				specs_.flags.space = false;			\
 			}										\
 			f_++;									\
 		}											\
@@ -242,7 +242,7 @@ static inline char *_ft_printf_create_string_helper(struct _libft_printf_specs *
 
 	if (specs->info.width < arg_length)
 		specs->info.width = arg_length;
-	s = LIBFT_MALLOC(sizeof(char) * specs->info.width);
+	s = malloc(sizeof(char) * specs->info.width);
 	if (!s)
 		return (NULL);
 	int padding_length = specs->info.width - arg_length;

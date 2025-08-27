@@ -22,7 +22,7 @@ DECL_ALLOCATOR_FUNCTION(ft_vector_type_name, void, destroy, LIBFT_VECTOR_TYPE *p
  */
 void*	DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, allocate)(size_t n)
 {
-	return LIBFT_MALLOC(n * sizeof(LIBFT_VECTOR_TYPE));
+	return malloc(n * sizeof(LIBFT_VECTOR_TYPE));
 }
 
 /**
@@ -31,7 +31,7 @@ void*	DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, allocate)(size_t n)
 void	DEF_ALLOCATOR_FUNCTION(ft_vector_type_name, deallocate)(void *p, size_t n)
 {
 	(void)n;
-	LIBFT_FREE(p);
+	free(p);
 }
 
 /**
@@ -85,7 +85,7 @@ struct ft_vector(ft_vector_type_name)
 	ft_vector(ft_vector_type_name)*	(*copy)(ft_vector(ft_vector_type_name) *vector, const ft_vector(ft_vector_type_name) *_src);
 	ft_vector_pointer			(*data)(ft_vector(ft_vector_type_name) *vector);
 	ft_vector_value_type		(*at)(ft_vector(ft_vector_type_name) *vector, size_t n);
-	LIBFT_BOOL					(*empty)(const ft_vector(ft_vector_type_name) *vector);
+	bool						(*empty)(const ft_vector(ft_vector_type_name) *vector);
 	size_t						(*size)(const ft_vector(ft_vector_type_name) *vector);
 	size_t						(*capacity)(const ft_vector(ft_vector_type_name) *vector);
 	void						(*reserve)(ft_vector(ft_vector_type_name) *vector, size_t n);
@@ -119,7 +119,7 @@ DECL_VECTOR_FUNCTION(ft_vector_type_name, ft_vector*, create, const ft_allocator
 DECL_VECTOR_FUNCTION(ft_vector_type_name, ft_vector(ft_vector_type_name)*, copy, ft_vector(ft_vector_type_name) *vector, const ft_vector(ft_vector_type_name) *_src);
 DECL_VECTOR_FUNCTION(ft_vector_type_name, ft_vector_pointer, data, ft_vector(ft_vector_type_name) *vector);
 DECL_VECTOR_FUNCTION(ft_vector_type_name, ft_vector_value_type, at, ft_vector(ft_vector_type_name) *vector, size_t n);
-DECL_VECTOR_FUNCTION(ft_vector_type_name, LIBFT_BOOL, empty, const ft_vector(ft_vector_type_name) *vector);
+DECL_VECTOR_FUNCTION(ft_vector_type_name, bool, empty, const ft_vector(ft_vector_type_name) *vector);
 DECL_VECTOR_FUNCTION(ft_vector_type_name, size_t, size, const ft_vector(ft_vector_type_name) *vector);
 DECL_VECTOR_FUNCTION(ft_vector_type_name, size_t, capacity, const ft_vector(ft_vector_type_name) *vector);
 DECL_VECTOR_FUNCTION(ft_vector_type_name, void, reserve, ft_vector(ft_vector_type_name) *vector, size_t n);
@@ -214,7 +214,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, destroy_impl)(ft_vector(ft_vector_
 
 void	DEF_VECTOR_FUNCTION(ft_vector_type_name, vallocate)(ft_vector(ft_vector_type_name) *_v, size_t n)
 {
-	LIBFT_ASSERT(n <= SIZE_MAX);
+	assert(n <= SIZE_MAX);
 	_v->_begin = _v->_end = _v->_alloc.allocate(n);
 	_v->_end_cap = _v->_begin + n;
 }
@@ -253,7 +253,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, construct_at_end_range)(ft_vector(
 
 size_t	DEF_VECTOR_FUNCTION(ft_vector_type_name, recommend)(const ft_vector(ft_vector_type_name) *_v, size_t new_size)
 {
-	LIBFT_ASSERT(new_size < SIZE_MAX);
+	assert(new_size < SIZE_MAX);
     const size_t cap = ft_vector_capacity(_v);
     if (cap >= SIZE_MAX / 2)
         return SIZE_MAX;
@@ -375,9 +375,9 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert_in_array_range)(ft_vector(f
  */
 ft_vector	*DEF_VECTOR_FUNCTION(ft_vector_type_name, create)(const ft_allocator(ft_vector_type_name)* alloc)
 {
-	ft_vector(ft_vector_type_name)	*v = LIBFT_MALLOC(sizeof(struct ft_vector(ft_vector_type_name)));
+	ft_vector(ft_vector_type_name)	*v = malloc(sizeof(struct ft_vector(ft_vector_type_name)));
 
-	LIBFT_ASSERT(v);
+	assert(v);
 	if (alloc)
 	{
 		v->alloc = *(ft_allocator(ft_vector_type_name)*)alloc;
@@ -476,7 +476,7 @@ ft_vector(ft_vector_type_name)	*DEF_VECTOR_FUNCTION(ft_vector_type_name, copy)(f
 /**
  * ft_vector_empty
  */
-LIBFT_BOOL	DEF_VECTOR_FUNCTION(ft_vector_type_name, empty)(const ft_vector(ft_vector_type_name) *_v)
+bool	DEF_VECTOR_FUNCTION(ft_vector_type_name, empty)(const ft_vector(ft_vector_type_name) *_v)
 {
 	return _v->_begin == _v->_end;
 }
@@ -503,7 +503,7 @@ ft_vector_value_type	DEF_VECTOR_FUNCTION(ft_vector_type_name, at)(ft_vector(ft_v
 void	DEF_VECTOR_FUNCTION(ft_vector_type_name, destroy)(ft_vector(ft_vector_type_name) *_v)
 {
 	_ft_vector_destroy_impl(_v);
-	LIBFT_FREE(_v);
+	free(_v);
 }
 
 /**
@@ -601,7 +601,7 @@ void	DEF_VECTOR_FUNCTION(ft_vector_type_name, push_back)(ft_vector(ft_vector_typ
  */
 ft_vector_pointer	DEF_VECTOR_FUNCTION(ft_vector_type_name, insert)(ft_vector(ft_vector_type_name) *_v, size_t position, ft_vector_const_value_type x)
 {
-	LIBFT_ASSERT(position <= ft_vector_size(_v));
+	assert(position <= ft_vector_size(_v));
 
 	ptrdiff_t d = ft_vector_at(_v, position) - _v->_begin;
 	ft_vector_pointer p = _v->_begin + d;

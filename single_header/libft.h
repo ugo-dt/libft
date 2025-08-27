@@ -13,48 +13,19 @@
 #ifndef LIBFT_H
 # define LIBFT_H
 
+# include <assert.h>
+# include <fcntl.h>
 # include <stdarg.h>
+# include <stdbool.h>
 # include <stddef.h>
+# include <stdint.h>
+# include <stdlib.h>
 # include <unistd.h>
-
-# if defined(__linux__)
-#  include <stdint.h>
-# endif
 
 # ifndef INT32_MAX
 #  define INT32_MAX INT_MAX
 #  define INT32_MIN INT_MIN
 # endif // INT32_MAX
-
-# ifndef LIBFT_MALLOC
-#  include <stdlib.h>
-#  define LIBFT_MALLOC	malloc
-#  define LIBFT_FREE	free
-# endif
-
-# ifndef LIBFT_ASSERT
-#  include <assert.h>
-#  define LIBFT_ASSERT	assert
-# endif
-
-# if defined(LIBFT_NOBOOL)
-#  define LIBFT_BOOL	int
-#  define LIBFT_TRUE	1
-#  define LIBFT_FALSE	0
-# else
-#  include <stdbool.h>
-#  define LIBFT_BOOL	bool
-#  define LIBFT_TRUE	true
-#  define LIBFT_FALSE	false
-# endif // defined(LIBFT_NOBOOL)
-
-# if !defined(LIBFT_UNREACHABLE)
-#  define LIBFT_UNREACHABLE() __builtin_unreachable()
-# endif // !defined(LIBFT_UNREACHABLE)
-
-# if !defined(LIBFT_TYPEOF)
-#  define LIBFT_TYPEOF	__typeof__
-# endif // !defined(LIBFT_TYPEOF)
 
 # if defined(LIBFT_NO_FUNCTION_POINTERS)
 #  define LIBFT_STRING_NO_FUNCTION_POINTERS
@@ -68,21 +39,21 @@ extern "C" {
 # if defined(__GNUC__) && !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
 #  ifndef max
 #   define max(a, b) ({\
-	LIBFT_TYPEOF(a) _a = (a); \
-	LIBFT_TYPEOF(b) _b = (b); \
+	__typeof__(a) _a = (a); \
+	__typeof__(b) _b = (b); \
 	_a > _b ? _a : _b; })
 #  endif // max
 #  ifndef min
 #   define min(a, b) ({\
-	LIBFT_TYPEOF(a) _a = (a); \
-	LIBFT_TYPEOF(b) _b = (b); \
+	__typeof__(a) _a = (a); \
+	__typeof__(b) _b = (b); \
 	_a < _b ? _a : _b; })
 #  endif // min
 #  ifndef clamp
 #   define clamp(x, mn, mx) ({\
-	LIBFT_TYPEOF(x) _x = (x); \
-	LIBFT_TYPEOF(mn) _mn = (mn); \
-	LIBFT_TYPEOF(mx) _mx = (mx); \
+	__typeof__(x) _x = (x); \
+	__typeof__(mn) _mn = (mn); \
+	__typeof__(mx) _mx = (mx); \
 	max(_mn, min(_mx, _x)); })
 #  endif // clamp
 # else // !defined(__GNUC__) || defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
@@ -345,7 +316,6 @@ void	*ft_memmove(void *dest, const void *src, size_t n);
  * which dst and src might overlap should use ft_memmove instead. */
 void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
 
-#include <stdio.h>
 /** The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string s. */
 void	*ft_memset(void *s, int c, size_t n);
@@ -606,13 +576,13 @@ ft_string*	ft_string_create_from_str_count(const char *_x, size_t count);
 ft_string*	ft_string_create_from_char(const char _x, size_t count);
 ft_string*	ft_string_create_from_ft_string(const ft_string* s);
 void		ft_string_destroy(ft_string* s);
-LIBFT_BOOL	ft_string_equals(const ft_string* a, const ft_string* b);
-LIBFT_BOOL	ft_string_equals_str(const ft_string* s, const char *_x);
+bool		ft_string_equals(const ft_string* a, const ft_string* b);
+bool		ft_string_equals_str(const ft_string* s, const char *_x);
 const char*	ft_string_data(const ft_string* s);
 size_t		ft_string_size(const ft_string* s);
 size_t		ft_string_length(const ft_string* s);
 char		ft_string_at(const ft_string* s, size_t pos);
-LIBFT_BOOL	ft_string_empty(const ft_string* s);
+bool		ft_string_empty(const ft_string* s);
 size_t		ft_string_max_size(void);
 void		ft_string_reserve(ft_string* s, size_t new_cap);
 size_t		ft_string_capacity(const ft_string* s);
@@ -717,9 +687,9 @@ typedef struct
 {
 	FileParse_TokenDesc*	tokens;
 	size_t					token_count;
-	LIBFT_BOOL				skip_newlines;
-	LIBFT_BOOL				(*isspace)(int);
-	LIBFT_BOOL				(*isseparator)(int);
+	bool					skip_newlines;
+	bool					(*isspace)(int);
+	bool					(*isseparator)(int);
 }FileParse_Desc;
 
 typedef struct
@@ -792,11 +762,11 @@ struct _libft_printf_specs
 {
 	struct
 	{
-		LIBFT_BOOL	alt:1;
-		LIBFT_BOOL	zero:1;
-		LIBFT_BOOL	left:1;
-		LIBFT_BOOL	space:1;
-		LIBFT_BOOL	showsign:1;
+		bool	alt:1;
+		bool	zero:1;
+		bool	left:1;
+		bool	space:1;
+		bool	showsign:1;
 	}flags;
 
 	struct
@@ -840,7 +810,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 			int _w = va_arg(ap_, int);						\
 			if (_w < 0)										\
 			{												\
-				specs_.flags.left = LIBFT_TRUE;				\
+				specs_.flags.left = true;					\
 				specs_.info.width = -_w;					\
 			}												\
 			else											\
@@ -873,7 +843,7 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 		while (*f_ == '*' || *f_ == '.' || ft_isdigit(*f_))			\
 			f_++;													\
 		if (specs_.info.precision > -1)								\
-			specs_.flags.zero = LIBFT_FALSE;						\
+			specs_.flags.zero = false;								\
 		if (*f_ == '\0')											\
 			return (-1);											\
 	} while (0)
@@ -886,25 +856,25 @@ __extern_always_inline const unsigned char *_ft_find_spec(const unsigned char *f
 	{												\
 			if (*f_ == '#')							\
 			{										\
-				specs_.flags.alt = LIBFT_TRUE;		\
+				specs_.flags.alt = true;			\
 			}										\
 			if (*f_ == '0')							\
 			{										\
-				specs_.flags.zero = LIBFT_TRUE;		\
+				specs_.flags.zero = true;			\
 			}										\
 			if (*f_ == '-')							\
 			{										\
-				specs_.flags.left = LIBFT_TRUE;		\
-				specs_.flags.zero = LIBFT_FALSE;	\
+				specs_.flags.left = true;			\
+				specs_.flags.zero = false;			\
 			}										\
 			if (*f_ == ' ')							\
 			{										\
-				specs_.flags.space = LIBFT_TRUE;	\
+				specs_.flags.space = true;			\
 			}										\
 			if (*f_ == '+')							\
 			{										\
-				specs_.flags.showsign = LIBFT_TRUE;	\
-				specs_.flags.space = LIBFT_FALSE;	\
+				specs_.flags.showsign = true;		\
+				specs_.flags.space = false;			\
 			}										\
 			f_++;									\
 		}											\
@@ -997,7 +967,7 @@ static inline char *_ft_printf_create_string_helper(struct _libft_printf_specs *
 
 	if (specs->info.width < arg_length)
 		specs->info.width = arg_length;
-	s = LIBFT_MALLOC(sizeof(char) * specs->info.width);
+	s = malloc(sizeof(char) * specs->info.width);
 	if (!s)
 		return (NULL);
 	int padding_length = specs->info.width - arg_length;
@@ -1067,11 +1037,11 @@ static inline char *_ft_printf_create_string_helper(struct _libft_printf_specs *
 
 #endif // _LIBFT_PRINTF_H
 
-LIBFT_BOOL	_ArgParse_StringIsDigit(const char *str, const char **invalid)
+bool	_ArgParse_StringIsDigit(const char *str, const char **invalid)
 {
 	*invalid = str;
 	if (!str || *str == '\0')
-		return LIBFT_FALSE;
+		return false;
 
 	// Optional leading +/-
 	if (*str == '+' || *str == '-')
@@ -1079,23 +1049,23 @@ LIBFT_BOOL	_ArgParse_StringIsDigit(const char *str, const char **invalid)
 
 	*invalid = str;
 	if (!*str) // string was just "+" or "-"
-		return LIBFT_FALSE;
+		return false;
 
 	while (*str)
 	{
 		if (!ft_isdigit((unsigned char)*str))
-			return LIBFT_FALSE;
+			return false;
 		str++;
 		*invalid = str;
 	}
-	return LIBFT_TRUE;
+	return true;
 }
 
-LIBFT_BOOL	_ArgParse_StringIsFloat(const char *str, const char **invalid)
+bool	_ArgParse_StringIsFloat(const char *str, const char **invalid)
 {
 	*invalid = str;
 	if (!str || *str == '\0')
-		return LIBFT_FALSE;
+		return false;
 
 	// Optional leading +/-
 	if (*str == '+' || *str == '-')
@@ -1103,30 +1073,30 @@ LIBFT_BOOL	_ArgParse_StringIsFloat(const char *str, const char **invalid)
 
 	*invalid = str;
 	if (!*str) // string was just "+" or "-"
-		return LIBFT_FALSE;
+		return false;
 
-	LIBFT_BOOL seen_digit = LIBFT_FALSE;
-	LIBFT_BOOL seen_dot = LIBFT_FALSE;
-	LIBFT_BOOL seen_exp = LIBFT_FALSE;
+	bool seen_digit = false;
+	bool seen_dot = false;
+	bool seen_exp = false;
 
 	while (*str)
 	{
 		if (ft_isdigit((unsigned char)*str))
 		{
-			seen_digit = LIBFT_TRUE;
+			seen_digit = true;
 		}
 		else if (*str == '.')
 		{
 			if (seen_dot || seen_exp) // no multiple dots, no dot after exponent
-				return LIBFT_FALSE;
-			seen_dot = LIBFT_TRUE;
+				return false;
+			seen_dot = true;
 		}
 		else if (*str == 'e' || *str == 'E')
 		{
 			if (seen_exp || !seen_digit) // only one exponent, must follow digits
-				return LIBFT_FALSE;
-			seen_exp = LIBFT_TRUE;
-			seen_digit = LIBFT_FALSE; // require digits after 'e'
+				return false;
+			seen_exp = true;
+			seen_digit = false; // require digits after 'e'
 			if (*(str + 1) == '+' || *(str + 1) == '-') // allow sign after exponent
 			{
 				str++;
@@ -1135,7 +1105,7 @@ LIBFT_BOOL	_ArgParse_StringIsFloat(const char *str, const char **invalid)
 		}
 		else
 		{
-			return LIBFT_FALSE;
+			return false;
 		}
 		str++;
 		*invalid = str;
@@ -1161,7 +1131,7 @@ void	_ArgParse_OptionInvalidValue(ArgParse_State* state, const ArgParse_Desc* de
 	ft_dprintf(STDERR_FILENO, "%s: invalid value (`%s' near '%s')\n", desc->program_name, value, invalid);
 }
 
-void	_ArgParse_OptionRequiresAnArgument(ArgParse_State* state, const ArgParse_Desc* desc, size_t j, LIBFT_BOOL short_option)
+void	_ArgParse_OptionRequiresAnArgument(ArgParse_State* state, const ArgParse_Desc* desc, size_t j, bool short_option)
 {
 	state->_status = ArgParse_Status_OptionRequiresAnArgument;
 	if (short_option)
@@ -1176,7 +1146,7 @@ void	_ArgParse_TooManyArguments(ArgParse_State* state, const ArgParse_Desc* desc
 	ft_dprintf(STDERR_FILENO, "%s: too many arguments\n", desc->program_name);
 }
 
-void	_ArgParse_GetValue(ArgParse_State* state, const ArgParse_Desc* desc, char **argv, int *i, size_t j, LIBFT_BOOL short_option)
+void	_ArgParse_GetValue(ArgParse_State* state, const ArgParse_Desc* desc, char **argv, int *i, size_t j, bool short_option)
 {
 	char* option_argument = NULL;
 	const char* invalid = NULL;
@@ -1245,7 +1215,7 @@ void	_ArgParse_GetValue(ArgParse_State* state, const ArgParse_Desc* desc, char *
 
 void	_ArgParse_ParseLongOption(ArgParse_State* state, char **argv, const ArgParse_Desc* desc, int *i)
 {
-	LIBFT_BOOL	found = LIBFT_FALSE;
+	bool	found = false;
 	const char *arg = argv[*i];
 
 	for (size_t j = 0; j < desc->opt_count; j++)
@@ -1254,9 +1224,9 @@ void	_ArgParse_ParseLongOption(ArgParse_State* state, char **argv, const ArgPars
 
 		if (ft_strcmp(long_name, desc->options[j].long_name) == 0)
 		{
-			state->options[j].is_set = LIBFT_TRUE;
-			_ArgParse_GetValue(state, desc, argv, i, j, LIBFT_FALSE);
-			found = LIBFT_TRUE;
+			state->options[j].is_set = true;
+			_ArgParse_GetValue(state, desc, argv, i, j, false);
+			found = true;
 			break;
 		}
 		if (found)
@@ -1271,19 +1241,19 @@ void	_ArgParse_ParseLongOption(ArgParse_State* state, char **argv, const ArgPars
 
 void	_ArgParse_ParseShortOption(ArgParse_State* state, char **argv, const ArgParse_Desc* desc, int *i)
 {
-	LIBFT_BOOL	found = LIBFT_FALSE;
+	bool	found = false;
 	const char *arg = argv[*i];
 
 	for (int k = 1; arg[k]; k++)
 	{
-		found = LIBFT_FALSE;
+		found = false;
 		for (size_t j = 0; j < desc->opt_count; j++)
 		{
 			if (arg[k] == desc->options[j].short_name)
 			{
-				state->options[j].is_set = LIBFT_TRUE;
-				_ArgParse_GetValue(state, desc, argv, i, j, LIBFT_TRUE);
-				found = LIBFT_TRUE;
+				state->options[j].is_set = true;
+				_ArgParse_GetValue(state, desc, argv, i, j, true);
+				found = true;
 			}
 		}
 		if (!desc->opt_ignore_unknown && !found)
@@ -1323,15 +1293,15 @@ void	_ArgParse_SetOptionsDefaultValues(const ArgParse_Desc* desc)
 	}
 }
 
-LIBFT_BOOL	_ArgParse_OptionTakesArgument(const ArgParse_Desc* desc, const char *option)
+bool	_ArgParse_OptionTakesArgument(const ArgParse_Desc* desc, const char *option)
 {
 	for (size_t i = 0; i < desc->opt_count; i++)
 		if (desc->options[i].short_name == option[1] || ft_strcmp(desc->options[i].long_name, &option[2]) == 0)
 			return desc->options[i].type > ArgParse_OptionType_Bool;
-	return LIBFT_FALSE;
+	return false;
 }
 
-LIBFT_BOOL	ArgParse_IsStateValid(const ArgParse_State* state)
+bool	ArgParse_IsStateValid(const ArgParse_State* state)
 {
 	return state->_status == ArgParse_Status_Success;
 }
@@ -1357,7 +1327,7 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 		_ArgParse_SetOptionsDefaultValues(desc);
 	}
 
-	LIBFT_BOOL parse_options = LIBFT_TRUE;
+	bool parse_options = true;
 	size_t arg_count = 0;
 	for (int i = 1; i < argc; i++)
 	{
@@ -1365,7 +1335,7 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 		{
 			if (ft_strcmp(argv[i], "--") == 0)
 			{
-				parse_options = LIBFT_FALSE;
+				parse_options = false;
 				continue;
 			}
 			if (argv[i][1] == '-')
@@ -1384,11 +1354,11 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 		state.arguments = ft_calloc(arg_count + 1, sizeof(char *));
 		if (!state.arguments)
 		{
-			LIBFT_FREE(state.options);
+			free(state.options);
 			state.options = NULL;
 			return (ArgParse_State){ ._status = ArgParse_Status_AllocationError };
 		}
-		parse_options = LIBFT_TRUE;
+		parse_options = true;
 		int j = 0;
 		for (int i = 1; i < argc; i++)
 		{
@@ -1404,7 +1374,7 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 				}
 				if (ft_strcmp(argv[i], "--") == 0)
 				{
-					parse_options = LIBFT_FALSE;
+					parse_options = false;
 					continue;
 				}
 			}
@@ -1420,8 +1390,8 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 
 void	ArgParse_ClearState(ArgParse_State* state)
 {
-	LIBFT_FREE(state->options);
-	LIBFT_FREE(state->arguments);
+	free(state->options);
+	free(state->arguments);
 }
 
 size_t	ft_array_size(void **arr)
@@ -1445,11 +1415,11 @@ void	ft_free_array(void **arr)
 	i = 0;
 	while (arr[i])
 	{
-		LIBFT_FREE(arr[i]);
+		free(arr[i]);
 		arr[i] = NULL;
 		i++;
 	}
-	LIBFT_FREE(arr);
+	free(arr);
 	arr = NULL;
 }
 
@@ -1459,8 +1429,8 @@ void	ft_free_array_n(void **tab, size_t n)
 
 	i = 0;
 	while (i < n)
-		LIBFT_FREE(tab[i++]);
-	LIBFT_FREE(tab);
+		free(tab[i++]);
+	free(tab);
 }
 
 void	ft_print_array_fd(const char **arr, int fd)
@@ -1485,11 +1455,11 @@ void	ft_sort_array(char **array)
 		if (ft_strcmp(array[i], array[i + 1]) > 0)
 		{
 			temp = ft_strdup(array[i]);
-			LIBFT_FREE(array[i]);
+			free(array[i]);
 			array[i] = ft_strdup(array[i + 1]);
-			LIBFT_FREE(array[i + 1]);
+			free(array[i + 1]);
 			array[i + 1] = ft_strdup(temp);
-			LIBFT_FREE(temp);
+			free(temp);
 			i = 0;
 		}
 		else
@@ -1504,7 +1474,7 @@ char	**ft_copy_array(char **arr)
 	char	**copy;
 
 	size = ft_array_size((void **)arr);
-	copy = LIBFT_MALLOC(sizeof(char *) * (size + 1));
+	copy = malloc(sizeof(char *) * (size + 1));
 	if (!copy)
 		return (NULL);
 	i = 0;
@@ -1530,7 +1500,7 @@ typedef struct ft_string
 
 static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
 {
-	LIBFT_ASSERT(new_size < SIZE_MAX);
+	assert(new_size < SIZE_MAX);
     if (capacity >= SIZE_MAX / 2)
         return SIZE_MAX;
     return max(2 * capacity, new_size);
@@ -1538,7 +1508,7 @@ static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
 
 ft_string*	_ft_string_alloc_impl(void)
 {
-	ft_string*	s = LIBFT_MALLOC(sizeof(struct ft_string));
+	ft_string*	s = malloc(sizeof(struct ft_string));
 	return s;
 }
 
@@ -1546,10 +1516,10 @@ ft_string*	ft_string_create(void)
 {
 	ft_string*	string;
 	string = _ft_string_alloc_impl();
-	LIBFT_ASSERT(string);
+	assert(string);
 	string->_capacity = LIBFT_STRING_DEFAULT_CAPACITY;
-	string->_data = LIBFT_MALLOC(string->_capacity * sizeof(*string->_data));
-	LIBFT_ASSERT(string->_data);
+	string->_data = malloc(string->_capacity * sizeof(*string->_data));
+	assert(string->_data);
 	string->_data[0] = '\0';
 	return string;
 }
@@ -1558,7 +1528,7 @@ ft_string*	ft_string_create_from_str(const char *_x)
 {
 	ft_string*	string;
 	string = _ft_string_alloc_impl();
-	LIBFT_ASSERT(string);
+	assert(string);
 	string->_capacity = 0;
 	string->_data = NULL;
 	ft_string_assign(string, _x);
@@ -1604,18 +1574,18 @@ void	ft_string_destroy(ft_string* s)
 		return ;
 	if (s->_data)
 	{
-		LIBFT_FREE(s->_data);
+		free(s->_data);
 		s->_capacity = 0;
 	}
-	LIBFT_FREE(s);
+	free(s);
 }
 
-LIBFT_BOOL	ft_string_equals(const ft_string* a, const ft_string* b)
+bool	ft_string_equals(const ft_string* a, const ft_string* b)
 {
 	return ft_strcmp(a->_data, b->_data) == 0;
 }
 
-LIBFT_BOOL	ft_string_equals_str(const ft_string* s, const char *_x)
+bool	ft_string_equals_str(const ft_string* s, const char *_x)
 {
 	return ft_strcmp(s->_data, _x) == 0;
 }
@@ -1639,11 +1609,11 @@ size_t	ft_string_length(const ft_string* s)
 
 char	ft_string_at(const ft_string* s, size_t pos)
 {
-	LIBFT_ASSERT(pos < s->_capacity);
+	assert(pos < s->_capacity);
 	return s->_data[pos];
 }
 
-LIBFT_BOOL	ft_string_empty(const ft_string* s)
+bool	ft_string_empty(const ft_string* s)
 {
 	return s->_capacity == 0 || s->_data[0] == '\0';
 }
@@ -1658,13 +1628,13 @@ void	ft_string_reserve(ft_string *s, size_t new_cap)
 	if (s->_capacity < new_cap)
 	{
 		char *new_data = ft_calloc(new_cap, sizeof(char));
-		LIBFT_ASSERT(new_data);
+		assert(new_data);
 		s->_capacity = new_cap;
 
 		ft_strcpy(new_data, s->_data);
 
 		if (s->_data)
-			LIBFT_FREE(s->_data);
+			free(s->_data);
 		s->_data = new_data;
 	}
 }
@@ -1680,11 +1650,11 @@ void	ft_string_shrink_to_fit(ft_string *s)
 
 	if (s->_capacity > len)
 	{
-		char *new_data = LIBFT_MALLOC(sizeof(char) * len);
-		LIBFT_ASSERT(new_data);
+		char *new_data = malloc(sizeof(char) * len);
+		assert(new_data);
 		ft_memcpy(new_data, s->_data, len);
 		if (s->_data)
-			LIBFT_FREE(s->_data);
+			free(s->_data);
 		s->_data = new_data;
 		s->_capacity = len;
 	}
@@ -1758,13 +1728,13 @@ void	ft_string_append_str(ft_string *s, const char *_x)
 	{
 		size_t _newcap = _ft_string_recommend(s->_capacity, _newsize);
 		char *new_data = ft_calloc(_newcap, sizeof(char));
-		LIBFT_ASSERT(new_data);
+		assert(new_data);
 		s->_capacity = _newcap;
 
 		if (s->_data)
 		{
 			ft_strcat(new_data, s->_data);
-			LIBFT_FREE(s->_data);
+			free(s->_data);
 		}
 		ft_strcat(new_data, _x);
 		s->_data = new_data;
@@ -1786,13 +1756,13 @@ void	ft_string_append_char(ft_string* s, const char _x, size_t n)
 	{
 		size_t _newcap = _ft_string_recommend(s->_capacity, _newsize);
 		char *new_data = ft_calloc(_newcap, sizeof(char));
-		LIBFT_ASSERT(new_data);
+		assert(new_data);
 		s->_capacity = _newcap;
 
 		if (s->_data)
 		{
 			ft_strcpy(new_data, s->_data);
-			LIBFT_FREE(s->_data);
+			free(s->_data);
 		}
 		ft_memset(new_data + _size, _x, n);
 		s->_data = new_data;
@@ -1818,12 +1788,12 @@ void	ft_string_assign(ft_string* s, const char *_x)
 	if (s->_capacity < _xsize)
 	{
 		char *new_data = ft_strdup(_x);
-		LIBFT_ASSERT(new_data);
-		LIBFT_ASSERT(new_data);
+		assert(new_data);
+		assert(new_data);
 		s->_capacity = _xsize;
 
 		if (s->_data)
-			LIBFT_FREE(s->_data);
+			free(s->_data);
 		s->_data = new_data;
 	}
 	else
@@ -1841,11 +1811,11 @@ void	ft_string_assign_count(ft_string* s, const char *_x, size_t count)
 	if (s->_capacity < _xsize)
 	{
 		char *new_data = ft_strndup(_x, count);
-		LIBFT_ASSERT(new_data);
+		assert(new_data);
 		s->_capacity = _xsize;
 
 		if (s->_data)
-			LIBFT_FREE(s->_data);
+			free(s->_data);
 		s->_data = new_data;
 	}
 	else
@@ -1863,14 +1833,14 @@ void	ft_string_assign_char(ft_string* s, const char _x, size_t count)
 	if (s->_capacity < count)
 	{
 		char *new_data = ft_calloc(_newcap, sizeof(char));
-		LIBFT_ASSERT(new_data);
+		assert(new_data);
 		s->_capacity = _newcap;
 
 		ft_memset(new_data, _x, count);
 		ft_memset(new_data + count, '\0', s->_capacity - count);
 
 		if (s->_data)
-			LIBFT_FREE(s->_data);
+			free(s->_data);
 		s->_data = new_data;
 	}
 	else
@@ -1953,18 +1923,18 @@ typedef struct
 	FileParse_TokenListItem*	end_cap;
 }FileParse_TokenList;
 
-LIBFT_BOOL	FileParse_IsSpace(const FileParse_Desc* desc, int c)
+bool	FileParse_IsSpace(const FileParse_Desc* desc, int c)
 {
 	if (desc->isspace)
 		return desc->isspace(c);
 	return ft_isspace(c);
 }
 
-LIBFT_BOOL	FileParse_IsSeparator(const FileParse_Desc* desc, int c)
+bool	FileParse_IsSeparator(const FileParse_Desc* desc, int c)
 {
 	if (desc->isseparator)
 		return desc->isseparator(c);
-	return LIBFT_FALSE;
+	return false;
 }
 
 size_t	FileParse_TokenList_RecommendNewSize(FileParse_TokenList *list)
@@ -1974,10 +1944,10 @@ size_t	FileParse_TokenList_RecommendNewSize(FileParse_TokenList *list)
 	return max(2 * capacity, size + 1);
 }
 
-LIBFT_BOOL	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_TokenListItem* token)
+bool	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_TokenListItem* token)
 {
-	LIBFT_ASSERT(list != NULL);
-	LIBFT_ASSERT(token != NULL);
+	assert(list != NULL);
+	assert(token != NULL);
 
 	if (list->end < list->end_cap)
 		ft_memcpy(list->end++, token, sizeof(FileParse_TokenListItem));
@@ -1989,7 +1959,7 @@ LIBFT_BOOL	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_T
 		size_t	new_cap = FileParse_TokenList_RecommendNewSize(list);
 		new_list.begin = ft_calloc(new_cap, sizeof(FileParse_TokenListItem));
 		if (!new_list.begin)
-			return LIBFT_FALSE;
+			return false;
 		new_list.end_cap = new_list.begin + new_cap;
 
 		// copy old data
@@ -2003,16 +1973,16 @@ LIBFT_BOOL	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_T
 		new_list.end++;
 
 		// swap
-		LIBFT_FREE(list->begin);
+		free(list->begin);
 		*list = new_list;
 	}
-	return LIBFT_TRUE;
+	return true;
 }
 
 FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 {
-	LIBFT_ASSERT(file != NULL);
-	LIBFT_ASSERT(desc != NULL);
+	assert(file != NULL);
+	assert(desc != NULL);
 	FileParse_State 	state = { 0 };
 	char				*line = NULL;
 	int					fd;
@@ -2033,7 +2003,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 		// todo: comments
 		while (i < length)
 		{
-			LIBFT_BOOL found = LIBFT_FALSE;
+			bool found = false;
 			while (i < length && FileParse_IsSpace(desc, line[i]))
 				i++;
 			for (size_t j = 0; j < desc->token_count; j++)
@@ -2051,12 +2021,12 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 						.length = token_length,
 					}))
 					{
-						LIBFT_FREE(list.begin);
+						free(list.begin);
 						state._status = FileParse_Status_Error;
 						close(fd);
 						return state;
 					}
-					found = LIBFT_TRUE;
+					found = true;
 					i += token_length;
 					break ;
 				}
@@ -2078,7 +2048,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 						.length = i - j,
 					}))
 					{
-						LIBFT_FREE(list.begin);
+						free(list.begin);
 						state._status = FileParse_Status_Error;
 						close(fd);
 						return state;
@@ -2093,7 +2063,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 	state.tokens = ft_calloc(state.count, sizeof(FileParse_Token));
 	if (!state.tokens)
 	{
-		LIBFT_FREE(list.begin);
+		free(list.begin);
 		state._status = FileParse_Status_Error;
 		return state;
 	}
@@ -2110,8 +2080,8 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 void	FileParse_ClearState(FileParse_State* state)
 {
 	for (size_t i = 0; i < state->count; i++)
-		LIBFT_FREE(state->tokens[i].value);
-	LIBFT_FREE(state->tokens);
+		free(state->tokens[i].value);
+	free(state->tokens);
 }
 
 void	_ft_printf_create_hex_internal(char *s, char x, unsigned int nb, int alt, int length)
@@ -2191,7 +2161,7 @@ int	_ft_vsnprintf_internal(char* string, size_t maxlen, const char *format, va_l
 
 			len = min(maxlen - 1 - curlen, specs.info.width + curlen);
 			ft_strncat(string, s, len);
-			LIBFT_FREE(s);
+			free(s);
 			curlen += len;
 
 			f++;
@@ -2333,7 +2303,7 @@ int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
 			char	*s = NULL;
 			DO_POSITIONAL(f, s, specs, ap);
 			write(fd, s, specs.info.width);
-			LIBFT_FREE(s);
+			free(s);
 			done += specs.info.width;
 			f++;
 		}
@@ -2424,13 +2394,13 @@ static char	*_ft_gnl_join(char *s1, char *s2)
 	s1_len = s1 ? ft_strlen(s1) : 0;
 	s2_len = s2 ? ft_strlen(s2) : 0;
 	len = s1_len + s2_len;
-	s = LIBFT_MALLOC(sizeof(char) * len + 1);
+	s = malloc(sizeof(char) * len + 1);
 	if (!s)
 		return (NULL);
 	ft_memmove(s, s1, s1_len);
 	ft_memmove(s + s1_len, s2, s2_len);
 	s[len] = '\0';
-	LIBFT_FREE((char *)s1);
+	free((char *)s1);
 	return (s);
 }
 
@@ -2460,17 +2430,17 @@ static char	*_ft_gnl_save_string(char *str)
 		i++;
 	if (!str[i])
 	{
-		LIBFT_FREE(str);
+		free(str);
 		return (NULL);
 	}
-	if (!(dest = LIBFT_MALLOC(sizeof(char) * (ft_strlen(str) - i) + 1)))
+	if (!(dest = malloc(sizeof(char) * (ft_strlen(str) - i) + 1)))
 		return (NULL);
 	i++;
 	j = 0;
 	while (str[i])
 		dest[j++] = str[i++];
 	dest[j] = '\0';
-	LIBFT_FREE(str);
+	free(str);
 	return (dest);
 }
 
@@ -2484,7 +2454,7 @@ static char	*_ft_gnl_create_line(char *str)
 	i = 0;
 	while (str[i] && str[i] != '\n')
 		i++;
-	if (!(line = LIBFT_MALLOC(sizeof(char) * i + 1)))
+	if (!(line = malloc(sizeof(char) * i + 1)))
 		return (NULL);
 	i = 0;
 	while (str[i] && str[i] != '\n')
@@ -2504,20 +2474,20 @@ int	ft_get_next_line(int fd, char **line)
 
 	if (fd < 0 || !line || LIBFT_BUFFERSIZE <= 0)
 		return (-1);
-	if (!(buffer = LIBFT_MALLOC(sizeof(char) * LIBFT_BUFFERSIZE + 1)))
+	if (!(buffer = malloc(sizeof(char) * LIBFT_BUFFERSIZE + 1)))
 		return (-1);
 	nb_read = 1;
 	while (!_ft_gnl_find_endl(str[fd]) && nb_read != 0)
 	{
 		if ((nb_read = read(fd, buffer, LIBFT_BUFFERSIZE)) == -1)
 		{
-			LIBFT_FREE(buffer);
+			free(buffer);
 			return (-1);
 		}
 		buffer[nb_read] = '\0';
 		str[fd] = _ft_gnl_join(str[fd], buffer);
 	}
-	LIBFT_FREE(buffer);
+	free(buffer);
 	*line = _ft_gnl_create_line(str[fd]);
 	str[fd] = _ft_gnl_save_string(str[fd]);
 	return (nb_read == 0 ? 0 : 1);
@@ -2543,7 +2513,7 @@ t_list	*ft_lstnew(void *content)
 {
 	t_list	*elem;
 
-	elem = LIBFT_MALLOC(sizeof(*elem));
+	elem = malloc(sizeof(*elem));
 	if (!elem)
 		return (NULL);
 	elem->content = content;
@@ -2575,7 +2545,7 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 			del((*lst)->content);
 		temp = (*lst);
 		(*lst) = (*lst)->next;
-		LIBFT_FREE(temp);
+		free(temp);
 	}
 }
 
@@ -2642,7 +2612,7 @@ void	ft_lstdelone(t_list *lst, void (*del)(void *))
 		return ;
 	if (del)
 		del(lst->content);
-	LIBFT_FREE(lst);
+	free(lst);
 }
 
 double	ft_fabs(double x)
@@ -2794,7 +2764,7 @@ void	*ft_calloc(size_t count, size_t size)
 		count = 1;
 		size = 1;
 	}
-	ptr = LIBFT_MALLOC(count * size);
+	ptr = malloc(count * size);
 	if (!ptr)
 		return (NULL);
 	ft_bzero(ptr, count * size);
@@ -2864,7 +2834,7 @@ char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
 
 	if (!s1 || !s2 || !s3)
 		return (NULL);
-	dst = LIBFT_MALLOC(sizeof(char)
+	dst = malloc(sizeof(char)
 			* (ft_strlen(s1) + ft_strlen(s2) + ft_strlen(s3)) + 1);
 	if (!dst)
 		return (NULL);
@@ -2954,7 +2924,7 @@ char	**ft_strsplit(char const *s, char c)
 	i[1] = 0;
 	i[0] = 0;
 	n = 0;
-	split = LIBFT_MALLOC(8 * (ft_countwords(s, c) + 1));
+	split = malloc(8 * (ft_countwords(s, c) + 1));
 	if (!s || !c || !split)
 		return (NULL);
 	while (ft_countwords(s, c) > n)
@@ -2962,7 +2932,7 @@ char	**ft_strsplit(char const *s, char c)
 		i[1] = 0;
 		while (s[i[0]] == c)
 			i[0]++;
-		split[n] = LIBFT_MALLOC(ft_wordslen(s, c, i[0]) + 2);
+		split[n] = malloc(ft_wordslen(s, c, i[0]) + 2);
 		if (!split[n])
 			return (NULL);
 		while (s[i[0]] != c && s[i[0]] != '\0')
@@ -3002,7 +2972,7 @@ char	*ft_strjoin(const char *s1, const char *s2)
 
 	if (!s1 || !s2)
 		return (NULL);
-	d = LIBFT_MALLOC(sizeof(*d) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
+	d = malloc(sizeof(*d) * (ft_strlen(s1) + ft_strlen(s2)) + 1);
 	if (!d)
 		return (NULL);
 	return (ft_strcat(ft_strcpy(d, s1), s2));
@@ -3065,8 +3035,8 @@ static char	**free_tab(void **tab, size_t n)
 
 	i = 0;
 	while (i < n)
-		LIBFT_FREE(tab[i++]);
-	LIBFT_FREE(tab);
+		free(tab[i++]);
+	free(tab);
 	return (NULL);
 }
 
@@ -3076,7 +3046,7 @@ char	**init_split(const char *s, char c)
 
 	if (!s)
 		return (NULL);
-	return (LIBFT_MALLOC(sizeof(*tab) * (words(s, c) + 1)));
+	return (malloc(sizeof(*tab) * (words(s, c) + 1)));
 }
 
 char	**ft_split(const char *s, char c)
@@ -3095,7 +3065,7 @@ char	**ft_split(const char *s, char c)
 	{
 		while (s[j] == c && s[j])
 			j++;
-		tab[i] = LIBFT_MALLOC(sizeof(*tab[i]) * len_to_sep(s, c, j) + 1);
+		tab[i] = malloc(sizeof(*tab[i]) * len_to_sep(s, c, j) + 1);
 		if (!tab[i])
 			return (free_tab((void **)tab, i));
 		k = 0;
@@ -3128,7 +3098,7 @@ char	*ft_substr(const char *s, unsigned int start, size_t len)
 
 	if (!s)
 		return (NULL);
-	str = LIBFT_MALLOC(sizeof(*s) * (len + 1));
+	str = malloc(sizeof(*s) * (len + 1));
 	if (!str)
 		return (NULL);
 	i = 0;
@@ -3192,7 +3162,7 @@ char	*ft_strmapi(const char *s, char (*f)(unsigned int, char))
 
 	if (!s)
 		return (NULL);
-	d = LIBFT_MALLOC(sizeof(*d) * ft_strlen(s) + 1);
+	d = malloc(sizeof(*d) * ft_strlen(s) + 1);
 	if (!d)
 		return (NULL);
 	i = 0;
@@ -3227,7 +3197,7 @@ char	*ft_strndup(const char *s, size_t n)
 	char	*d;
 
 	len = ft_strnlen(s, n);
-	d = LIBFT_MALLOC(sizeof(*d) * len + 1);
+	d = malloc(sizeof(*d) * len + 1);
 	if (!d)
 		return (NULL);
 	ft_memcpy(d, s, len);
@@ -3280,7 +3250,7 @@ char	*ft_strdup(const char *s)
 	char	*d;
 
 	len = ft_strlen(s) + 1;
-	d = LIBFT_MALLOC(sizeof(*d) * len);
+	d = malloc(sizeof(*d) * len);
 	if (!d)
 		return (NULL);
 	return (ft_memcpy(d, s, len));
@@ -3364,7 +3334,7 @@ static char	*_ft_itoa_create_string(int len, int nb, int n)
 	int		i;
 
 	i = 0;
-	dest = LIBFT_MALLOC(sizeof(*dest) * len + 1 + (nb < 0));
+	dest = malloc(sizeof(*dest) * len + 1 + (nb < 0));
 	if (dest)
 	{
 		if (n < 0)

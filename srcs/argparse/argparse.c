@@ -1,11 +1,10 @@
 #include "libft.h"
-#include <stdlib.h> // strtol, atof - FIXME: don't rely on libc
 
-LIBFT_BOOL	_ArgParse_StringIsDigit(const char *str, const char **invalid)
+bool	_ArgParse_StringIsDigit(const char *str, const char **invalid)
 {
 	*invalid = str;
 	if (!str || *str == '\0')
-		return LIBFT_FALSE;
+		return false;
 
 	// Optional leading +/-
 	if (*str == '+' || *str == '-')
@@ -13,23 +12,23 @@ LIBFT_BOOL	_ArgParse_StringIsDigit(const char *str, const char **invalid)
 
 	*invalid = str;
 	if (!*str) // string was just "+" or "-"
-		return LIBFT_FALSE;
+		return false;
 
 	while (*str)
 	{
 		if (!ft_isdigit((unsigned char)*str))
-			return LIBFT_FALSE;
+			return false;
 		str++;
 		*invalid = str;
 	}
-	return LIBFT_TRUE;
+	return true;
 }
 
-LIBFT_BOOL	_ArgParse_StringIsFloat(const char *str, const char **invalid)
+bool	_ArgParse_StringIsFloat(const char *str, const char **invalid)
 {
 	*invalid = str;
 	if (!str || *str == '\0')
-		return LIBFT_FALSE;
+		return false;
 
 	// Optional leading +/-
 	if (*str == '+' || *str == '-')
@@ -37,30 +36,30 @@ LIBFT_BOOL	_ArgParse_StringIsFloat(const char *str, const char **invalid)
 
 	*invalid = str;
 	if (!*str) // string was just "+" or "-"
-		return LIBFT_FALSE;
+		return false;
 
-	LIBFT_BOOL seen_digit = LIBFT_FALSE;
-	LIBFT_BOOL seen_dot = LIBFT_FALSE;
-	LIBFT_BOOL seen_exp = LIBFT_FALSE;
+	bool seen_digit = false;
+	bool seen_dot = false;
+	bool seen_exp = false;
 
 	while (*str)
 	{
 		if (ft_isdigit((unsigned char)*str))
 		{
-			seen_digit = LIBFT_TRUE;
+			seen_digit = true;
 		}
 		else if (*str == '.')
 		{
 			if (seen_dot || seen_exp) // no multiple dots, no dot after exponent
-				return LIBFT_FALSE;
-			seen_dot = LIBFT_TRUE;
+				return false;
+			seen_dot = true;
 		}
 		else if (*str == 'e' || *str == 'E')
 		{
 			if (seen_exp || !seen_digit) // only one exponent, must follow digits
-				return LIBFT_FALSE;
-			seen_exp = LIBFT_TRUE;
-			seen_digit = LIBFT_FALSE; // require digits after 'e'
+				return false;
+			seen_exp = true;
+			seen_digit = false; // require digits after 'e'
 			if (*(str + 1) == '+' || *(str + 1) == '-') // allow sign after exponent
 			{
 				str++;
@@ -69,7 +68,7 @@ LIBFT_BOOL	_ArgParse_StringIsFloat(const char *str, const char **invalid)
 		}
 		else
 		{
-			return LIBFT_FALSE;
+			return false;
 		}
 		str++;
 		*invalid = str;
@@ -95,7 +94,7 @@ void	_ArgParse_OptionInvalidValue(ArgParse_State* state, const ArgParse_Desc* de
 	ft_dprintf(STDERR_FILENO, "%s: invalid value (`%s' near '%s')\n", desc->program_name, value, invalid);
 }
 
-void	_ArgParse_OptionRequiresAnArgument(ArgParse_State* state, const ArgParse_Desc* desc, size_t j, LIBFT_BOOL short_option)
+void	_ArgParse_OptionRequiresAnArgument(ArgParse_State* state, const ArgParse_Desc* desc, size_t j, bool short_option)
 {
 	state->_status = ArgParse_Status_OptionRequiresAnArgument;
 	if (short_option)
@@ -110,7 +109,7 @@ void	_ArgParse_TooManyArguments(ArgParse_State* state, const ArgParse_Desc* desc
 	ft_dprintf(STDERR_FILENO, "%s: too many arguments\n", desc->program_name);
 }
 
-void	_ArgParse_GetValue(ArgParse_State* state, const ArgParse_Desc* desc, char **argv, int *i, size_t j, LIBFT_BOOL short_option)
+void	_ArgParse_GetValue(ArgParse_State* state, const ArgParse_Desc* desc, char **argv, int *i, size_t j, bool short_option)
 {
 	char* option_argument = NULL;
 	const char* invalid = NULL;
@@ -179,7 +178,7 @@ void	_ArgParse_GetValue(ArgParse_State* state, const ArgParse_Desc* desc, char *
 
 void	_ArgParse_ParseLongOption(ArgParse_State* state, char **argv, const ArgParse_Desc* desc, int *i)
 {
-	LIBFT_BOOL	found = LIBFT_FALSE;
+	bool	found = false;
 	const char *arg = argv[*i];
 
 	for (size_t j = 0; j < desc->opt_count; j++)
@@ -188,9 +187,9 @@ void	_ArgParse_ParseLongOption(ArgParse_State* state, char **argv, const ArgPars
 
 		if (ft_strcmp(long_name, desc->options[j].long_name) == 0)
 		{
-			state->options[j].is_set = LIBFT_TRUE;
-			_ArgParse_GetValue(state, desc, argv, i, j, LIBFT_FALSE);
-			found = LIBFT_TRUE;
+			state->options[j].is_set = true;
+			_ArgParse_GetValue(state, desc, argv, i, j, false);
+			found = true;
 			break;
 		}
 		if (found)
@@ -205,19 +204,19 @@ void	_ArgParse_ParseLongOption(ArgParse_State* state, char **argv, const ArgPars
 
 void	_ArgParse_ParseShortOption(ArgParse_State* state, char **argv, const ArgParse_Desc* desc, int *i)
 {
-	LIBFT_BOOL	found = LIBFT_FALSE;
+	bool	found = false;
 	const char *arg = argv[*i];
 
 	for (int k = 1; arg[k]; k++)
 	{
-		found = LIBFT_FALSE;
+		found = false;
 		for (size_t j = 0; j < desc->opt_count; j++)
 		{
 			if (arg[k] == desc->options[j].short_name)
 			{
-				state->options[j].is_set = LIBFT_TRUE;
-				_ArgParse_GetValue(state, desc, argv, i, j, LIBFT_TRUE);
-				found = LIBFT_TRUE;
+				state->options[j].is_set = true;
+				_ArgParse_GetValue(state, desc, argv, i, j, true);
+				found = true;
 			}
 		}
 		if (!desc->opt_ignore_unknown && !found)
@@ -257,15 +256,15 @@ void	_ArgParse_SetOptionsDefaultValues(const ArgParse_Desc* desc)
 	}
 }
 
-LIBFT_BOOL	_ArgParse_OptionTakesArgument(const ArgParse_Desc* desc, const char *option)
+bool	_ArgParse_OptionTakesArgument(const ArgParse_Desc* desc, const char *option)
 {
 	for (size_t i = 0; i < desc->opt_count; i++)
 		if (desc->options[i].short_name == option[1] || ft_strcmp(desc->options[i].long_name, &option[2]) == 0)
 			return desc->options[i].type > ArgParse_OptionType_Bool;
-	return LIBFT_FALSE;
+	return false;
 }
 
-LIBFT_BOOL	ArgParse_IsStateValid(const ArgParse_State* state)
+bool	ArgParse_IsStateValid(const ArgParse_State* state)
 {
 	return state->_status == ArgParse_Status_Success;
 }
@@ -291,7 +290,7 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 		_ArgParse_SetOptionsDefaultValues(desc);
 	}
 
-	LIBFT_BOOL parse_options = LIBFT_TRUE;
+	bool parse_options = true;
 	size_t arg_count = 0;
 	for (int i = 1; i < argc; i++)
 	{
@@ -299,7 +298,7 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 		{
 			if (ft_strcmp(argv[i], "--") == 0)
 			{
-				parse_options = LIBFT_FALSE;
+				parse_options = false;
 				continue;
 			}
 			if (argv[i][1] == '-')
@@ -318,11 +317,11 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 		state.arguments = ft_calloc(arg_count + 1, sizeof(char *));
 		if (!state.arguments)
 		{
-			LIBFT_FREE(state.options);
+			free(state.options);
 			state.options = NULL;
 			return (ArgParse_State){ ._status = ArgParse_Status_AllocationError };
 		}
-		parse_options = LIBFT_TRUE;
+		parse_options = true;
 		int j = 0;
 		for (int i = 1; i < argc; i++)
 		{
@@ -338,7 +337,7 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 				}
 				if (ft_strcmp(argv[i], "--") == 0)
 				{
-					parse_options = LIBFT_FALSE;
+					parse_options = false;
 					continue;
 				}
 			}
@@ -354,6 +353,6 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 
 void	ArgParse_ClearState(ArgParse_State* state)
 {
-	LIBFT_FREE(state->options);
-	LIBFT_FREE(state->arguments);
+	free(state->options);
+	free(state->arguments);
 }

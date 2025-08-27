@@ -16,9 +16,9 @@ typedef struct ft_vector
 
 ft_vector	*_ft_vector_create(size_t type_size, ft_allocator alloc)
 {
-	ft_vector	*v = LIBFT_MALLOC(sizeof(struct ft_vector));
+	ft_vector	*v = malloc(sizeof(struct ft_vector));
 
-	LIBFT_ASSERT(v);
+	assert(v);
 	v->type_size = type_size;
 	v->alloc = alloc;
 	v->_begin = v->_end = v->_end_cap = NULL;
@@ -53,7 +53,7 @@ size_t	_ft_vector_realsize(const ft_vector *_v)
 
 size_t	_ft_vector_recommend(const ft_vector *_v, size_t new_size)
 {
-	LIBFT_ASSERT(new_size < SIZE_MAX);
+	assert(new_size < SIZE_MAX);
     const size_t cap = ft_vector_capacity(_v);
     if (cap >= SIZE_MAX / 2)
         return SIZE_MAX;
@@ -89,7 +89,7 @@ void	_ft_vector_destroy(ft_vector *_v)
 
 void	_ft_vector_vallocate(ft_vector *_v, size_t n)
 {
-	LIBFT_ASSERT(n <= SIZE_MAX);
+	assert(n <= SIZE_MAX);
 	_v->_begin = _v->_end = _v->alloc.allocate(n, _v->type_size);
 	_v->_end_cap = _ft_pointer_add(_v->_begin, n, _v->type_size);
 }
@@ -137,14 +137,14 @@ ft_vector	*ft_vector_copy(ft_vector *_v, const ft_vector *_src)
 	return _v;
 }
 
-LIBFT_BOOL	ft_vector_empty(const ft_vector *_v)
+bool	ft_vector_empty(const ft_vector *_v)
 {
 	return _v->_begin == _v->_end;
 }
 
 size_t	ft_vector_size(const ft_vector *_v)
 {
-	LIBFT_ASSERT(_v->type_size > 0);
+	assert(_v->type_size > 0);
 	return (_ft_vector_realsize(_v) / _v->type_size);
 }
 
@@ -155,7 +155,7 @@ size_t	LIBFT_VECTOR_TYPE_size(const ft_vector *_v)
 
 size_t	ft_vector_capacity(const ft_vector *_v)
 {
-	LIBFT_ASSERT(_v->type_size > 0);
+	assert(_v->type_size > 0);
 	return (_ft_vector_realcap(_v) / _v->type_size);
 }
 
@@ -177,7 +177,7 @@ void	ft_vector_clear(ft_vector *_v)
 void	ft_vector_destroy(ft_vector *_v)
 {
 	_ft_vector_destroy(_v);
-	LIBFT_FREE(_v);
+	free(_v);
 }
 
 void	ft_vector_pop_back(ft_vector *_v)
@@ -357,7 +357,7 @@ void	_insert_in_array_range(ft_vector *_v, pointer p, size_t position, pointer f
 
 pointer	ft_vector_insert(ft_vector *_v, size_t position, const_value_type x)
 {
-	LIBFT_ASSERT(position <= ft_vector_size(_v));
+	assert(position <= ft_vector_size(_v));
 
 	ptrdiff_t d = (ptrdiff_t)_ft_pointer_subp(ft_vector_at(_v, position), _v->_begin);
 	pointer p = _ft_pointer_add(_v->_begin, d, _v->type_size);

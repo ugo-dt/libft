@@ -11,11 +11,11 @@ void	ft_sort_array(char **array)
 		if (ft_strcmp(array[i], array[i + 1]) > 0)
 		{
 			temp = ft_strdup(array[i]);
-			LIBFT_FREE(array[i]);
+			free(array[i]);
 			array[i] = ft_strdup(array[i + 1]);
-			LIBFT_FREE(array[i + 1]);
+			free(array[i + 1]);
 			array[i + 1] = ft_strdup(temp);
-			LIBFT_FREE(temp);
+			free(temp);
 			i = 0;
 		}
 		else
@@ -30,7 +30,7 @@ char	**ft_copy_array(char **arr)
 	char	**copy;
 
 	size = ft_array_size((void **)arr);
-	copy = LIBFT_MALLOC(sizeof(char *) * (size + 1));
+	copy = malloc(sizeof(char *) * (size + 1));
 	if (!copy)
 		return (NULL);
 	i = 0;

@@ -41,8 +41,8 @@ static char	**free_tab(void **tab, size_t n)
 
 	i = 0;
 	while (i < n)
-		LIBFT_FREE(tab[i++]);
-	LIBFT_FREE(tab);
+		free(tab[i++]);
+	free(tab);
 	return (NULL);
 }
 
@@ -52,7 +52,7 @@ char	**init_split(const char *s, char c)
 
 	if (!s)
 		return (NULL);
-	return (LIBFT_MALLOC(sizeof(*tab) * (words(s, c) + 1)));
+	return (malloc(sizeof(*tab) * (words(s, c) + 1)));
 }
 
 char	**ft_split(const char *s, char c)
@@ -71,7 +71,7 @@ char	**ft_split(const char *s, char c)
 	{
 		while (s[j] == c && s[j])
 			j++;
-		tab[i] = LIBFT_MALLOC(sizeof(*tab[i]) * len_to_sep(s, c, j) + 1);
+		tab[i] = malloc(sizeof(*tab[i]) * len_to_sep(s, c, j) + 1);
 		if (!tab[i])
 			return (free_tab((void **)tab, i));
 		k = 0;

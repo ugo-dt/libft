@@ -12,6 +12,6 @@ void	ft_lstclear(t_list **lst, void (*del)(void *))
 			del((*lst)->content);
 		temp = (*lst);
 		(*lst) = (*lst)->next;
-		LIBFT_FREE(temp);
+		free(temp);
 	}
 }

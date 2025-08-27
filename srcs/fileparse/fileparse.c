@@ -14,18 +14,18 @@ typedef struct
 	FileParse_TokenListItem*	end_cap;
 }FileParse_TokenList;
 
-LIBFT_BOOL	FileParse_IsSpace(const FileParse_Desc* desc, int c)
+bool	FileParse_IsSpace(const FileParse_Desc* desc, int c)
 {
 	if (desc->isspace)
 		return desc->isspace(c);
 	return ft_isspace(c);
 }
 
-LIBFT_BOOL	FileParse_IsSeparator(const FileParse_Desc* desc, int c)
+bool	FileParse_IsSeparator(const FileParse_Desc* desc, int c)
 {
 	if (desc->isseparator)
 		return desc->isseparator(c);
-	return LIBFT_FALSE;
+	return false;
 }
 
 size_t	FileParse_TokenList_RecommendNewSize(FileParse_TokenList *list)
@@ -35,10 +35,10 @@ size_t	FileParse_TokenList_RecommendNewSize(FileParse_TokenList *list)
 	return max(2 * capacity, size + 1);
 }
 
-LIBFT_BOOL	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_TokenListItem* token)
+bool	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_TokenListItem* token)
 {
-	LIBFT_ASSERT(list != NULL);
-	LIBFT_ASSERT(token != NULL);
+	assert(list != NULL);
+	assert(token != NULL);
 
 	if (list->end < list->end_cap)
 		ft_memcpy(list->end++, token, sizeof(FileParse_TokenListItem));
@@ -50,7 +50,7 @@ LIBFT_BOOL	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_T
 		size_t	new_cap = FileParse_TokenList_RecommendNewSize(list);
 		new_list.begin = ft_calloc(new_cap, sizeof(FileParse_TokenListItem));
 		if (!new_list.begin)
-			return LIBFT_FALSE;
+			return false;
 		new_list.end_cap = new_list.begin + new_cap;
 
 		// copy old data
@@ -64,16 +64,16 @@ LIBFT_BOOL	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_T
 		new_list.end++;
 
 		// swap
-		LIBFT_FREE(list->begin);
+		free(list->begin);
 		*list = new_list;
 	}
-	return LIBFT_TRUE;
+	return true;
 }
 
 FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 {
-	LIBFT_ASSERT(file != NULL);
-	LIBFT_ASSERT(desc != NULL);
+	assert(file != NULL);
+	assert(desc != NULL);
 	
 	FileParse_State 	state = { 0 };
 	char				*line = NULL;
@@ -95,7 +95,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 		// todo: comments
 		while (i < length)
 		{
-			LIBFT_BOOL found = LIBFT_FALSE;
+			bool found = false;
 		
 			while (i < length && FileParse_IsSpace(desc, line[i]))
 				i++;
@@ -114,12 +114,12 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 						.length = token_length,
 					}))
 					{
-						LIBFT_FREE(list.begin);
+						free(list.begin);
 						state._status = FileParse_Status_Error;
 						close(fd);
 						return state;
 					}
-					found = LIBFT_TRUE;
+					found = true;
 					i += token_length;
 					break ;
 				}
@@ -141,7 +141,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 						.length = i - j,
 					}))
 					{
-						LIBFT_FREE(list.begin);
+						free(list.begin);
 						state._status = FileParse_Status_Error;
 						close(fd);
 						return state;
@@ -157,7 +157,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 	state.tokens = ft_calloc(state.count, sizeof(FileParse_Token));
 	if (!state.tokens)
 	{
-		LIBFT_FREE(list.begin);
+		free(list.begin);
 		state._status = FileParse_Status_Error;
 		return state;
 	}
@@ -174,6 +174,6 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 void	FileParse_ClearState(FileParse_State* state)
 {
 	for (size_t i = 0; i < state->count; i++)
-		LIBFT_FREE(state->tokens[i].value);
-	LIBFT_FREE(state->tokens);
+		free(state->tokens[i].value);
+	free(state->tokens);
 }

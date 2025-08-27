@@ -26,7 +26,7 @@ static char	*_ft_itoa_create_string(int len, int nb, int n)
 	int		i;
 
 	i = 0;
-	dest = LIBFT_MALLOC(sizeof(*dest) * len + 1 + (nb < 0));
+	dest = malloc(sizeof(*dest) * len + 1 + (nb < 0));
 	if (dest)
 	{
 		if (n < 0)

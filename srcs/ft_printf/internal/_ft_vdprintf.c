@@ -25,7 +25,7 @@ int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
 			char	*s = NULL;
 			DO_POSITIONAL(f, s, specs, ap);
 			write(fd, s, specs.info.width);
-			LIBFT_FREE(s);
+			free(s);
 			done += specs.info.width;
 			f++;
 		}

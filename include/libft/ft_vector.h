@@ -49,7 +49,7 @@ struct ft_vector
 	ft_vector*	(*copy)(ft_vector *vector, const ft_vector *_src);
 	void*		(*data)(ft_vector *vector);
 	void*		(*at)(ft_vector *vector, size_t n);
-	LIBFT_BOOL	(*empty)(const ft_vector *vector);
+	bool		(*empty)(const ft_vector *vector);
 	size_t		(*size)(const ft_vector *vector);
 	size_t		(*capacity)(const ft_vector *vector);
 	void		(*reserve)(ft_vector *vector, size_t n);
