@@ -98,9 +98,9 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/write/ft_putnbr.c					\
 			srcs/write/ft_putnbr_fd.c				\
 			srcs/write/ft_putstr.c					\
-			srcs/write/ft_putstr_fd.c				
-			# srcs/vector/allocator.c					
-			# srcs/vector/vector.c
+			srcs/write/ft_putstr_fd.c				\
+			srcs/vector/vector.c					\
+			srcs/vector/allocator.c					
 
 OBJS		= $(SRCS:.c=.o)
 INCLUDE		= -I include/libft

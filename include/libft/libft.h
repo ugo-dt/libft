@@ -715,6 +715,68 @@ typedef struct
 FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc);
 void			FileParse_ClearState(FileParse_State* state);
 
+// vector
+
+typedef struct ft_allocator
+{
+	size_t	sizeof_type;
+	void*	(*allocate)(const struct ft_allocator*, size_t n);
+	void	(*deallocate)(const struct ft_allocator*, void* p, size_t n);
+	void	(*construct)(const struct ft_allocator*, void* p, const void *value_ptr);
+	void	(*destroy)(const struct ft_allocator*, void* p);
+	size_t	(*max_size)(const struct ft_allocator*);
+}ft_allocator;
+
+void*	ft_allocator_allocate(const ft_allocator* alloc, size_t n);
+void	ft_allocator_deallocate(const ft_allocator* alloc, void *p, size_t n);
+void	ft_allocator_construct(const ft_allocator* alloc, void *p, const void* value);
+void	ft_allocator_destroy(const ft_allocator* alloc, void *p);
+size_t	ft_allocator_max_size(const struct ft_allocator* alloc);
+
+typedef enum
+{
+	IteratorType_Random = 1,
+	IteratorType_Reverse = -1
+}IteratorType;
+
+typedef struct ft_iterator
+{
+	void*			_p;
+	size_t			_sizeof_type;
+	IteratorType	_type;
+}ft_iterator;
+
+typedef struct ft_vector
+{
+	ft_allocator	alloc;
+	void*			begin;
+	void*			end;
+	void*			end_cap;
+}ft_vector;
+
+typedef struct
+{
+	ft_allocator	alloc;
+	size_t			size;
+	size_t			capacity;
+	void*			default_value;
+}ft_vector_desc;
+
+ft_vector	ft_vector_create(const ft_vector_desc* desc);
+void		ft_vector_destroy(ft_vector* vector);
+ft_iterator	ft_vector_begin(const ft_vector* vector);
+ft_iterator	ft_vector_end(const ft_vector* vector);
+ft_iterator	ft_vector_rbegin(const ft_vector* vector);
+ft_iterator	ft_vector_rend(const ft_vector* vector);
+size_t		ft_vector_max_size(const ft_vector* vector);
+size_t		ft_vector_size(const ft_vector* vector);
+size_t		ft_vector_capacity(const ft_vector* vector);
+size_t		ft_vector_empty(const ft_vector* vector);
+void		ft_vector_clear(ft_vector* vector);
+void		ft_vector_reserve(ft_vector* vector, size_t n);
+void		ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
+void		ft_vector_push_back(ft_vector* vector, const void* value);
+
 # ifdef __cplusplus
 }
 # endif
