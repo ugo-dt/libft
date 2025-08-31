@@ -117,13 +117,54 @@ static void	test_iterator(void* param)
 	ft_vector_destroy(&v);
 }
 
+struct test { int a, b; };
+
+static void	test_allocator_construct(const ft_allocator* alloc, void *p, const void* value)
+{
+	struct test* obj = p;
+	const struct test* val = value;
+
+	obj->a = val->a + 42;
+	obj->b = val->b + 42;
+}
+
+static void	test_allocator(void* param)
+{
+	ft_vector	v = ft_vector_create(&(ft_vector_desc){
+		.alloc = {
+			.sizeof_type = sizeof(struct test),
+			.construct = test_allocator_construct,
+		},
+	});
+
+	Tester_Expect(v.alloc.sizeof_type)->ToBe(sizeof(struct test));
+	ft_vector_reserve(&v, 2);
+	Tester_Expect(ft_vector_capacity(&v))->ToBe(2);
+	ft_vector_push_back(&v, &(struct test){42, 21});
+	ft_vector_push_back(&v, &(struct test){20, 43});
+	Tester_Expect(ft_vector_size(&v))->ToBe(2);
+
+	// The constructed values should have +42 in each member
+	Tester_Expect((*(struct test*)ft_vector_at(&v, 0)).a)->ToBe(42 + 42);
+	Tester_Expect((*(struct test*)ft_vector_at(&v, 0)).b)->ToBe(21 + 42);
+	Tester_Expect((*(struct test*)ft_vector_at(&v, 1)).a)->ToBe(20 + 42);
+	Tester_Expect((*(struct test*)ft_vector_at(&v, 1)).b)->ToBe(43 + 42);
+	for (ft_iterator it = ft_vector_begin(&v); !FT_ITER_EQ(it, ft_vector_end(&v)); FT_ITER_INC(it))
+	{
+		struct test val = FT_ITER_VALUE(it, struct test);
+		// 63 is the sum of original a and b, for both structs
+		Tester_Expect(val.a + val.b)->ToBe(63 + 42 + 42);
+	}
+	ft_vector_destroy(&v);
+}
+
 int	main(void)
 {
 	Tester_Describe("Vector Test", &(TestDesc){
 		.count = 1,
 		.contexts = (TesterContext[]){
 			{
-				.count = 4,
+				.count = 5,
 				.it = (TestIt[]){
 					{
 						.name = "Create",
@@ -143,6 +184,11 @@ int	main(void)
 					{
 						.name = "Iterator",
 						.callback = test_iterator,
+						.param = NULL,
+					},
+					{
+						.name = "Allocator",
+						.callback = test_allocator,
 						.param = NULL,
 					}
 				},
