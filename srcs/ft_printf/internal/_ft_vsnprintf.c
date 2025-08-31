@@ -31,7 +31,7 @@ int	_ft_vsnprintf_internal(char* string, size_t maxlen, const char *format, va_l
 			char	*s = NULL;
 			DO_POSITIONAL(f, s, specs, ap);
 
-			len = min(maxlen - 1 - curlen, specs.info.width + curlen);
+			len = min(maxlen - 1 - curlen, (size_t)specs.info.width);
 			ft_strncat(string, s, len);
 			free(s);
 			curlen += len;
