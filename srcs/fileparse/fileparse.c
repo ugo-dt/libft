@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 #include <fcntl.h> // open
 
 typedef struct

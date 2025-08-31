@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 
 static char	*_ft_gnl_join(char *s1, char *s2)
 {

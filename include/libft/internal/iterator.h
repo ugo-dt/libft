@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libft.h"
+#include "libft/libft.h"
 
 #define _POINTER_ADD(__p, __size, __n) ((char*)(__p) + ((__n) * (__size)))
 #define _POINTER_SUB(__p, __size, __n) ((char*)(__p) - ((__n) * (__size)))
@@ -41,10 +41,16 @@
 #define FT_ITER_DEC_NEW(__it) ((ft_iterator){ \
 	._p = _FT_ITER_DEC_P((__it)), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
 
-#define FT_ITER_VALUE(__it) (( \
+#define FT_ITER_REF(__it) (( \
 	(__it)._type) == IteratorType_Reverse ? _POINTER_SUB((__it)._p, (__it)._sizeof_type, 1) : ((__it)._p))
-
-#define FT_ITER_EQ(__it_a, __it_b) (((__it_a)._p) == ((__it_b)._p))
+#define FT_ITER_VALUE(__it, __type) (*(__type *)(FT_ITER_REF(__it))) // dereference
+ 
+#define FT_ITER_EQ(__it_a, __it_b) (((__it_a)._p) == ((__it_b)._p)) // equal
+#define FT_ITER_LT(__it_a, __it_b) (((__it_a)._p) < ((__it_b)._p)) // less than
+#define FT_ITER_NEQ(__it_a, __it_b) (!(FT_ITER_EQ((__it_a), (__it_b)))) // not equal
+#define FT_ITER_GT(__it_a, __it_b) (FT_ITER_LT((__it_b), (__it_a)) && FT_ITER_NEQ((__it_a), (__it_b))) // greater than
+#define FT_ITER_LE(__it_a, __it_b) (!FT_ITER_GT((__it_a), (__it_b))) // less than or equal
+#define FT_ITER_GE(__it_a, __it_b) (!FT_ITER_LT((__it_a), (__it_b))) // greater than or equal
 
 static inline ft_iterator	_make_iter(size_t sizeof_type, void* p, IteratorType type)
 {

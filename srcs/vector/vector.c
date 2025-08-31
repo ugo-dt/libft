@@ -1,5 +1,5 @@
-#include "libft.h"
-#include "internal/iterator.h"
+#include "libft/libft.h"
+#include "libft/iterator.h"
 
 #define ft_def(__a, __b) (((__a) == 0) ? (__b) : (__a))
 
@@ -49,7 +49,7 @@ void	_construct_at_end_iter(ft_vector* vector, ft_iterator first, ft_iterator la
 		return ;
 	for (; !FT_ITER_EQ(first, last); FT_ITER_INC(first))
 	{
-		vector->alloc.construct(&vector->alloc, vector->end, FT_ITER_VALUE(first));
+		vector->alloc.construct(&vector->alloc, vector->end, FT_ITER_REF(first));
 		POINTER_INC(vector, vector->end);
 	}
 }
@@ -190,7 +190,7 @@ void	ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last)
 {
 	ft_vector_clear(vector);
 	for (; !FT_ITER_EQ(first, last); FT_ITER_INC(first))
-		ft_vector_push_back(vector, FT_ITER_VALUE(first));
+		ft_vector_push_back(vector, FT_ITER_REF(first));
 }
 
 void	ft_vector_push_back(ft_vector* vector, const void* value)

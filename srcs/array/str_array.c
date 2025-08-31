@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 
 void	ft_sort_array(char **array)
 {

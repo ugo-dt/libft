@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 
 typedef struct ft_string
 {

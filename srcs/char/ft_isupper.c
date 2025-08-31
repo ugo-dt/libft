@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 
 int	ft_isupper(int c)
 {

@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 
 static int	_ft_itoa_digits(unsigned int n)
 {

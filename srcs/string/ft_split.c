@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 
 static unsigned int	words(const char *s, char c)
 {

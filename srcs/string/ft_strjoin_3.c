@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 
 char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3)
 {

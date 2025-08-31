@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 
 char	*ft_strnstr(const char *haystack, const char *needle, size_t n)
 {

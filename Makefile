@@ -104,7 +104,7 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/vector/allocator.c					
 
 OBJS		= $(SRCS:.c=.o)
-INCLUDE		= -I include/libft
+INCLUDE		= -I include
 
 CC			= gcc
 CFLAGS		= -Wall -Wextra -Werror

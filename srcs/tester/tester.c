@@ -1,4 +1,4 @@
-#include "tester.h"
+#include "libft/tester.h"
 
 #define COLOR_DEFAULT	"\033[39m"
 #define COLOR_DARK_RED	"\033[31m"
@@ -197,7 +197,7 @@ void	Tester_Describe(const char* name, const TestDesc* desc)
 	{
 		TesterContext* ctx = &desc->contexts[i];
 
-		ft_printf(COLOR_MAGENTA "=== %s ===\n", name);
+		ft_printf(COLOR_MAGENTA "=== %s ===\n" COLOR_DEFAULT, name);
 		if (desc->before)
 			desc->before(NULL);
 		for (size_t j = 0; j < ctx->count; j++)

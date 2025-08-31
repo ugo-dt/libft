@@ -1,6 +1,6 @@
 #pragma once
 
-#include "libft.h"
+#include "libft/libft.h"
 
 typedef enum
 {

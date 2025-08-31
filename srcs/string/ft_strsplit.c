@@ -1,4 +1,4 @@
-#include "libft.h"
+#include "libft/libft.h"
 
 static int	ft_wordslen(const char *s, char c, int i)
 {

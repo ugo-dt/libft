@@ -1,7 +1,7 @@
 #ifndef _LIBFT_PRINTF_H
 # define _LIBFT_PRINTF_H
 
-# include "libft.h"
+# include "libft/libft.h"
 
 # ifdef __cplusplus
 extern "C" {
