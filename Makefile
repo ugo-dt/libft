@@ -91,6 +91,7 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/string/ft_strsplit.c				\
 			srcs/string/ft_strtrim.c				\
 			srcs/string/ft_substr.c					\
+			srcs/tester/tester.c					\
 			srcs/write/ft_putchar.c					\
 			srcs/write/ft_putchar_fd.c				\
 			srcs/write/ft_putendl.c					\

@@ -21,6 +21,7 @@
 #define _FT_ITER_INC_P(__it) _ITER_INC_DEC_TYPE((__it)._p, (__it)._sizeof_type, (__it)._type)
 #define _FT_ITER_DEC_P(__it) _ITER_INC_DEC_TYPE((__it)._p, (__it)._sizeof_type, ((__it)._type * -1))
 
+// Modify the iterator in place
 #define FT_ITER_ADD(__it, __n) ((__it) = (ft_iterator){ \
 	._p = _FT_ITER_ADD_P(__it, __n), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
 #define FT_ITER_SUB(__it, __n) ((__it) = (ft_iterator){ \
@@ -28,6 +29,16 @@
 #define FT_ITER_INC(__it) ((__it) = (ft_iterator){ \
 	._p = _FT_ITER_INC_P((__it)), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
 #define FT_ITER_DEC(__it) ((__it) = (ft_iterator){ \
+	._p = _FT_ITER_DEC_P((__it)), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+
+// Makes a new iterator
+#define FT_ITER_ADD_NEW(__it, __n) ((ft_iterator){ \
+	._p = _FT_ITER_ADD_P(__it, __n), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+#define FT_ITER_SUB_NEW(__it, __n) ((ft_iterator){ \
+	._p = _FT_ITER_SUB_P(__it, __n), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+#define FT_ITER_INC_NEW(__it) ((ft_iterator){ \
+	._p = _FT_ITER_INC_P((__it)), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+#define FT_ITER_DEC_NEW(__it) ((ft_iterator){ \
 	._p = _FT_ITER_DEC_P((__it)), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
 
 #define FT_ITER_VALUE(__it) (( \

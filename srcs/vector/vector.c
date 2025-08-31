@@ -47,7 +47,7 @@ void	_construct_at_end_iter(ft_vector* vector, ft_iterator first, ft_iterator la
 
 	if (n == 0)
 		return ;
-	for (; FT_ITER_EQ(first, last); FT_ITER_INC(first))
+	for (; !FT_ITER_EQ(first, last); FT_ITER_INC(first))
 	{
 		vector->alloc.construct(&vector->alloc, vector->end, FT_ITER_VALUE(first));
 		POINTER_INC(vector, vector->end);
@@ -78,6 +78,7 @@ void	_ft_vector_swap(ft_vector *_v, ft_vector *_x)
 	ft_allocator tmp = _v->alloc;
 	_v->alloc = _x->alloc;
 	_x->alloc = tmp;
+
 	_swap(&_v->begin, &_x->begin);
 	_swap(&_v->end, &_x->end);
 	_swap(&_v->end_cap, &_x->end_cap);
@@ -110,7 +111,19 @@ void	ft_vector_destroy(ft_vector* vector)
 	{
 		ft_vector_clear(vector);
 		vector->alloc.deallocate(&vector->alloc, vector->begin, ft_vector_capacity(vector));
+		vector->begin = vector->end = vector->end_cap = NULL;
 	}
+}
+
+void*	ft_vector_data(const ft_vector* vector)
+{
+	return vector->begin;
+}
+
+void*	ft_vector_at(const ft_vector* vector, size_t n)
+{
+	assert(n < ft_vector_size(vector));
+	return POINTER_ADD(vector, vector->begin, n);
 }
 
 ft_iterator	ft_vector_begin(const ft_vector* vector)
@@ -162,11 +175,12 @@ void	ft_vector_reserve(ft_vector* vector, size_t n)
 			.alloc = vector->alloc,
 		});
 		_vallocate(&v, n);
-		
+
 		ft_iterator begin = ft_vector_begin(vector);
-		ft_iterator up_to = FT_ITER_ADD(begin, size);
-		
+		ft_iterator up_to = FT_ITER_ADD_NEW(begin, size);
+
 		_construct_at_end_iter(&v, begin, up_to, size);
+
 		_ft_vector_swap(vector, &v);
 		ft_vector_destroy(&v);
 	}

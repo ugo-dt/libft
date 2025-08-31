@@ -776,6 +776,8 @@ void		ft_vector_clear(ft_vector* vector);
 void		ft_vector_reserve(ft_vector* vector, size_t n);
 void		ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
 void		ft_vector_push_back(ft_vector* vector, const void* value);
+void*		ft_vector_data(const ft_vector* vector);
+void*		ft_vector_at(const ft_vector* vector, size_t n);
 
 # ifdef __cplusplus
 }
