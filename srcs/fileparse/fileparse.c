@@ -70,6 +70,11 @@ bool	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_TokenLi
 	return true;
 }
 
+bool	FileParse_IsStateValid(const FileParse_State* state)
+{
+	return state->_status == FileParse_Status_Success;
+}
+
 FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 {
 	assert(file != NULL);

@@ -108,5 +108,5 @@ int	ft_get_next_line(int fd, char **line)
 	free(buffer);
 	*line = _ft_gnl_create_line(str[fd]);
 	str[fd] = _ft_gnl_save_string(str[fd]);
-	return (nb_read == 0 ? 0 : 1);
+	return (nb_read || **line);
 }

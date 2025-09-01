@@ -713,6 +713,7 @@ typedef struct
 }FileParse_State;
 
 FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc);
+bool			FileParse_IsStateValid(const FileParse_State* state);
 void			FileParse_ClearState(FileParse_State* state);
 
 // vector

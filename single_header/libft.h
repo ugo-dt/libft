@@ -713,6 +713,7 @@ typedef struct
 }FileParse_State;
 
 FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc);
+bool			FileParse_IsStateValid(const FileParse_State* state);
 void			FileParse_ClearState(FileParse_State* state);
 
 // vector
@@ -2184,6 +2185,11 @@ bool	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_TokenLi
 	return true;
 }
 
+bool	FileParse_IsStateValid(const FileParse_State* state)
+{
+	return state->_status == FileParse_Status_Success;
+}
+
 FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 {
 	assert(file != NULL);
@@ -2699,7 +2705,7 @@ int	ft_get_next_line(int fd, char **line)
 	free(buffer);
 	*line = _ft_gnl_create_line(str[fd]);
 	str[fd] = _ft_gnl_save_string(str[fd]);
-	return (nb_read == 0 ? 0 : 1);
+	return (nb_read || **line);
 }
 
 void	ft_lstadd_back(t_list **lst, t_list *new_elem)
