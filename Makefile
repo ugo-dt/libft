@@ -54,14 +54,14 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/math/ft_fabsl.c					\
 			srcs/math/ft_labs.c						\
 			srcs/math/ft_llabs.c					\
-			srcs/mem/ft_bzero.c						\
-			srcs/mem/ft_calloc.c					\
-			srcs/mem/ft_memccpy.c					\
-			srcs/mem/ft_memchr.c					\
-			srcs/mem/ft_memcmp.c					\
-			srcs/mem/ft_memcpy.c					\
-			srcs/mem/ft_memmove.c					\
-			srcs/mem/ft_memset.c					\
+			srcs/memory/ft_bzero.c					\
+			srcs/memory/ft_calloc.c					\
+			srcs/memory/ft_memccpy.c				\
+			srcs/memory/ft_memchr.c					\
+			srcs/memory/ft_memcmp.c					\
+			srcs/memory/ft_memcpy.c					\
+			srcs/memory/ft_memmove.c				\
+			srcs/memory/ft_memset.c					\
 			srcs/string/ft_atoi.c					\
 			srcs/string/ft_itoa.c					\
 			srcs/string/ft_len_to_char.c			\
@@ -91,6 +91,7 @@ SRCS	=	srcs/array/2d_array.c					\
 			srcs/string/ft_strsplit.c				\
 			srcs/string/ft_strtrim.c				\
 			srcs/string/ft_substr.c					\
+			srcs/timer/timer.c						\
 			srcs/tester/tester.c					\
 			srcs/write/ft_putchar.c					\
 			srcs/write/ft_putchar_fd.c				\

@@ -48,8 +48,9 @@ def main():
 		"srcs/get_next_line",
 		"srcs/list",
 		"srcs/math",
-		"srcs/mem",
+		"srcs/memory",
 		"srcs/string",
+		"srcs/timer",
 		"srcs/vector",
 		"srcs/write"
 	]

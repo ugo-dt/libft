@@ -87,7 +87,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 	FileParse_TokenList	list = { 0 };
 
 	fd = open(file, O_RDONLY);
-	if (!fd)
+	if (fd == -1)
 		return (FileParse_State){ ._status = FileParse_Status_Error };
 	row = 0;
 	while (ft_get_next_line(fd, &line))

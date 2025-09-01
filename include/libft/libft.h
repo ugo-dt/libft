@@ -20,6 +20,7 @@
 # include <stddef.h>
 # include <stdint.h>
 # include <stdlib.h>
+# include <time.h>
 # include <unistd.h>
 
 # ifndef INT32_MAX
@@ -88,6 +89,8 @@ LIBFT_DECL_MIN_MAX_TYPE(float, f) LIBFT_DECL_MIN_MAX_TYPE(double, d) LIBFT_DECL_
 #  define LIBFT_BUFFERSIZE	42
 # endif
 
+// array
+
 /** The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */
 size_t	ft_array_size(void **arr);
@@ -132,6 +135,8 @@ void	ft_print_array_fd(const char **arr, int fd);
 
 /** Sort an array of strings using ft_strcmp(). */
 void	ft_sort_array(char **array);
+
+// char
 
 /** The ft_islower() function tests for any lower-case letters */
 int		ft_islower(int c);
@@ -181,6 +186,8 @@ int		ft_isprint(int c);
  * This includes the following standard characters:
  * '\\t'   '\\n'    '\\v'    '\\f'    '\\r'    ' ' */
 int		ft_isspace(int c);
+
+// list
 
 /**
  * struct s_list
@@ -258,6 +265,8 @@ t_list	*ft_lstnew(void *content);
  */
 int		ft_lstsize(t_list *lst);
 
+// math
+
 /** The ft_abs() function computes the absolute value of the integer i.
  *
  * @return The absolute value.
@@ -278,6 +287,8 @@ long long   ft_llabs(long long x);
 double		ft_fabs(double x);
 float		ft_fabsf(float x);
 long double	ft_fabsl(long double x);
+
+// memory
 
 /** The ft_bzero() function writes n zeroed bytes to the string s.
  * If n is zero, ft_bzero() does nothing. */
@@ -320,6 +331,8 @@ void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
  * unsigned char) to the string s. */
 void	*ft_memset(void *s, int c, size_t n);
 
+// ft_printf
+
 /** Maximum chars of output to write in MAXLEN.  */
 int	ft_snprintf(char* str, size_t maxlen, const char *restrict format, ...)
 	__attribute__ ((__format__ (__printf__, 3, 4)));
@@ -338,6 +351,8 @@ int	ft_dprintf(int fd, const char *restrict format, ...) \
  * @returns The number of written characters. */
 int	ft_printf(const char *restrict format, ...) \
 	__attribute__((__format__ (__printf__, 1, 2)));
+
+// string
 
 /** The ft_atoi() function converts the initial portion
  * of the string pointed by str to an int representation. */
@@ -538,6 +553,8 @@ char	*ft_substr(const char *s, unsigned int start, size_t len);
  */
 char	*ft_strtrim(char *s1, char *set);
 
+// write
+
 /** Write a character on the standard output. */
 void	ft_putchar(char c);
 
@@ -562,7 +579,11 @@ void	ft_putendl(const char *restrict s);
 /** Print a string followed by a newline, on the file descriptor fd. */
 void	ft_putendl_fd(const char *s, int fd);
 
+// get_next_line
+
 int		ft_get_next_line(int fd, char **line);
+
+// basic_string
 
 typedef struct ft_string ft_string;
 
@@ -779,6 +800,22 @@ void		ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
 void		ft_vector_push_back(ft_vector* vector, const void* value);
 void*		ft_vector_data(const ft_vector* vector);
 void*		ft_vector_at(const ft_vector* vector, size_t n);
+
+// Timer
+
+# define FT_NS_PER_SECOND	(1000000000)
+# define FT_NS_PER_MS		(1000000)
+
+typedef struct ft_timer
+{
+	uint64_t	start; // ns
+}ft_timer;
+
+uint64_t	ft_timer_now(void);
+void		ft_timer_reset(ft_timer* timer);
+uint64_t	ft_timer_elapsed_ns(ft_timer* timer);
+uint64_t	ft_timer_elapsed_ms(ft_timer* timer);
+uint64_t	ft_timer_elapsed_seconds(ft_timer* timer);
 
 # ifdef __cplusplus
 }
