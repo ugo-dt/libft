@@ -8,6 +8,15 @@
 #define POINTER_INC(__v, __p) ((__p) = (POINTER_ADD(__v, __p, 1)))
 #define POINTER_DEC(__v, __p) ((__p) = (POINTER_SUB(__v, __p, 1)))
 
+static inline ft_iterator	_make_iter(size_t sizeof_type, void* p, IteratorType type)
+{
+	return (ft_iterator){
+		._p = p,
+		._sizeof_type = sizeof_type,
+		._type = type,
+	};
+}
+
 static void	_swap(void **a, void **b)
 {
 	void* tmp;

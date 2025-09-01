@@ -715,11 +715,211 @@ typedef struct
 FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc);
 void			FileParse_ClearState(FileParse_State* state);
 
+// vector
+
+typedef struct ft_allocator
+{
+	size_t	sizeof_type;
+	void*	(*allocate)(const struct ft_allocator*, size_t n);
+	void	(*deallocate)(const struct ft_allocator*, void* p, size_t n);
+	void	(*construct)(const struct ft_allocator*, void* p, const void *value_ptr);
+	void	(*destroy)(const struct ft_allocator*, void* p);
+	size_t	(*max_size)(const struct ft_allocator*);
+}ft_allocator;
+
+void*	ft_allocator_allocate(const ft_allocator* alloc, size_t n);
+void	ft_allocator_deallocate(const ft_allocator* alloc, void *p, size_t n);
+void	ft_allocator_construct(const ft_allocator* alloc, void *p, const void* value);
+void	ft_allocator_destroy(const ft_allocator* alloc, void *p);
+size_t	ft_allocator_max_size(const struct ft_allocator* alloc);
+
+typedef enum
+{
+	IteratorType_Random = 1,
+	IteratorType_Reverse = -1
+}IteratorType;
+
+typedef struct ft_iterator
+{
+	void*			_p;
+	size_t			_sizeof_type;
+	IteratorType	_type;
+}ft_iterator;
+
+typedef struct ft_vector
+{
+	ft_allocator	alloc;
+	void*			begin;
+	void*			end;
+	void*			end_cap;
+}ft_vector;
+
+typedef struct
+{
+	ft_allocator	alloc;
+	size_t			size;
+	size_t			capacity;
+	void*			default_value;
+}ft_vector_desc;
+
+ft_vector	ft_vector_create(const ft_vector_desc* desc);
+void		ft_vector_destroy(ft_vector* vector);
+ft_iterator	ft_vector_begin(const ft_vector* vector);
+ft_iterator	ft_vector_end(const ft_vector* vector);
+ft_iterator	ft_vector_rbegin(const ft_vector* vector);
+ft_iterator	ft_vector_rend(const ft_vector* vector);
+size_t		ft_vector_max_size(const ft_vector* vector);
+size_t		ft_vector_size(const ft_vector* vector);
+size_t		ft_vector_capacity(const ft_vector* vector);
+size_t		ft_vector_empty(const ft_vector* vector);
+void		ft_vector_clear(ft_vector* vector);
+void		ft_vector_reserve(ft_vector* vector, size_t n);
+void		ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
+void		ft_vector_push_back(ft_vector* vector, const void* value);
+void*		ft_vector_data(const ft_vector* vector);
+void*		ft_vector_at(const ft_vector* vector, size_t n);
+
 # ifdef __cplusplus
 }
 # endif
 
 #endif /** LIBFT_H */
+
+
+#define _POINTER_ADD(__p, __size, __n) ((char*)(__p) + ((__n) * (__size)))
+#define _POINTER_SUB(__p, __size, __n) ((char*)(__p) - ((__n) * (__size)))
+#define _POINTER_INC(__p, __size) ((__p) = (_POINTER_ADD(__p, 1)))
+#define _POINTER_DEC(__p, __size) ((__p) = (_POINTER_DEC(__p, 1)))
+
+// type size is inferred. never use with void*
+// #define _POINTER_POST_ADD(__p, __n) ({ __typeof__(__p) _old = (__p); (__p) = (__p) + __n; _old; })
+// #define POINTER_POST_INC(__p) _POINTER_POST_ADD(__p, 1)
+// #define POINTER_POST_DEC(__p) _POINTER_POST_ADD(__p, -1)
+
+#define _ITER_ADD_SUB_TYPE(__p, __size, __n, __type) _POINTER_ADD((__p), (__size), ((__n) * (__type)))
+
+#define _FT_ITER_ADD_P(__it, __n) _ITER_ADD_SUB_TYPE((__it)._p, (__it)._sizeof_type, (__n), (__it)._type)
+#define _FT_ITER_SUB_P(__it, __n) _ITER_ADD_SUB_TYPE((__it)._p, (__it)._sizeof_type, (__n), ((__it)._type * -1))
+
+#define _ITER_INC_DEC_TYPE(__p, __size, __type) _ITER_ADD_SUB_TYPE((__p), (__size), 1, (__type))
+#define _FT_ITER_INC_P(__it) _ITER_INC_DEC_TYPE((__it)._p, (__it)._sizeof_type, (__it)._type)
+#define _FT_ITER_DEC_P(__it) _ITER_INC_DEC_TYPE((__it)._p, (__it)._sizeof_type, ((__it)._type * -1))
+
+// Modify the iterator in place
+#define FT_ITER_ADD(__it, __n) ((__it) = (ft_iterator){ \
+	._p = _FT_ITER_ADD_P(__it, __n), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+#define FT_ITER_SUB(__it, __n) ((__it) = (ft_iterator){ \
+	._p = _FT_ITER_SUB_P(__it, __n), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+#define FT_ITER_INC(__it) ((__it) = (ft_iterator){ \
+	._p = _FT_ITER_INC_P((__it)), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+#define FT_ITER_DEC(__it) ((__it) = (ft_iterator){ \
+	._p = _FT_ITER_DEC_P((__it)), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+
+// Makes a new iterator
+#define FT_ITER_ADD_NEW(__it, __n) ((ft_iterator){ \
+	._p = _FT_ITER_ADD_P(__it, __n), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+#define FT_ITER_SUB_NEW(__it, __n) ((ft_iterator){ \
+	._p = _FT_ITER_SUB_P(__it, __n), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+#define FT_ITER_INC_NEW(__it) ((ft_iterator){ \
+	._p = _FT_ITER_INC_P((__it)), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+#define FT_ITER_DEC_NEW(__it) ((ft_iterator){ \
+	._p = _FT_ITER_DEC_P((__it)), ._sizeof_type = (__it)._sizeof_type, ._type = (__it)._type} )
+
+#define FT_ITER_REF(__it) (( \
+	(__it)._type) == IteratorType_Reverse ? _POINTER_SUB((__it)._p, (__it)._sizeof_type, 1) : ((__it)._p))
+#define FT_ITER_VALUE(__it, __type) (*(__type *)(FT_ITER_REF(__it))) // dereference
+ 
+#define FT_ITER_EQ(__it_a, __it_b) (((__it_a)._p) == ((__it_b)._p)) // equal
+#define FT_ITER_LT(__it_a, __it_b) (((__it_a)._p) < ((__it_b)._p)) // less than
+#define FT_ITER_NEQ(__it_a, __it_b) (!(FT_ITER_EQ((__it_a), (__it_b)))) // not equal
+#define FT_ITER_GT(__it_a, __it_b) (FT_ITER_LT((__it_b), (__it_a)) && FT_ITER_NEQ((__it_a), (__it_b))) // greater than
+#define FT_ITER_LE(__it_a, __it_b) (!FT_ITER_GT((__it_a), (__it_b))) // less than or equal
+#define FT_ITER_GE(__it_a, __it_b) (!FT_ITER_LT((__it_a), (__it_b))) // greater than or equal
+
+typedef enum
+{
+	TesterStatus_Success,
+	TesterStatus_Failure,
+	TesterStatus_Error,
+	TesterStatus_ToDo,
+}TesterStatus;
+
+typedef void (*TestCallback)(void* param);
+
+typedef struct
+{
+	const char*		name;
+	TestCallback	callback;
+	void*			param;
+}TestIt;
+
+typedef struct
+{
+	const char*	name;
+	TestIt		*it;
+	size_t		count;
+}TesterContext;
+
+typedef struct
+{
+	void			(*before)(void* param);
+	void			(*before_each)(void* param);
+	void			(*after)(void* param);
+	void			(*after_each)(void* param);
+	TesterContext*	contexts;
+	size_t			count;
+}TestDesc;
+
+typedef enum
+{
+	Tester_ValueType_Int,
+	Tester_ValueType_UInt,
+	Tester_ValueType_Long,
+	Tester_ValueType_ULong,
+	Tester_ValueType_Float,
+	Tester_ValueType_Double,
+	Tester_ValueType_Pointer,
+	Tester_ValueType_String,
+}TesterValueType;
+
+typedef struct TesterExpect
+{
+	void	(*ToBe)(const void* value, size_t sizeof_value, TesterValueType type);
+	void	(*ToNotBe)(const void* value, size_t sizeof_value, TesterValueType type);
+}TesterExpect;
+
+void	Tester_Describe(const char* name, const TestDesc* desc);
+void	Tester_SetStatus(TesterStatus status);
+
+const TesterExpect*	_Tester_Expect(
+	const char *value_name,
+	const char* file,
+	int line,
+	const void* value,
+	size_t sizeof_value
+);
+void	_TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType type);
+
+// _Tester_Expect((&(__value)), sizeof((__value)))
+#define Tester_Expect(__v)	({ _Tester_Expect(#__v, __FILE__, __LINE__, &(__typeof__((__v))){(__v)}, sizeof((__v))); })
+#define _Tester_ValueType(__v) _Generic((__v), \
+	int: Tester_ValueType_Int, \
+	unsigned int: Tester_ValueType_UInt, \
+	long: Tester_ValueType_Long, \
+	unsigned long: Tester_ValueType_ULong, \
+	float: Tester_ValueType_Float, \
+	double: Tester_ValueType_Double, \
+	char *: Tester_ValueType_String, \
+	const char *: Tester_ValueType_String, \
+	void *: Tester_ValueType_Pointer, \
+	const void *: Tester_ValueType_Pointer, \
+	default: Tester_ValueType_Pointer \
+)
+
+#if defined LIBFT_TESTER_MACROS
+	#define ToBe(__v) ToBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
+	#define ToNotBe(__v) ToNotBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
+#endif // LIBFT_TESTER_MACROS
 
 #ifdef LIBFT_IMPL
 #ifndef LIBFT_IMPL_INCLUDED
@@ -1515,6 +1715,7 @@ ft_string*	_ft_string_alloc_impl(void)
 ft_string*	ft_string_create(void)
 {
 	ft_string*	string;
+	
 	string = _ft_string_alloc_impl();
 	assert(string);
 	string->_capacity = LIBFT_STRING_DEFAULT_CAPACITY;
@@ -1527,6 +1728,7 @@ ft_string*	ft_string_create(void)
 ft_string*	ft_string_create_from_str(const char *_x)
 {
 	ft_string*	string;
+	
 	string = _ft_string_alloc_impl();
 	assert(string);
 	string->_capacity = 0;
@@ -1538,6 +1740,7 @@ ft_string*	ft_string_create_from_str(const char *_x)
 ft_string*	ft_string_create_from_str_count(const char *_x, size_t count)
 {
 	ft_string* string;
+	
 	string = _ft_string_alloc_impl();
 	string->_capacity = 0;
 	string->_data = NULL;
@@ -1548,6 +1751,7 @@ ft_string*	ft_string_create_from_str_count(const char *_x, size_t count)
 ft_string*	ft_string_create_from_char(const char _x, size_t count)
 {
 	ft_string* string;
+	
 	string = _ft_string_alloc_impl();
 	string->_capacity = 0;
 	string->_data = NULL;
@@ -1559,6 +1763,7 @@ ft_string*	ft_string_create_from_ft_string(const ft_string* x)
 {
 	ft_string*	string;
 	ft_string*	_x;
+	
 	string = _ft_string_alloc_impl();
 	string->_capacity = 0;
 	string->_data = NULL;
@@ -1983,6 +2188,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 {
 	assert(file != NULL);
 	assert(desc != NULL);
+	
 	FileParse_State 	state = { 0 };
 	char				*line = NULL;
 	int					fd;
@@ -2004,6 +2210,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 		while (i < length)
 		{
 			bool found = false;
+		
 			while (i < length && FileParse_IsSpace(desc, line[i]))
 				i++;
 			for (size_t j = 0; j < desc->token_count; j++)
@@ -2059,6 +2266,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 		}
 	}
 	close(fd);
+	
 	state.count = (size_t)(list.end - list.begin);
 	state.tokens = ft_calloc(state.count, sizeof(FileParse_Token));
 	if (!state.tokens)
@@ -2159,7 +2367,7 @@ int	_ft_vsnprintf_internal(char* string, size_t maxlen, const char *format, va_l
 			char	*s = NULL;
 			DO_POSITIONAL(f, s, specs, ap);
 
-			len = min(maxlen - 1 - curlen, specs.info.width + curlen);
+			len = min(maxlen - 1 - curlen, (size_t)specs.info.width);
 			ft_strncat(string, s, len);
 			free(s);
 			curlen += len;
@@ -2175,6 +2383,7 @@ char	*_ft_printf_create_c(char c, struct _libft_printf_specs *specs)
 	int		arg_length;
 	int		arg_start;
 	char	*s;
+	
 	arg_length = 1;
 	s = _ft_printf_create_string_helper(specs, arg_length, &arg_start);
 	if (!s)
@@ -3383,6 +3592,260 @@ int	ft_strcmp(const char *s1, const char *s2)
 	while (s1[i] && s2[i] && s1[i] == s2[i])
 		i++;
 	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+void*	ft_allocator_allocate(const ft_allocator* alloc, size_t n)
+{
+	return malloc(n * alloc->sizeof_type);
+}
+
+void	ft_allocator_deallocate(const ft_allocator* alloc, void *p, size_t n)
+{
+	(void)alloc;
+	(void)n;
+	free(p);
+}
+
+void	ft_allocator_construct(const ft_allocator* alloc, void *p, const void* value)
+{
+	ft_memcpy(p, value, alloc->sizeof_type);
+}
+
+void	ft_allocator_destroy(const ft_allocator* alloc, void *p)
+{
+	(void)alloc;
+	(void)p;
+}
+
+size_t	ft_allocator_max_size(const struct ft_allocator* alloc)
+{
+	return SIZE_MAX / alloc->sizeof_type;
+}
+
+#define ft_def(__a, __b) (((__a) == 0) ? (__b) : (__a))
+
+#define POINTER_ADD(__v, __p, __n) _POINTER_ADD((__p), ((__v)->alloc.sizeof_type), (__n))
+#define POINTER_SUB(__v, __p, __n) _POINTER_SUB((__p), ((__v)->alloc.sizeof_type), (__n))
+#define POINTER_INC(__v, __p) ((__p) = (POINTER_ADD(__v, __p, 1)))
+#define POINTER_DEC(__v, __p) ((__p) = (POINTER_SUB(__v, __p, 1)))
+
+static inline ft_iterator	_make_iter(size_t sizeof_type, void* p, IteratorType type)
+{
+	return (ft_iterator){
+		._p = p,
+		._sizeof_type = sizeof_type,
+		._type = type,
+	};
+}
+
+static void	_swap(void **a, void **b)
+{
+	void* tmp;
+
+	tmp = *a;
+	*a = *b;
+	*b = tmp;
+}
+
+ft_allocator	_ft_allocator_defaults(const ft_allocator* alloc)
+{
+	assert(alloc->sizeof_type != 0);
+
+	ft_allocator	def = *alloc;
+
+	def.max_size = ft_def(def.max_size, ft_allocator_max_size);
+	def.allocate = ft_def(def.allocate, ft_allocator_allocate);
+	def.deallocate = ft_def(def.deallocate, ft_allocator_deallocate);
+	def.construct = ft_def(def.construct, ft_allocator_construct);
+	def.destroy = ft_def(def.destroy, ft_allocator_destroy);
+	return def;
+}
+
+void	_construct_at_end(ft_vector* vector, size_t n, const void* value)
+{
+	assert(ft_vector_size(vector) + n <= ft_vector_capacity(vector));
+	while (n-- > 0)
+	{
+		vector->alloc.construct(&vector->alloc, vector->end, value);
+		POINTER_INC(vector, vector->end);
+	}
+}
+
+void	_construct_at_end_iter(ft_vector* vector, ft_iterator first, ft_iterator last, size_t n)
+{
+	assert(ft_vector_size(vector) + n <= ft_vector_capacity(vector));
+
+	if (n == 0)
+		return ;
+	for (; !FT_ITER_EQ(first, last); FT_ITER_INC(first))
+	{
+		vector->alloc.construct(&vector->alloc, vector->end, FT_ITER_REF(first));
+		POINTER_INC(vector, vector->end);
+	}
+}
+
+void	_destruct_at_end(ft_vector* vector, void* new_last)
+{
+	void* soon_to_be_end = vector->end;
+	while (new_last != soon_to_be_end)
+	{
+		POINTER_DEC(vector, soon_to_be_end);
+		vector->alloc.destroy(&vector->alloc, soon_to_be_end);
+	}
+	vector->end = new_last;
+}
+
+void	_vallocate(ft_vector* vector, size_t n)
+{
+	assert(n <= vector->alloc.max_size(&vector->alloc));
+
+	vector->begin = vector->end = vector->alloc.allocate(&vector->alloc, n);
+	vector->end_cap = POINTER_ADD(vector, vector->begin, n);
+}
+
+void	_ft_vector_swap(ft_vector *_v, ft_vector *_x)
+{
+	ft_allocator tmp = _v->alloc;
+	_v->alloc = _x->alloc;
+	_x->alloc = tmp;
+
+	_swap(&_v->begin, &_x->begin);
+	_swap(&_v->end, &_x->end);
+	_swap(&_v->end_cap, &_x->end_cap);
+}
+
+size_t	_ft_vector_recommend(const ft_vector *vector, size_t new_size)
+{
+	size_t max_size = vector->alloc.max_size(&vector->alloc);
+	
+	assert(new_size < vector->alloc.max_size(&vector->alloc));
+    const size_t cap = ft_vector_capacity(vector);
+    if (cap >= max_size / 2)
+        return max_size;
+    return max(2 * cap, new_size);
+}
+
+ft_vector	ft_vector_create(const ft_vector_desc* desc)
+{
+	return (ft_vector){
+		.alloc = _ft_allocator_defaults(&desc->alloc),
+		.begin = NULL,
+		.end = NULL,
+		.end_cap = NULL,
+	};
+}
+
+void	ft_vector_destroy(ft_vector* vector)
+{
+	if (vector->begin)
+	{
+		ft_vector_clear(vector);
+		vector->alloc.deallocate(&vector->alloc, vector->begin, ft_vector_capacity(vector));
+		vector->begin = vector->end = vector->end_cap = NULL;
+	}
+}
+
+void*	ft_vector_data(const ft_vector* vector)
+{
+	return vector->begin;
+}
+
+void*	ft_vector_at(const ft_vector* vector, size_t n)
+{
+	assert(n < ft_vector_size(vector));
+	return POINTER_ADD(vector, vector->begin, n);
+}
+
+ft_iterator	ft_vector_begin(const ft_vector* vector)
+{
+	return _make_iter(vector->alloc.sizeof_type, vector->begin, IteratorType_Random);
+}
+
+ft_iterator	ft_vector_end(const ft_vector* vector)
+{
+	return _make_iter(vector->alloc.sizeof_type, vector->end, IteratorType_Random);
+}
+
+ft_iterator	ft_vector_rbegin(const ft_vector* vector)
+{
+	return _make_iter(vector->alloc.sizeof_type, vector->end, IteratorType_Reverse);
+}
+
+ft_iterator	ft_vector_rend(const ft_vector* vector)
+{
+	return _make_iter(vector->alloc.sizeof_type, vector->begin, IteratorType_Reverse);
+}
+
+size_t	ft_vector_max_size(const ft_vector* vector)
+{
+	return vector->alloc.max_size(&vector->alloc);
+}
+
+size_t	ft_vector_size(const ft_vector* vector)
+{
+	return ((char*)vector->end - (char*)vector->begin) / vector->alloc.sizeof_type;
+}
+
+size_t	ft_vector_capacity(const ft_vector* vector)
+{
+	return ((char*)vector->end_cap - (char*)vector->begin) / vector->alloc.sizeof_type;
+}
+
+size_t	ft_vector_empty(const ft_vector* vector)
+{
+	return vector->begin == vector->end;
+}
+
+void	ft_vector_reserve(ft_vector* vector, size_t n)
+{
+	if (n > ft_vector_capacity(vector))
+	{
+		size_t size = ft_vector_size(vector);
+		ft_vector v = ft_vector_create(&(ft_vector_desc){
+			.alloc = vector->alloc,
+		});
+		_vallocate(&v, n);
+
+		ft_iterator begin = ft_vector_begin(vector);
+		ft_iterator up_to = FT_ITER_ADD_NEW(begin, size);
+
+		_construct_at_end_iter(&v, begin, up_to, size);
+
+		_ft_vector_swap(vector, &v);
+		ft_vector_destroy(&v);
+	}
+}
+
+void	ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last)
+{
+	ft_vector_clear(vector);
+	for (; !FT_ITER_EQ(first, last); FT_ITER_INC(first))
+		ft_vector_push_back(vector, FT_ITER_REF(first));
+}
+
+void	ft_vector_push_back(ft_vector* vector, const void* value)
+{
+	if (vector->end != vector->end_cap)
+		_construct_at_end(vector, 1, value);
+	else
+	{
+		ft_vector v = ft_vector_create(&(ft_vector_desc){
+			.alloc = vector->alloc,
+		});
+
+		ft_vector_reserve(&v, _ft_vector_recommend(vector, ft_vector_size(vector) + 1));
+		ft_vector_assign(&v, ft_vector_begin(vector), ft_vector_end(vector));
+		v.alloc.construct(&v.alloc, v.end, value);
+		POINTER_INC(vector, v.end);
+		_ft_vector_swap(vector, &v);
+
+		ft_vector_destroy(&v);
+	}
+}
+
+void	ft_vector_clear(ft_vector* vector)
+{
+	_destruct_at_end(vector, vector->begin);
 }
 
 void	ft_putstr_fd(const char *s, int fd)

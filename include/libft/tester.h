@@ -81,5 +81,8 @@ void	_TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType 
 	const void *: Tester_ValueType_Pointer, \
 	default: Tester_ValueType_Pointer \
 )
-#define ToBe(__v) ToBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
-#define ToNotBe(__v) ToNotBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
+
+#if defined LIBFT_TESTER_MACROS
+	#define ToBe(__v) ToBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
+	#define ToNotBe(__v) ToNotBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
+#endif // LIBFT_TESTER_MACROS
