@@ -64,11 +64,13 @@ def main():
 	with open(output_file, 'w') as outfile:
 		with open("include/libft/libft.h", 'r') as infile:
 			for line in infile:
-				outfile.write(line)
-			outfile.write('\n')
+				if not line.strip() == '#endif // LIBFT_H':
+					outfile.write(line)
 
 		for header_file in additional_header_files:
 			copy_header(header_file, outfile)
+		
+		outfile.write('#endif // LIBFT_H\n')
 
 		outfile.write('\n')
 		outfile.write("#ifdef LIBFT_IMPL\n")

@@ -821,4 +821,4 @@ uint64_t	ft_timer_elapsed_seconds(ft_timer* timer);
 }
 # endif
 
-#endif /** LIBFT_H */
+#endif // LIBFT_H

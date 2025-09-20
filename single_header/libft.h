@@ -821,8 +821,6 @@ uint64_t	ft_timer_elapsed_seconds(ft_timer* timer);
 }
 # endif
 
-#endif /** LIBFT_H */
-
 
 #define _POINTER_ADD(__p, __size, __n) ((char*)(__p) + ((__n) * (__size)))
 #define _POINTER_SUB(__p, __size, __n) ((char*)(__p) - ((__n) * (__size)))
@@ -958,6 +956,7 @@ void	_TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType 
 	#define ToBe(__v) ToBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
 	#define ToNotBe(__v) ToNotBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
 #endif // LIBFT_TESTER_MACROS
+#endif // LIBFT_H
 
 #ifdef LIBFT_IMPL
 #ifndef LIBFT_IMPL_INCLUDED
