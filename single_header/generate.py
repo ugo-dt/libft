@@ -59,7 +59,7 @@ def main():
 		"include/libft/tester.h",
 	]
 
-	output_file = "single_header/libft.h"
+	output_file = "single_header/libft/libft.h"
 
 	with open(output_file, 'w') as outfile:
 		with open("include/libft/libft.h", 'r') as infile:
