@@ -646,30 +646,30 @@ typedef void*	ArgParse_Value;
 
 typedef struct ArgParse_OptionDesc
 {
-	ArgParse_OptionType	type;
-	char				short_name;
-	char*				long_name;
-	void*				value; // pointer to the variable that will store the value
-	ArgParse_Value		min;
-	ArgParse_Value		max;
-	ArgParse_Value		default_value;
+	ArgParse_OptionType type;
+	char short_name;
+	char* long_name;
+	void* value; // pointer to the variable that will store the value
+	ArgParse_Value min;
+	ArgParse_Value max;
+	ArgParse_Value default_value;
 } ArgParse_OptionDesc;
 
 typedef struct ArgParse_Desc
 {
-	char*	program_name;
-	char*	usage;
+	char* program_name;
+	char* usage;
 
 	// Options
-	ArgParse_OptionDesc*	options;
-	size_t					opt_count;
-	bool					opt_ignore_unknown;
-	bool					opt_allow_merge_short;
+	ArgParse_OptionDesc* options;
+	size_t opt_count;
+	bool opt_ignore_unknown;
+	bool opt_allow_merge_short;
 } ArgParse_Desc;
 
 typedef struct ArgParse_Option
 {
-	bool	is_set;
+	bool is_set;
 } ArgParse_Option;
 
 typedef enum ArgParse_Status
@@ -685,10 +685,10 @@ typedef enum ArgParse_Status
 
 typedef struct
 {
-	size_t				opt_count;
-	ArgParse_Option*	options;
-	char**				arguments;
-	ArgParse_Status		_status;
+	size_t opt_count;
+	ArgParse_Option* options;
+	char** arguments;
+	ArgParse_Status _status;
 } ArgParse_State;
 
 ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* state);
@@ -699,25 +699,25 @@ bool			ArgParse_IsStateValid(const ArgParse_State* state);
 
 typedef struct
 {
-	int			type;
-	const char*	value;
+	int type;
+	const char* value;
 }FileParse_TokenDesc;
 
 // todo: comments
 typedef struct
 {
-	FileParse_TokenDesc*	tokens;
-	size_t					token_count;
-	bool					skip_newlines;
-	bool					(*isspace)(int);
-	bool					(*isseparator)(int);
+	FileParse_TokenDesc* tokens;
+	size_t token_count;
+	bool skip_newlines;
+	bool (*isspace)(int);
+	bool (*isseparator)(int);
 }FileParse_Desc;
 
 typedef struct
 {
-	uint64_t	type;
-	char*		value;
-	int			row, col;
+	uint64_t type;
+	char* value;
+	int row, col;
 }FileParse_Token;
 
 typedef enum
@@ -728,9 +728,9 @@ typedef enum
 
 typedef struct
 {
-	FileParse_Status	_status;
-	FileParse_Token*	tokens;
-	size_t				count;
+	FileParse_Status _status;
+	FileParse_Token* tokens;
+	size_t count;
 }FileParse_State;
 
 FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc);
@@ -741,12 +741,12 @@ void			FileParse_ClearState(FileParse_State* state);
 
 typedef struct ft_allocator
 {
-	size_t	sizeof_type;
-	void*	(*allocate)(const struct ft_allocator*, size_t n);
-	void	(*deallocate)(const struct ft_allocator*, void* p, size_t n);
-	void	(*construct)(const struct ft_allocator*, void* p, const void *value_ptr);
-	void	(*destroy)(const struct ft_allocator*, void* p);
-	size_t	(*max_size)(const struct ft_allocator*);
+	size_t sizeof_type;
+	void* (*allocate)(const struct ft_allocator*, size_t n);
+	void (*deallocate)(const struct ft_allocator*, void* p, size_t n);
+	void (*construct)(const struct ft_allocator*, void* p, const void *value_ptr);
+	void (*destroy)(const struct ft_allocator*, void* p);
+	size_t (*max_size)(const struct ft_allocator*);
 }ft_allocator;
 
 void*	ft_allocator_allocate(const ft_allocator* alloc, size_t n);
@@ -763,25 +763,25 @@ typedef enum
 
 typedef struct ft_iterator
 {
-	void*			_p;
-	size_t			_sizeof_type;
-	IteratorType	_type;
+	void* _p;
+	size_t _sizeof_type;
+	IteratorType _type;
 }ft_iterator;
 
 typedef struct ft_vector
 {
-	ft_allocator	alloc;
-	void*			begin;
-	void*			end;
-	void*			end_cap;
+	ft_allocator alloc;
+	void* begin;
+	void* end;
+	void* end_cap;
 }ft_vector;
 
 typedef struct
 {
-	ft_allocator	alloc;
-	size_t			size;
-	size_t			capacity;
-	void*			default_value;
+	ft_allocator alloc;
+	size_t size;
+	size_t capacity;
+	void* default_value;
 }ft_vector_desc;
 
 ft_vector	ft_vector_create(const ft_vector_desc* desc);
@@ -808,7 +808,7 @@ void*		ft_vector_at(const ft_vector* vector, size_t n);
 
 typedef struct ft_timer
 {
-	uint64_t	start; // ns
+	uint64_t start; // ns
 }ft_timer;
 
 uint64_t	ft_timer_now(void);

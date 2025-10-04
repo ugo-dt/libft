@@ -152,7 +152,25 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 						return state;
 					}
 				}
-				break;
+				// break;
+			}
+		}
+		if (!desc->skip_newlines)
+		{
+			if (!FileParse_TokenList_Push(&list, &(FileParse_TokenListItem){
+				.t = {
+					.type = -1,
+					.value = "\n",
+					.row = row,
+					.col = i + 1,
+				},
+				.length = 1,
+			}))
+			{
+				free(list.begin);
+				state._status = FileParse_Status_Error;
+				close(fd);
+				return state;
 			}
 		}
 	}
