@@ -35,7 +35,9 @@
 
 # ifdef __cplusplus
 extern "C" {
-# endif
+#define LIBFT_RESTRICT
+#else
+#define LIBFT_RESTRICT	restrict
 
 # if defined(__GNUC__) && !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
 #  ifndef max
@@ -85,23 +87,25 @@ LIBFT_DECL_MIN_MAX_TYPE(float, f) LIBFT_DECL_MIN_MAX_TYPE(double, d) LIBFT_DECL_
 # endif // max
 # endif // __GNUC__
 
+# endif // __cplusplus
+
 # ifndef LIBFT_BUFFERSIZE
 #  define LIBFT_BUFFERSIZE	42
 # endif
 
-// array
+// >>array
 
 /** The ft_array_size() function returns the size of a NULL terminated
  * two-dimensional array. */
-size_t	ft_array_size(void **arr);
+size_t ft_array_size(void** arr);
 
 /** The ft_free_array() function frees a each element from a two-dimensional
  * array, starting from index 0 up to the first NULL element encountered. */
-void	ft_free_array(void **arr);
+void ft_free_array(void** arr);
 
 /** The ft_free_array_n() function frees up to n elements from a
- * two-dimensional array, then frees the void *to the array. */
-void	ft_free_array_n(void **tab, size_t n);
+ * two-dimensional array, then frees the void* to the array. */
+void ft_free_array_n(void** tab, size_t n);
 
 /*
  * The ft_copy_array() function returns a copy of the NULL-terminated
@@ -111,7 +115,7 @@ void	ft_free_array_n(void **tab, size_t n);
  * The memory for the copy is obtained using malloc(3),
  * and can be freed with free(3);
  */
-char	**ft_copy_array(char **arr);
+char** ft_copy_array(char **arr);
 
 /** 
  * The ft_split() function splits a string it into words, and returns them as
@@ -123,7 +127,7 @@ char	**ft_copy_array(char **arr);
  * The memory for the array is obtained using malloc(3),
  * and can be freed with free(3);
  */
-char	**ft_split(const char *s, char c);
+char** ft_split(const char *s, char c);
 
 /*
  * Print every string in the array arr, followed by a newline,
@@ -131,26 +135,26 @@ char	**ft_split(const char *s, char c);
  * 
  * The function stops at the first NULL string encountered.
  */
-void	ft_print_array_fd(const char **arr, int fd);
+void ft_print_array_fd(const char **arr, int fd);
 
 /** Sort an array of strings using ft_strcmp(). */
-void	ft_sort_array(char **array);
+void ft_sort_array(char **array);
 
-// char
+// >>char
 
 /** The ft_islower() function tests for any lower-case letters */
-int		ft_islower(int c);
+int ft_islower(int c);
 
 /** The ft_isupper() function tests for any upper-case letter. */
-int		ft_isupper(int c);
+int ft_isupper(int c);
 
 /** The ft_tolower() function converts an upper-case letter to the corresponding
  * lower-case letter. The argument must be representable as an unsigned char.*/
-int		ft_tolower(int c);
+int ft_tolower(int c);
 
 /** The ft_toupper() function converts an lower-case letter to the corresponding
  * upper-case letter. The argument must be representable as an unsigned char.*/
-int		ft_toupper(int c);
+int ft_toupper(int c);
 
 /** The ft_isalpha() function tests for any character
  * for which isupper(3) or islower(3) is true.
@@ -158,7 +162,7 @@ int		ft_toupper(int c);
  * @return Zero if the character tests false and non-zero if the
  * character tests true.
  */
-int		ft_isalpha(int c);
+int ft_isalpha(int c);
 
 /** The ft_isdigit() function tests for a decimal digit character. 
  *
@@ -168,26 +172,26 @@ int		ft_isalpha(int c);
  * @returns Zero if the character tests false and return non-zero if the
  * character tests true.
  */
-int		ft_isdigit(int c);
+int ft_isdigit(int c);
 
 /** The ft_isalnum() function tests for any character for which
  * ft_isalpha() or ft_isdigit() is true. */
-int		ft_isalnum(int c);
+int ft_isalnum(int c);
 
 /** The isascii() function tests for an ASCII character, which is any character
  * between 0 and decimal 127 inclusive. */
-int		ft_isascii(int c);
+int ft_isascii(int c);
 
 /** The ft_isprint() function tests for any printing character,
  * including space (' '). */
-int		ft_isprint(int c);
+int ft_isprint(int c);
 
 /** The ft_isspace() function tests for the white-space characters.
  * This includes the following standard characters:
  * '\\t'   '\\n'    '\\v'    '\\f'    '\\r'    ' ' */
-int		ft_isspace(int c);
+int ft_isspace(int c);
 
-// list
+// >>list
 
 /**
  * struct s_list
@@ -197,8 +201,8 @@ int		ft_isspace(int c);
  */
 typedef struct s_list
 {
-	void			*content;
-	struct s_list	*next;
+	void* content;
+	struct s_list* next;
 }t_list;
 
 /** Adds a new element at the end of the list.
@@ -206,177 +210,177 @@ typedef struct s_list
  * @param lst The first element of the list.
  * @param new_elem The new element to be added at the back of the list. Can be NULL.
  */
-void	ft_lstadd_back(t_list **lst, t_list *new_elem);
+void ft_lstadd_back(t_list **lst, t_list *new_elem);
 
 /** Adds a new element at the start of the list.
  * 
  * @param lst The first element of the list. Can be NULL. 
  * @param new_elem The new element to be added at the front of the list. Can be NULL.
  */
-void	ft_lstadd_front(t_list **lst, t_list *new_elem);
+void ft_lstadd_front(t_list **lst, t_list *new_elem);
 
 /** Clears a linked list.
  * 
  * @param lst The first element of the list. Can be NULL.
  * @param del The function to delete the contents of the element. Can be NULL.
  */
-void	ft_lstclear(t_list **lst, void (*del)(void *));
+void ft_lstclear(t_list **lst, void (*del)(void* ));
 
 /** Deletes an element, without relinking the list.
  *
  * @param lst The element to be deleted. Can be NULL.
  * @param del The function to delete the contents of the element. Can be NULL.
  */
-void	ft_lstdelone(t_list *lst, void (*del)(void *));
+void ft_lstdelone(t_list *lst, void (*del)(void* ));
 
 /** Applies the function f to each element in the list. 
  *
  * @param lst The first element of the list. Can be NULL.
  * @param f The function to apply to each element. Can be NULL.
  */
-void	ft_lstiter(t_list *lst, void (*f)(void *));
+void ft_lstiter(t_list *lst, void (*f)(void* ));
 
 /** 
  * @param lst The first element of the list. Can be NULL.
  *
  * @returns The address of the last element in a given list. */
-t_list	*ft_lstlast(t_list *lst);
+t_list* ft_lstlast(t_list *lst);
 
 /** Creates a copy of the list with the function f applied to each element.
  * 
  * @param lst The first element of the list. Can be NULL.
  *
- * @returns A void *to the first element of the copy. 
+ * @returns A void* to the first element of the copy. 
  */
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
+t_list* ft_lstmap(t_list *lst, void* (*f)(void* ), void (*del)(void* ));
 
 /** Creates a new t_list element.
  * 
- * @param content A void *to any type of data. Can be NULL.
+ * @param content A void* to any type of data. Can be NULL.
  *
- * @returns A void *to the new element, or NULL if the allocation failed.
+ * @returns A void* to the new element, or NULL if the allocation failed.
  */
-t_list	*ft_lstnew(void *content);
+t_list* ft_lstnew(void* content);
 
 /**
  * @param lst The first element of the list. Can be NULL.
  * 
  * @returns The numbers of elements in the list.
  */
-int		ft_lstsize(t_list *lst);
+int ft_lstsize(t_list *lst);
 
-// math
+// >>math
 
 /** The ft_abs() function computes the absolute value of the integer i.
  *
  * @return The absolute value.
  */
-int		ft_abs(int i);
+int ft_abs(int i);
 
 /** The ft_labs() function computes the absolute value of a long number x.
  *
  * @return The absolute value.
  */
-long		ft_labs(long i);
-long long   ft_llabs(long long x);
+long ft_labs(long i);
+long long ft_llabs(long long x);
 
 /** The fabs() functions compute the absolute value of a floating-point
  * number x.
  * @return The absolute value.
  */
-double		ft_fabs(double x);
-float		ft_fabsf(float x);
-long double	ft_fabsl(long double x);
+double ft_fabs(double x);
+float ft_fabsf(float x);
+long double ft_fabsl(long double x);
 
 // memory
 
 /** The ft_bzero() function writes n zeroed bytes to the string s.
  * If n is zero, ft_bzero() does nothing. */
-void	ft_bzero(void *s, size_t n);
+void ft_bzero(void* s, size_t n);
 
 /** The ft_calloc() function allocates enough space for count objects
- * that are size bytes of memory each and returns a void *to the allocated
+ * that are size bytes of memory each and returns a void* to the allocated
  * memory.  The allocated memory is filled with bytes of value zero. */
-void	*ft_calloc(size_t count, size_t size);
+void* ft_calloc(size_t count, size_t size);
 
 /** The ft_memccpy() function copies bytes from string src to string dst. 
  * If the character c (converted to an unsigned char) occurs in the string
- * src, the copy stops and a void *to the byte after the copy of c in the
- * string dst is returned. Otherwise, n bytes are copied, and a NULL void *is
+ * src, the copy stops and a void* to the byte after the copy of c in the
+ * string dst is returned. Otherwise, n bytes are copied, and a NULL void* is
  * returned.
  *
  * The source and destination strings should not overlap,
  * as the behavior is undefined. */
-void	*ft_memccpy(void *dest, const void *src, int c, size_t n);
+void* ft_memccpy(void* dest, const void* src, int c, size_t n);
 
 /** The ft_memchr() function locates the first occurrence of c
  * (as converted to an unsigned char) in the string s. */
-void	*ft_memchr(const void *s, int c, size_t n);
+void* ft_memchr(const void* s, int c, size_t n);
 
 /** The ft_memcmp() function compares byte string s1 against byte string s2.
  * Both strings are assumed to be n bytes long. */
-int		ft_memcmp(const void *s1, const void *s2, size_t n);
+int ft_memcmp(const void* s1, const void* s2, size_t n);
 
 /** The memmove() function copies len bytes from string src to string dst.
  * The two strings may overlap; the copy is always done in a non-destructive
  * manner. */
-void	*ft_memmove(void *dest, const void *src, size_t n);
+void* ft_memmove(void* dest, const void* src, size_t n);
 
 /** The ft_memcpy() function copies n bytes from memory area src to memory
  * area dst. If dst and src overlap, behavior is undefined. Applications in
  * which dst and src might overlap should use ft_memmove instead. */
-void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n);
+void* ft_memcpy(void* LIBFT_RESTRICT dst, const void* LIBFT_RESTRICT src, size_t n);
 
 /** The ft_memset() function writes len bytes of value c (converted to an
  * unsigned char) to the string s. */
-void	*ft_memset(void *s, int c, size_t n);
+void* ft_memset(void* s, int c, size_t n);
 
-// ft_printf
+// >>ft_printf
 
 /** Maximum chars of output to write in MAXLEN.  */
-int	ft_snprintf(char* str, size_t maxlen, const char *restrict format, ...)
+int	ft_snprintf(char* str, size_t maxlen, const char *LIBFT_RESTRICT format, ...)
 	__attribute__ ((__format__ (__printf__, 3, 4)));
 
 /** Maximum chars of output to write in MAXLEN.  */
-int	ft_vsnprintf(char* str, size_t maxlen, const char *restrict format, va_list ap)
+int	ft_vsnprintf(char* str, size_t maxlen, const char *LIBFT_RESTRICT format, va_list ap)
 	__attribute__ ((__format__ (__printf__, 3, 0)));
 
 /** Write formatted output to the file descriptor fd
  * from the format string FORMAT.
  * @returns The number of written characters. */
-int	ft_dprintf(int fd, const char *restrict format, ...) \
+int	ft_dprintf(int fd, const char *LIBFT_RESTRICT format, ...) \
 	__attribute__((__format__ (__printf__, 2, 3)));
 
 /** Write formatted output to stdout from the format string FORMAT.
  * @returns The number of written characters. */
-int	ft_printf(const char *restrict format, ...) \
+int	ft_printf(const char *LIBFT_RESTRICT format, ...) \
 	__attribute__((__format__ (__printf__, 1, 2)));
 
-// string
+// >>string
 
 /** The ft_atoi() function converts the initial portion
  * of the string pointed by str to an int representation. */
-int		ft_atoi(const char *str);
+int ft_atoi(const char *str);
 
 /** The ft_itoa() function converts an integer value to
  * a null-terminated string. */
-char	*ft_itoa(int n);
+char* ft_itoa(int n);
 
 /** Returns the length from s to the next character c
  * or the next '\\0' character. */
-size_t	ft_len_to_char(const char *s, char c);
+size_t ft_len_to_char(const char *s, char c);
 
 /** Returns the length from s to the next space character (using ft_isspace())
  * or the next '\\0' character. */
-size_t	ft_len_to_space(const char *s);
+size_t ft_len_to_space(const char *s);
 
 /** The ft_str_tolower() function converts each uppercase letter to the 
  * corresponding lowercase letter in the null-terminated string s. */
-void	ft_str_tolower(char *s);
+void ft_str_tolower(char *s);
 
 /** The ft_str_toupper() function converts each lowercase letter to the 
  * corresponding uppercase letter in the null-terminated string s. */
-void	ft_str_toupper(char *s);
+void ft_str_toupper(char *s);
 
 /** 
  * The ft_strcmp() and ft_strncmp() functions lexicographically compare the
@@ -384,7 +388,7 @@ void	ft_str_toupper(char *s);
  * 
  * @returns 0 if the strings are identical.
  */
-int		ft_strcmp(const char *s1, const char *s2);
+int ft_strcmp(const char *s1, const char *s2);
 
 /** 
  * The ft_strcmp() and ft_strncmp() functions lexicographically compare the
@@ -396,20 +400,20 @@ int		ft_strcmp(const char *s1, const char *s2);
  * 
  * @returns 0 if the strings are identical.
  */
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
+int ft_strncmp(const char *s1, const char *s2, size_t n);
 
 /** 
  * The ft_strdup() function allocates sufficient memory for a copy of the string
- * s1, does the copy, and returns a void *to it. The void *may subsequently
+ * s1, does the copy, and returns a void* to it. The void* may subsequently
  * be used as an argument tothe function free(3).
  * 
  * If insufficient memory is available, NULL is returned.
  */
-char	*ft_strdup(const char *s);
+char* ft_strdup(const char *s);
 
 /** 
  * The ft_strndup() function allocates sufficient memory for a copy of the string
- * s1, does the copy, and returns a void *to it. The void *may subsequently
+ * s1, does the copy, and returns a void* to it. The void* may subsequently
  * be used as an argument tothe function free(3).
  * 
  * The function copies at most n characters from the string s1 and always
@@ -417,7 +421,7 @@ char	*ft_strdup(const char *s);
  * 
  * If insufficient memory is available, NULL is returned.
  */
-char	*ft_strndup(const char *s, size_t n);
+char* ft_strndup(const char *s, size_t n);
 
 /** 
  * The ft_strjoin() function appends the string s2 to the end of s1,
@@ -429,7 +433,7 @@ char	*ft_strndup(const char *s, size_t n);
  * Memory for the new string is obtained with malloc(3),
  * and can be freed with free(3);
  */
-char	*ft_strjoin(const char *s1, const char *s2);
+char* ft_strjoin(const char *s1, const char *s2);
 
 /** 
  * The ft_strjoin_3() function appends a copy of the null-terminated strings
@@ -442,14 +446,14 @@ char	*ft_strjoin(const char *s1, const char *s2);
  * Memory for the new string is obtained with malloc(3),
  * and can be freed with free(3);
  */
-char	*ft_strjoin_3(const char *s1, const char *s2, const char *s3);
+char* ft_strjoin_3(const char *s1, const char *s2, const char *s3);
 
 /** 
  * The ft_strcat() and function append a copy of the null-terminated
  * string s2 to the end of the null-terminated string s1, then add a terminating
  * '\\0'. The string s1 must have sufficient space to hold the result.
  */
-char	*ft_strcat(char *s1, const char *s2);
+char* ft_strcat(char *s1, const char *s2);
 
 /** 
  * The ft_strcat() and function append a copy of the null-terminated
@@ -459,7 +463,7 @@ char	*ft_strcat(char *s1, const char *s2);
  * The ft_strncat function appends not more than n characters from s2,
  * and then adds a terminating '\\0'.
  */
-char	*ft_strncat(char *s1, const char *s2, size_t n);
+char* ft_strncat(char *s1, const char *s2, size_t n);
 
 /** 
  * The ft_strlcat() function appends the NUL-terminated
@@ -469,17 +473,17 @@ char	*ft_strncat(char *s1, const char *s2, size_t n);
  * 
  * The function returns the total length of the string it tried to create.
  */
-size_t	ft_strlcat(char *dst, const char *src, size_t size);
+size_t ft_strlcat(char *dst, const char *src, size_t size);
 
 /**
  * The strcspn() function calculates the length of the initial segment of s
  * which consists entirely of bytes not in reject.
  */
-size_t	ft_strcspn(const char *s1, const char *s2);
+size_t ft_strcspn(const char *s1, const char *s2);
 
 /** The ft_strcpy() function copy the string src to dst
  * (including the terminating '\\0' character.) */
-char	*ft_strcpy(char *dest, const char *src);
+char* ft_strcpy(char *dest, const char *src);
 
 /** 
  * The ft_strncpy() function copy the string src to dst
@@ -489,25 +493,25 @@ char	*ft_strcpy(char *dest, const char *src);
  * If src is less than n characters long, the remainder of dst is filled with
  * '\\0' characters. Otherwise, dst is not terminated.
  */
-char	*ft_strncpy(char *s1, const char *s2, size_t n);
+char* ft_strncpy(char *s1, const char *s2, size_t n);
 
 /** The ft_strlcpy() function copies up to size - 1 characters from
  * the NUL-terminated string src to dst, NUL-terminating the result. */
-size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+size_t ft_strlcpy(char *dst, const char *src, size_t size);
 
 /** The ft_strlen() function computes the length of the string s. */
-size_t	ft_strlen(const char *s);
+size_t ft_strlen(const char *s);
 
 /** The ft_strnlen() function attempts to compute the length of s,
  * but never scans beyond the first maxlen bytes of s. */
-size_t	ft_strnlen(const char *s, size_t maxlen);
+size_t ft_strnlen(const char *s, size_t maxlen);
 
 /** 
  * The ft_strnstr() function locates the first occurrence of the null-terminated
  * string needle in the string haystack, where not more than len characters are
  * searched. Characters that appear after a '\\0' character are not searched.
  */
-char	*ft_strnstr(const char *haystack, const char *needle, size_t n);
+char* ft_strnstr(const char *haystack, const char *needle, size_t n);
 
 /** 
  * The ft_strchr() function locates the first occurrence of the char c in the
@@ -517,7 +521,7 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t n);
  * 
  * The function returns NULL if it cannot find the character c in the string s.
  */
-char	*ft_strchr(const char *s, int c);
+char* ft_strchr(const char *s, int c);
 
 /** 
  * The ft_strchr() function locates the first occurrence of the char c in the
@@ -530,93 +534,93 @@ char	*ft_strchr(const char *s, int c);
  * The ft_strrchr() function is identical to ft_strchr(),
  * except it locates the last occurrence of c.
  */
-char	*ft_strrchr(const char *s, int c);
+char* ft_strrchr(const char *s, int c);
 
 /** 
  * The ft_strmapi() applies the given function f to each character of the
  * string s to create a new string (with malloc(3))
  * resulting from successive applications of f.
  */
-char	*ft_strmapi(const char *s, char (*f)(unsigned int, char));
+char* ft_strmapi(const char *s, char (*f)(unsigned int, char));
 
 /** 
  * The ft_substr() function allocates memory with malloc(3) then returns a
  * string of len characters (or up to the first '\\0' encountered), and
  * starting from index start of s.
  */
-char	*ft_substr(const char *s, unsigned int start, size_t len);
+char* ft_substr(const char *s, unsigned int start, size_t len);
 
 /*
  * The ft_strtrim() function allocates memory with malloc(3) then returns the
  * same string as s1, without the characters specified in set, at the start
  * and at the end of s1.
  */
-char	*ft_strtrim(char *s1, char *set);
+char* ft_strtrim(char *s1, char *set);
 
-// write
+// >>write
 
 /** Write a character on the standard output. */
-void	ft_putchar(char c);
+void ft_putchar(char c);
 
 /** Write a character on the file descriptor fd. */
-void	ft_putchar_fd(char c, int fd);
+void ft_putchar_fd(char c, int fd);
 
 /** Print a number on the standard output. */
-void	ft_putnbr(int n);
+void ft_putnbr(int n);
 
 /** Print a number on the file descriptor fd. */
-void	ft_putnbr_fd(int n, int fd);
+void ft_putnbr_fd(int n, int fd);
 
 /** Print the string s on the standard output. */
-void	ft_putstr(const char *restrict s);
+void ft_putstr(const char *LIBFT_RESTRICT s);
 
 /** Print the string s on the file descriptor fd. */
-void	ft_putstr_fd(const char *s, int fd);
+void ft_putstr_fd(const char *s, int fd);
 
 /** Print the string s followed by a newline, on the standard output. */
-void	ft_putendl(const char *restrict s);
+void ft_putendl(const char *LIBFT_RESTRICT s);
 
 /** Print a string followed by a newline, on the file descriptor fd. */
-void	ft_putendl_fd(const char *s, int fd);
+void ft_putendl_fd(const char *s, int fd);
 
-// get_next_line
+// >>get_next_line
 
-int		ft_get_next_line(int fd, char **line);
+int ft_get_next_line(int fd, char **line);
 
-// basic_string
+// >>basic_string
 
 typedef struct ft_string ft_string;
 
-# ifndef LIBFT_STRING_DEFAULT_CAPACITY
-#  define LIBFT_STRING_DEFAULT_CAPACITY	15
-# endif // LIBFT_STRING_DEFAULT_CAPACITY
+#ifndef LIBFT_STRING_DEFAULT_CAPACITY
+#define LIBFT_STRING_DEFAULT_CAPACITY	15
+#endif // LIBFT_STRING_DEFAULT_CAPACITY
 
-ft_string*	ft_string_create(void);
-ft_string*	ft_string_create_from_str(const char *_x);
-ft_string*	ft_string_create_from_str_count(const char *_x, size_t count);
-ft_string*	ft_string_create_from_char(const char _x, size_t count);
-ft_string*	ft_string_create_from_ft_string(const ft_string* s);
-void		ft_string_destroy(ft_string* s);
-bool		ft_string_equals(const ft_string* a, const ft_string* b);
-bool		ft_string_equals_str(const ft_string* s, const char *_x);
+ft_string* ft_string_create(void);
+ft_string* ft_string_create_from_str(const char *_x);
+ft_string* ft_string_create_from_str_count(const char *_x, size_t count);
+ft_string* ft_string_create_from_char(const char _x, size_t count);
+ft_string* ft_string_create_from_ft_string(const ft_string* s);
+void ft_string_destroy(ft_string* s);
+bool ft_string_equals(const ft_string* a, const ft_string* b);
+bool ft_string_equals_str(const ft_string* s, const char *_x);
 const char*	ft_string_data(const ft_string* s);
-size_t		ft_string_size(const ft_string* s);
-size_t		ft_string_length(const ft_string* s);
-char		ft_string_at(const ft_string* s, size_t pos);
-bool		ft_string_empty(const ft_string* s);
-size_t		ft_string_max_size(void);
-void		ft_string_reserve(ft_string* s, size_t new_cap);
-size_t		ft_string_capacity(const ft_string* s);
-void		ft_string_shrink_to_fit(ft_string* s);
-void		ft_string_append_str(ft_string* s, const char *_x);
-void		ft_string_append_char(ft_string* s, const char _x, size_t n);
-void		ft_string_append_ft_string(ft_string* s, const ft_string* x);
-void		ft_string_assign(ft_string* s, const char *_x);
-void		ft_string_assign_count(ft_string* s, const char *_x, size_t count);
-void		ft_string_assign_char(ft_string* s, const char _x, size_t count);
-void		ft_string_clear(ft_string* s);
+size_t ft_string_size(const ft_string* s);
+size_t ft_string_length(const ft_string* s);
+char ft_string_at(const ft_string* s, size_t pos);
+bool ft_string_empty(const ft_string* s);
+size_t ft_string_max_size(void);
+void ft_string_reserve(ft_string* s, size_t new_cap);
+size_t ft_string_capacity(const ft_string* s);
+void ft_string_shrink_to_fit(ft_string* s);
+void ft_string_append_str(ft_string* s, const char *_x);
+void ft_string_append_char(ft_string* s, const char _x, size_t n);
+void ft_string_append_ft_string(ft_string* s, const ft_string* x);
+void ft_string_assign(ft_string* s, const char *_x);
+void ft_string_assign_count(ft_string* s, const char *_x, size_t count);
+void ft_string_assign_char(ft_string* s, const char _x, size_t count);
+void ft_string_clear(ft_string* s);
 
-#  define ft_string(...) _Generic((__VA_ARGS__),				\
+#define ft_string(...) _Generic((__VA_ARGS__),					\
 	char *: ft_string_create_from_str,							\
 	char: ft_string_create_from_char,							\
 	int: ft_string_create_from_char,							\
@@ -624,76 +628,76 @@ void		ft_string_clear(ft_string* s);
 	const struct ft_string*: ft_string_create_from_ft_string	\
 )(__VA_ARGS__)
 
-// ArgParse
+// ft_argparse
 
-#define ARGPARSE_INT_MIN			(INT32_MIN)
-#define ARGPARSE_INT_MAX			(INT32_MAX)
-#define ARGPARSE_VALUE(T_, value_)	(&(T_){value_})
+#define FTAP_INT_MIN (INT32_MIN)
+#define FTAP_INT_MAX (INT32_MAX)
+#define FTAP_VALUE(T_, value_) (&(T_){value_})
 
-typedef enum ArgParse_OptionType
+typedef enum ftap_option_type
 {
 	// options without arguments
-	ArgParse_OptionType_Bool, // default
+	FTAP_OPTION_TYPE_BOOL, // default
 
 	// options with arguments
 	// expect the address of the variable that will store the value
-	ArgParse_OptionType_String,
-	ArgParse_OptionType_Int,
-	ArgParse_OptionType_Float,
-} ArgParse_OptionType;
+	FTAP_OPTION_TYPE_STRING,
+	FTAP_OPTION_TYPE_INT,
+	FTAP_OPTION_TYPE_FLOAT,
+} ftap_option_type;
 
-typedef void*	ArgParse_Value;
+typedef void* ftap_value;
 
-typedef struct ArgParse_OptionDesc
+typedef struct ftap_option_desc
 {
-	ArgParse_OptionType type;
+	ftap_option_type type;
 	char short_name;
 	char* long_name;
 	void* value; // pointer to the variable that will store the value
-	ArgParse_Value min;
-	ArgParse_Value max;
-	ArgParse_Value default_value;
-} ArgParse_OptionDesc;
+	ftap_value min;
+	ftap_value max;
+	ftap_value default_value;
+} ftap_option_desc;
 
-typedef struct ArgParse_Desc
+typedef struct ftap_desc
 {
 	char* program_name;
 	char* usage;
 
 	// Options
-	ArgParse_OptionDesc* options;
+	ftap_option_desc* options;
 	size_t opt_count;
 	bool opt_ignore_unknown;
 	bool opt_allow_merge_short;
-} ArgParse_Desc;
+} ftap_desc;
 
-typedef struct ArgParse_Option
+typedef struct ftap_option
 {
 	bool is_set;
-} ArgParse_Option;
+} ftap_option;
 
-typedef enum ArgParse_Status
+typedef enum ftap_status
 {
-	ArgParse_Status_Success,
-	ArgParse_Status_InvalidOption,
-	ArgParse_Status_UnrecognizedOption,
-	ArgParse_Status_OptionInvalidValue,
-	ArgParse_Status_OptionRequiresAnArgument,
-	ArgParse_Status_TooManyArguments,
-	ArgParse_Status_AllocationError,
-} ArgParse_Status;
+	FTAP_STATUS_SUCCESS,
+	FTAP_STATUS_INVALID_OPTION,
+	FTAP_STATUS_UNRECOGNIZED_OPTION,
+	FTAP_STATUS_INVALID_OPTION_VALUE,
+	FTAP_STATUS_OPTION_REQUIRES_ARGUMENT,
+	FTAP_STATUS_TOO_MANY_ARGUMENTS,
+	FTAP_STATUS_ALLOCATION_FAILURE,
+} ftap_status;
 
 typedef struct
 {
 	size_t opt_count;
-	ArgParse_Option* options;
+	ftap_option* options;
 	char** arguments;
-	ArgParse_Status _status;
-} ArgParse_State;
+	ftap_status _status;
+} ftap_state;
 
-ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* state);
-void			ArgParse_ClearState(ArgParse_State* state);
-bool			ArgParse_IsStateValid(const ArgParse_State* state);
+ftap_state ftap_parse(int argc, char** argv, const ftap_desc* state);
+void ftap_clear(ftap_state* state);
+bool ftap_valid(const ftap_state* state);
 
 // FileParse
 
@@ -701,41 +705,42 @@ typedef struct
 {
 	int type;
 	const char* value;
-}FileParse_TokenDesc;
+}ftfp_token_desc;
 
 // todo: comments
 typedef struct
 {
-	FileParse_TokenDesc* tokens;
+	ftfp_token_desc* tokens;
 	size_t token_count;
 	bool skip_newlines;
 	bool (*isspace)(int);
 	bool (*isseparator)(int);
-}FileParse_Desc;
+}ftfp_desc;
 
 typedef struct
 {
 	uint64_t type;
 	char* value;
 	int row, col;
-}FileParse_Token;
+}ftfp_token;
 
 typedef enum
 {
-	FileParse_Status_Success = 0,
-	FileParse_Status_Error,
-}FileParse_Status;
+	FTFP_STATUS_SUCCESS = 0,
+	FTFP_STATUS_CANNOT_OPEN_FILE,
+	FTFP_STATUS_ALLOCATION_FAILURE,
+}ftfp_status;
 
 typedef struct
 {
-	FileParse_Status _status;
-	FileParse_Token* tokens;
+	ftfp_status _status;
+	ftfp_token* tokens;
 	size_t count;
-}FileParse_State;
+}ftfp_state;
 
-FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc);
-bool			FileParse_IsStateValid(const FileParse_State* state);
-void			FileParse_ClearState(FileParse_State* state);
+ftfp_state ftfp_parse(const char *file, const ftfp_desc* desc);
+bool ftfp_valid(const ftfp_state* state);
+void ftfp_clear(ftfp_state* state);
 
 // vector
 
@@ -744,16 +749,16 @@ typedef struct ft_allocator
 	size_t sizeof_type;
 	void* (*allocate)(const struct ft_allocator*, size_t n);
 	void (*deallocate)(const struct ft_allocator*, void* p, size_t n);
-	void (*construct)(const struct ft_allocator*, void* p, const void *value_ptr);
+	void (*construct)(const struct ft_allocator*, void* p, const void* value_ptr);
 	void (*destroy)(const struct ft_allocator*, void* p);
 	size_t (*max_size)(const struct ft_allocator*);
 }ft_allocator;
 
-void*	ft_allocator_allocate(const ft_allocator* alloc, size_t n);
-void	ft_allocator_deallocate(const ft_allocator* alloc, void *p, size_t n);
-void	ft_allocator_construct(const ft_allocator* alloc, void *p, const void* value);
-void	ft_allocator_destroy(const ft_allocator* alloc, void *p);
-size_t	ft_allocator_max_size(const struct ft_allocator* alloc);
+void* ft_allocator_allocate(const ft_allocator* alloc, size_t n);
+void ft_allocator_deallocate(const ft_allocator* alloc, void* p, size_t n);
+void ft_allocator_construct(const ft_allocator* alloc, void* p, const void* value);
+void ft_allocator_destroy(const ft_allocator* alloc, void* p);
+size_t ft_allocator_max_size(const struct ft_allocator* alloc);
 
 typedef enum
 {
@@ -784,41 +789,46 @@ typedef struct
 	void* default_value;
 }ft_vector_desc;
 
-ft_vector	ft_vector_create(const ft_vector_desc* desc);
-void		ft_vector_destroy(ft_vector* vector);
-ft_iterator	ft_vector_begin(const ft_vector* vector);
-ft_iterator	ft_vector_end(const ft_vector* vector);
-ft_iterator	ft_vector_rbegin(const ft_vector* vector);
-ft_iterator	ft_vector_rend(const ft_vector* vector);
-size_t		ft_vector_max_size(const ft_vector* vector);
-size_t		ft_vector_size(const ft_vector* vector);
-size_t		ft_vector_capacity(const ft_vector* vector);
-size_t		ft_vector_empty(const ft_vector* vector);
-void		ft_vector_clear(ft_vector* vector);
-void		ft_vector_reserve(ft_vector* vector, size_t n);
-void		ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
-void		ft_vector_push_back(ft_vector* vector, const void* value);
-void*		ft_vector_data(const ft_vector* vector);
-void*		ft_vector_at(const ft_vector* vector, size_t n);
+ft_vector ft_vector_create(const ft_vector_desc* desc);
+void ft_vector_destroy(ft_vector* vector);
+ft_iterator ft_vector_begin(const ft_vector* vector);
+ft_iterator ft_vector_end(const ft_vector* vector);
+ft_iterator ft_vector_rbegin(const ft_vector* vector);
+ft_iterator ft_vector_rend(const ft_vector* vector);
+size_t ft_vector_max_size(const ft_vector* vector);
+size_t ft_vector_size(const ft_vector* vector);
+size_t ft_vector_capacity(const ft_vector* vector);
+size_t ft_vector_empty(const ft_vector* vector);
+void ft_vector_clear(ft_vector* vector);
+void ft_vector_reserve(ft_vector* vector, size_t n);
+void ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
+void ft_vector_push_back(ft_vector* vector, const void* value);
+void* ft_vector_data(const ft_vector* vector);
+void* ft_vector_at(const ft_vector* vector, size_t n);
 
 // Timer
 
-# define FT_NS_PER_SECOND	(1000000000)
-# define FT_NS_PER_MS		(1000000)
+# define FT_NS_PER_SECOND (1000000000)
+# define FT_NS_PER_MS (1000000)
 
 typedef struct ft_timer
 {
 	uint64_t start; // ns
 }ft_timer;
 
-uint64_t	ft_timer_now(void);
-void		ft_timer_reset(ft_timer* timer);
-uint64_t	ft_timer_elapsed_ns(ft_timer* timer);
-uint64_t	ft_timer_elapsed_ms(ft_timer* timer);
-uint64_t	ft_timer_elapsed_seconds(ft_timer* timer);
+uint64_t ft_timer_now(void);
+void ft_timer_reset(ft_timer* timer);
+uint64_t ft_timer_elapsed_ns(ft_timer* timer);
+uint64_t ft_timer_elapsed_ms(ft_timer* timer);
+uint64_t ft_timer_elapsed_seconds(ft_timer* timer);
 
 # ifdef __cplusplus
-}
+} // extern "C"
+
+// reference-based equivalents for C++
+ftfp_state ftfp_parse(const char *file, const ftfp_des& desc) { return ftfp_parse(file, &desc); }
+ftap_state ftap_parse(int argc, char** argv, const ftap_desc& state) { return ftap_parse(argc, argv, &state); }
+inline ft_vector ft_vector_create(const ft_vector_desc& desc) { return ft_vector_create(&desc); }
 # endif
 
 
@@ -884,26 +894,26 @@ typedef void (*TestCallback)(void* param);
 
 typedef struct
 {
-	const char*		name;
-	TestCallback	callback;
-	void*			param;
+	const char* name;
+	TestCallback callback;
+	void* param;
 }TestIt;
 
 typedef struct
 {
-	const char*	name;
-	TestIt		*it;
-	size_t		count;
+	const char* name;
+	TestIt* it;
+	size_t count;
 }TesterContext;
 
 typedef struct
 {
-	void			(*before)(void* param);
-	void			(*before_each)(void* param);
-	void			(*after)(void* param);
-	void			(*after_each)(void* param);
-	TesterContext*	contexts;
-	size_t			count;
+	void (*before)(void* param);
+	void (*before_each)(void* param);
+	void (*after)(void* param);
+	void (*after_each)(void* param);
+	TesterContext* contexts;
+	size_t count;
 }TestDesc;
 
 typedef enum
@@ -920,12 +930,12 @@ typedef enum
 
 typedef struct TesterExpect
 {
-	void	(*ToBe)(const void* value, size_t sizeof_value, TesterValueType type);
-	void	(*ToNotBe)(const void* value, size_t sizeof_value, TesterValueType type);
+	void (*ToBe)(const void* value, size_t sizeof_value, TesterValueType type);
+	void (*ToNotBe)(const void* value, size_t sizeof_value, TesterValueType type);
 }TesterExpect;
 
-void	Tester_Describe(const char* name, const TestDesc* desc);
-void	Tester_SetStatus(TesterStatus status);
+void Tester_Describe(const char* name, const TestDesc* desc);
+void Tester_SetStatus(TesterStatus status);
 
 const TesterExpect*	_Tester_Expect(
 	const char *value_name,
@@ -934,7 +944,7 @@ const TesterExpect*	_Tester_Expect(
 	const void* value,
 	size_t sizeof_value
 );
-void	_TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType type);
+void _TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType type);
 
 // _Tester_Expect((&(__value)), sizeof((__value)))
 #define Tester_Expect(__v)	({ _Tester_Expect(#__v, __FILE__, __LINE__, &(__typeof__((__v))){(__v)}, sizeof((__v))); })
@@ -1274,7 +1284,7 @@ static inline char *_ft_printf_create_string_helper(struct _libft_printf_specs *
 
 #endif // _LIBFT_PRINTF_H
 
-bool	_ArgParse_StringIsDigit(const char *str, const char **invalid)
+bool	_ftap_str_isdigit(const char *str, const char **invalid)
 {
 	*invalid = str;
 	if (!str || *str == '\0')
@@ -1298,7 +1308,7 @@ bool	_ArgParse_StringIsDigit(const char *str, const char **invalid)
 	return true;
 }
 
-bool	_ArgParse_StringIsFloat(const char *str, const char **invalid)
+bool	_ftap_str_isfloat(const char *str, const char **invalid)
 {
 	*invalid = str;
 	if (!str || *str == '\0')
@@ -1350,45 +1360,45 @@ bool	_ArgParse_StringIsFloat(const char *str, const char **invalid)
 	return seen_digit; // must end with digit
 }
 
-void	_ArgParse_UnrecognizedOption(ArgParse_State* state, const ArgParse_Desc* desc, const char *long_name)
+void	_ftap_unrecognized_option(ftap_state* state, const ftap_desc* desc, const char *long_name)
 {
-	state->_status = ArgParse_Status_UnrecognizedOption;
+	state->_status = FTAP_STATUS_UNRECOGNIZED_OPTION;
 	ft_dprintf(STDERR_FILENO, "%s: unrecognized option '%s'\n", desc->program_name, long_name);
 }
 
-void	_ArgParse_InvalidOption(ArgParse_State* state, const ArgParse_Desc* desc, const char short_name)
+void	_ftap_invalid_option(ftap_state* state, const ftap_desc* desc, const char short_name)
 {
-	state->_status = ArgParse_Status_InvalidOption;
+	state->_status = FTAP_STATUS_INVALID_OPTION;
 	ft_dprintf(STDERR_FILENO, "%s: invalid option -- '%c'\n", desc->program_name, short_name);
 }
 
-void	_ArgParse_OptionInvalidValue(ArgParse_State* state, const ArgParse_Desc* desc, const char *value, const char *invalid)
+void	_ftap_invalid_option_value(ftap_state* state, const ftap_desc* desc, const char *value, const char *invalid)
 {
-	state->_status = ArgParse_Status_OptionInvalidValue;
+	state->_status = FTAP_STATUS_INVALID_OPTION_VALUE;
 	ft_dprintf(STDERR_FILENO, "%s: invalid value (`%s' near '%s')\n", desc->program_name, value, invalid);
 }
 
-void	_ArgParse_OptionRequiresAnArgument(ArgParse_State* state, const ArgParse_Desc* desc, size_t j, bool short_option)
+void	_ftap_option_requires_argument(ftap_state* state, const ftap_desc* desc, size_t j, bool short_option)
 {
-	state->_status = ArgParse_Status_OptionRequiresAnArgument;
+	state->_status = FTAP_STATUS_OPTION_REQUIRES_ARGUMENT;
 	if (short_option)
 		ft_dprintf(STDERR_FILENO, "%s: option requires an argument -- '%c'\n", desc->program_name, desc->options[j].short_name);
 	else
 		ft_dprintf(STDERR_FILENO, "%s: option '--%s' requires an argument\n", desc->program_name, desc->options[j].long_name);
 }
 
-void	_ArgParse_TooManyArguments(ArgParse_State* state, const ArgParse_Desc* desc)
+void	_ftap_too_many_arguments(ftap_state* state, const ftap_desc* desc)
 {
-	state->_status = ArgParse_Status_TooManyArguments;
+	state->_status = FTAP_STATUS_TOO_MANY_ARGUMENTS;
 	ft_dprintf(STDERR_FILENO, "%s: too many arguments\n", desc->program_name);
 }
 
-void	_ArgParse_GetValue(ArgParse_State* state, const ArgParse_Desc* desc, char **argv, int *i, size_t j, bool short_option)
+void	_ftap_get_value(ftap_state* state, const ftap_desc* desc, char **argv, int *i, size_t j, bool short_option)
 {
 	char* option_argument = NULL;
 	const char* invalid = NULL;
 
-	if (desc->options[j].type > ArgParse_OptionType_Bool)
+	if (desc->options[j].type > FTAP_OPTION_TYPE_BOOL)
 	{
 		if (short_option && !desc->opt_allow_merge_short)
 		{
@@ -1400,45 +1410,45 @@ void	_ArgParse_GetValue(ArgParse_State* state, const ArgParse_Desc* desc, char *
 			option_argument = argv[++(*i)];
 		if (!option_argument || *option_argument == '\0')
 		{
-			_ArgParse_OptionRequiresAnArgument(state, desc, j, short_option);
+			_ftap_option_requires_argument(state, desc, j, short_option);
 			return ;
 		}
 		switch (desc->options[j].type)
 		{
-			case ArgParse_OptionType_String:
+			case FTAP_OPTION_TYPE_STRING:
 				*((char **)(desc->options[j].value)) = option_argument;
 				break;
-			case ArgParse_OptionType_Int:
-				if (!_ArgParse_StringIsDigit(option_argument, &invalid))
+			case FTAP_OPTION_TYPE_INT:
+				if (!_ftap_str_isdigit(option_argument, &invalid))
 				{
-					_ArgParse_OptionInvalidValue(state, desc, option_argument, invalid);
+					_ftap_invalid_option_value(state, desc, option_argument, invalid);
 					return ;
 				}
 				int* value = (int *)(desc->options[j].value);
-				int min = desc->options[j].min ? *((int *)(desc->options[j].min)) : ARGPARSE_INT_MIN;
-				int max = desc->options[j].max ? *((int *)(desc->options[j].max)) : ARGPARSE_INT_MAX;
+				int min = desc->options[j].min ? *((int *)(desc->options[j].min)) : FTAP_INT_MIN;
+				int max = desc->options[j].max ? *((int *)(desc->options[j].max)) : FTAP_INT_MAX;
 
 				//FIXME: we rely on libc for strtol
 				long _val = strtol(option_argument, NULL, 10);
 
 				if (_val < min)
 				{
-					state->_status = ArgParse_Status_OptionInvalidValue;
+					state->_status = FTAP_STATUS_INVALID_OPTION_VALUE;
 					ft_dprintf(STDERR_FILENO, "%s: option value too small: %ld\n", desc->program_name, _val);
 					return ;
 				}
 				if (_val > max)
 				{
-					state->_status = ArgParse_Status_OptionInvalidValue;
+					state->_status = FTAP_STATUS_INVALID_OPTION_VALUE;
 					ft_dprintf(STDERR_FILENO, "%s: option value too big: %ld\n", desc->program_name, _val);
 					return ;
 				}
 				*value = _val;
 				break;
-			case ArgParse_OptionType_Float:
-				if (!_ArgParse_StringIsFloat(option_argument, &invalid))
+			case FTAP_OPTION_TYPE_FLOAT:
+				if (!_ftap_str_isfloat(option_argument, &invalid))
 				{
-					_ArgParse_OptionInvalidValue(state, desc, option_argument, invalid);
+					_ftap_invalid_option_value(state, desc, option_argument, invalid);
 					return ;
 				}
 				//FIXME: we rely on libc for atof
@@ -1450,10 +1460,10 @@ void	_ArgParse_GetValue(ArgParse_State* state, const ArgParse_Desc* desc, char *
 	}
 }
 
-void	_ArgParse_ParseLongOption(ArgParse_State* state, char **argv, const ArgParse_Desc* desc, int *i)
+void	_ftap_parse_long_option(ftap_state* state, char **argv, const ftap_desc* desc, int *i)
 {
-	bool	found = false;
-	const char *arg = argv[*i];
+	bool found = false;
+	const char* arg = argv[*i];
 
 	for (size_t j = 0; j < desc->opt_count; j++)
 	{
@@ -1462,7 +1472,7 @@ void	_ArgParse_ParseLongOption(ArgParse_State* state, char **argv, const ArgPars
 		if (ft_strcmp(long_name, desc->options[j].long_name) == 0)
 		{
 			state->options[j].is_set = true;
-			_ArgParse_GetValue(state, desc, argv, i, j, false);
+			_ftap_get_value(state, desc, argv, i, j, false);
 			found = true;
 			break;
 		}
@@ -1471,15 +1481,15 @@ void	_ArgParse_ParseLongOption(ArgParse_State* state, char **argv, const ArgPars
 	}
 	if (!desc->opt_ignore_unknown && !found)
 	{
-		_ArgParse_UnrecognizedOption(state, desc, arg);
+		_ftap_unrecognized_option(state, desc, arg);
 		return ;
 	}
 }
 
-void	_ArgParse_ParseShortOption(ArgParse_State* state, char **argv, const ArgParse_Desc* desc, int *i)
+void	_ftap_parse_short_option(ftap_state* state, char **argv, const ftap_desc* desc, int *i)
 {
-	bool	found = false;
-	const char *arg = argv[*i];
+	bool found = false;
+	const char* arg = argv[*i];
 
 	for (int k = 1; arg[k]; k++)
 	{
@@ -1489,13 +1499,13 @@ void	_ArgParse_ParseShortOption(ArgParse_State* state, char **argv, const ArgPar
 			if (arg[k] == desc->options[j].short_name)
 			{
 				state->options[j].is_set = true;
-				_ArgParse_GetValue(state, desc, argv, i, j, true);
+				_ftap_get_value(state, desc, argv, i, j, true);
 				found = true;
 			}
 		}
 		if (!desc->opt_ignore_unknown && !found)
 		{
-			_ArgParse_InvalidOption(state, desc, arg[k]);
+			_ftap_invalid_option(state, desc, arg[k]);
 			return ;
 		}
 		if (!desc->opt_allow_merge_short && found) // everything after the option is treated as the value of the option
@@ -1503,24 +1513,24 @@ void	_ArgParse_ParseShortOption(ArgParse_State* state, char **argv, const ArgPar
 	}
 }
 
-void	_ArgParse_SetOptionsDefaultValues(const ArgParse_Desc* desc)
+void	_ftap_set_options_defaults(const ftap_desc* desc)
 {
 	for (size_t i = 0; i < desc->opt_count; i++)
 	{
-		assert(desc->options[i].type == ArgParse_OptionType_Bool || desc->options[i].value != NULL);
+		assert(desc->options[i].type == FTAP_OPTION_TYPE_BOOL || desc->options[i].value != NULL);
 		if (!desc->options[i].default_value)
 			continue;
 		switch (desc->options[i].type)
 		{
-			case ArgParse_OptionType_String:
+			case FTAP_OPTION_TYPE_STRING:
 				assert(desc->options[i].value != NULL);
 				*((char **)((desc->options[i].value))) = *(char **)(desc->options[i].default_value);
 				break;
-			case ArgParse_OptionType_Int:
+			case FTAP_OPTION_TYPE_INT:
 				assert(desc->options[i].value != NULL);
 				*((int *)(desc->options[i].value)) = *(int *)desc->options[i].default_value;
 			break;
-			case ArgParse_OptionType_Float:
+			case FTAP_OPTION_TYPE_FLOAT:
 				assert(desc->options[i].value != NULL);
 				*((float *)(desc->options[i].value)) = *(float *)desc->options[i].default_value;
 				break;
@@ -1530,38 +1540,38 @@ void	_ArgParse_SetOptionsDefaultValues(const ArgParse_Desc* desc)
 	}
 }
 
-bool	_ArgParse_OptionTakesArgument(const ArgParse_Desc* desc, const char *option)
+bool	_ftap_option_takes_argument(const ftap_desc* desc, const char *option)
 {
 	for (size_t i = 0; i < desc->opt_count; i++)
 		if (desc->options[i].short_name == option[1] || ft_strcmp(desc->options[i].long_name, &option[2]) == 0)
-			return desc->options[i].type > ArgParse_OptionType_Bool;
+			return desc->options[i].type > FTAP_OPTION_TYPE_BOOL;
 	return false;
 }
 
-bool	ArgParse_IsStateValid(const ArgParse_State* state)
+bool	ftap_valid(const ftap_state* state)
 {
-	return state->_status == ArgParse_Status_Success;
+	return state->_status == FTAP_STATUS_SUCCESS;
 }
 
-ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
+ftap_state	ftap_parse(int argc, char** argv, const ftap_desc* desc)
 {
 	assert(desc != NULL);
 	assert(desc->options != NULL || desc->opt_count == 0);
 
-	ArgParse_State state = {
+	ftap_state state = {
 		.opt_count = desc->opt_count,
 		.options = NULL,
 		.arguments = NULL,
-		._status = ArgParse_Status_Success,
+		._status = FTAP_STATUS_SUCCESS,
 	};
 
 	if (state.opt_count > 0)
 	{
-		state.options = ft_calloc(desc->opt_count, sizeof(ArgParse_Option));
+		state.options = ft_calloc(desc->opt_count, sizeof(ftap_option));
 		if (!state.options)
-			return (ArgParse_State){ ._status = ArgParse_Status_AllocationError };
-		state._status = ArgParse_Status_Success;
-		_ArgParse_SetOptionsDefaultValues(desc);
+			return (ftap_state){ ._status = FTAP_STATUS_ALLOCATION_FAILURE };
+		state._status = FTAP_STATUS_SUCCESS;
+		_ftap_set_options_defaults(desc);
 	}
 
 	bool parse_options = true;
@@ -1576,13 +1586,13 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 				continue;
 			}
 			if (argv[i][1] == '-')
-				_ArgParse_ParseLongOption(&state, argv, desc, &i);
+				_ftap_parse_long_option(&state, argv, desc, &i);
 			else
-				_ArgParse_ParseShortOption(&state, argv, desc, &i);
+				_ftap_parse_short_option(&state, argv, desc, &i);
 		}
 		else
 			arg_count++;
-		if (state._status != ArgParse_Status_Success)
+		if (state._status != FTAP_STATUS_SUCCESS)
 			return state;
 	}
 
@@ -1593,7 +1603,7 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 		{
 			free(state.options);
 			state.options = NULL;
-			return (ArgParse_State){ ._status = ArgParse_Status_AllocationError };
+			return (ftap_state){ ._status = FTAP_STATUS_ALLOCATION_FAILURE };
 		}
 		parse_options = true;
 		int j = 0;
@@ -1601,7 +1611,7 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 		{
 			if (parse_options && argv[i][0] == '-')
 			{
-				if (_ArgParse_OptionTakesArgument(desc, argv[i]))
+				if (_ftap_option_takes_argument(desc, argv[i]))
 				{
 					// if we allow merging short options, we need to skip the next argument
 					// otherwise, we skip if the option and its argument are separated.
@@ -1625,7 +1635,7 @@ ArgParse_State	ArgParse_Parse(int argc, char** argv, const ArgParse_Desc* desc)
 	return state;
 }
 
-void	ArgParse_ClearState(ArgParse_State* state)
+void	ftap_clear(ftap_state* state)
 {
 	free(state->options);
 	free(state->arguments);
@@ -2154,52 +2164,52 @@ int	ft_tolower(int c)
 
 typedef struct
 {
-	FileParse_Token	t;
-	size_t			length;
-}FileParse_TokenListItem;
+	ftfp_token t;
+	size_t length;
+}_ftfp_list_item;
 
 typedef struct
 {
-	FileParse_TokenListItem*	begin;
-	FileParse_TokenListItem*	end;
-	FileParse_TokenListItem*	end_cap;
-}FileParse_TokenList;
+	_ftfp_list_item* begin;
+	_ftfp_list_item* end;
+	_ftfp_list_item* end_cap;
+}_ftfp_list;
 
-bool	FileParse_IsSpace(const FileParse_Desc* desc, int c)
+bool	_ftfp_isspace(const ftfp_desc* desc, int c)
 {
 	if (desc->isspace)
 		return desc->isspace(c);
 	return ft_isspace(c);
 }
 
-bool	FileParse_IsSeparator(const FileParse_Desc* desc, int c)
+bool	_ftfp_isseparator(const ftfp_desc* desc, int c)
 {
 	if (desc->isseparator)
 		return desc->isseparator(c);
 	return false;
 }
 
-size_t	FileParse_TokenList_RecommendNewSize(FileParse_TokenList *list)
+size_t	_ftfp_list_recommend_new_size(_ftfp_list *list)
 {
 	size_t size = (size_t)(list->end - list->begin);
 	size_t capacity = (size_t)(list->end_cap - list->begin);
 	return max(2 * capacity, size + 1);
 }
 
-bool	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_TokenListItem* token)
+bool	_ftfp_list_push(_ftfp_list *list, const _ftfp_list_item* token)
 {
 	assert(list != NULL);
 	assert(token != NULL);
 
 	if (list->end < list->end_cap)
-		ft_memcpy(list->end++, token, sizeof(FileParse_TokenListItem));
+		ft_memcpy(list->end++, token, sizeof(_ftfp_list_item));
 	else
 	{
-		FileParse_TokenList new_list = { 0 };
+		_ftfp_list new_list = { 0 };
 
 		// alloc
-		size_t	new_cap = FileParse_TokenList_RecommendNewSize(list);
-		new_list.begin = ft_calloc(new_cap, sizeof(FileParse_TokenListItem));
+		size_t	new_cap = _ftfp_list_recommend_new_size(list);
+		new_list.begin = ft_calloc(new_cap, sizeof(_ftfp_list_item));
 		if (!new_list.begin)
 			return false;
 		new_list.end_cap = new_list.begin + new_cap;
@@ -2207,11 +2217,11 @@ bool	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_TokenLi
 		// copy old data
 		size_t old_size = (size_t)(list->end - list->begin);
 		if (old_size)
-			ft_memcpy(new_list.begin, list->begin, old_size * sizeof(FileParse_TokenListItem));
+			ft_memcpy(new_list.begin, list->begin, old_size * sizeof(_ftfp_list_item));
 		new_list.end = new_list.begin + old_size;
 
 		// copy new token
-		ft_memcpy(new_list.end, token, sizeof(FileParse_TokenListItem));
+		ft_memcpy(new_list.end, token, sizeof(_ftfp_list_item));
 		new_list.end++;
 
 		// swap
@@ -2221,46 +2231,46 @@ bool	FileParse_TokenList_Push(FileParse_TokenList *list, const FileParse_TokenLi
 	return true;
 }
 
-bool	FileParse_IsStateValid(const FileParse_State* state)
+bool	ftfp_valid(const ftfp_state* state)
 {
-	return state->_status == FileParse_Status_Success;
+	return state->_status == FTFP_STATUS_SUCCESS;
 }
 
-FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
+ftfp_state	ftft_parse(const char *file, const ftfp_desc* desc)
 {
 	assert(file != NULL);
 	assert(desc != NULL);
 	
-	FileParse_State 	state = { 0 };
-	char				*line = NULL;
-	int					fd;
-	size_t				i, length, row;
-	FileParse_TokenList	list = { 0 };
+	ftfp_state  state = { 0 };
+	char *line = NULL;
+	int fd;
+	size_t i, length, row;
+	_ftfp_list list = { 0 };
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
-		return (FileParse_State){ ._status = FileParse_Status_Error };
+		return (ftfp_state){ ._status = FTFP_STATUS_CANNOT_OPEN_FILE };
 	row = 0;
 	while (ft_get_next_line(fd, &line))
 	{
 		row++;
 		i = 0;
 		length = ft_strlen(line);
-		while (i < length && FileParse_IsSpace(desc, line[i]))
+		while (i < length && _ftfp_isspace(desc, line[i]))
 			i++;
 		// todo: comments
 		while (i < length)
 		{
 			bool found = false;
 		
-			while (i < length && FileParse_IsSpace(desc, line[i]))
+			while (i < length && _ftfp_isspace(desc, line[i]))
 				i++;
 			for (size_t j = 0; j < desc->token_count; j++)
 			{
 				size_t token_length = ft_strlen(desc->tokens[j].value);
 				if (ft_strncmp(&line[i], desc->tokens[j].value, token_length) == 0)
 				{
-					if (!FileParse_TokenList_Push(&list, &(FileParse_TokenListItem){
+					if (!_ftfp_list_push(&list, &(_ftfp_list_item){
 						.t = {
 							.type = desc->tokens[j].type,
 							.value = (char*)desc->tokens[j].value,
@@ -2271,7 +2281,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 					}))
 					{
 						free(list.begin);
-						state._status = FileParse_Status_Error;
+						state._status = FTFP_STATUS_ALLOCATION_FAILURE;
 						close(fd);
 						return state;
 					}
@@ -2283,11 +2293,11 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 			if (!found)
 			{
 				size_t j = i;
-				while (i < length && !FileParse_IsSpace(desc, line[i]) && !FileParse_IsSeparator(desc, line[i]))
+				while (i < length && !_ftfp_isspace(desc, line[i]) && !_ftfp_isseparator(desc, line[i]))
 					i++;
 				if (j < i)
 				{
-					if (!FileParse_TokenList_Push(&list, &(FileParse_TokenListItem){
+					if (!_ftfp_list_push(&list, &(_ftfp_list_item){
 						.t = {
 							.type = -1,
 							.value = &line[j],
@@ -2298,7 +2308,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 					}))
 					{
 						free(list.begin);
-						state._status = FileParse_Status_Error;
+						state._status = FTFP_STATUS_ALLOCATION_FAILURE;
 						close(fd);
 						return state;
 					}
@@ -2308,7 +2318,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 		}
 		if (!desc->skip_newlines)
 		{
-			if (!FileParse_TokenList_Push(&list, &(FileParse_TokenListItem){
+			if (!_ftfp_list_push(&list, &(_ftfp_list_item){
 				.t = {
 					.type = -1,
 					.value = "\n",
@@ -2319,7 +2329,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 			}))
 			{
 				free(list.begin);
-				state._status = FileParse_Status_Error;
+				state._status = FTFP_STATUS_ALLOCATION_FAILURE;
 				close(fd);
 				return state;
 			}
@@ -2328,11 +2338,11 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 	close(fd);
 	
 	state.count = (size_t)(list.end - list.begin);
-	state.tokens = ft_calloc(state.count, sizeof(FileParse_Token));
+	state.tokens = ft_calloc(state.count, sizeof(ftfp_token));
 	if (!state.tokens)
 	{
 		free(list.begin);
-		state._status = FileParse_Status_Error;
+		state._status = FTFP_STATUS_ALLOCATION_FAILURE;
 		return state;
 	}
 	for (size_t i = 0; i < state.count; i++)
@@ -2345,7 +2355,7 @@ FileParse_State	FileParse_Parse(const char *file, const FileParse_Desc* desc)
 	return state;
 }
 
-void	FileParse_ClearState(FileParse_State* state)
+void	ftfp_clear(ftfp_state* state)
 {
 	for (size_t i = 0; i < state->count; i++)
 		free(state->tokens[i].value);

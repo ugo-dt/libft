@@ -14,26 +14,26 @@ typedef void (*TestCallback)(void* param);
 
 typedef struct
 {
-	const char*		name;
-	TestCallback	callback;
-	void*			param;
+	const char* name;
+	TestCallback callback;
+	void* param;
 }TestIt;
 
 typedef struct
 {
-	const char*	name;
-	TestIt		*it;
-	size_t		count;
+	const char* name;
+	TestIt* it;
+	size_t count;
 }TesterContext;
 
 typedef struct
 {
-	void			(*before)(void* param);
-	void			(*before_each)(void* param);
-	void			(*after)(void* param);
-	void			(*after_each)(void* param);
-	TesterContext*	contexts;
-	size_t			count;
+	void (*before)(void* param);
+	void (*before_each)(void* param);
+	void (*after)(void* param);
+	void (*after_each)(void* param);
+	TesterContext* contexts;
+	size_t count;
 }TestDesc;
 
 typedef enum
@@ -50,12 +50,12 @@ typedef enum
 
 typedef struct TesterExpect
 {
-	void	(*ToBe)(const void* value, size_t sizeof_value, TesterValueType type);
-	void	(*ToNotBe)(const void* value, size_t sizeof_value, TesterValueType type);
+	void (*ToBe)(const void* value, size_t sizeof_value, TesterValueType type);
+	void (*ToNotBe)(const void* value, size_t sizeof_value, TesterValueType type);
 }TesterExpect;
 
-void	Tester_Describe(const char* name, const TestDesc* desc);
-void	Tester_SetStatus(TesterStatus status);
+void Tester_Describe(const char* name, const TestDesc* desc);
+void Tester_SetStatus(TesterStatus status);
 
 const TesterExpect*	_Tester_Expect(
 	const char *value_name,
@@ -64,7 +64,7 @@ const TesterExpect*	_Tester_Expect(
 	const void* value,
 	size_t sizeof_value
 );
-void	_TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType type);
+void _TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType type);
 
 // _Tester_Expect((&(__value)), sizeof((__value)))
 #define Tester_Expect(__v)	({ _Tester_Expect(#__v, __FILE__, __LINE__, &(__typeof__((__v))){(__v)}, sizeof((__v))); })

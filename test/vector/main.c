@@ -1,3 +1,4 @@
+#define LIBFT_TESTER_MACROS
 #include <libft/tester.h>
 #include <libft/iterator.h>
 

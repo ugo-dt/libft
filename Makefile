@@ -14,6 +14,7 @@ NAME	=	libft.a
 
 SRCS	=	srcs/array/2d_array.c					\
 			srcs/array/str_array.c					\
+			srcs/argparse/argparse.c				\
 			srcs/basic_string/basic_string.c		\
 			srcs/char/ft_isalnum.c					\
 			srcs/char/ft_isalpha.c					\
