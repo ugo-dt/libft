@@ -222,6 +222,12 @@ void	ft_vector_push_back(ft_vector* vector, const void* value)
 	}
 }
 
+void	ft_vector_pop_back(ft_vector* vector)
+{
+	assert(!ft_vector_empty(vector));
+	_destruct_at_end(vector, POINTER_SUB(vector, vector->end, 1));
+}
+
 void	ft_vector_clear(ft_vector* vector)
 {
 	_destruct_at_end(vector, vector->begin);

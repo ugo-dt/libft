@@ -80,6 +80,10 @@ void	test_vector_push_back(void* param)
 	for (int i = 0; i < 100; i++)
 		ft_vector_push_back(&v, &i);
 	Tester_Expect(ft_vector_size(&v))->ToBe(200);
+	ft_vector_pop_back(&v);
+	Tester_Expect(ft_vector_size(&v))->ToBe(199);
+	for (int i = 0; i < 199; i++)
+		Tester_Expect((*(int*)ft_vector_at(&v, i)))->ToBe(i < 100 ? i : i - 100);
 
 	ft_vector_clear(&v);
 	Tester_Expect(ft_vector_size(&v))->ToBe(0);

@@ -803,6 +803,7 @@ void ft_vector_clear(ft_vector* vector);
 void ft_vector_reserve(ft_vector* vector, size_t n);
 void ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
 void ft_vector_push_back(ft_vector* vector, const void* value);
+void ft_vector_pop_back(ft_vector* vector);
 void* ft_vector_data(const ft_vector* vector);
 void* ft_vector_at(const ft_vector* vector, size_t n);
 
@@ -826,7 +827,7 @@ uint64_t ft_timer_elapsed_seconds(ft_timer* timer);
 } // extern "C"
 
 // reference-based equivalents for C++
-ftfp_state ftfp_parse(const char *file, const ftfp_des& desc) { return ftfp_parse(file, &desc); }
+ftfp_state ftfp_parse(const char *file, const ftfp_desc& desc) { return ftfp_parse(file, &desc); }
 ftap_state ftap_parse(int argc, char** argv, const ftap_desc& state) { return ftap_parse(argc, argv, &state); }
 inline ft_vector ft_vector_create(const ft_vector_desc& desc) { return ft_vector_create(&desc); }
 # endif
@@ -3943,6 +3944,12 @@ void	ft_vector_push_back(ft_vector* vector, const void* value)
 
 		ft_vector_destroy(&v);
 	}
+}
+
+void	ft_vector_pop_back(ft_vector* vector)
+{
+	assert(!ft_vector_empty(vector));
+	_destruct_at_end(vector, POINTER_SUB(vector, vector->end, 1));
 }
 
 void	ft_vector_clear(ft_vector* vector)
