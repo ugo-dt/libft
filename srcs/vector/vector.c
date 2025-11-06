@@ -232,3 +232,22 @@ void	ft_vector_clear(ft_vector* vector)
 {
 	_destruct_at_end(vector, vector->begin);
 }
+
+ft_iterator	ft_vector_erase_element(ft_vector* vector, ft_iterator pos)
+{
+	return ft_vector_erase(vector, pos, FT_ITER_ADD_NEW(pos, 1));
+}
+
+ft_iterator	ft_vector_erase(ft_vector* vector, ft_iterator first, ft_iterator last)
+{
+	ft_iterator r = first;
+	size_t n = 0;
+
+	for (ft_iterator tmp = first; FT_ITER_NEQ(tmp,last); FT_ITER_INC(tmp))
+		n++;
+	for (; FT_ITER_NEQ(last, ft_vector_end(vector)); FT_ITER_INC(first), FT_ITER_INC(last))
+		vector->alloc.construct(&vector->alloc, first._p, last._p);
+	while (n--)
+		_destruct_at_end(vector, POINTER_SUB(vector, vector->end, 1));
+	return r;
+}

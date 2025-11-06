@@ -806,6 +806,8 @@ void ft_vector_push_back(ft_vector* vector, const void* value);
 void ft_vector_pop_back(ft_vector* vector);
 void* ft_vector_data(const ft_vector* vector);
 void* ft_vector_at(const ft_vector* vector, size_t n);
+ft_iterator ft_vector_erase_element(ft_vector* vector, const ft_iterator pos);
+ft_iterator ft_vector_erase(ft_vector* vector, ft_iterator first, ft_iterator last);
 
 // Timer
 
