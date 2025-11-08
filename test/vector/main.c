@@ -122,6 +122,37 @@ static void	test_iterator(void* param)
 	ft_vector_destroy(&v);
 }
 
+static void test_vector_insert(void* param)
+{
+	ft_vector v = ft_vector_create(&(ft_vector_desc){
+		.alloc = (ft_allocator){
+			.sizeof_type = sizeof(int),
+		},
+	});
+
+	ft_vector_reserve(&v, 12);
+	for (int i = 0; i < 10; i++)
+		ft_vector_push_back(&v, &i);
+	Tester_Expect(ft_vector_size(&v))->ToBe(10);
+
+	ft_iterator it = ft_vector_begin(&v);
+	for (int i = 0; i < 10; i++, FT_ITER_INC(it))
+		Tester_Expect(FT_ITER_VALUE(it, int))->ToBe(i);
+	Tester_Expect(FT_ITER_EQ(it, ft_vector_end(&v)))->ToBe(true);
+
+	ft_vector_insert_element(&v, FT_ITER_ADD_NEW(ft_vector_begin(&v), 5), &(int){100});
+	Tester_Expect(ft_vector_size(&v))->ToBe(11);
+	Tester_Expect((*(int*)ft_vector_at(&v, 5)))->ToBe(100);
+	ft_vector_insert_element(&v, FT_ITER_ADD_NEW(ft_vector_begin(&v), 5), &(int){200});
+	Tester_Expect(ft_vector_size(&v))->ToBe(12);
+	Tester_Expect((*(int*)ft_vector_at(&v, 5)))->ToBe(200);
+	ft_vector_insert_element(&v, ft_vector_end(&v), &(int){300});
+	Tester_Expect(ft_vector_size(&v))->ToBe(13);
+	Tester_Expect((*(int*)ft_vector_at(&v, 12)))->ToBe(300);
+
+	ft_vector_destroy(&v);
+}
+
 struct test { int a, b; };
 
 static void	test_allocator_construct(const ft_allocator* alloc, void *p, const void* value)
@@ -163,13 +194,18 @@ static void	test_allocator(void* param)
 	ft_vector_destroy(&v);
 }
 
+static void test_vector_resize(void* param)
+{
+	Tester_SetStatus(TesterStatus_ToDo);
+}
+
 int	main(void)
 {
 	Tester_Describe("Vector Test", &(TestDesc){
 		.count = 1,
 		.contexts = (TesterContext[]){
 			{
-				.count = 5,
+				.count = 7,
 				.it = (TestIt[]){
 					{
 						.name = "Create",
@@ -192,8 +228,18 @@ int	main(void)
 						.param = NULL,
 					},
 					{
+						.name = "Insert",
+						.callback = test_vector_insert,
+						.param = NULL,
+					},
+					{
 						.name = "Allocator",
 						.callback = test_allocator,
+						.param = NULL,
+					},
+					{
+						.name = "Resize",
+						.callback = test_vector_resize,
 						.param = NULL,
 					}
 				},

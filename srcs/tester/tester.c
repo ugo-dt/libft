@@ -7,19 +7,20 @@
 #define COLOR_GREEN		"\033[92m"
 #define COLOR_YELLOW	"\033[93m"
 #define COLOR_MAGENTA	"\033[95m"
+#define COLOR_WHITE		"\033[97m"
 
 typedef struct _TesterExpect
 {
-	struct TesterExpect	__properties;
-	const void*		_value;
+	struct TesterExpect	_properties;
+	const void* _value;
 	struct {
-		const char*		_value_name;
-		const char*		_file;
-		int				_line;
+		const char* _value_name;
+		const char* _file;
+		int _line;
 	};
-	size_t			_sizeof_value;
-	TesterStatus	_status;
-	char			_error[512];
+	size_t _sizeof_value;
+	TesterStatus _status;
+	char _error[512];
 }_TesterExpect;
 
 _TesterExpect tester_expect;
@@ -143,18 +144,18 @@ static void	Tester_PrintStatus(const char*name)
 	switch (tester_expect._status)
 	{
 		case TesterStatus_Success:
-			ft_printf(COLOR_GREEN "  ✓ %s: Pass\n" COLOR_DEFAULT, name);
+			ft_printf(COLOR_GREEN "  ✓ %s: PASS\n" COLOR_DEFAULT, name);
 			break;
 		case TesterStatus_Failure:
-			ft_printf(COLOR_RED "  x %s: Fail\n" COLOR_DEFAULT, name);
+			ft_printf(COLOR_RED "  x %s: FAIL\n" COLOR_DEFAULT, name);
 			ft_printf(COLOR_RED "    - %s:%d: %s\n" COLOR_DEFAULT,
 				tester_expect._file, tester_expect._line, tester_expect._error);
 			break;
 		case TesterStatus_Error:
-			ft_printf(COLOR_DARK_RED "  x %s: Error\n" COLOR_DEFAULT, name);
+			ft_printf(COLOR_DARK_RED "  x %s: ERROR\n" COLOR_DEFAULT, name);
 			break;
 		case TesterStatus_ToDo:
-			ft_printf(COLOR_YELLOW "  - %s: To Do\n" COLOR_DEFAULT, name);
+			ft_printf(COLOR_YELLOW "  - %s: TODO\n" COLOR_DEFAULT, name);
 			break;
 		default:
 			ft_printf(" - UNKNOWN STATUS\n");
@@ -167,6 +168,17 @@ void	Tester_SetStatus(TesterStatus status)
 	tester_expect._file = "";
 	tester_expect._line = 0;
 	tester_expect._status = status;
+}
+
+void	_Tester_Log(const char *func, const char* format, ...)
+{
+	va_list args;
+	const char buffer[1024];
+
+	va_start(args, format);
+	ft_vsnprintf((char*)buffer, sizeof(buffer), format, args);
+	ft_printf(COLOR_WHITE "  [LOG][%s] %s\n" COLOR_DEFAULT, func, buffer);
+	va_end(args);
 }
 
 static void	RunTest(const TestIt* it, const TestDesc* desc)
@@ -185,12 +197,14 @@ static void	RunTest(const TestIt* it, const TestDesc* desc)
 
 static void	Tester_SetProperties(void)
 {
-	tester_expect.__properties.ToBe = _TesterExpect_ToBe;
-	tester_expect.__properties.ToNotBe = _TesterExpect_ToNotBe;
+	tester_expect._properties.ToBe = _TesterExpect_ToBe;
+	tester_expect._properties.ToNotBe = _TesterExpect_ToNotBe;
 }
 
 void	Tester_Describe(const char* name, const TestDesc* desc)
 {
+	assert(desc != NULL);
+
 	Tester_SetProperties();
 
 	for (size_t i = 0; i < desc->count; i++)

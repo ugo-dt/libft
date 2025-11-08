@@ -57,6 +57,7 @@ typedef struct TesterExpect
 void Tester_Describe(const char* name, const TestDesc* desc);
 void Tester_SetStatus(TesterStatus status);
 
+void _Tester_Log(const char* file, const char* format, ...);
 const TesterExpect*	_Tester_Expect(
 	const char *value_name,
 	const char* file,
@@ -81,6 +82,7 @@ void _TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType 
 	const void *: Tester_ValueType_Pointer, \
 	default: Tester_ValueType_Pointer \
 )
+#define Tester_Log(fmt, ...) _Tester_Log(__func__, fmt, ##__VA_ARGS__)
 
 #if defined LIBFT_TESTER_MACROS
 	#define ToBe(__v) ToBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))

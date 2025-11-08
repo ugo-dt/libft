@@ -251,3 +251,84 @@ ft_iterator	ft_vector_erase(ft_vector* vector, ft_iterator first, ft_iterator la
 		_destruct_at_end(vector, POINTER_SUB(vector, vector->end, 1));
 	return r;
 }
+
+static void _insert_in_array(ft_vector* vector, void* p, size_t n, ft_iterator position, const void* value)
+{
+	ft_iterator it;
+	size_t step = vector->alloc.sizeof_type;
+
+	/* If destination is the same buffer as the source, do a backward move to avoid
+	   overwriting source elements; otherwise copy forward into the separate buffer. */
+	if (p == vector->begin)
+	{
+		void* posp = position._p;
+		size_t tail = ((char*)vector->end - (char*)posp) / step;
+
+		/* Move elements from the end backwards to make room for n new elements. */
+		for (size_t i = tail; i > 0; --i)
+		{
+			void* src = (char*)posp + (i - 1) * step;
+			void* dest = (char*)posp + (i - 1 + n) * step;
+			vector->alloc.construct(&vector->alloc, dest, src);
+			vector->alloc.destroy(&vector->alloc, src);
+		}
+
+		/* Construct the inserted values at the position. */
+		for (size_t i = 0; i < n; ++i)
+		{
+			void* dest = (char*)posp + i * step;
+			vector->alloc.construct(&vector->alloc, dest, value);
+		}
+	}
+	else
+	{
+		/* Copy into a separate buffer (no overlap). */
+		char* dest = p;
+		for (it = ft_vector_begin(vector); !FT_ITER_EQ(it, position); FT_ITER_INC(it))
+		{
+			vector->alloc.construct(&vector->alloc, dest, FT_ITER_REF(it));
+			dest += step;
+		}
+		for (size_t i = 0; i < n; ++i)
+		{
+			vector->alloc.construct(&vector->alloc, dest, value);
+			dest += step;
+		}
+		for (; !FT_ITER_EQ(it, ft_vector_end(vector)); FT_ITER_INC(it))
+		{
+			vector->alloc.construct(&vector->alloc, dest, FT_ITER_REF(it));
+			dest += step;
+		}
+	}
+}
+
+ft_iterator ft_vector_insert_element(ft_vector* vector, ft_iterator pos, const void* value)
+{
+	ptrdiff_t d = ((char*)pos._p - (char*)(vector->begin)) / vector->alloc.sizeof_type;
+	void* p = POINTER_ADD(vector, vector->begin, d);
+
+	if (vector->end < vector->end_cap)
+	{
+		if (p == vector->end)
+			ft_vector_push_back(vector, value);
+		else
+		{
+			_insert_in_array(vector, vector->begin, 1, pos, value);
+			POINTER_INC(vector, vector->end);
+		}
+	}
+	else
+	{
+		ft_vector v = ft_vector_create(&(ft_vector_desc){
+			.alloc = vector->alloc,
+		});
+
+		ft_vector_reserve(&v, _ft_vector_recommend(vector, ft_vector_size(vector) + 1));
+		ft_vector_assign(&v, ft_vector_begin(vector), ft_vector_end(vector));
+		ft_vector_insert_element(&v, FT_ITER_ADD_NEW(ft_vector_begin(&v), d), value);
+		_ft_vector_swap(vector, &v);
+
+		ft_vector_destroy(&v);
+	}
+	return FT_ITER_ADD_NEW(ft_vector_begin(vector), d);
+}
