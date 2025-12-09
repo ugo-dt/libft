@@ -3,11 +3,6 @@
 
 #define ft_def(__a, __b) (((__a) == 0) ? (__b) : (__a))
 
-#define POINTER_ADD(__v, __p, __n) _POINTER_ADD((__p), ((__v)->alloc.sizeof_type), (__n))
-#define POINTER_SUB(__v, __p, __n) _POINTER_SUB((__p), ((__v)->alloc.sizeof_type), (__n))
-#define POINTER_INC(__v, __p) ((__p) = (POINTER_ADD(__v, __p, 1)))
-#define POINTER_DEC(__v, __p) ((__p) = (POINTER_SUB(__v, __p, 1)))
-
 static inline ft_iterator	_make_iter(size_t sizeof_type, void* p, IteratorType type)
 {
 	return (ft_iterator){

@@ -7,6 +7,11 @@
 #define _POINTER_INC(__p, __size) ((__p) = (_POINTER_ADD(__p, 1)))
 #define _POINTER_DEC(__p, __size) ((__p) = (_POINTER_DEC(__p, 1)))
 
+#define POINTER_ADD(__v, __p, __n) _POINTER_ADD((__p), ((__v)->alloc.sizeof_type), (__n))
+#define POINTER_SUB(__v, __p, __n) _POINTER_SUB((__p), ((__v)->alloc.sizeof_type), (__n))
+#define POINTER_INC(__v, __p) ((__p) = (POINTER_ADD(__v, __p, 1)))
+#define POINTER_DEC(__v, __p) ((__p) = (POINTER_SUB(__v, __p, 1)))
+
 // type size is inferred. never use with void*
 // #define _POINTER_POST_ADD(__p, __n) ({ __typeof__(__p) _old = (__p); (__p) = (__p) + __n; _old; })
 // #define POINTER_POST_INC(__p) _POINTER_POST_ADD(__p, 1)
@@ -51,3 +56,13 @@
 #define FT_ITER_GT(__it_a, __it_b) (FT_ITER_LT((__it_b), (__it_a)) && FT_ITER_NEQ((__it_a), (__it_b))) // greater than
 #define FT_ITER_LE(__it_a, __it_b) (!FT_ITER_GT((__it_a), (__it_b))) // less than or equal
 #define FT_ITER_GE(__it_a, __it_b) (!FT_ITER_LT((__it_a), (__it_b))) // greater than or equal
+
+#define ft_vector_each(__vector, __it) \
+	for (ft_iterator __it = ft_vector_begin((&__vector)); \
+		 FT_ITER_NEQ(__it, ft_vector_end((&__vector))); \
+		 FT_ITER_INC(__it))
+
+#define ft_vector_each_reverse(__vector, __rit) \
+	for (ft_iterator __rit = ft_vector_rbegin((&__vector)); \
+		 FT_ITER_NEQ(__rit, ft_vector_rend((&__vector))); \
+		 FT_ITER_INC(__rit))
