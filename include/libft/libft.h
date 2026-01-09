@@ -30,7 +30,7 @@
 
 # if defined(LIBFT_NO_FUNCTION_POINTERS)
 #  define LIBFT_STRING_NO_FUNCTION_POINTERS
-#  define LIBFT_VECTOR_NO_FUNCTION_POINTERS
+#  define LIBftv_NO_FUNCTION_POINTERS
 # endif // defined(LIBFT_NO_FUNCTION_POINTERS)
 
 # ifdef __cplusplus
@@ -292,7 +292,7 @@ double ft_fabs(double x);
 float ft_fabsf(float x);
 long double ft_fabsl(long double x);
 
-// memory
+// >>memory
 
 /** The ft_bzero() function writes n zeroed bytes to the string s.
  * If n is zero, ft_bzero() does nothing. */
@@ -628,7 +628,7 @@ void ft_string_clear(ft_string* s);
 	const struct ft_string*: ft_string_create_from_ft_string	\
 )(__VA_ARGS__)
 
-// ft_argparse
+// >>ft_argparse
 
 #define FTAP_INT_MIN (INT32_MIN)
 #define FTAP_INT_MAX (INT32_MAX)
@@ -699,7 +699,7 @@ ftap_state ftap_parse(int argc, char** argv, const ftap_desc* state);
 void ftap_clear(ftap_state* state);
 bool ftap_valid(const ftap_state* state);
 
-// FileParse
+// >>ft_fileparse
 
 typedef struct
 {
@@ -742,7 +742,7 @@ ftfp_state ftfp_parse(const char *file, const ftfp_desc* desc);
 bool ftfp_valid(const ftfp_state* state);
 void ftfp_clear(ftfp_state* state);
 
-// vector
+// >>vector
 
 typedef struct ft_allocator
 {
@@ -787,28 +787,28 @@ typedef struct
 	size_t size;
 	size_t capacity;
 	void* default_value;
-}ft_vector_desc;
+}ftv_desc;
 
-ft_vector ft_vector_create(const ft_vector_desc* desc);
-void ft_vector_destroy(ft_vector* vector);
-ft_iterator ft_vector_begin(const ft_vector* vector);
-ft_iterator ft_vector_end(const ft_vector* vector);
-ft_iterator ft_vector_rbegin(const ft_vector* vector);
-ft_iterator ft_vector_rend(const ft_vector* vector);
-size_t ft_vector_max_size(const ft_vector* vector);
-size_t ft_vector_size(const ft_vector* vector);
-size_t ft_vector_capacity(const ft_vector* vector);
-size_t ft_vector_empty(const ft_vector* vector);
-void ft_vector_clear(ft_vector* vector);
-void ft_vector_reserve(ft_vector* vector, size_t n);
-void ft_vector_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
-void ft_vector_push_back(ft_vector* vector, const void* value);
-void ft_vector_pop_back(ft_vector* vector);
-void* ft_vector_data(const ft_vector* vector);
-void* ft_vector_at(const ft_vector* vector, size_t n);
-ft_iterator ft_vector_erase_element(ft_vector* vector, const ft_iterator pos);
-ft_iterator ft_vector_erase(ft_vector* vector, ft_iterator first, ft_iterator last);
-ft_iterator ft_vector_insert_element(ft_vector* vector, ft_iterator pos, const void* value);
+ft_vector ftv_create(const ftv_desc* desc);
+void ftv_destroy(ft_vector* vector);
+ft_iterator ftv_begin(const ft_vector* vector);
+ft_iterator ftv_end(const ft_vector* vector);
+ft_iterator ftv_rbegin(const ft_vector* vector);
+ft_iterator ftv_rend(const ft_vector* vector);
+size_t ftv_max_size(const ft_vector* vector);
+size_t ftv_size(const ft_vector* vector);
+size_t ftv_capacity(const ft_vector* vector);
+size_t ftv_empty(const ft_vector* vector);
+void ftv_clear(ft_vector* vector);
+void ftv_reserve(ft_vector* vector, size_t n);
+void ftv_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
+void ftv_push_back(ft_vector* vector, const void* value);
+void ftv_pop_back(ft_vector* vector);
+void* ftv_data(const ft_vector* vector);
+void* ftv_at(const ft_vector* vector, size_t n);
+ft_iterator ftv_erase_element(ft_vector* vector, const ft_iterator pos);
+ft_iterator ftv_erase(ft_vector* vector, ft_iterator first, ft_iterator last);
+ft_iterator ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* value);
 
 // Timer
 
@@ -820,11 +820,11 @@ typedef struct ft_timer
 	uint64_t start; // ns
 }ft_timer;
 
-uint64_t ft_timer_now(void);
-void ft_timer_reset(ft_timer* timer);
-uint64_t ft_timer_elapsed_ns(ft_timer* timer);
-uint64_t ft_timer_elapsed_ms(ft_timer* timer);
-uint64_t ft_timer_elapsed_seconds(ft_timer* timer);
+uint64_t fttm_now(void);
+void fttm_reset(ft_timer* timer);
+uint64_t fttm_elapsed_ns(ft_timer* timer);
+uint64_t fttm_elapsed_ms(ft_timer* timer);
+uint64_t fttm_elapsed_seconds(ft_timer* timer);
 
 # ifdef __cplusplus
 } // extern "C"
@@ -832,7 +832,7 @@ uint64_t ft_timer_elapsed_seconds(ft_timer* timer);
 // reference-based equivalents for C++
 ftfp_state ftfp_parse(const char *file, const ftfp_desc& desc) { return ftfp_parse(file, &desc); }
 ftap_state ftap_parse(int argc, char** argv, const ftap_desc& state) { return ftap_parse(argc, argv, &state); }
-inline ft_vector ft_vector_create(const ft_vector_desc& desc) { return ft_vector_create(&desc); }
+inline ft_vector ftv_create(const ftv_desc& desc) { return ftv_create(&desc); }
 # endif
 
 #endif // LIBFT_H

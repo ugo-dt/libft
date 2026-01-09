@@ -892,7 +892,7 @@ typedef enum
 	TesterStatus_Failure,
 	TesterStatus_Error,
 	TesterStatus_ToDo,
-}TesterStatus;
+}ft_tester_status;
 
 typedef void (*TestCallback)(void* param);
 
@@ -939,7 +939,7 @@ typedef struct TesterExpect
 }TesterExpect;
 
 void Tester_Describe(const char* name, const TestDesc* desc);
-void Tester_SetStatus(TesterStatus status);
+void Tester_SetStatus(ft_tester_status status);
 
 void _Tester_Log(const char* file, const char* format, ...);
 const TesterExpect*	_Tester_Expect(

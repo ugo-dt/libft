@@ -77,7 +77,7 @@ def main():
 		outfile.write("#ifndef LIBFT_IMPL_INCLUDED\n")
 		outfile.write("#define LIBFT_IMPL_INCLUDED\n\n")
 
-		copy_header("include/libft/internal/_libft_printf.h", outfile)
+		copy_header("include/libft/internal/ft_printf.h", outfile)
 
 		for directory in directories:
 			combine_files(directory, outfile)

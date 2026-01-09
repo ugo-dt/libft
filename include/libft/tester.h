@@ -4,27 +4,27 @@
 
 typedef enum
 {
-	TesterStatus_Success,
-	TesterStatus_Failure,
-	TesterStatus_Error,
-	TesterStatus_ToDo,
-}TesterStatus;
+	FTT_STATUS_SUCCESS,
+	FTT_STATUS_FAILURE,
+	FTT_STATUS_ERROR,
+	FTT_STATUS_TODO,
+}ftt_status_t;
 
-typedef void (*TestCallback)(void* param);
+typedef void (*ftt_callback_fn)(void* param);
 
-typedef struct
+typedef struct ftt_it_s
 {
 	const char* name;
-	TestCallback callback;
+	ftt_callback_fn callback;
 	void* param;
-}TestIt;
+}ftt_it_t;
 
 typedef struct
 {
 	const char* name;
-	TestIt* it;
+	ftt_it_t* it;
 	size_t count;
-}TesterContext;
+}ftt_context;
 
 typedef struct
 {
@@ -32,59 +32,59 @@ typedef struct
 	void (*before_each)(void* param);
 	void (*after)(void* param);
 	void (*after_each)(void* param);
-	TesterContext* contexts;
+	ftt_context* contexts;
 	size_t count;
-}TestDesc;
+}ftt_desc;
 
 typedef enum
 {
-	Tester_ValueType_Int,
-	Tester_ValueType_UInt,
-	Tester_ValueType_Long,
-	Tester_ValueType_ULong,
-	Tester_ValueType_Float,
-	Tester_ValueType_Double,
-	Tester_ValueType_Pointer,
-	Tester_ValueType_String,
-}TesterValueType;
+	FTT_VALUE_TYPE_INT,
+	FTT_VALUE_TYPE_UINT,
+	FTT_VALUE_TYPE_LONG,
+	FTT_VALUE_TYPE_ULONG,
+	FTT_VALUE_TYPE_FLOAT,
+	FTT_VALUE_TYPE_DOUBLE,
+	FTT_VALUE_TYPE_POINTER,
+	FTT_VALUE_TYPE_STRING,
+}ftt_value_type;
 
-typedef struct TesterExpect
+typedef struct ftt_expect_s
 {
-	void (*ToBe)(const void* value, size_t sizeof_value, TesterValueType type);
-	void (*ToNotBe)(const void* value, size_t sizeof_value, TesterValueType type);
-}TesterExpect;
+	void (*to_be)(const void* value, size_t sizeof_value, ftt_value_type type);
+	void (*to_not_be)(const void* value, size_t sizeof_value, ftt_value_type type);
+}ftt_expect_t;
 
-void Tester_Describe(const char* name, const TestDesc* desc);
-void Tester_SetStatus(TesterStatus status);
+void ftt_describe(const char* name, const ftt_desc* desc);
+void ftt_set_status(ftt_status_t status);
 
-void _Tester_Log(const char* file, const char* format, ...);
-const TesterExpect*	_Tester_Expect(
+void _ftt_log(const char* file, const char* format, ...);
+const ftt_expect_t*	_ftt_expect(
 	const char *value_name,
 	const char* file,
 	int line,
 	const void* value,
 	size_t sizeof_value
 );
-void _TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType type);
+void _ftt_expect_to_be(const void* value, size_t sizeof_value, ftt_value_type type);
 
-// _Tester_Expect((&(__value)), sizeof((__value)))
-#define Tester_Expect(__v)	({ _Tester_Expect(#__v, __FILE__, __LINE__, &(__typeof__((__v))){(__v)}, sizeof((__v))); })
-#define _Tester_ValueType(__v) _Generic((__v), \
-	int: Tester_ValueType_Int, \
-	unsigned int: Tester_ValueType_UInt, \
-	long: Tester_ValueType_Long, \
-	unsigned long: Tester_ValueType_ULong, \
-	float: Tester_ValueType_Float, \
-	double: Tester_ValueType_Double, \
-	char *: Tester_ValueType_String, \
-	const char *: Tester_ValueType_String, \
-	void *: Tester_ValueType_Pointer, \
-	const void *: Tester_ValueType_Pointer, \
-	default: Tester_ValueType_Pointer \
+// _ftt_expect((&(__value)), sizeof((__value)))
+#define ftt_expect(__v)	({ _ftt_expect(#__v, __FILE__, __LINE__, &(__typeof__((__v))){(__v)}, sizeof((__v))); })
+#define FTT_VALUE_TYPE(__v) _Generic((__v), \
+	int: FTT_VALUE_TYPE_INT, \
+	unsigned int: FTT_VALUE_TYPE_UINT, \
+	long: FTT_VALUE_TYPE_LONG, \
+	unsigned long: FTT_VALUE_TYPE_ULONG, \
+	float: FTT_VALUE_TYPE_FLOAT, \
+	double: FTT_VALUE_TYPE_DOUBLE, \
+	char *: FTT_VALUE_TYPE_STRING, \
+	const char *: FTT_VALUE_TYPE_STRING, \
+	void *: FTT_VALUE_TYPE_POINTER, \
+	const void *: FTT_VALUE_TYPE_POINTER, \
+	default: FTT_VALUE_TYPE_POINTER \
 )
-#define Tester_Log(fmt, ...) _Tester_Log(__func__, fmt, ##__VA_ARGS__)
+#define ftt_log(fmt, ...) _ftt_log(__func__, fmt, ##__VA_ARGS__)
 
 #if defined LIBFT_TESTER_MACROS
-	#define ToBe(__v) ToBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
-	#define ToNotBe(__v) ToNotBe(&(__typeof__((__v))){(__v)}, sizeof((__v)), _Tester_ValueType((__v)))
+	#define to_be(__v) to_be(&(__typeof__((__v))){(__v)}, sizeof((__v)), FTT_VALUE_TYPE((__v)))
+	#define to_not_be(__v) to_not_be(&(__typeof__((__v))){(__v)}, sizeof((__v)), FTT_VALUE_TYPE((__v)))
 #endif // LIBFT_TESTER_MACROS

@@ -6,12 +6,13 @@
 #define COLOR_RED		"\033[91m"
 #define COLOR_GREEN		"\033[92m"
 #define COLOR_YELLOW	"\033[93m"
+#define COLOR_BLUE		"\033[94m"
 #define COLOR_MAGENTA	"\033[95m"
 #define COLOR_WHITE		"\033[97m"
 
-typedef struct _TesterExpect
+typedef struct _ftt_expect_t
 {
-	struct TesterExpect	_properties;
+	ftt_expect_t _properties;
 	const void* _value;
 	struct {
 		const char* _value_name;
@@ -19,51 +20,52 @@ typedef struct _TesterExpect
 		int _line;
 	};
 	size_t _sizeof_value;
-	TesterStatus _status;
+	ftt_status_t _status;
 	char _error[512];
-}_TesterExpect;
+	size_t ctx_tests_passed;
+}_ftt_expect_t;
 
-_TesterExpect tester_expect;
+_ftt_expect_t tester_expect;
 
-void	_TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType type)
+void	_ftt_expect_to_be(const void* value, size_t sizeof_value, ftt_value_type type)
 {
-	if (tester_expect._status != TesterStatus_Success)
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
 		return ;
 
 	if (ft_memcmp(tester_expect._value, value, sizeof_value) != 0)
 	{
-		tester_expect._status = TesterStatus_Failure;
+		tester_expect._status = FTT_STATUS_FAILURE;
 		switch (type)
 		{
-			case Tester_ValueType_Int:
+			case FTT_VALUE_TYPE_INT:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 				"expected %s to be %d, got %d", tester_expect._value_name, *(int*)value, *(int*) tester_expect._value);
 				break ;
-			case Tester_ValueType_UInt:
+			case FTT_VALUE_TYPE_UINT:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to be %u, got %u", tester_expect._value_name, *(unsigned int*)value, *(unsigned int*) tester_expect._value);
 				break ;
-			case Tester_ValueType_Long:
+			case FTT_VALUE_TYPE_LONG:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to be %ld, got %ld", tester_expect._value_name, *(long*)value, *(long*) tester_expect._value);
 				break ;
-			case Tester_ValueType_ULong:
+			case FTT_VALUE_TYPE_ULONG:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to be %lu, got %lu", tester_expect._value_name, *(unsigned long*)value, *(unsigned long*) tester_expect._value);
 				break ;
-			case Tester_ValueType_Float:
+			case FTT_VALUE_TYPE_FLOAT:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to be %f, got %f", tester_expect._value_name, *(float*)value, *(float*) tester_expect._value);
 				break ;
-			case Tester_ValueType_Double:
+			case FTT_VALUE_TYPE_DOUBLE:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to be %lf, got %lf", tester_expect._value_name, *(double*)value, *(double*) tester_expect._value);
 				break ;
-			case Tester_ValueType_String:
+			case FTT_VALUE_TYPE_STRING:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, (char*) tester_expect._value);
 				break ;
-			case Tester_ValueType_Pointer:
+			case FTT_VALUE_TYPE_POINTER:
 			default:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to be %p, got %p", tester_expect._value_name, value, tester_expect._value);
@@ -72,45 +74,45 @@ void	_TesterExpect_ToBe(const void* value, size_t sizeof_value, TesterValueType 
 	}
 }
 
-void	_TesterExpect_ToNotBe(const void* value, size_t sizeof_value, TesterValueType type)
+void	_ftt_expect_not_to_be(const void* value, size_t sizeof_value, ftt_value_type type)
 {
-	if (tester_expect._status != TesterStatus_Success)
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
 		return ;
 
 	if (ft_memcmp(tester_expect._value, value, sizeof_value) == 0)
 	{
-		tester_expect._status = TesterStatus_Failure;
+		tester_expect._status = FTT_STATUS_FAILURE;
 		switch (type)
 		{
-			case Tester_ValueType_Int:
+			case FTT_VALUE_TYPE_INT:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 				"expected %s to not be %d, got %d", tester_expect._value_name, *(int*)value, *(int*) tester_expect._value);
 				break ;
-			case Tester_ValueType_UInt:
+			case FTT_VALUE_TYPE_UINT:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to not be %u, got %u", tester_expect._value_name, *(unsigned int*)value, *(unsigned int*) tester_expect._value);
 				break ;
-			case Tester_ValueType_Long:
+			case FTT_VALUE_TYPE_LONG:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to not be %ld, got %ld", tester_expect._value_name, *(long*)value, *(long*) tester_expect._value);
 				break ;
-			case Tester_ValueType_ULong:
+			case FTT_VALUE_TYPE_ULONG:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to not be %lu, got %lu", tester_expect._value_name, *(unsigned long*)value, *(unsigned long*) tester_expect._value);
 				break ;
-			case Tester_ValueType_Float:
+			case FTT_VALUE_TYPE_FLOAT:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to not be %f, got %f", tester_expect._value_name, *(float*)value, *(float*) tester_expect._value);
 				break ;
-			case Tester_ValueType_Double:
+			case FTT_VALUE_TYPE_DOUBLE:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to not be %lf, got %lf", tester_expect._value_name, *(double*)value, *(double*) tester_expect._value);
 				break ;
-			case Tester_ValueType_String:
+			case FTT_VALUE_TYPE_STRING:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to not be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, (char*) tester_expect._value);
 				break ;
-			case Tester_ValueType_Pointer:
+			case FTT_VALUE_TYPE_POINTER:
 			default:
 				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
 					"expected %s to not be %p, got %p", tester_expect._value_name, value, tester_expect._value);
@@ -119,7 +121,7 @@ void	_TesterExpect_ToNotBe(const void* value, size_t sizeof_value, TesterValueTy
 	}
 }
 
-const TesterExpect*	_Tester_Expect(
+const ftt_expect_t*	_ftt_expect(
 	const char *value_name,
 	const char* file,
 	int line,
@@ -127,8 +129,8 @@ const TesterExpect*	_Tester_Expect(
 	size_t sizeof_value
 )
 {
-	if (tester_expect._status != TesterStatus_Success)
-		return (const TesterExpect*)&tester_expect;
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
+		return (const ftt_expect_t*)&tester_expect;
 
 	tester_expect._value = value;
 	tester_expect._value_name = value_name;
@@ -136,25 +138,25 @@ const TesterExpect*	_Tester_Expect(
 	tester_expect._line = line;
 	tester_expect._sizeof_value = sizeof_value;
 	tester_expect._error[0] = '\0';
-	return (const TesterExpect*)&tester_expect;
+	return (const ftt_expect_t*)&tester_expect;
 }
 
-static void	Tester_PrintStatus(const char*name)
+static void	ftt_print_status(const char*name)
 {
 	switch (tester_expect._status)
 	{
-		case TesterStatus_Success:
+		case FTT_STATUS_SUCCESS:
 			ft_printf(COLOR_GREEN "  ✓ %s: PASS\n" COLOR_DEFAULT, name);
 			break;
-		case TesterStatus_Failure:
+		case FTT_STATUS_FAILURE:
 			ft_printf(COLOR_RED "  x %s: FAIL\n" COLOR_DEFAULT, name);
 			ft_printf(COLOR_RED "    - %s:%d: %s\n" COLOR_DEFAULT,
 				tester_expect._file, tester_expect._line, tester_expect._error);
 			break;
-		case TesterStatus_Error:
+		case FTT_STATUS_ERROR:
 			ft_printf(COLOR_DARK_RED "  x %s: ERROR\n" COLOR_DEFAULT, name);
 			break;
-		case TesterStatus_ToDo:
+		case FTT_STATUS_TODO:
 			ft_printf(COLOR_YELLOW "  - %s: TODO\n" COLOR_DEFAULT, name);
 			break;
 		default:
@@ -163,14 +165,14 @@ static void	Tester_PrintStatus(const char*name)
 	}
 }
 
-void	Tester_SetStatus(TesterStatus status)
+void	ftt_set_status(ftt_status_t status)
 {
 	tester_expect._file = "";
 	tester_expect._line = 0;
 	tester_expect._status = status;
 }
 
-void	_Tester_Log(const char *func, const char* format, ...)
+void	_ftt_log(const char *func, const char* format, ...)
 {
 	va_list args;
 	const char buffer[1024];
@@ -181,42 +183,65 @@ void	_Tester_Log(const char *func, const char* format, ...)
 	va_end(args);
 }
 
-static void	RunTest(const TestIt* it, const TestDesc* desc)
+static void	ftt_run_test(const ftt_it_t* it, const ftt_desc* desc)
 {
-	Tester_SetStatus(TesterStatus_Success);
+	ftt_set_status(FTT_STATUS_SUCCESS);
+
 	if (desc->before_each)
 		desc->before_each(NULL);
 	if (it->callback)
 	{
 		it->callback(it->param);
-		Tester_PrintStatus(it->name);
+		ftt_print_status(it->name);
 	}
 	if (desc->after_each)
 		desc->after_each(NULL);
+
+	if (tester_expect._status == FTT_STATUS_SUCCESS || tester_expect._status == FTT_STATUS_TODO)
+		tester_expect.ctx_tests_passed++;
 }
 
-static void	Tester_SetProperties(void)
+static void	ftt_set_properties(void)
 {
-	tester_expect._properties.ToBe = _TesterExpect_ToBe;
-	tester_expect._properties.ToNotBe = _TesterExpect_ToNotBe;
+	tester_expect._properties.to_be = _ftt_expect_to_be;
+	tester_expect._properties.to_not_be = _ftt_expect_not_to_be;
 }
 
-void	Tester_Describe(const char* name, const TestDesc* desc)
+void	ftt_describe(const char* name, const ftt_desc* desc)
 {
 	assert(desc != NULL);
+	size_t total_tests = 0;
+	size_t total_tests_passed = 0;
 
-	Tester_SetProperties();
+	ftt_set_properties();
 
+	if (name && *name)
+		ft_printf(COLOR_MAGENTA "=== %s ===\n" COLOR_DEFAULT, name);
 	for (size_t i = 0; i < desc->count; i++)
 	{
-		TesterContext* ctx = &desc->contexts[i];
-
-		ft_printf(COLOR_MAGENTA "=== %s ===\n" COLOR_DEFAULT, name);
+		ftt_context* ctx = &desc->contexts[i];
+		
+		tester_expect.ctx_tests_passed = 0;
 		if (desc->before)
 			desc->before(NULL);
+		if (ctx->name && *ctx->name)
+			ft_printf(COLOR_YELLOW "--- %s ---\n" COLOR_DEFAULT, ctx->name);
 		for (size_t j = 0; j < ctx->count; j++)
-			RunTest(&ctx->it[j], desc);
+			ftt_run_test(&ctx->it[j], desc);
 		if (desc->after)
 			desc->after(NULL);
+		if (tester_expect.ctx_tests_passed == ctx->count)
+			ft_printf(COLOR_YELLOW);
+		else
+			ft_printf(COLOR_RED);
+		
+		total_tests += ctx->count;
+		total_tests_passed += tester_expect.ctx_tests_passed;
+
+		ft_printf("RESULT: %d/%d PASSED\n" COLOR_DEFAULT, (int)tester_expect.ctx_tests_passed, (int)ctx->count);
+		if (i + 1 < desc->count)
+			ft_printf("\n");
 	}
+	ft_printf(COLOR_MAGENTA "=== %s RESULT: %d/%d PASSED ===\n" COLOR_DEFAULT,
+		name && *name ? name : "TEST", (int)total_tests_passed, (int)total_tests);
 }
