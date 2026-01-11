@@ -52,6 +52,13 @@ typedef struct ftt_expect_s
 {
 	void (*to_be)(const void* value, size_t sizeof_value, ftt_value_type type);
 	void (*to_not_be)(const void* value, size_t sizeof_value, ftt_value_type type);
+	void (*to_be_true)(void);
+	void (*to_be_false)(void);
+	void (*to_be_greater_than)(const void* value, size_t sizeof_value, ftt_value_type type);
+	void (*to_be_less_than)(const void* value, size_t sizeof_value, ftt_value_type type);
+	void (*to_be_between)(const void* min, const void* max, size_t sizeof_value, ftt_value_type type); // inclusive
+	void (*to_be_null)(void);
+	void (*to_not_be_null)(void);
 }ftt_expect_t;
 
 void ftt_describe(const char* name, const ftt_desc* desc);
@@ -68,7 +75,7 @@ const ftt_expect_t*	_ftt_expect(
 void _ftt_expect_to_be(const void* value, size_t sizeof_value, ftt_value_type type);
 
 // _ftt_expect((&(__value)), sizeof((__value)))
-#define ftt_expect(__v)	({ _ftt_expect(#__v, __FILE__, __LINE__, &(__typeof__((__v))){(__v)}, sizeof((__v))); })
+#define ftt_expect(__v)	_ftt_expect(#__v, __FILE__, __LINE__, &(__typeof__((__v))){(__v)}, sizeof((__v)))
 #define FTT_VALUE_TYPE(__v) _Generic((__v), \
 	int: FTT_VALUE_TYPE_INT, \
 	unsigned int: FTT_VALUE_TYPE_UINT, \
@@ -87,4 +94,7 @@ void _ftt_expect_to_be(const void* value, size_t sizeof_value, ftt_value_type ty
 #if defined LIBFT_TESTER_MACROS
 	#define to_be(__v) to_be(&(__typeof__((__v))){(__v)}, sizeof((__v)), FTT_VALUE_TYPE((__v)))
 	#define to_not_be(__v) to_not_be(&(__typeof__((__v))){(__v)}, sizeof((__v)), FTT_VALUE_TYPE((__v)))
+	#define to_be_greater_than(__v) to_be_greater_than(&(__typeof__((__v))){(__v)}, sizeof((__v)), FTT_VALUE_TYPE((__v)))
+	#define to_be_less_than(__v) to_be_less_than(&(__typeof__((__v))){(__v)}, sizeof((__v)), FTT_VALUE_TYPE((__v)))
+	#define to_be_between(__min, __max) to_be_between(&(__typeof__((__min))){(__min)}, &(__typeof__((__max))){(__max)}, sizeof((__min)), FTT_VALUE_TYPE((__min)))
 #endif // LIBFT_TESTER_MACROS

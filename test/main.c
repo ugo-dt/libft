@@ -3,9 +3,81 @@
 #include <libft/tester.h>
 #include <libft/iterator.h>
 
+// >>basic_string
+
+static void test_basic_string_create(void* param)
+{
+	ft_string s = ftstr_create();
+	
+	ftt_expect(s._capacity)->to_be(LIBFT_STRING_DEFAULT_CAPACITY);
+	ftstr_destroy(&s);
+
+	s = ftstr_create_from_str("Hello, world!");
+	ftt_expect(ftstr_size(&s))->to_be(13);
+	ftt_expect(ftstr_capacity(&s))->to_be(14);
+	ftt_expect(ftstr_equals_str(&s, "Hello, world!"))->to_be_true();
+
+	ft_string s2 = ftstr_create_from_ft_string(&s);
+	ftt_expect(ftstr_size(&s2))->to_be(13);
+	ftt_expect(ftstr_capacity(&s2))->to_be(14);
+	ftt_expect(ftstr_equals(&s, &s2))->to_be_true();
+	ftt_expect(ftstr_equals_str(&s2, "Hello, world!"))->to_be_true();
+	ftstr_destroy(&s2);
+	ftstr_destroy(&s);
+
+	s = ftstr_create_from_char('A', 5);
+	ftt_expect(ftstr_size(&s))->to_be(5);
+	ftt_expect(ftstr_capacity(&s))->to_be(6);
+	ftt_expect(ftstr_equals_str(&s, "AAAAA"))->to_be_true();
+	ftstr_destroy(&s);
+}
+
+static void test_basic_string_append(void* param)
+{
+	ft_string s = ftstr_create_from_str("Hello");
+	ftstr_append_str(&s, ", ");
+	ftstr_append_char(&s, 'W', 1);
+	ftstr_append_str(&s, "orld");
+	ftstr_append_char(&s, '!', 1);
+
+	ftt_expect(ftstr_size(&s))->to_be(13);
+	ftt_expect(ftstr_equals_str(&s, "Hello, World!"))->to_be_true();
+	ftstr_destroy(&s);
+
+	ft_string s2 = ftstr_create_from_char('X', 3);
+	ftt_expect(ftstr_size(&s2))->to_be(3);
+	ftt_expect(ftstr_equals_str(&s2, "XXX"))->to_be_true();
+	ftt_expect(ftstr_capacity(&s2))->to_be(4);
+	ftstr_append_ft_string(&s2, &s2);
+	ftstr_append_char(&s2, 'Y', 2);
+	ftstr_append_str(&s2, "Z");
+	ftt_expect(ftstr_size(&s2))->to_be(ft_strlen("XXXXXXYYZ")); // 9
+	ftt_expect(ftstr_equals_str(&s2, "XXXXXXYYZ"))->to_be_true();
+	ftt_log("capacity after appends: %u", ftstr_capacity(&s2));
+	ftt_expect(ftstr_capacity(&s2))->to_be_greater_than(10);
+	ftstr_destroy(&s2);
+}
+
+static const ftt_context basic_string_ctx = {
+	.name = "basic_string",
+	.count = 2,
+	.it = (ftt_it_t[]){
+		{
+			.name = "create",
+			.callback = test_basic_string_create,
+			.param = NULL,
+		},
+		{
+			.name = "append",
+			.callback = test_basic_string_append,
+			.param = NULL,
+		}
+	}
+};
+
 // >>vector
 
-void	test_vector_create(void* param)
+static void test_vector_create(void* param)
 {
 	ft_vector v = ftv_create(&(ftv_desc){
 		.alloc = (ft_allocator){
@@ -16,14 +88,14 @@ void	test_vector_create(void* param)
 	ftt_expect(v.alloc.sizeof_type)->to_be(sizeof(int));
 	ftt_expect(ftv_size(&v))->to_be(0);
 	ftt_expect(ftv_capacity(&v))->to_be(0);
-	ftt_expect(ftv_empty(&v))->to_be(true);
+	ftt_expect(ftv_empty(&v))->to_be_true();
 	ftv_destroy(&v);
 	ftt_expect(v.begin)->to_be(NULL);
 	ftt_expect(v.end)->to_be(NULL);
 	ftt_expect(v.end_cap)->to_be(NULL);
 }
 
-void	test_vector_reserve(void* param)
+static void test_vector_reserve(void* param)
 {
 	ft_vector v = ftv_create(&(ftv_desc){
 		.alloc = (ft_allocator){
@@ -33,15 +105,15 @@ void	test_vector_reserve(void* param)
 
 	ftt_expect(ftv_size(&v))->to_be(0);
 	ftt_expect(ftv_capacity(&v))->to_be(0);
-	ftt_expect(ftv_empty(&v))->to_be(true);
+	ftt_expect(ftv_empty(&v))->to_be_true();
 	ftv_reserve(&v, 200);
 	ftt_expect(ftv_size(&v))->to_be(0);
 	ftt_expect(ftv_capacity(&v))->to_be(200);
-	ftt_expect(ftv_empty(&v))->to_be(true);
+	ftt_expect(ftv_empty(&v))->to_be_true();
 	ftv_destroy(&v);
 }
 
-void	test_vector_push_back(void* param)
+static void test_vector_push_back(void* param)
 {
 	ft_vector v = ftv_create(&(ftv_desc){
 		.alloc = (ft_allocator){
@@ -51,7 +123,7 @@ void	test_vector_push_back(void* param)
 
 	ftt_expect(ftv_size(&v))->to_be(0);
 	ftt_expect(ftv_capacity(&v))->to_be(0);
-	ftt_expect(ftv_empty(&v))->to_be(true);
+	ftt_expect(ftv_empty(&v))->to_be_true();
 
 	ftv_push_back(&v, &(int){42});
 	ftt_expect(ftv_size(&v))->to_be(1);
@@ -67,7 +139,7 @@ void	test_vector_push_back(void* param)
 	ftv_clear(&v);
 	ftt_expect(ftv_size(&v))->to_be(0);
 	ftt_expect(ftv_capacity(&v))->to_be(2);
-	ftt_expect(ftv_empty(&v))->to_be(true);
+	ftt_expect(ftv_empty(&v))->to_be_true();
 
 	for (int i = 0; i < 100; i++)
 		ftv_push_back(&v, &i);
@@ -90,7 +162,7 @@ void	test_vector_push_back(void* param)
 
 	ftv_clear(&v);
 	ftt_expect(ftv_size(&v))->to_be(0);
-	ftt_expect(ftv_empty(&v))->to_be(true);
+	ftt_expect(ftv_empty(&v))->to_be_true();
 	ftv_destroy(&v);
 }
 
@@ -110,17 +182,17 @@ static void	test_iterator(void* param)
 	ft_iterator it = ftv_begin(&v);
 	for (int i = 0; i < 10; i++, FT_ITER_INC(it))
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(i);
-	ftt_expect(FT_ITER_EQ(it, ftv_end(&v)))->to_be(true);
+	ftt_expect(FT_ITER_EQ(it, ftv_end(&v)))->to_be_true();
 
 	it = ftv_rbegin(&v);
 	for (int i = 9; i >= 0; i--, FT_ITER_INC(it))
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(i);
-	ftt_expect(FT_ITER_EQ(it, ftv_rend(&v)))->to_be(true);
+	ftt_expect(FT_ITER_EQ(it, ftv_rend(&v)))->to_be_true();
 
 	int i = 9;
 	for (ft_iterator it = ftv_rbegin(&v); FT_ITER_NEQ(it, ftv_rend(&v)); FT_ITER_INC(it), i--)
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(i);
-	ftt_expect(FT_ITER_EQ(it, ftv_rend(&v)))->to_be(true);
+	ftt_expect(FT_ITER_EQ(it, ftv_rend(&v)))->to_be_true();
 
 	ftv_destroy(&v);
 }
@@ -141,7 +213,7 @@ static void test_vector_insert(void* param)
 	ft_iterator it = ftv_begin(&v);
 	for (int i = 0; i < 10; i++, FT_ITER_INC(it))
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(i);
-	ftt_expect(FT_ITER_EQ(it, ftv_end(&v)))->to_be(true);
+	ftt_expect(FT_ITER_EQ(it, ftv_end(&v)))->to_be_true();
 
 	ftv_insert_element(&v, FT_ITER_ADD_NEW(ftv_begin(&v), 5), &(int){100});
 	ftt_expect(ftv_size(&v))->to_be(11);
@@ -576,6 +648,7 @@ static const ftt_context write_ctx = {
 static const char* usage = "\
 Available tests:\n\
   - all\n\
+  - basic_string\n\
   - vector\n\
   - write\n\
 ";
@@ -608,9 +681,14 @@ int	main(int argc, char **argv)
 			if (ft_strcmp(state.arguments[i], "all") == 0)
 			{
 				ctx_count = 0;
+				contexts[ctx_count++] = basic_string_ctx;
 				contexts[ctx_count++] = vector_ctx;
 				contexts[ctx_count++] = write_ctx;
 				break ;
+			}
+			else if (ft_strcmp(state.arguments[i], "basic_string") == 0)
+			{
+				contexts[ctx_count++] = basic_string_ctx;
 			}
 			else if (ft_strcmp(state.arguments[i], "vector") == 0)
 			{

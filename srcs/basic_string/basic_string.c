@@ -1,147 +1,124 @@
 #include "libft/libft.h"
 
-typedef struct ft_string
+static size_t _ftstr_recommend(size_t capacity, size_t new_size)
 {
-	char*	_data;
-	size_t	_capacity;
-}ft_string;
-
-static size_t	_ft_string_recommend(size_t capacity, size_t new_size)
-{
-	assert(new_size < SIZE_MAX);
+	LIBFT_ASSERT(new_size < SIZE_MAX);
     if (capacity >= SIZE_MAX / 2)
         return SIZE_MAX;
     return max(2 * capacity, new_size);
 }
 
-ft_string*	_ft_string_alloc_impl(void)
+ft_string ftstr_create(void)
 {
-	ft_string*	s = malloc(sizeof(struct ft_string));
-	return s;
-}
+	ft_string string;
 
-ft_string*	ft_string_create(void)
-{
-	ft_string*	string;
-	
-	string = _ft_string_alloc_impl();
-	assert(string);
-	string->_capacity = LIBFT_STRING_DEFAULT_CAPACITY;
-	string->_data = malloc(string->_capacity * sizeof(*string->_data));
-	assert(string->_data);
-	string->_data[0] = '\0';
+	string._capacity = LIBFT_STRING_DEFAULT_CAPACITY;
+	string._data = ft_calloc(string._capacity, sizeof(*string._data));
+	LIBFT_ASSERT(string._data);
+	string._data[0] = '\0';
 	return string;
 }
 
-ft_string*	ft_string_create_from_str(const char *_x)
+ft_string ftstr_create_from_str(const char *x)
 {
-	ft_string*	string;
-	
-	string = _ft_string_alloc_impl();
-	assert(string);
-	string->_capacity = 0;
-	string->_data = NULL;
-	ft_string_assign(string, _x);
+	ft_string string;
+
+	string._capacity = 0;
+	string._data = NULL;
+	ftstr_assign(&string, x);
 	return string;
 }
 
-ft_string*	ft_string_create_from_str_count(const char *_x, size_t count)
+ft_string ftstr_create_from_str_count(const char *_x, size_t count)
 {
-	ft_string* string;
+	ft_string string;
 	
-	string = _ft_string_alloc_impl();
-	string->_capacity = 0;
-	string->_data = NULL;
-	ft_string_assign_count(string, _x, count);
+	string._capacity = 0;
+	string._data = NULL;
+	ftstr_assign_count(&string, _x, count);
 	return string;
 }
 
-ft_string*	ft_string_create_from_char(const char _x, size_t count)
+ft_string ftstr_create_from_char(const char _x, size_t count)
 {
-	ft_string* string;
+	ft_string string;
 	
-	string = _ft_string_alloc_impl();
-	string->_capacity = 0;
-	string->_data = NULL;
-	ft_string_assign_char(string, _x, count);
+	string._capacity = 0;
+	string._data = NULL;
+	ftstr_assign_char(&string, _x, count);
 	return string;
 }
 
-ft_string*	ft_string_create_from_ft_string(const ft_string* x)
+ft_string ftstr_create_from_ft_string(const ft_string* x)
 {
-	ft_string*	string;
-	ft_string*	_x;
+	ft_string string;
 	
-	string = _ft_string_alloc_impl();
-	string->_capacity = 0;
-	string->_data = NULL;
-	_x = (ft_string*)x;
-	if (_x->_data)
-		ft_string_assign(string, _x->_data);
+	string._capacity = 0;
+	string._data = NULL;
+	if (x->_data)
+		ftstr_assign(&string, x->_data);
 	return string;
 }
 
-void	ft_string_destroy(ft_string* s)
+void ftstr_destroy(ft_string* s)
 {
-	if (!s)
-		return ;
+	LIBFT_ASSERT(s);
 	if (s->_data)
 	{
 		free(s->_data);
 		s->_capacity = 0;
 	}
-	free(s);
 }
 
-bool	ft_string_equals(const ft_string* a, const ft_string* b)
+bool ftstr_equals(const ft_string* a, const ft_string* b)
 {
 	return ft_strcmp(a->_data, b->_data) == 0;
 }
 
-bool	ft_string_equals_str(const ft_string* s, const char *_x)
+bool ftstr_equals_str(const ft_string* s, const char *_x)
 {
 	return ft_strcmp(s->_data, _x) == 0;
 }
 
-const char*	ft_string_data(const ft_string* s)
+const char*	ftstr_data(const ft_string* s)
 {
 	return s->_data;
 }
 
-size_t	ft_string_size(const ft_string* s)
+size_t ftstr_size(const ft_string* s)
 {
 	if (!s->_data)
 		return 0;
 	return ft_strlen(s->_data);
 }
 
-size_t	ft_string_length(const ft_string* s)
+size_t ftstr_length(const ft_string* s)
 {
 	return ft_strlen(s->_data);
 }
 
-char	ft_string_at(const ft_string* s, size_t pos)
+char ftstr_at(const ft_string* s, size_t pos)
 {
-	assert(pos < s->_capacity);
+	LIBFT_ASSERT(pos < s->_capacity);
 	return s->_data[pos];
 }
 
-bool	ft_string_empty(const ft_string* s)
+bool ftstr_empty(const ft_string* s)
 {
 	return s->_capacity == 0 || s->_data[0] == '\0';
 }
 
-size_t	ft_string_max_size(void)
+size_t ftstr_max_size(void)
 {
 	return (SIZE_MAX);
 }
 
-void	ft_string_reserve(ft_string *s, size_t new_cap)
+void ftstr_reserve(ft_string *s, size_t new_cap)
 {
 	if (s->_capacity < new_cap)
 	{
 		char *new_data = ft_calloc(new_cap, sizeof(char));
-		assert(new_data);
+		LIBFT_ASSERT(new_data);
 		s->_capacity = new_cap;
 
 		ft_strcpy(new_data, s->_data);
@@ -152,19 +129,19 @@ void	ft_string_reserve(ft_string *s, size_t new_cap)
 	}
 }
 
-size_t	ft_string_capacity(const ft_string* s)
+size_t ftstr_capacity(const ft_string* s)
 {
 	return s->_capacity;
 }
 
-void	ft_string_shrink_to_fit(ft_string *s)
+void ftstr_shrink_to_fit(ft_string *s)
 {
-	size_t	len = ft_strlen(s->_data) + 1;
+	size_t len = ft_strlen(s->_data) + 1;
 
 	if (s->_capacity > len)
 	{
 		char *new_data = malloc(sizeof(char) * len);
-		assert(new_data);
+		LIBFT_ASSERT(new_data);
 		ft_memcpy(new_data, s->_data, len);
 		if (s->_data)
 			free(s->_data);
@@ -173,7 +150,7 @@ void	ft_string_shrink_to_fit(ft_string *s)
 	}
 }
 
-void	_ft_string_print_debug(const ft_string* s, const char *_info, const char *param, size_t param_size)
+void _ftstr_print_debug(const ft_string* s, const char *_info, const char *param, size_t param_size)
 {
 	int	_cap;
 
@@ -230,7 +207,7 @@ void	_ft_string_print_debug(const ft_string* s, const char *_info, const char *p
 	ft_printf("--- END ---\n");
 }
 
-void	ft_string_append_str(ft_string *s, const char *_x)
+void ftstr_append_str(ft_string *s, const char *_x)
 {
 	size_t _size, _newsize;
 	size_t len = ft_strlen(_x);
@@ -239,9 +216,9 @@ void	ft_string_append_str(ft_string *s, const char *_x)
 	_newsize = _size + len + 1;
 	if (s->_capacity < _newsize)
 	{
-		size_t _newcap = _ft_string_recommend(s->_capacity, _newsize);
+		size_t _newcap = _ftstr_recommend(s->_capacity, _newsize);
 		char *new_data = ft_calloc(_newcap, sizeof(char));
-		assert(new_data);
+		LIBFT_ASSERT(new_data);
 		s->_capacity = _newcap;
 
 		if (s->_data)
@@ -256,10 +233,10 @@ void	ft_string_append_str(ft_string *s, const char *_x)
 	{
 		ft_strcat(s->_data, _x);
 	}
-	// _ft_string_print_debug(s, "append_string()", _x, ft_strlen(_x));
+	// _ftstr_print_debug(s, "append_string()", _x, ft_strlen(_x));
 }
 
-void	ft_string_append_char(ft_string* s, const char _x, size_t n)
+void ftstr_append_char(ft_string* s, const char _x, size_t n)
 {
 	size_t _size, _newsize;
 
@@ -267,9 +244,9 @@ void	ft_string_append_char(ft_string* s, const char _x, size_t n)
 	_newsize = _size + n + 1;
 	if (s->_capacity < _newsize)
 	{
-		size_t _newcap = _ft_string_recommend(s->_capacity, _newsize);
+		size_t _newcap = _ftstr_recommend(s->_capacity, _newsize);
 		char *new_data = ft_calloc(_newcap, sizeof(char));
-		assert(new_data);
+		LIBFT_ASSERT(new_data);
 		s->_capacity = _newcap;
 
 		if (s->_data)
@@ -284,16 +261,26 @@ void	ft_string_append_char(ft_string* s, const char _x, size_t n)
 	{
 		ft_memset(s->_data + _size, _x, n);
 	}
-	// _ft_string_print_debug(s, "append_char()", &_x, 1);
+	// _ftstr_print_debug(s, "append_char()", &_x, 1);
 }
 
-void	ft_string_append_ft_string(ft_string* s, const ft_string* x)
+void ftstr_append_ft_string(ft_string* s, const ft_string* x)
 {
-	if (x->_capacity && x->_data)
-		ft_string_append_str(s, x->_data);
+	assert(x && x->_data);
+
+	if (s->_data == x->_data)
+	{
+		// Appending to itself, make a copy first
+		ft_string temp = ftstr_create_from_ft_string(x);
+		ftstr_append_ft_string(s, &temp);
+		ftstr_destroy(&temp);
+		return ;
+	}
+	else if (x->_capacity && x->_data)
+		ftstr_append_str(s, x->_data);
 }
 
-void	ft_string_assign(ft_string* s, const char *_x)
+void ftstr_assign(ft_string* s, const char *_x)
 {
 	size_t _xsize;
 
@@ -301,8 +288,8 @@ void	ft_string_assign(ft_string* s, const char *_x)
 	if (s->_capacity < _xsize)
 	{
 		char *new_data = ft_strdup(_x);
-		assert(new_data);
-		assert(new_data);
+		LIBFT_ASSERT(new_data);
+		LIBFT_ASSERT(new_data);
 		s->_capacity = _xsize;
 
 		if (s->_data)
@@ -316,7 +303,7 @@ void	ft_string_assign(ft_string* s, const char *_x)
 	}
 }
 
-void	ft_string_assign_count(ft_string* s, const char *_x, size_t count)
+void ftstr_assign_count(ft_string* s, const char *_x, size_t count)
 {
 	size_t _xsize;
 
@@ -324,7 +311,7 @@ void	ft_string_assign_count(ft_string* s, const char *_x, size_t count)
 	if (s->_capacity < _xsize)
 	{
 		char *new_data = ft_strndup(_x, count);
-		assert(new_data);
+		LIBFT_ASSERT(new_data);
 		s->_capacity = _xsize;
 
 		if (s->_data)
@@ -338,15 +325,15 @@ void	ft_string_assign_count(ft_string* s, const char *_x, size_t count)
 	}
 }
 
-void	ft_string_assign_char(ft_string* s, const char _x, size_t count)
+void ftstr_assign_char(ft_string* s, const char _x, size_t count)
 {
-	size_t	_newcap;
+	size_t _newcap;
 
 	_newcap = count + 1;
 	if (s->_capacity < count)
 	{
 		char *new_data = ft_calloc(_newcap, sizeof(char));
-		assert(new_data);
+		LIBFT_ASSERT(new_data);
 		s->_capacity = _newcap;
 
 		ft_memset(new_data, _x, count);
@@ -363,7 +350,7 @@ void	ft_string_assign_char(ft_string* s, const char _x, size_t count)
 	}
 }
 
-void	ft_string_clear(ft_string *s)
+void ftstr_clear(ft_string *s)
 {
 	if (s->_data)
 		ft_bzero(s->_data, s->_capacity);

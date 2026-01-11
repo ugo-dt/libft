@@ -22,7 +22,7 @@ int _ft_vdprintf_internal(int fd, const char *format, va_list ap)
 			FIND_WIDTH(f, specs, ap);
 			FIND_PRECISION(f, specs, ap);
 
-			char	*s = NULL;
+			char* s = NULL;
 			DO_POSITIONAL(f, s, specs, ap);
 			write(fd, s, specs.info.width);
 			free(s);

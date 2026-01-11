@@ -28,14 +28,13 @@ int	_ft_vsnprintf_internal(char* string, size_t maxlen, const char *format, va_l
 			FIND_WIDTH(f, specs, ap);
 			FIND_PRECISION(f, specs, ap);
 
-			char	*s = NULL;
+			char* s = NULL;
 			DO_POSITIONAL(f, s, specs, ap);
 
 			len = min(maxlen - 1 - curlen, (size_t)specs.info.width);
 			ft_strncat(string, s, len);
 			free(s);
 			curlen += len;
-
 			f++;
 		}
 	}

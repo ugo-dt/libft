@@ -1,75 +1,76 @@
-/** ************************************************************************** */
-/**                                                                            */
-/**                                                        :::      ::::::::   */
-/**   libft.h                                            :+:      :+:    :+:   */
-/**                                                    +:+ +:+         +:+     */
-/**   By: ugdaniel <ugdaniel@student.42.fr>          +#+  +:+       +#+        */
-/**                                                +#+#+#+#+#+   +#+           */
-/**   Created: 2022/03/26 12:51:19 by ugdaniel          #+#    #+#             */
-/**   Updated: 2024/07/27 11:20:09 by ugdaniel         ###   ########.fr       */
-/**                                                                            */
-/** ************************************************************************** */
-
 #ifndef LIBFT_H
-# define LIBFT_H
+#define LIBFT_H
 
-# include <assert.h>
-# include <fcntl.h>
-# include <stdarg.h>
-# include <stdbool.h>
-# include <stddef.h>
-# include <stdint.h>
-# include <stdlib.h>
-# include <time.h>
-# include <unistd.h>
+#include <assert.h>
+#include <fcntl.h>
+#include <stdarg.h>
+#include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
-# ifndef INT32_MAX
-#  define INT32_MAX INT_MAX
-#  define INT32_MIN INT_MIN
-# endif // INT32_MAX
-
-# if defined(LIBFT_NO_FUNCTION_POINTERS)
-#  define LIBFT_STRING_NO_FUNCTION_POINTERS
-#  define LIBftv_NO_FUNCTION_POINTERS
-# endif // defined(LIBFT_NO_FUNCTION_POINTERS)
-
-# ifdef __cplusplus
+#ifdef __cplusplus
 extern "C" {
 #define LIBFT_RESTRICT
 #else
-#define LIBFT_RESTRICT	restrict
 
-# if defined(__GNUC__) && !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
-#  ifndef max
-#   define max(a, b) ({\
-	__typeof__(a) _a = (a); \
-	__typeof__(b) _b = (b); \
-	_a > _b ? _a : _b; })
-#  endif // max
-#  ifndef min
-#   define min(a, b) ({\
-	__typeof__(a) _a = (a); \
-	__typeof__(b) _b = (b); \
-	_a < _b ? _a : _b; })
-#  endif // min
-#  ifndef clamp
-#   define clamp(x, mn, mx) ({\
-	__typeof__(x) _x = (x); \
-	__typeof__(mn) _mn = (mn); \
-	__typeof__(mx) _mx = (mx); \
-	max(_mn, min(_mx, _x)); })
-#  endif // clamp
-# else // !defined(__GNUC__) || defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
-#  define LIBFT_DECL_MIN_MAX_TYPE(T, ...) \
+#ifndef LIBFT_ASSERT
+	#define LIBFT_ASSERT(...)	assert(__VA_ARGS__)
+#endif
+
+#define LIBFT_RESTRICT	restrict
+#define LIBFT_UNUSED __attribute__((unused))
+#define LIBFT_NODISCARD __attribute__((warn_unused_result))
+#define LIBFT_NOTUSED(x) ((void)(x))
+#define LIBFT_FORCE_INLINE static inline __attribute__((always_inline))
+
+#ifndef INT32_MAX
+	#define INT32_MAX INT_MAX
+	#define INT32_MIN INT_MIN
+#endif // INT32_MAX
+
+#if defined(LIBFT_NO_FUNCTION_POINTERS)
+	#define LIBFT_STRING_NO_FUNCTION_POINTERS
+	#define LIBftv_NO_FUNCTION_POINTERS
+#endif // defined(LIBFT_NO_FUNCTION_POINTERS)
+
+#ifndef LIBFT_BUFFERSIZE
+	#define LIBFT_BUFFERSIZE	42
+#endif
+
+#if defined(__GNUC__) && !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
+	#ifndef max
+		#define max(a, b) ({\
+			__typeof__(a) _a = (a); \
+			__typeof__(b) _b = (b); \
+			_a > _b ? _a : _b; })
+	#endif // max
+	#ifndef min
+		#define min(a, b) ({\
+			__typeof__(a) _a = (a); \
+			__typeof__(b) _b = (b); \
+			_a < _b ? _a : _b; })
+	#endif // min
+	#ifndef clamp
+		#define clamp(x, mn, mx) ({\
+			__typeof__(x) _x = (x); \
+			__typeof__(mn) _mn = (mn); \
+			__typeof__(mx) _mx = (mx); \
+			max(_mn, min(_mx, _x)); })
+	#endif // clamp
+#else // !defined(__GNUC__) || defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
+	#define LIBFT_DECL_MIN_MAX_TYPE(T, ...) \
 	static inline T _libft__min_##__VA_ARGS__(const T a, const T b) { return ((a) < (b)) ? (a) : (b); } \
 	static inline T _libft__max_##__VA_ARGS__(const T a, const T b) { return ((a) > (b)) ? (a) : (b); }
-LIBFT_DECL_MIN_MAX_TYPE(signed char, c) LIBFT_DECL_MIN_MAX_TYPE(unsigned char, uc)
-LIBFT_DECL_MIN_MAX_TYPE(signed short, s) LIBFT_DECL_MIN_MAX_TYPE(unsigned short, us)
-LIBFT_DECL_MIN_MAX_TYPE(signed int, i) LIBFT_DECL_MIN_MAX_TYPE(unsigned int, ui)
-LIBFT_DECL_MIN_MAX_TYPE(signed long, l) LIBFT_DECL_MIN_MAX_TYPE(unsigned long, ul)
-LIBFT_DECL_MIN_MAX_TYPE(signed long long, ll) LIBFT_DECL_MIN_MAX_TYPE(unsigned long long, ull)
-LIBFT_DECL_MIN_MAX_TYPE(float, f) LIBFT_DECL_MIN_MAX_TYPE(double, d) LIBFT_DECL_MIN_MAX_TYPE(long double, ld)
-#  define LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _f) _Generic((b),	\
+	LIBFT_DECL_MIN_MAX_TYPE(signed char, c) LIBFT_DECL_MIN_MAX_TYPE(unsigned char, uc)
+	LIBFT_DECL_MIN_MAX_TYPE(signed short, s) LIBFT_DECL_MIN_MAX_TYPE(unsigned short, us)
+	LIBFT_DECL_MIN_MAX_TYPE(signed int, i) LIBFT_DECL_MIN_MAX_TYPE(unsigned int, ui)
+	LIBFT_DECL_MIN_MAX_TYPE(signed long, l) LIBFT_DECL_MIN_MAX_TYPE(unsigned long, ul)
+	LIBFT_DECL_MIN_MAX_TYPE(signed long long, ll) LIBFT_DECL_MIN_MAX_TYPE(unsigned long long, ull)
+	LIBFT_DECL_MIN_MAX_TYPE(float, f) LIBFT_DECL_MIN_MAX_TYPE(double, d) LIBFT_DECL_MIN_MAX_TYPE(long double, ld)
+	#define LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _f) _Generic((b),	\
 	signed char: _f##c,			unsigned char: _f##uc,			\
 	signed short: _f##s,		unsigned short: _f##us,			\
 	signed int: _f##i,			unsigned int: _f##ui,			\
@@ -79,19 +80,17 @@ LIBFT_DECL_MIN_MAX_TYPE(float, f) LIBFT_DECL_MIN_MAX_TYPE(double, d) LIBFT_DECL_
 	double: _f##d,												\
 	long double: _f##ld											\
 )((a), (b))
-# ifndef min
-#  define min(a, b) LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _libft__min_)
-# endif // min
-# ifndef max
-#  define max(a, b) LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _libft__max_)
-# endif // max
-# endif // __GNUC__
 
-# endif // __cplusplus
+#ifndef min
+	#define min(a, b) LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _libft__min_)
+#endif // min
 
-# ifndef LIBFT_BUFFERSIZE
-#  define LIBFT_BUFFERSIZE	42
-# endif
+#ifndef max
+	#define max(a, b) LIBFT_MIN_MAX_TYPE_GENERIC(a, b, _libft__max_)
+#endif // max
+
+#endif // __GNUC__
+#endif // __cplusplus
 
 // >>array
 
@@ -335,7 +334,7 @@ void* ft_memcpy(void* LIBFT_RESTRICT dst, const void* LIBFT_RESTRICT src, size_t
  * unsigned char) to the string s. */
 void* ft_memset(void* s, int c, size_t n);
 
-// >>ft_printf
+// >>printf
 
 /** Maximum chars of output to write in MAXLEN.  */
 int	ft_snprintf(char* str, size_t maxlen, const char *LIBFT_RESTRICT format, ...)
@@ -589,43 +588,47 @@ int ft_get_next_line(int fd, char **line);
 
 // >>basic_string
 
-typedef struct ft_string ft_string;
+typedef struct ft_string
+{
+	char* _data;
+	size_t _capacity;
+}ft_string;
 
 #ifndef LIBFT_STRING_DEFAULT_CAPACITY
 #define LIBFT_STRING_DEFAULT_CAPACITY	15
 #endif // LIBFT_STRING_DEFAULT_CAPACITY
 
-ft_string* ft_string_create(void);
-ft_string* ft_string_create_from_str(const char *_x);
-ft_string* ft_string_create_from_str_count(const char *_x, size_t count);
-ft_string* ft_string_create_from_char(const char _x, size_t count);
-ft_string* ft_string_create_from_ft_string(const ft_string* s);
-void ft_string_destroy(ft_string* s);
-bool ft_string_equals(const ft_string* a, const ft_string* b);
-bool ft_string_equals_str(const ft_string* s, const char *_x);
-const char*	ft_string_data(const ft_string* s);
-size_t ft_string_size(const ft_string* s);
-size_t ft_string_length(const ft_string* s);
-char ft_string_at(const ft_string* s, size_t pos);
-bool ft_string_empty(const ft_string* s);
-size_t ft_string_max_size(void);
-void ft_string_reserve(ft_string* s, size_t new_cap);
-size_t ft_string_capacity(const ft_string* s);
-void ft_string_shrink_to_fit(ft_string* s);
-void ft_string_append_str(ft_string* s, const char *_x);
-void ft_string_append_char(ft_string* s, const char _x, size_t n);
-void ft_string_append_ft_string(ft_string* s, const ft_string* x);
-void ft_string_assign(ft_string* s, const char *_x);
-void ft_string_assign_count(ft_string* s, const char *_x, size_t count);
-void ft_string_assign_char(ft_string* s, const char _x, size_t count);
-void ft_string_clear(ft_string* s);
+ft_string ftstr_create(void);
+ft_string ftstr_create_from_str(const char *_x);
+ft_string ftstr_create_from_str_count(const char *_x, size_t count);
+ft_string ftstr_create_from_char(const char _x, size_t count);
+ft_string ftstr_create_from_ft_string(const ft_string* s);
+void ftstr_destroy(ft_string* s);
+bool ftstr_equals(const ft_string* a, const ft_string* b);
+bool ftstr_equals_str(const ft_string* s, const char *_x);
+const char*	ftstr_data(const ft_string* s);
+size_t ftstr_size(const ft_string* s);
+size_t ftstr_length(const ft_string* s);
+char ftstr_at(const ft_string* s, size_t pos);
+bool ftstr_empty(const ft_string* s);
+size_t ftstr_max_size(void);
+void ftstr_reserve(ft_string* s, size_t new_cap);
+size_t ftstr_capacity(const ft_string* s);
+void ftstr_shrink_to_fit(ft_string* s);
+void ftstr_append_str(ft_string* s, const char *_x);
+void ftstr_append_char(ft_string* s, const char _x, size_t n);
+void ftstr_append_ft_string(ft_string* s, const ft_string* x);
+void ftstr_assign(ft_string* s, const char *_x);
+void ftstr_assign_count(ft_string* s, const char *_x, size_t count);
+void ftstr_assign_char(ft_string* s, const char _x, size_t count);
+void ftstr_clear(ft_string* s);
 
-#define ft_string(...) _Generic((__VA_ARGS__),					\
-	char *: ft_string_create_from_str,							\
-	char: ft_string_create_from_char,							\
-	int: ft_string_create_from_char,							\
-	struct ft_string*: ft_string_create_from_ft_string,			\
-	const struct ft_string*: ft_string_create_from_ft_string	\
+#define ft_string(...) _Generic((__VA_ARGS__),           \
+	char *: ftstr_create_from_str,                       \
+	char: ftstr_create_from_char,                        \
+	int: ftstr_create_from_char,                         \
+	struct ft_string*: ftstr_create_from_ft_string,      \
+	const struct ft_string*: ftstr_create_from_ft_string \
 )(__VA_ARGS__)
 
 // >>ft_argparse
@@ -699,7 +702,7 @@ ftap_state ftap_parse(int argc, char** argv, const ftap_desc* state);
 void ftap_clear(ftap_state* state);
 bool ftap_valid(const ftap_state* state);
 
-// >>ft_fileparse
+// >>fileparse
 
 typedef struct
 {
@@ -810,10 +813,10 @@ ft_iterator ftv_erase_element(ft_vector* vector, const ft_iterator pos);
 ft_iterator ftv_erase(ft_vector* vector, ft_iterator first, ft_iterator last);
 ft_iterator ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* value);
 
-// Timer
+// >>timer
 
-# define FT_NS_PER_SECOND (1000000000)
-# define FT_NS_PER_MS (1000000)
+#define FT_NS_PER_SECOND (1000000000)
+#define FT_NS_PER_MS (1000000)
 
 typedef struct ft_timer
 {
@@ -826,13 +829,13 @@ uint64_t fttm_elapsed_ns(ft_timer* timer);
 uint64_t fttm_elapsed_ms(ft_timer* timer);
 uint64_t fttm_elapsed_seconds(ft_timer* timer);
 
-# ifdef __cplusplus
+#ifdef __cplusplus
 } // extern "C"
 
 // reference-based equivalents for C++
 ftfp_state ftfp_parse(const char *file, const ftfp_desc& desc) { return ftfp_parse(file, &desc); }
 ftap_state ftap_parse(int argc, char** argv, const ftap_desc& state) { return ftap_parse(argc, argv, &state); }
 inline ft_vector ftv_create(const ftv_desc& desc) { return ftv_create(&desc); }
-# endif
+#endif
 
 #endif // LIBFT_H

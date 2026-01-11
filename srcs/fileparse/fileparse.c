@@ -75,7 +75,7 @@ bool	ftfp_valid(const ftfp_state* state)
 	return state->_status == FTFP_STATUS_SUCCESS;
 }
 
-ftfp_state	ftft_parse(const char *file, const ftfp_desc* desc)
+ftfp_state	ftfp_parse(const char *file, const ftfp_desc* desc)
 {
 	assert(file != NULL);
 	assert(desc != NULL);

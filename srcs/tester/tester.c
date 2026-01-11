@@ -12,7 +12,7 @@
 
 typedef struct _ftt_expect_t
 {
-	ftt_expect_t _properties;
+	ftt_expect_t _properties; // MUST be first
 	const void* _value;
 	struct {
 		const char* _value_name;
@@ -27,48 +27,52 @@ typedef struct _ftt_expect_t
 
 _ftt_expect_t tester_expect;
 
+static void _ftt_set_error(const char* format, ...)
+{
+	va_list args;
+	va_start(args, format);
+	ft_vsnprintf(tester_expect._error, sizeof(tester_expect._error), format, args);
+	va_end(args);
+}
+LIBFT_FORCE_INLINE const char* _ftt_get_error(void) { return tester_expect._error; }
+LIBFT_FORCE_INLINE const char* _ftt_get_value_name(void) { return tester_expect._value_name; }
+LIBFT_FORCE_INLINE const char* _ftt_get_file(void) { return tester_expect._file; }
+LIBFT_FORCE_INLINE int _ftt_get_line(void) { return tester_expect._line; }
+
 void	_ftt_expect_to_be(const void* value, size_t sizeof_value, ftt_value_type type)
 {
 	if (tester_expect._status != FTT_STATUS_SUCCESS)
 		return ;
-
+	
 	if (ft_memcmp(tester_expect._value, value, sizeof_value) != 0)
 	{
 		tester_expect._status = FTT_STATUS_FAILURE;
 		switch (type)
 		{
 			case FTT_VALUE_TYPE_INT:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-				"expected %s to be %d, got %d", tester_expect._value_name, *(int*)value, *(int*) tester_expect._value);
+				_ftt_set_error("expected %s to be %d, got %d", tester_expect._value_name, *(int*)value, *(int*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_UINT:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to be %u, got %u", tester_expect._value_name, *(unsigned int*)value, *(unsigned int*) tester_expect._value);
+				_ftt_set_error("expected %s to be %u, got %u", tester_expect._value_name, *(unsigned int*)value, *(unsigned int*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_LONG:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to be %ld, got %ld", tester_expect._value_name, *(long*)value, *(long*) tester_expect._value);
+				_ftt_set_error("expected %s to be %ld, got %ld", tester_expect._value_name, *(long*)value, *(long*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_ULONG:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to be %lu, got %lu", tester_expect._value_name, *(unsigned long*)value, *(unsigned long*) tester_expect._value);
+				_ftt_set_error("expected %s to be %lu, got %lu", tester_expect._value_name, *(unsigned long*)value, *(unsigned long*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_FLOAT:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to be %f, got %f", tester_expect._value_name, *(float*)value, *(float*) tester_expect._value);
+				_ftt_set_error("expected %s to be %f, got %f", tester_expect._value_name, *(float*)value, *(float*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_DOUBLE:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to be %lf, got %lf", tester_expect._value_name, *(double*)value, *(double*) tester_expect._value);
+				_ftt_set_error("expected %s to be %lf, got %lf", tester_expect._value_name, *(double*)value, *(double*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_STRING:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, (char*) tester_expect._value);
+				_ftt_set_error("expected %s to be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, (char*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_POINTER:
 			default:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to be %p, got %p", tester_expect._value_name, value, tester_expect._value);
+				_ftt_set_error("expected %s to be %p, got %p", tester_expect._value_name, value, tester_expect._value);
 				break ;
 		}
 	}
@@ -85,39 +89,122 @@ void	_ftt_expect_not_to_be(const void* value, size_t sizeof_value, ftt_value_typ
 		switch (type)
 		{
 			case FTT_VALUE_TYPE_INT:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-				"expected %s to not be %d, got %d", tester_expect._value_name, *(int*)value, *(int*) tester_expect._value);
+				_ftt_set_error("expected %s to not be %d, got %d", tester_expect._value_name, *(int*)value, *(int*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_UINT:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to not be %u, got %u", tester_expect._value_name, *(unsigned int*)value, *(unsigned int*) tester_expect._value);
+				_ftt_set_error("expected %s to not be %u, got %u", tester_expect._value_name, *(unsigned int*)value, *(unsigned int*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_LONG:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to not be %ld, got %ld", tester_expect._value_name, *(long*)value, *(long*) tester_expect._value);
+				_ftt_set_error("expected %s to not be %ld, got %ld", tester_expect._value_name, *(long*)value, *(long*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_ULONG:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to not be %lu, got %lu", tester_expect._value_name, *(unsigned long*)value, *(unsigned long*) tester_expect._value);
+				_ftt_set_error("expected %s to not be %lu, got %lu", tester_expect._value_name, *(unsigned long*)value, *(unsigned long*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_FLOAT:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to not be %f, got %f", tester_expect._value_name, *(float*)value, *(float*) tester_expect._value);
+				_ftt_set_error("expected %s to not be %f, got %f", tester_expect._value_name, *(float*)value, *(float*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_DOUBLE:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to not be %lf, got %lf", tester_expect._value_name, *(double*)value, *(double*) tester_expect._value);
+				_ftt_set_error("expected %s to not be %lf, got %lf", tester_expect._value_name, *(double*)value, *(double*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_STRING:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to not be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, (char*) tester_expect._value);
+				_ftt_set_error("expected %s to not be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, (char*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_POINTER:
 			default:
-				ft_snprintf(tester_expect._error, sizeof(tester_expect._error),
-					"expected %s to not be %p, got %p", tester_expect._value_name, value, tester_expect._value);
+				_ftt_set_error("expected %s to not be %p, got %p", tester_expect._value_name, value, tester_expect._value);
 				break ;
 		}
+	}
+}
+
+// void (*to_be_greater_than)(const void* value, size_t sizeof_value, ftt_value_type type);
+// void (*to_be_less_than)(const void* value, size_t sizeof_value, ftt_value_type type);
+// void (*to_be_between)(const void* min, const void* max, size_t sizeof_value, ftt_value_type type);
+// void (*to_be_null)(void);
+// void (*to_not_be_null)(void);
+
+void _ftt_expect_to_be_greater_than_int(const int value)
+{
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
+		return ;
+	if (*(int*)tester_expect._value <= value)
+	{
+		tester_expect._status = FTT_STATUS_FAILURE;
+		_ftt_set_error("expected %s to be greater than %d, got %d", tester_expect._value_name, value, *(int*)tester_expect._value);
+	}
+}
+
+void _ftt_expect_to_be_greater_than_float(const float value)
+{
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
+		return ;
+	if (*(float*)tester_expect._value <= value)
+	{
+		tester_expect._status = FTT_STATUS_FAILURE;
+		_ftt_set_error("expected %s to be greater than %f, got %f", tester_expect._value_name, value, *(float*)tester_expect._value);
+	}
+}
+
+void _ftt_expect_to_be_greater_than(const void* value, size_t sizeof_value, ftt_value_type type)
+{
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
+		return ;
+	if (sizeof_value == sizeof(int) && type == FTT_VALUE_TYPE_INT)
+		_ftt_expect_to_be_greater_than_int(*(int*)value);
+	else if (sizeof_value == sizeof(float) && type == FTT_VALUE_TYPE_FLOAT)
+		_ftt_expect_to_be_greater_than_float(*(float*)value);
+	else
+	{
+		tester_expect._status = FTT_STATUS_FAILURE;
+		_ftt_set_error("to_be_greater_than(): invalid type");
+	}
+}
+
+void _ftt_expect_to_be_true(void)
+{
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
+		return ;
+
+	if (*(bool*)tester_expect._value != true)
+	{
+		tester_expect._status = FTT_STATUS_FAILURE;
+		_ftt_set_error("expected %s to be true, got false", tester_expect._value_name);
+	}
+}
+
+void _ftt_expect_to_be_false(void)
+{
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
+		return ;
+
+	if (*(bool*)tester_expect._value != false)
+	{
+		tester_expect._status = FTT_STATUS_FAILURE;
+		_ftt_set_error("expected %s to be false, got true", tester_expect._value_name);
+	}
+}
+
+void _ftt_expect_to_be_null(void)
+{
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
+		return ;
+
+	if (tester_expect._value != NULL)
+	{
+		tester_expect._status = FTT_STATUS_FAILURE;
+		_ftt_set_error("expected %s to be NULL, got %p", tester_expect._value_name, tester_expect._value);
+	}
+}
+
+void _ftt_expect_not_to_be_null(void)
+{
+	if (tester_expect._status != FTT_STATUS_SUCCESS)
+		return ;
+
+	if (tester_expect._value == NULL)
+	{
+		tester_expect._status = FTT_STATUS_FAILURE;
+		_ftt_set_error("expected %s to not be NULL", tester_expect._value_name);
 	}
 }
 
@@ -151,7 +238,7 @@ static void	ftt_print_status(const char*name)
 		case FTT_STATUS_FAILURE:
 			ft_printf(COLOR_RED "  x %s: FAIL\n" COLOR_DEFAULT, name);
 			ft_printf(COLOR_RED "    - %s:%d: %s\n" COLOR_DEFAULT,
-				tester_expect._file, tester_expect._line, tester_expect._error);
+				_ftt_get_file(), _ftt_get_line(), _ftt_get_error());
 			break;
 		case FTT_STATUS_ERROR:
 			ft_printf(COLOR_DARK_RED "  x %s: ERROR\n" COLOR_DEFAULT, name);
@@ -205,6 +292,13 @@ static void	ftt_set_properties(void)
 {
 	tester_expect._properties.to_be = _ftt_expect_to_be;
 	tester_expect._properties.to_not_be = _ftt_expect_not_to_be;
+	tester_expect._properties.to_be_true = _ftt_expect_to_be_true;
+	tester_expect._properties.to_be_false = _ftt_expect_to_be_false;
+	tester_expect._properties.to_be_greater_than = _ftt_expect_to_be_greater_than;
+	tester_expect._properties.to_be_less_than = NULL; // To be implemented
+	tester_expect._properties.to_be_between = NULL; // To be implemented
+	tester_expect._properties.to_be_null = _ftt_expect_to_be_null;
+	tester_expect._properties.to_not_be_null = _ftt_expect_not_to_be_null;
 }
 
 void	ftt_describe(const char* name, const ftt_desc* desc)

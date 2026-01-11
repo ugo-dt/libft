@@ -97,7 +97,7 @@ OBJS		= $(SRCS:.c=.o)
 INCLUDE		= -I include
 
 CC			= gcc
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -pedantic -DLIBFT_NO_STATEMENT_EXPRESSIONS
 AR			= ar
 ARFLAGS		= rcs
 
@@ -130,6 +130,6 @@ re:
 	$(SILENT)$(MAKE) --no-print-directory all
 
 test: $(NAME)
-	./test/run_tests.sh all
+	$(CC) test/main.c $(INCLUDE) $(NAME) -o test/tester && ./test/tester all
 
 .PHONY: all clean fclean re test
