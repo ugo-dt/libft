@@ -599,37 +599,77 @@ typedef struct ft_string
 #endif // LIBFT_STRING_DEFAULT_CAPACITY
 
 ft_string ftstr_create(void);
-ft_string ftstr_create_from_str(const char *_x);
-ft_string ftstr_create_from_str_count(const char *_x, size_t count);
-ft_string ftstr_create_from_char(const char _x, size_t count);
-ft_string ftstr_create_from_ft_string(const ft_string* s);
-void ftstr_destroy(ft_string* s);
-bool ftstr_equals(const ft_string* a, const ft_string* b);
-bool ftstr_equals_str(const ft_string* s, const char *_x);
-const char*	ftstr_data(const ft_string* s);
-size_t ftstr_size(const ft_string* s);
-size_t ftstr_length(const ft_string* s);
-char ftstr_at(const ft_string* s, size_t pos);
-bool ftstr_empty(const ft_string* s);
-size_t ftstr_max_size(void);
-void ftstr_reserve(ft_string* s, size_t new_cap);
-size_t ftstr_capacity(const ft_string* s);
-void ftstr_shrink_to_fit(ft_string* s);
-void ftstr_append_str(ft_string* s, const char *_x);
-void ftstr_append_char(ft_string* s, const char _x, size_t n);
-void ftstr_append_ft_string(ft_string* s, const ft_string* x);
-void ftstr_assign(ft_string* s, const char *_x);
-void ftstr_assign_count(ft_string* s, const char *_x, size_t count);
-void ftstr_assign_char(ft_string* s, const char _x, size_t count);
-void ftstr_clear(ft_string* s);
+ft_string _ftstr_create_from_str(const char *_x);
+ft_string _ftstr_create_from_str_count(const char *_x, size_t count);
+ft_string _ftstr_create_from_char(const char _x, size_t count);
+ft_string _ftstr_create_from_ft_string(const ft_string* s);
+void _ftstr_destroy(ft_string* s);
+bool _ftstr_equals(const ft_string* a, const ft_string* b);
+bool _ftstr_equals_str(const ft_string* s, const char *_x);
+const char*	_ftstr_data(const ft_string* s);
+size_t _ftstr_size(const ft_string* s);
+size_t _ftstr_length(const ft_string* s);
+char _ftstr_at(const ft_string* s, size_t pos);
+bool _ftstr_empty(const ft_string* s);
+size_t _ftstr_max_size(void);
+void _ftstr_reserve(ft_string* s, size_t new_cap);
+size_t _ftstr_capacity(const ft_string* s);
+void _ftstr_shrink_to_fit(ft_string* s);
+void _ftstr_append_str(ft_string* s, const char *_x);
+void _ftstr_append_char(ft_string* s, const char _x, size_t n);
+void _ftstr_append_ft_string(ft_string* s, const ft_string* x);
+void _ftstr_assign(ft_string* s, const char *_x);
+void _ftstr_assign_count(ft_string* s, const char *_x, size_t count);
+void _ftstr_assign_char(ft_string* s, const char _x, size_t count);
+void _ftstr_clear(ft_string* s);
 
-#define ft_string(...) _Generic((__VA_ARGS__),           \
-	char *: ftstr_create_from_str,                       \
-	char: ftstr_create_from_char,                        \
-	int: ftstr_create_from_char,                         \
-	struct ft_string*: ftstr_create_from_ft_string,      \
-	const struct ft_string*: ftstr_create_from_ft_string \
+#define ft_string(...) _Generic((__VA_ARGS__),            \
+	char *: _ftstr_create_from_str,                       \
+	char: _ftstr_create_from_char,                        \
+	int: _ftstr_create_from_char,                         \
+	struct ft_string*: _ftstr_create_from_ft_string,      \
+	const struct ft_string*: _ftstr_create_from_ft_string,\
+	default: ftstr_create \
 )(__VA_ARGS__)
+
+#define ftstr_destroy(__s) _ftstr_destroy(&(__s))
+#define ftstr_equals(__s, __x) _Generic((__x), \
+	const char*: _ftstr_equals_str,            \
+	char*: _ftstr_equals_str,                  \
+	struct ft_string*: _ftstr_equals           \
+)(&(__s), __x)
+#define ftstr_data(__s) _ftstr_data(&(__s))
+#define ftstr_size(__s) _ftstr_size(&(__s))
+#define ftstr_length(__s) _ftstr_length(&(__s))
+#define ftstr_at(__s, __pos) _ftstr_at(&(__s), __pos)
+#define ftstr_empty(__s) _ftstr_empty(&(__s))
+#define ftstr_max_size() _ftstr_max_size()
+#define ftstr_reserve(__s, __new_cap) _ftstr_reserve(&(__s), __new_cap)
+#define ftstr_capacity(__s) _ftstr_capacity(&(__s))
+#define ftstr_shrink_to_fit(__s) _ftstr_shrink_to_fit(&(__s))
+#define _ftstr_append_generic(__s, ...)        \
+	_Generic((__VA_ARGS__),                    \
+	const char*: _ftstr_append_str,            \
+	char*: _ftstr_append_str,                  \
+	struct ft_string*: _ftstr_append_ft_string \
+)(__s, __VA_ARGS__)
+#define _ftstr_get_append_macro(__sptr, __char, __count, __macro_name, ...)	__macro_name
+#define _ftstr_get_append(__sptr, __x) _ftstr_append_generic(__sptr, __x)
+#define _ftstr_get_append_count(__sptr, __char, __count) _ftstr_append_char(__sptr, __char, __count)
+#define ftstr_append(__s, ...) _ftstr_get_append_macro(&(__s), __VA_ARGS__, _ftstr_get_append_count, _ftstr_get_append)(&(__s), __VA_ARGS__)
+
+#define _ftstr_assign_generic(__s, ...)    \
+	_Generic((__VA_ARGS__),                \
+	const char*: _ftstr_assign,            \
+	char*: _ftstr_assign,                  \
+	struct ft_string*: _ftstr_assign_ft_string \
+)(__s, __VA_ARGS__)
+#define _ftstr_get_assign_macro(__sptr, __char, __count, __macro_name, ...)	__macro_name
+#define _ftstr_get_assign(__sptr, __x) _ftstr_assign(__sptr, __x)
+#define _ftstr_get_assign_count(__sptr, __char, __count) _ftstr_assign_generic(__sptr, __char, __count)
+#define ftstr_assign(__s, ...) _ftstr_get_assign_macro(&(__s), __VA_ARGS__, _ftstr_get_assign_count, _ftstr_get_assign)(&(__s), __VA_ARGS__)
+
+#define ftstr_clear(__s) _ftstr_clear(&(__s))
 
 // >>ft_argparse
 
@@ -793,25 +833,47 @@ typedef struct
 }ftv_desc;
 
 ft_vector ftv_create(const ftv_desc* desc);
-void ftv_destroy(ft_vector* vector);
-ft_iterator ftv_begin(const ft_vector* vector);
-ft_iterator ftv_end(const ft_vector* vector);
-ft_iterator ftv_rbegin(const ft_vector* vector);
-ft_iterator ftv_rend(const ft_vector* vector);
-size_t ftv_max_size(const ft_vector* vector);
-size_t ftv_size(const ft_vector* vector);
-size_t ftv_capacity(const ft_vector* vector);
-size_t ftv_empty(const ft_vector* vector);
-void ftv_clear(ft_vector* vector);
-void ftv_reserve(ft_vector* vector, size_t n);
-void ftv_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
-void ftv_push_back(ft_vector* vector, const void* value);
-void ftv_pop_back(ft_vector* vector);
-void* ftv_data(const ft_vector* vector);
-void* ftv_at(const ft_vector* vector, size_t n);
-ft_iterator ftv_erase_element(ft_vector* vector, const ft_iterator pos);
-ft_iterator ftv_erase(ft_vector* vector, ft_iterator first, ft_iterator last);
-ft_iterator ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* value);
+void _ftv_destroy(ft_vector* vector);
+ft_iterator _ftv_begin(const ft_vector* vector);
+ft_iterator _ftv_end(const ft_vector* vector);
+ft_iterator _ftv_rbegin(const ft_vector* vector);
+ft_iterator _ftv_rend(const ft_vector* vector);
+size_t _ftv_max_size(const ft_vector* vector);
+size_t _ftv_size(const ft_vector* vector);
+size_t _ftv_capacity(const ft_vector* vector);
+size_t _ftv_empty(const ft_vector* vector);
+void _ftv_clear(ft_vector* vector);
+void _ftv_reserve(ft_vector* vector, size_t n);
+void _ftv_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
+void _ftv_push_back(ft_vector* vector, const void* value);
+void _ftv_pop_back(ft_vector* vector);
+void* _ftv_data(const ft_vector* vector);
+void* _ftv_at(const ft_vector* vector, size_t n);
+ft_iterator _ftv_erase_at(ft_vector* vector, const ft_iterator pos);
+ft_iterator _ftv_erase(ft_vector* vector, ft_iterator first, ft_iterator last);
+ft_iterator _ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* value);
+
+#define ftv_destroy(__vector) _ftv_destroy((&__vector))
+#define ftv_begin(__vector) _ftv_begin((&__vector))
+#define ftv_end(__vector) _ftv_end((&__vector))
+#define ftv_rbegin(__vector) _ftv_rbegin((&__vector))
+#define ftv_rend(__vector) _ftv_rend((&__vector))
+#define ftv_max_size(__vector) _ftv_max_size((&__vector))
+#define ftv_size(__vector) _ftv_size((&__vector))
+#define ftv_capacity(__vector) _ftv_capacity((&__vector))
+#define ftv_empty(__vector) _ftv_empty((&__vector))
+#define ftv_clear(__vector) _ftv_clear((&__vector))
+#define ftv_reserve(__vector, __n) _ftv_reserve((&__vector), (__n))
+#define ftv_assign(__vector, __first, __last) _ftv_assign((&__vector), (__first), (__last))
+#define ftv_push_back(__vector, ...) _ftv_push_back((&__vector), &((__VA_ARGS__)))
+#define ftv_push_backv(__vector, __value) _ftv_push_back((&__vector), &(__typeof__(__value)){__value})
+#define ftv_pop_back(__vector) _ftv_pop_back((&__vector))
+#define ftv_data(__vector) _ftv_data((&__vector))
+#define ftv_at(__vector, __n, __type) (*( __type* )_ftv_at((&__vector), (__n)))
+#define ftv_erase_at(__vector, __it_pos) _ftv_erase_at((&__vector), (__it_pos))
+#define ftv_erase_range(__vector, __first, __last) _ftv_erase((&__vector), (__first), (__last))
+#define ftv_insert_at(__vector, __it_pos, ...) _ftv_insert_element((&__vector), (__it_pos), &((__VA_ARGS__)))
+#define ftv_insert_atv(__vector, __it_pos, __value) _ftv_insert_element((&__vector), (__it_pos), &(__typeof__(__value)){__value})
 
 // >>timer
 

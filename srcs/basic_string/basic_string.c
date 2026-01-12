@@ -19,48 +19,48 @@ ft_string ftstr_create(void)
 	return string;
 }
 
-ft_string ftstr_create_from_str(const char *x)
+ft_string _ftstr_create_from_str(const char *x)
 {
 	ft_string string;
 
 	string._capacity = 0;
 	string._data = NULL;
-	ftstr_assign(&string, x);
+	_ftstr_assign(&string, x);
 	return string;
 }
 
-ft_string ftstr_create_from_str_count(const char *_x, size_t count)
-{
-	ft_string string;
-	
-	string._capacity = 0;
-	string._data = NULL;
-	ftstr_assign_count(&string, _x, count);
-	return string;
-}
-
-ft_string ftstr_create_from_char(const char _x, size_t count)
+ft_string _ftstr_create_from_str_count(const char *_x, size_t count)
 {
 	ft_string string;
 	
 	string._capacity = 0;
 	string._data = NULL;
-	ftstr_assign_char(&string, _x, count);
+	_ftstr_assign_count(&string, _x, count);
 	return string;
 }
 
-ft_string ftstr_create_from_ft_string(const ft_string* x)
+ft_string _ftstr_create_from_char(const char _x, size_t count)
+{
+	ft_string string;
+	
+	string._capacity = 0;
+	string._data = NULL;
+	_ftstr_assign_char(&string, _x, count);
+	return string;
+}
+
+ft_string _ftstr_create_from_ft_string(const ft_string* x)
 {
 	ft_string string;
 	
 	string._capacity = 0;
 	string._data = NULL;
 	if (x->_data)
-		ftstr_assign(&string, x->_data);
+		_ftstr_assign(&string, x->_data);
 	return string;
 }
 
-void ftstr_destroy(ft_string* s)
+void _ftstr_destroy(ft_string* s)
 {
 	LIBFT_ASSERT(s);
 	if (s->_data)
@@ -70,50 +70,50 @@ void ftstr_destroy(ft_string* s)
 	}
 }
 
-bool ftstr_equals(const ft_string* a, const ft_string* b)
+bool _ftstr_equals(const ft_string* a, const ft_string* b)
 {
 	return ft_strcmp(a->_data, b->_data) == 0;
 }
 
-bool ftstr_equals_str(const ft_string* s, const char *_x)
+bool _ftstr_equals_str(const ft_string* s, const char *_x)
 {
 	return ft_strcmp(s->_data, _x) == 0;
 }
 
-const char*	ftstr_data(const ft_string* s)
+const char*	_ftstr_data(const ft_string* s)
 {
 	return s->_data;
 }
 
-size_t ftstr_size(const ft_string* s)
+size_t _ftstr_size(const ft_string* s)
 {
 	if (!s->_data)
 		return 0;
 	return ft_strlen(s->_data);
 }
 
-size_t ftstr_length(const ft_string* s)
+size_t _ftstr_length(const ft_string* s)
 {
 	return ft_strlen(s->_data);
 }
 
-char ftstr_at(const ft_string* s, size_t pos)
+char _ftstr_at(const ft_string* s, size_t pos)
 {
 	LIBFT_ASSERT(pos < s->_capacity);
 	return s->_data[pos];
 }
 
-bool ftstr_empty(const ft_string* s)
+bool _ftstr_empty(const ft_string* s)
 {
 	return s->_capacity == 0 || s->_data[0] == '\0';
 }
 
-size_t ftstr_max_size(void)
+size_t _ftstr_max_size(void)
 {
 	return (SIZE_MAX);
 }
 
-void ftstr_reserve(ft_string *s, size_t new_cap)
+void _ftstr_reserve(ft_string *s, size_t new_cap)
 {
 	if (s->_capacity < new_cap)
 	{
@@ -129,12 +129,12 @@ void ftstr_reserve(ft_string *s, size_t new_cap)
 	}
 }
 
-size_t ftstr_capacity(const ft_string* s)
+size_t _ftstr_capacity(const ft_string* s)
 {
 	return s->_capacity;
 }
 
-void ftstr_shrink_to_fit(ft_string *s)
+void _ftstr_shrink_to_fit(ft_string *s)
 {
 	size_t len = ft_strlen(s->_data) + 1;
 
@@ -207,7 +207,7 @@ void _ftstr_print_debug(const ft_string* s, const char *_info, const char *param
 	ft_printf("--- END ---\n");
 }
 
-void ftstr_append_str(ft_string *s, const char *_x)
+void _ftstr_append_str(ft_string *s, const char *_x)
 {
 	size_t _size, _newsize;
 	size_t len = ft_strlen(_x);
@@ -236,7 +236,7 @@ void ftstr_append_str(ft_string *s, const char *_x)
 	// _ftstr_print_debug(s, "append_string()", _x, ft_strlen(_x));
 }
 
-void ftstr_append_char(ft_string* s, const char _x, size_t n)
+void _ftstr_append_char(ft_string* s, const char _x, size_t n)
 {
 	size_t _size, _newsize;
 
@@ -264,23 +264,23 @@ void ftstr_append_char(ft_string* s, const char _x, size_t n)
 	// _ftstr_print_debug(s, "append_char()", &_x, 1);
 }
 
-void ftstr_append_ft_string(ft_string* s, const ft_string* x)
+void _ftstr_append_ft_string(ft_string* s, const ft_string* x)
 {
 	assert(x && x->_data);
 
 	if (s->_data == x->_data)
 	{
 		// Appending to itself, make a copy first
-		ft_string temp = ftstr_create_from_ft_string(x);
-		ftstr_append_ft_string(s, &temp);
-		ftstr_destroy(&temp);
+		ft_string temp = _ftstr_create_from_ft_string(x);
+		_ftstr_append_ft_string(s, &temp);
+		_ftstr_destroy(&temp);
 		return ;
 	}
 	else if (x->_capacity && x->_data)
-		ftstr_append_str(s, x->_data);
+		_ftstr_append_str(s, x->_data);
 }
 
-void ftstr_assign(ft_string* s, const char *_x)
+void _ftstr_assign(ft_string* s, const char *_x)
 {
 	size_t _xsize;
 
@@ -303,7 +303,7 @@ void ftstr_assign(ft_string* s, const char *_x)
 	}
 }
 
-void ftstr_assign_count(ft_string* s, const char *_x, size_t count)
+void _ftstr_assign_count(ft_string* s, const char *_x, size_t count)
 {
 	size_t _xsize;
 
@@ -325,7 +325,7 @@ void ftstr_assign_count(ft_string* s, const char *_x, size_t count)
 	}
 }
 
-void ftstr_assign_char(ft_string* s, const char _x, size_t count)
+void _ftstr_assign_char(ft_string* s, const char _x, size_t count)
 {
 	size_t _newcap;
 
@@ -350,7 +350,7 @@ void ftstr_assign_char(ft_string* s, const char _x, size_t count)
 	}
 }
 
-void ftstr_clear(ft_string *s)
+void _ftstr_clear(ft_string *s)
 {
 	if (s->_data)
 		ft_bzero(s->_data, s->_capacity);

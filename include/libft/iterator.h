@@ -57,12 +57,12 @@
 #define FT_ITER_LE(__it_a, __it_b) (!FT_ITER_GT((__it_a), (__it_b))) // less than or equal
 #define FT_ITER_GE(__it_a, __it_b) (!FT_ITER_LT((__it_a), (__it_b))) // greater than or equal
 
-#define ft_vector_each(__vector, __it) \
-	for (ft_iterator __it = ft_vector_begin((&__vector)); \
-		 FT_ITER_NEQ(__it, ft_vector_end((&__vector))); \
+#define ftv_each(__vector, __it) \
+	for (ft_iterator __it = _ftv_begin((&__vector)); \
+		 FT_ITER_NEQ(__it, _ftv_end((&__vector))); \
 		 FT_ITER_INC(__it))
 
-#define ft_vector_each_reverse(__vector, __rit) \
-	for (ft_iterator __rit = ft_vector_rbegin((&__vector)); \
-		 FT_ITER_NEQ(__rit, ft_vector_rend((&__vector))); \
+#define ftv_each_reverse(__vector, __rit) \
+	for (ft_iterator __rit = _ftv_rbegin((&__vector)); \
+		 FT_ITER_NEQ(__rit, _ftv_rend((&__vector))); \
 		 FT_ITER_INC(__rit))

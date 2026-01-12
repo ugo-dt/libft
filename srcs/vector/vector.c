@@ -37,7 +37,7 @@ ft_allocator	_ft_allocator_defaults(const ft_allocator* alloc)
 
 void	_construct_at_end(ft_vector* vector, size_t n, const void* value)
 {
-	assert(ftv_size(vector) + n <= ftv_capacity(vector));
+	assert(_ftv_size(vector) + n <= _ftv_capacity(vector));
 	while (n-- > 0)
 	{
 		vector->alloc.construct(&vector->alloc, vector->end, value);
@@ -47,7 +47,7 @@ void	_construct_at_end(ft_vector* vector, size_t n, const void* value)
 
 void	_construct_at_end_iter(ft_vector* vector, ft_iterator first, ft_iterator last, size_t n)
 {
-	assert(ftv_size(vector) + n <= ftv_capacity(vector));
+	assert(_ftv_size(vector) + n <= _ftv_capacity(vector));
 
 	if (n == 0)
 		return ;
@@ -93,7 +93,7 @@ size_t	_ftv_recommend(const ft_vector* vector, size_t new_size)
 	size_t max_size = vector->alloc.max_size(&vector->alloc);
 	
 	assert(new_size < vector->alloc.max_size(&vector->alloc));
-    const size_t cap = ftv_capacity(vector);
+    const size_t cap = _ftv_capacity(vector);
     if (cap >= max_size / 2)
         return max_size;
     return max(2 * cap, new_size);
@@ -109,95 +109,95 @@ ft_vector	ftv_create(const ftv_desc* desc)
 	};
 }
 
-void	ftv_destroy(ft_vector* vector)
+void	_ftv_destroy(ft_vector* vector)
 {
 	if (vector->begin)
 	{
-		ftv_clear(vector);
-		vector->alloc.deallocate(&vector->alloc, vector->begin, ftv_capacity(vector));
+		_ftv_clear(vector);
+		vector->alloc.deallocate(&vector->alloc, vector->begin, _ftv_capacity(vector));
 		vector->begin = vector->end = vector->end_cap = NULL;
 	}
 }
 
-void*	ftv_data(const ft_vector* vector)
+void*	_ftv_data(const ft_vector* vector)
 {
 	return vector->begin;
 }
 
-void*	ftv_at(const ft_vector* vector, size_t n)
+void*	_ftv_at(const ft_vector* vector, size_t n)
 {
-	assert(n < ftv_size(vector));
+	assert(n < _ftv_size(vector));
 	return POINTER_ADD(vector, vector->begin, n);
 }
 
-ft_iterator	ftv_begin(const ft_vector* vector)
+ft_iterator	_ftv_begin(const ft_vector* vector)
 {
 	return _make_iter(vector->alloc.sizeof_type, vector->begin, IteratorType_Random);
 }
 
-ft_iterator	ftv_end(const ft_vector* vector)
+ft_iterator	_ftv_end(const ft_vector* vector)
 {
 	return _make_iter(vector->alloc.sizeof_type, vector->end, IteratorType_Random);
 }
 
-ft_iterator	ftv_rbegin(const ft_vector* vector)
+ft_iterator	_ftv_rbegin(const ft_vector* vector)
 {
 	return _make_iter(vector->alloc.sizeof_type, vector->end, IteratorType_Reverse);
 }
 
-ft_iterator	ftv_rend(const ft_vector* vector)
+ft_iterator	_ftv_rend(const ft_vector* vector)
 {
 	return _make_iter(vector->alloc.sizeof_type, vector->begin, IteratorType_Reverse);
 }
 
-size_t	ftv_max_size(const ft_vector* vector)
+size_t	_ftv_max_size(const ft_vector* vector)
 {
 	return vector->alloc.max_size(&vector->alloc);
 }
 
-size_t	ftv_size(const ft_vector* vector)
+size_t	_ftv_size(const ft_vector* vector)
 {
 	return ((char*)vector->end - (char*)vector->begin) / vector->alloc.sizeof_type;
 }
 
-size_t	ftv_capacity(const ft_vector* vector)
+size_t	_ftv_capacity(const ft_vector* vector)
 {
 	return ((char*)vector->end_cap - (char*)vector->begin) / vector->alloc.sizeof_type;
 }
 
-size_t	ftv_empty(const ft_vector* vector)
+size_t	_ftv_empty(const ft_vector* vector)
 {
 	return vector->begin == vector->end;
 }
 
-void	ftv_reserve(ft_vector* vector, size_t n)
+void	_ftv_reserve(ft_vector* vector, size_t n)
 {
-	if (n > ftv_capacity(vector))
+	if (n > _ftv_capacity(vector))
 	{
-		size_t size = ftv_size(vector);
+		size_t size = _ftv_size(vector);
 		ft_vector v = ftv_create(&(ftv_desc){
 			.alloc = vector->alloc,
 		});
 		_vallocate(&v, n);
 
-		ft_iterator begin = ftv_begin(vector);
+		ft_iterator begin = _ftv_begin(vector);
 		ft_iterator up_to = FT_ITER_ADD_NEW(begin, size);
 
 		_construct_at_end_iter(&v, begin, up_to, size);
 
 		_ftv_swap(vector, &v);
-		ftv_destroy(&v);
+		_ftv_destroy(&v);
 	}
 }
 
-void	ftv_assign(ft_vector* vector, ft_iterator first, ft_iterator last)
+void	_ftv_assign(ft_vector* vector, ft_iterator first, ft_iterator last)
 {
-	ftv_clear(vector);
+	_ftv_clear(vector);
 	for (; !FT_ITER_EQ(first, last); FT_ITER_INC(first))
-		ftv_push_back(vector, FT_ITER_REF(first));
+		_ftv_push_back(vector, FT_ITER_REF(first));
 }
 
-void	ftv_push_back(ft_vector* vector, const void* value)
+void	_ftv_push_back(ft_vector* vector, const void* value)
 {
 	if (vector->end != vector->end_cap)
 		_construct_at_end(vector, 1, value);
@@ -207,40 +207,40 @@ void	ftv_push_back(ft_vector* vector, const void* value)
 			.alloc = vector->alloc,
 		});
 
-		ftv_reserve(&v, _ftv_recommend(vector, ftv_size(vector) + 1));
-		ftv_assign(&v, ftv_begin(vector), ftv_end(vector));
+		_ftv_reserve(&v, _ftv_recommend(vector, _ftv_size(vector) + 1));
+		_ftv_assign(&v, _ftv_begin(vector), _ftv_end(vector));
 		v.alloc.construct(&v.alloc, v.end, value);
 		POINTER_INC(vector, v.end);
 		_ftv_swap(vector, &v);
 
-		ftv_destroy(&v);
+		_ftv_destroy(&v);
 	}
 }
 
-void	ftv_pop_back(ft_vector* vector)
+void	_ftv_pop_back(ft_vector* vector)
 {
-	assert(!ftv_empty(vector));
+	assert(!_ftv_empty(vector));
 	_destruct_at_end(vector, POINTER_SUB(vector, vector->end, 1));
 }
 
-void	ftv_clear(ft_vector* vector)
+void	_ftv_clear(ft_vector* vector)
 {
 	_destruct_at_end(vector, vector->begin);
 }
 
-ft_iterator	ftv_erase_element(ft_vector* vector, ft_iterator pos)
+ft_iterator	_ftv_erase_at(ft_vector* vector, ft_iterator pos)
 {
-	return ftv_erase(vector, pos, FT_ITER_ADD_NEW(pos, 1));
+	return _ftv_erase(vector, pos, FT_ITER_ADD_NEW(pos, 1));
 }
 
-ft_iterator	ftv_erase(ft_vector* vector, ft_iterator first, ft_iterator last)
+ft_iterator	_ftv_erase(ft_vector* vector, ft_iterator first, ft_iterator last)
 {
 	ft_iterator r = first;
 	size_t n = 0;
 
 	for (ft_iterator tmp = first; FT_ITER_NEQ(tmp,last); FT_ITER_INC(tmp))
 		n++;
-	for (; FT_ITER_NEQ(last, ftv_end(vector)); FT_ITER_INC(first), FT_ITER_INC(last))
+	for (; FT_ITER_NEQ(last, _ftv_end(vector)); FT_ITER_INC(first), FT_ITER_INC(last))
 		vector->alloc.construct(&vector->alloc, first._p, last._p);
 	while (n--)
 		_destruct_at_end(vector, POINTER_SUB(vector, vector->end, 1));
@@ -279,7 +279,7 @@ static void _insert_in_array(ft_vector* vector, void* p, size_t n, ft_iterator p
 	{
 		/* Copy into a separate buffer (no overlap). */
 		char* dest = p;
-		for (it = ftv_begin(vector); !FT_ITER_EQ(it, position); FT_ITER_INC(it))
+		for (it = _ftv_begin(vector); !FT_ITER_EQ(it, position); FT_ITER_INC(it))
 		{
 			vector->alloc.construct(&vector->alloc, dest, FT_ITER_REF(it));
 			dest += step;
@@ -289,7 +289,7 @@ static void _insert_in_array(ft_vector* vector, void* p, size_t n, ft_iterator p
 			vector->alloc.construct(&vector->alloc, dest, value);
 			dest += step;
 		}
-		for (; !FT_ITER_EQ(it, ftv_end(vector)); FT_ITER_INC(it))
+		for (; !FT_ITER_EQ(it, _ftv_end(vector)); FT_ITER_INC(it))
 		{
 			vector->alloc.construct(&vector->alloc, dest, FT_ITER_REF(it));
 			dest += step;
@@ -297,7 +297,7 @@ static void _insert_in_array(ft_vector* vector, void* p, size_t n, ft_iterator p
 	}
 }
 
-ft_iterator ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* value)
+ft_iterator _ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* value)
 {
 	ptrdiff_t d = ((char*)pos._p - (char*)(vector->begin)) / vector->alloc.sizeof_type;
 	void* p = POINTER_ADD(vector, vector->begin, d);
@@ -305,7 +305,7 @@ ft_iterator ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* v
 	if (vector->end < vector->end_cap)
 	{
 		if (p == vector->end)
-			ftv_push_back(vector, value);
+			_ftv_push_back(vector, value);
 		else
 		{
 			_insert_in_array(vector, vector->begin, 1, pos, value);
@@ -318,12 +318,12 @@ ft_iterator ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* v
 			.alloc = vector->alloc,
 		});
 
-		ftv_reserve(&v, _ftv_recommend(vector, ftv_size(vector) + 1));
-		ftv_assign(&v, ftv_begin(vector), ftv_end(vector));
-		ftv_insert_element(&v, FT_ITER_ADD_NEW(ftv_begin(&v), d), value);
+		_ftv_reserve(&v, _ftv_recommend(vector, _ftv_size(vector) + 1));
+		_ftv_assign(&v, _ftv_begin(vector), _ftv_end(vector));
+		_ftv_insert_element(&v, FT_ITER_ADD_NEW(_ftv_begin(&v), d), value);
 		_ftv_swap(vector, &v);
 
-		ftv_destroy(&v);
+		_ftv_destroy(&v);
 	}
-	return FT_ITER_ADD_NEW(ftv_begin(vector), d);
+	return FT_ITER_ADD_NEW(_ftv_begin(vector), d);
 }
