@@ -2,7 +2,9 @@
 
 void*	ft_allocator_allocate(const ft_allocator* alloc, size_t n)
 {
-	return malloc(n * alloc->sizeof_type);
+	void* ptr = malloc(n * alloc->sizeof_type);
+	LIBFT_ASSERT(ptr != NULL && "Allocation failed");
+	return ptr;
 }
 
 void	ft_allocator_deallocate(const ft_allocator* alloc, void *p, size_t n)

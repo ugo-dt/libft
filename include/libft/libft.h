@@ -11,20 +11,20 @@
 #include <time.h>
 #include <unistd.h>
 
-#ifdef __cplusplus
-extern "C" {
-#define LIBFT_RESTRICT
-#else
-
-#ifndef LIBFT_ASSERT
-	#define LIBFT_ASSERT(...)	assert(__VA_ARGS__)
-#endif
-
-#define LIBFT_RESTRICT	restrict
 #define LIBFT_UNUSED __attribute__((unused))
 #define LIBFT_NODISCARD __attribute__((warn_unused_result))
 #define LIBFT_NOTUSED(x) ((void)(x))
 #define LIBFT_FORCE_INLINE static inline __attribute__((always_inline))
+
+#ifdef __cplusplus
+extern "C" {
+#define LIBFT_RESTRICT
+#else
+#define LIBFT_RESTRICT	restrict
+
+#ifndef LIBFT_ASSERT
+	#define LIBFT_ASSERT(...)	assert(__VA_ARGS__)
+#endif
 
 #ifndef INT32_MAX
 	#define INT32_MAX INT_MAX
@@ -37,7 +37,7 @@ extern "C" {
 #endif // defined(LIBFT_NO_FUNCTION_POINTERS)
 
 #ifndef LIBFT_BUFFERSIZE
-	#define LIBFT_BUFFERSIZE	42
+	#define LIBFT_BUFFERSIZE 42
 #endif
 
 #if defined(__GNUC__) && !defined(LIBFT_NO_STATEMENT_EXPRESSIONS)
@@ -632,44 +632,44 @@ void _ftstr_clear(ft_string* s);
 	default: ftstr_create \
 )(__VA_ARGS__)
 
-#define ftstr_destroy(__s) _ftstr_destroy(&(__s))
-#define ftstr_equals(__s, __x) _Generic((__x), \
+#define ftstr_destroy(__sptr) _ftstr_destroy((__sptr))
+#define ftstr_equals(__sptr, __x) _Generic((__x), \
 	const char*: _ftstr_equals_str,            \
 	char*: _ftstr_equals_str,                  \
 	struct ft_string*: _ftstr_equals           \
-)(&(__s), __x)
-#define ftstr_data(__s) _ftstr_data(&(__s))
-#define ftstr_size(__s) _ftstr_size(&(__s))
-#define ftstr_length(__s) _ftstr_length(&(__s))
-#define ftstr_at(__s, __pos) _ftstr_at(&(__s), __pos)
-#define ftstr_empty(__s) _ftstr_empty(&(__s))
+)((__sptr), __x)
+#define ftstr_data(__sptr) _ftstr_data((__sptr))
+#define ftstr_size(__sptr) _ftstr_size((__sptr))
+#define ftstr_length(__sptr) _ftstr_length((__sptr))
+#define ftstr_at(__sptr, __pos) _ftstr_at((__sptr), __pos)
+#define ftstr_empty(__sptr) _ftstr_empty((__sptr))
 #define ftstr_max_size() _ftstr_max_size()
-#define ftstr_reserve(__s, __new_cap) _ftstr_reserve(&(__s), __new_cap)
-#define ftstr_capacity(__s) _ftstr_capacity(&(__s))
-#define ftstr_shrink_to_fit(__s) _ftstr_shrink_to_fit(&(__s))
-#define _ftstr_append_generic(__s, ...)        \
+#define ftstr_reserve(__sptr, __new_cap) _ftstr_reserve((__sptr), __new_cap)
+#define ftstr_capacity(__sptr) _ftstr_capacity((__sptr))
+#define ftstr_shrink_to_fit(__sptr) _ftstr_shrink_to_fit((__sptr))
+#define _ftstr_append_generic(__sptr, ...)        \
 	_Generic((__VA_ARGS__),                    \
 	const char*: _ftstr_append_str,            \
 	char*: _ftstr_append_str,                  \
 	struct ft_string*: _ftstr_append_ft_string \
-)(__s, __VA_ARGS__)
+)(__sptr, __VA_ARGS__)
 #define _ftstr_get_append_macro(__sptr, __char, __count, __macro_name, ...)	__macro_name
 #define _ftstr_get_append(__sptr, __x) _ftstr_append_generic(__sptr, __x)
 #define _ftstr_get_append_count(__sptr, __char, __count) _ftstr_append_char(__sptr, __char, __count)
-#define ftstr_append(__s, ...) _ftstr_get_append_macro(&(__s), __VA_ARGS__, _ftstr_get_append_count, _ftstr_get_append)(&(__s), __VA_ARGS__)
+#define ftstr_append(__sptr, ...) _ftstr_get_append_macro((__sptr), __VA_ARGS__, _ftstr_get_append_count, _ftstr_get_append)((__sptr), __VA_ARGS__)
 
-#define _ftstr_assign_generic(__s, ...)    \
+#define _ftstr_assign_generic(__sptr, ...)    \
 	_Generic((__VA_ARGS__),                \
 	const char*: _ftstr_assign,            \
 	char*: _ftstr_assign,                  \
 	struct ft_string*: _ftstr_assign_ft_string \
-)(__s, __VA_ARGS__)
+)(__sptr, __VA_ARGS__)
 #define _ftstr_get_assign_macro(__sptr, __char, __count, __macro_name, ...)	__macro_name
 #define _ftstr_get_assign(__sptr, __x) _ftstr_assign(__sptr, __x)
 #define _ftstr_get_assign_count(__sptr, __char, __count) _ftstr_assign_generic(__sptr, __char, __count)
-#define ftstr_assign(__s, ...) _ftstr_get_assign_macro(&(__s), __VA_ARGS__, _ftstr_get_assign_count, _ftstr_get_assign)(&(__s), __VA_ARGS__)
+#define ftstr_assign(__sptr, ...) _ftstr_get_assign_macro((__sptr), __VA_ARGS__, _ftstr_get_assign_count, _ftstr_get_assign)((__sptr), __VA_ARGS__)
 
-#define ftstr_clear(__s) _ftstr_clear(&(__s))
+#define ftstr_clear(__sptr) _ftstr_clear((__sptr))
 
 // >>ft_argparse
 
@@ -742,49 +742,6 @@ ftap_state ftap_parse(int argc, char** argv, const ftap_desc* state);
 void ftap_clear(ftap_state* state);
 bool ftap_valid(const ftap_state* state);
 
-// >>fileparse
-
-typedef struct
-{
-	int type;
-	const char* value;
-}ftfp_token_desc;
-
-// todo: comments
-typedef struct
-{
-	ftfp_token_desc* tokens;
-	size_t token_count;
-	bool skip_newlines;
-	bool (*isspace)(int);
-	bool (*isseparator)(int);
-}ftfp_desc;
-
-typedef struct
-{
-	uint64_t type;
-	char* value;
-	int row, col;
-}ftfp_token;
-
-typedef enum
-{
-	FTFP_STATUS_SUCCESS = 0,
-	FTFP_STATUS_CANNOT_OPEN_FILE,
-	FTFP_STATUS_ALLOCATION_FAILURE,
-}ftfp_status;
-
-typedef struct
-{
-	ftfp_status _status;
-	ftfp_token* tokens;
-	size_t count;
-}ftfp_state;
-
-ftfp_state ftfp_parse(const char *file, const ftfp_desc* desc);
-bool ftfp_valid(const ftfp_state* state);
-void ftfp_clear(ftfp_state* state);
-
 // >>vector
 
 typedef struct ft_allocator
@@ -853,27 +810,69 @@ ft_iterator _ftv_erase_at(ft_vector* vector, const ft_iterator pos);
 ft_iterator _ftv_erase(ft_vector* vector, ft_iterator first, ft_iterator last);
 ft_iterator _ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* value);
 
-#define ftv_destroy(__vector) _ftv_destroy((&__vector))
-#define ftv_begin(__vector) _ftv_begin((&__vector))
-#define ftv_end(__vector) _ftv_end((&__vector))
-#define ftv_rbegin(__vector) _ftv_rbegin((&__vector))
-#define ftv_rend(__vector) _ftv_rend((&__vector))
-#define ftv_max_size(__vector) _ftv_max_size((&__vector))
-#define ftv_size(__vector) _ftv_size((&__vector))
-#define ftv_capacity(__vector) _ftv_capacity((&__vector))
-#define ftv_empty(__vector) _ftv_empty((&__vector))
-#define ftv_clear(__vector) _ftv_clear((&__vector))
-#define ftv_reserve(__vector, __n) _ftv_reserve((&__vector), (__n))
-#define ftv_assign(__vector, __first, __last) _ftv_assign((&__vector), (__first), (__last))
-#define ftv_push_back(__vector, ...) _ftv_push_back((&__vector), &((__VA_ARGS__)))
-#define ftv_push_backv(__vector, __value) _ftv_push_back((&__vector), &(__typeof__(__value)){__value})
-#define ftv_pop_back(__vector) _ftv_pop_back((&__vector))
-#define ftv_data(__vector) _ftv_data((&__vector))
-#define ftv_at(__vector, __n, __type) (*( __type* )_ftv_at((&__vector), (__n)))
-#define ftv_erase_at(__vector, __it_pos) _ftv_erase_at((&__vector), (__it_pos))
-#define ftv_erase_range(__vector, __first, __last) _ftv_erase((&__vector), (__first), (__last))
-#define ftv_insert_at(__vector, __it_pos, ...) _ftv_insert_element((&__vector), (__it_pos), &((__VA_ARGS__)))
-#define ftv_insert_atv(__vector, __it_pos, __value) _ftv_insert_element((&__vector), (__it_pos), &(__typeof__(__value)){__value})
+#define ftv_destroy(__vptr) _ftv_destroy((__vptr))
+#define ftv_begin(__vptr) _ftv_begin((__vptr))
+#define ftv_end(__vptr) _ftv_end((__vptr))
+#define ftv_rbegin(__vptr) _ftv_rbegin((__vptr))
+#define ftv_rend(__vptr) _ftv_rend((__vptr))
+#define ftv_max_size(__vptr) _ftv_max_size((__vptr))
+#define ftv_size(__vptr) _ftv_size((__vptr))
+#define ftv_capacity(__vptr) _ftv_capacity((__vptr))
+#define ftv_empty(__vptr) _ftv_empty((__vptr))
+#define ftv_clear(__vptr) _ftv_clear((__vptr))
+#define ftv_reserve(__vptr, __n) _ftv_reserve((__vptr), (__n))
+#define ftv_assign(__vptr, __first, __last) _ftv_assign((__vptr), (__first), (__last))
+#define ftv_push_back(__vptr, ...) _ftv_push_back((__vptr), &((__VA_ARGS__)))
+#define ftv_push_backv(__vptr, __value) _ftv_push_back((__vptr), &(__typeof__(__value)){__value})
+#define ftv_pop_back(__vptr) _ftv_pop_back((__vptr))
+#define ftv_data(__vptr) _ftv_data((__vptr))
+#define ftv_at(__vptr, __n, __type) (*( __type* )_ftv_at((__vptr), (__n)))
+#define ftv_erase_at(__vptr, __it_pos) _ftv_erase_at((__vptr), (__it_pos))
+#define ftv_erase_range(__vptr, __first, __last) _ftv_erase((__vptr), (__first), (__last))
+#define ftv_insert_at(__vptr, __it_pos, ...) _ftv_insert_element((__vptr), (__it_pos), &((__VA_ARGS__)))
+#define ftv_insert_atv(__vptr, __it_pos, __value) _ftv_insert_element((__vptr), (__it_pos), &(__typeof__(__value)){__value})
+
+// >>fileparse
+
+typedef struct
+{
+	int type;
+	const char* value;
+}ftfp_token_desc;
+
+// todo: comments
+typedef struct
+{
+	ftfp_token_desc* tokens;
+	size_t token_count;
+	bool skip_newlines;
+	bool (*isspace)(int);
+	bool (*isseparator)(int);
+}ftfp_desc;
+
+typedef struct
+{
+	uint64_t type;
+	char* value;
+	int row, col;
+}ftfp_token;
+
+typedef enum
+{
+	FTFP_STATUS_SUCCESS = 0,
+	FTFP_STATUS_CANNOT_OPEN_FILE,
+	FTFP_STATUS_ALLOCATION_FAILURE,
+}ftfp_status;
+
+typedef struct
+{
+	ftfp_status _status;
+	ft_vector tokens;
+}ftfp_state;
+
+ftfp_state ftfp_parse(const char *file, const ftfp_desc* desc);
+bool ftfp_valid(const ftfp_state* state);
+void ftfp_clear(ftfp_state* state);
 
 // >>timer
 

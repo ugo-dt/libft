@@ -1,76 +1,39 @@
 #include "libft/libft.h"
-#include <fcntl.h> // open
+#include "libft/iterator.h"
 
-typedef struct
-{
-	ftfp_token t;
-	size_t length;
-}_ftfp_list_item;
-
-typedef struct
-{
-	_ftfp_list_item* begin;
-	_ftfp_list_item* end;
-	_ftfp_list_item* end_cap;
-}_ftfp_list;
-
-bool	_ftfp_isspace(const ftfp_desc* desc, int c)
+bool _ftfp_isspace(const ftfp_desc* desc, int c)
 {
 	if (desc->isspace)
 		return desc->isspace(c);
 	return ft_isspace(c);
 }
 
-bool	_ftfp_isseparator(const ftfp_desc* desc, int c)
+bool _ftfp_isseparator(const ftfp_desc* desc, int c)
 {
 	if (desc->isseparator)
 		return desc->isseparator(c);
 	return false;
 }
 
-size_t	_ftfp_list_recommend_new_size(_ftfp_list *list)
+void	_ftftp_token_construct(const ft_allocator* alloc, void *p, const void* value)
 {
-	size_t size = (size_t)(list->end - list->begin);
-	size_t capacity = (size_t)(list->end_cap - list->begin);
-	return max(2 * capacity, size + 1);
+	(void)alloc;
+	ftfp_token* token = (ftfp_token*)p;
+	const ftfp_token* value_token = (const ftfp_token*)value;
+
+	token->type = value_token->type;
+	token->row = value_token->row;
+	token->col = value_token->col;
+	token->value = ft_strdup(value_token->value);
 }
 
-bool	_ftfp_list_push(_ftfp_list *list, const _ftfp_list_item* token)
+void	_ftftp_token_destroy(const ft_allocator* alloc, void *p)
 {
-	assert(list != NULL);
-	assert(token != NULL);
-
-	if (list->end < list->end_cap)
-		ft_memcpy(list->end++, token, sizeof(_ftfp_list_item));
-	else
-	{
-		_ftfp_list new_list = { 0 };
-
-		// alloc
-		size_t	new_cap = _ftfp_list_recommend_new_size(list);
-		new_list.begin = ft_calloc(new_cap, sizeof(_ftfp_list_item));
-		if (!new_list.begin)
-			return false;
-		new_list.end_cap = new_list.begin + new_cap;
-
-		// copy old data
-		size_t old_size = (size_t)(list->end - list->begin);
-		if (old_size)
-			ft_memcpy(new_list.begin, list->begin, old_size * sizeof(_ftfp_list_item));
-		new_list.end = new_list.begin + old_size;
-
-		// copy new token
-		ft_memcpy(new_list.end, token, sizeof(_ftfp_list_item));
-		new_list.end++;
-
-		// swap
-		free(list->begin);
-		*list = new_list;
-	}
-	return true;
+	(void)alloc;
+	free(((ftfp_token*)p)->value);
 }
 
-bool	ftfp_valid(const ftfp_state* state)
+bool ftfp_valid(const ftfp_state* state)
 {
 	return state->_status == FTFP_STATUS_SUCCESS;
 }
@@ -80,15 +43,21 @@ ftfp_state	ftfp_parse(const char *file, const ftfp_desc* desc)
 	assert(file != NULL);
 	assert(desc != NULL);
 	
-	ftfp_state  state = { 0 };
+	ftfp_state state = { 0 };
 	char *line = NULL;
 	int fd;
 	size_t i, length, row;
-	_ftfp_list list = { 0 };
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
 		return (ftfp_state){ ._status = FTFP_STATUS_CANNOT_OPEN_FILE };
+	state.tokens = ftv_create(&(ftv_desc){
+		.alloc = (ft_allocator){
+			.sizeof_type = sizeof(ftfp_token),
+			.construct = _ftftp_token_construct,
+			.destroy = _ftftp_token_destroy,
+		},
+	});
 	row = 0;
 	while (ft_get_next_line(fd, &line))
 	{
@@ -109,21 +78,15 @@ ftfp_state	ftfp_parse(const char *file, const ftfp_desc* desc)
 				size_t token_length = ft_strlen(desc->tokens[j].value);
 				if (ft_strncmp(&line[i], desc->tokens[j].value, token_length) == 0)
 				{
-					if (!_ftfp_list_push(&list, &(_ftfp_list_item){
-						.t = {
-							.type = desc->tokens[j].type,
-							.value = (char*)desc->tokens[j].value,
-							.row = row,
-							.col = i,
-						},
-						.length = token_length,
-					}))
-					{
-						free(list.begin);
-						state._status = FTFP_STATUS_ALLOCATION_FAILURE;
-						close(fd);
-						return state;
-					}
+					char v[token_length + 1];
+					ft_memcpy(v, &line[i], token_length);
+					v[token_length] = '\0';
+					ftv_push_back(&state.tokens, (ftfp_token){
+						.type = desc->tokens[j].type,
+						.value = v,
+						.row = row,
+						.col = i + 1,
+					});
 					found = true;
 					i += token_length;
 					break ;
@@ -136,67 +99,39 @@ ftfp_state	ftfp_parse(const char *file, const ftfp_desc* desc)
 					i++;
 				if (j < i)
 				{
-					if (!_ftfp_list_push(&list, &(_ftfp_list_item){
-						.t = {
-							.type = -1,
-							.value = &line[j],
-							.row = row,
-							.col = j + 1,
-						},
-						.length = i - j,
-					}))
-					{
-						free(list.begin);
-						state._status = FTFP_STATUS_ALLOCATION_FAILURE;
-						close(fd);
-						return state;
-					}
+					char v[i - j + 1];
+					ft_memcpy(v, &line[j], i - j);
+					v[i - j] = '\0';
+					ftv_push_back(&state.tokens, (ftfp_token){
+						.type = -1,
+						.value = v,
+						.row = row,
+						.col = j + 1,
+					});
 				}
 				// break;
 			}
 		}
 		if (!desc->skip_newlines)
 		{
-			if (!_ftfp_list_push(&list, &(_ftfp_list_item){
-				.t = {
-					.type = -1,
-					.value = "\n",
-					.row = row,
-					.col = i + 1,
-				},
-				.length = 1,
-			}))
-			{
-				free(list.begin);
-				state._status = FTFP_STATUS_ALLOCATION_FAILURE;
-				close(fd);
-				return state;
-			}
+			ftv_push_back(&state.tokens, (ftfp_token){
+				.type = -1,
+				.value = "\n",
+				.row = row,
+				.col = length + 1,
+			});
 		}
+		free(line);
+		line = NULL;
 	}
+	free(line);
 	close(fd);
-	
-	state.count = (size_t)(list.end - list.begin);
-	state.tokens = ft_calloc(state.count, sizeof(ftfp_token));
-	if (!state.tokens)
-	{
-		free(list.begin);
-		state._status = FTFP_STATUS_ALLOCATION_FAILURE;
-		return state;
-	}
-	for (size_t i = 0; i < state.count; i++)
-	{
-		state.tokens[i].type = list.begin[i].t.type;
-		state.tokens[i].row = list.begin[i].t.row;
-		state.tokens[i].col = list.begin[i].t.col;
-		state.tokens[i].value = ft_strndup(list.begin[i].t.value, list.begin[i].length);
-	}
+
+	state._status = FTFP_STATUS_SUCCESS;
 	return state;
 }
 
 void	ftfp_clear(ftfp_state* state)
 {
-	for (size_t i = 0; i < state->count; i++)
-		free(state->tokens[i].value);
-	free(state->tokens);
+	ftv_destroy(&state->tokens);
 }

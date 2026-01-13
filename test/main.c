@@ -10,51 +10,51 @@ static void test_basic_string_create(void* param)
 	ft_string s = ftstr_create();
 
 	ftt_expect(s._capacity)->to_be(LIBFT_STRING_DEFAULT_CAPACITY);
-	ftstr_destroy(s);
+	ftstr_destroy(&s);
 
 	s = ft_string("Hello, world!");
-	ftt_expect(ftstr_size(s))->to_be(13);
-	ftt_expect(ftstr_capacity(s))->to_be(14);
-	ftt_expect(ftstr_equals(s, "Hello, world!"))->to_be_true();
+	ftt_expect(ftstr_size(&s))->to_be(13);
+	ftt_expect(ftstr_capacity(&s))->to_be(14);
+	ftt_expect(ftstr_equals(&s, "Hello, world!"))->to_be_true();
 
 	ft_string s2 = ft_string(&s);
-	ftt_expect(ftstr_size(s2))->to_be(13);
-	ftt_expect(ftstr_capacity(s2))->to_be(14);
-	ftt_expect(ftstr_equals(s, &s2))->to_be_true();
-	ftt_expect(ftstr_equals(s2, "Hello, world!"))->to_be_true();
-	ftstr_destroy(s2);
-	ftstr_destroy(s);
+	ftt_expect(ftstr_size(&s2))->to_be(13);
+	ftt_expect(ftstr_capacity(&s2))->to_be(14);
+	ftt_expect(ftstr_equals(&s, &s2))->to_be_true();
+	ftt_expect(ftstr_equals(&s2, "Hello, world!"))->to_be_true();
+	ftstr_destroy(&s2);
+	ftstr_destroy(&s);
 
 	s = ft_string('A', 5);
-	ftt_expect(ftstr_size(s))->to_be(5);
-	ftt_expect(ftstr_capacity(s))->to_be(6);
-	ftt_expect(ftstr_equals(s, "AAAAA"))->to_be_true();
-	ftstr_destroy(s);
+	ftt_expect(ftstr_size(&s))->to_be(5);
+	ftt_expect(ftstr_capacity(&s))->to_be(6);
+	ftt_expect(ftstr_equals(&s, "AAAAA"))->to_be_true();
+	ftstr_destroy(&s);
 }
 
 static void test_basic_string_append(void* param)
 {
 	ft_string s = ft_string("Hello");
-	ftstr_append(s, ", ");
-	ftstr_append(s, 'W', 1);
-	ftstr_append(s, "orld");
-	ftstr_append(s, '!', 1);
+	ftstr_append(&s, ", ");
+	ftstr_append(&s, 'W', 1);
+	ftstr_append(&s, "orld");
+	ftstr_append(&s, '!', 1);
 
-	ftt_expect(ftstr_size(s))->to_be(13);
-	ftt_expect(ftstr_equals(s, "Hello, World!"))->to_be_true();
-	ftstr_destroy(s);
+	ftt_expect(ftstr_size(&s))->to_be(13);
+	ftt_expect(ftstr_equals(&s, "Hello, World!"))->to_be_true();
+	ftstr_destroy(&s);
 
 	ft_string s2 = ft_string('X', 3);
-	ftt_expect(ftstr_size(s2))->to_be(3);
-	ftt_expect(ftstr_equals(s2, "XXX"))->to_be_true();
-	ftt_expect(ftstr_capacity(s2))->to_be(4);
-	ftstr_append(s2, &s2);
-	ftstr_append(s2, 'Y', 2);
-	ftstr_append(s2, "Z");
-	ftt_expect(ftstr_size(s2))->to_be(ft_strlen("XXXXXXYYZ")); // 9
-	ftt_expect(ftstr_equals(s2, "XXXXXXYYZ"))->to_be_true();
-	ftt_expect(ftstr_capacity(s2))->to_be_greater_than(10);
-	ftstr_destroy(s2);
+	ftt_expect(ftstr_size(&s2))->to_be(3);
+	ftt_expect(ftstr_equals(&s2, "XXX"))->to_be_true();
+	ftt_expect(ftstr_capacity(&s2))->to_be(4);
+	ftstr_append(&s2, &s2);
+	ftstr_append(&s2, 'Y', 2);
+	ftstr_append(&s2, "Z");
+	ftt_expect(ftstr_size(&s2))->to_be(ft_strlen("XXXXXXYYZ")); // 9
+	ftt_expect(ftstr_equals(&s2, "XXXXXXYYZ"))->to_be_true();
+	ftt_expect(ftstr_capacity(&s2))->to_be_greater_than(10);
+	ftstr_destroy(&s2);
 }
 
 static const ftt_context basic_string_ctx = {
@@ -74,6 +74,51 @@ static const ftt_context basic_string_ctx = {
 	}
 };
 
+// >>fileparse
+
+typedef enum
+{
+	TEST_FILEPARSE_TOKEN_EQUAL = 1,
+	TEST_FILEPARSE_TOKEN_COLON,
+	TEST_FILEPARSE_TOKEN_NEWLINE,
+}test_fileparse_token_type;
+
+static void test_fileparse(void* param)
+{
+	ftfp_state state = ftfp_parse("Makefile", &(ftfp_desc){
+		.isspace = NULL,
+		.isseparator = NULL,
+		.skip_newlines = false,
+		.token_count = 2,
+		.tokens = (ftfp_token_desc[]){
+			{ .type = TEST_FILEPARSE_TOKEN_EQUAL, .value = "=" },
+			{ .type = TEST_FILEPARSE_TOKEN_COLON, .value = ":" },
+		},
+	});
+
+	ftv_each(state.tokens, it)
+	{
+		ftfp_token* token = &FT_ITER_VALUE(it, ftfp_token);
+		// ftt_log("Token %llu: type=%llu, value='%s', row=%d, col=%d\n",
+		// 	i, token->type, token->value, token->row, token->col);
+		ft_printf("%s", token->value);
+	}
+
+	ftfp_clear(&state);
+}
+
+static const ftt_context fileparse_ctx = {
+	.name = "fileparse",
+	.count = 1,
+	.it = (ftt_it_t[]){
+		{
+			.name = "parse",
+			.callback = test_fileparse,
+			.param = NULL,
+		}
+	}
+};
+
 // >>vector
 
 static void test_vector_create(void* param)
@@ -85,10 +130,10 @@ static void test_vector_create(void* param)
 	});
 
 	ftt_expect(v.alloc.sizeof_type)->to_be(sizeof(int));
-	ftt_expect(ftv_size(v))->to_be(0);
-	ftt_expect(ftv_capacity(v))->to_be(0);
-	ftt_expect(ftv_empty(v))->to_be_true();
-	ftv_destroy(v);
+	ftt_expect(ftv_size(&v))->to_be(0);
+	ftt_expect(ftv_capacity(&v))->to_be(0);
+	ftt_expect(ftv_empty(&v))->to_be_true();
+	ftv_destroy(&v);
 	ftt_expect(v.begin)->to_be(NULL);
 	ftt_expect(v.end)->to_be(NULL);
 	ftt_expect(v.end_cap)->to_be(NULL);
@@ -102,14 +147,14 @@ static void test_vector_reserve(void* param)
 		},
 	});
 
-	ftt_expect(ftv_size(v))->to_be(0);
-	ftt_expect(ftv_capacity(v))->to_be(0);
-	ftt_expect(ftv_empty(v))->to_be_true();
-	ftv_reserve(v, 200);
-	ftt_expect(ftv_size(v))->to_be(0);
-	ftt_expect(ftv_capacity(v))->to_be(200);
-	ftt_expect(ftv_empty(v))->to_be_true();
-	ftv_destroy(v);
+	ftt_expect(ftv_size(&v))->to_be(0);
+	ftt_expect(ftv_capacity(&v))->to_be(0);
+	ftt_expect(ftv_empty(&v))->to_be_true();
+	ftv_reserve(&v, 200);
+	ftt_expect(ftv_size(&v))->to_be(0);
+	ftt_expect(ftv_capacity(&v))->to_be(200);
+	ftt_expect(ftv_empty(&v))->to_be_true();
+	ftv_destroy(&v);
 }
 
 static void test_vector_push_back(void* param)
@@ -120,49 +165,49 @@ static void test_vector_push_back(void* param)
 		},
 	});
 
-	ftt_expect(ftv_size(v))->to_be(0);
-	ftt_expect(ftv_capacity(v))->to_be(0);
-	ftt_expect(ftv_empty(v))->to_be_true();
+	ftt_expect(ftv_size(&v))->to_be(0);
+	ftt_expect(ftv_capacity(&v))->to_be(0);
+	ftt_expect(ftv_empty(&v))->to_be_true();
 
-	ftv_push_backv(v, 42);
-	ftt_expect(ftv_size(v))->to_be(1);
-	ftt_expect(ftv_capacity(v))->to_be(1);
-	ftt_expect(ftv_at(v, 0, int))->to_be(42);
+	ftv_push_backv(&v, 42);
+	ftt_expect(ftv_size(&v))->to_be(1);
+	ftt_expect(ftv_capacity(&v))->to_be(1);
+	ftt_expect(ftv_at(&v, 0, int))->to_be(42);
 
-	ftv_push_backv(v, 21);
-	ftt_expect(ftv_size(v))->to_be(2);
-	ftt_expect(ftv_capacity(v))->to_be(2);
-	ftt_expect(ftv_at(v, 0, int))->to_be(42);
-	ftt_expect(ftv_at(v, 1, int))->to_be(21);
+	ftv_push_backv(&v, 21);
+	ftt_expect(ftv_size(&v))->to_be(2);
+	ftt_expect(ftv_capacity(&v))->to_be(2);
+	ftt_expect(ftv_at(&v, 0, int))->to_be(42);
+	ftt_expect(ftv_at(&v, 1, int))->to_be(21);
 
-	ftv_clear(v);
-	ftt_expect(ftv_size(v))->to_be(0);
-	ftt_expect(ftv_capacity(v))->to_be(2);
-	ftt_expect(ftv_empty(v))->to_be_true();
+	ftv_clear(&v);
+	ftt_expect(ftv_size(&v))->to_be(0);
+	ftt_expect(ftv_capacity(&v))->to_be(2);
+	ftt_expect(ftv_empty(&v))->to_be_true();
 
 	for (int i = 0; i < 100; i++)
-		ftv_push_back(v, i);
-	ftt_expect(ftv_size(v))->to_be(100);
-	ftt_expect(ftv_capacity(v))->to_be(128);
+		ftv_push_back(&v, i);
+	ftt_expect(ftv_size(&v))->to_be(100);
+	ftt_expect(ftv_capacity(&v))->to_be(128);
 	for (int i = 0; i < 100; i++)
-		ftt_expect(ftv_at(v, i, int))->to_be(i);
-	ftt_expect(ftv_size(v))->to_be(100);
+		ftt_expect(ftv_at(&v, i, int))->to_be(i);
+	ftt_expect(ftv_size(&v))->to_be(100);
 	
-	ftv_reserve(v, 200);
-	ftt_expect(ftv_size(v))->to_be(100);
-	ftt_expect(ftv_capacity(v))->to_be(200);
+	ftv_reserve(&v, 200);
+	ftt_expect(ftv_size(&v))->to_be(100);
+	ftt_expect(ftv_capacity(&v))->to_be(200);
 	for (int i = 0; i < 100; i++)
-		ftv_push_back(v, i);
-	ftt_expect(ftv_size(v))->to_be(200);
-	ftv_pop_back(v);
-	ftt_expect(ftv_size(v))->to_be(199);
+		ftv_push_back(&v, i);
+	ftt_expect(ftv_size(&v))->to_be(200);
+	ftv_pop_back(&v);
+	ftt_expect(ftv_size(&v))->to_be(199);
 	for (int i = 0; i < 199; i++)
-		ftt_expect(ftv_at(v, i, int))->to_be(i < 100 ? i : i - 100);
+		ftt_expect(ftv_at(&v, i, int))->to_be(i < 100 ? i : i - 100);
 
-	ftv_clear(v);
-	ftt_expect(ftv_size(v))->to_be(0);
-	ftt_expect(ftv_empty(v))->to_be_true();
-	ftv_destroy(v);
+	ftv_clear(&v);
+	ftt_expect(ftv_size(&v))->to_be(0);
+	ftt_expect(ftv_empty(&v))->to_be_true();
+	ftv_destroy(&v);
 }
 
 static void	test_iterator(void* param)
@@ -173,25 +218,25 @@ static void	test_iterator(void* param)
 		},
 	});
 
-	ftv_reserve(v, 10);
+	ftv_reserve(&v, 10);
 	for (int i = 0; i < 10; i++)
-		ftv_push_back(v, i);
-	ftt_expect(ftv_size(v))->to_be(10);
+		ftv_push_back(&v, i);
+	ftt_expect(ftv_size(&v))->to_be(10);
 
-	ft_iterator it = ftv_begin(v);
+	ft_iterator it = ftv_begin(&v);
 	for (int i = 0; i < 10; i++, FT_ITER_INC(it))
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(i);
-	ftt_expect(FT_ITER_EQ(it, ftv_end(v)))->to_be_true();
+	ftt_expect(FT_ITER_EQ(it, ftv_end(&v)))->to_be_true();
 
-	it = ftv_rbegin(v);
+	it = ftv_rbegin(&v);
 	for (int i = 9; i >= 0; i--, FT_ITER_INC(it))
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(i);
-	ftt_expect(FT_ITER_EQ(it, ftv_rend(v)))->to_be_true();
+	ftt_expect(FT_ITER_EQ(it, ftv_rend(&v)))->to_be_true();
 
 	int i = 9;
-	for (ft_iterator it = ftv_rbegin(v); FT_ITER_NEQ(it, ftv_rend(v)); FT_ITER_INC(it), i--)
+	for (ft_iterator it = ftv_rbegin(&v); FT_ITER_NEQ(it, ftv_rend(&v)); FT_ITER_INC(it), i--)
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(i);
-	ftt_expect(FT_ITER_EQ(it, ftv_rend(v)))->to_be_true();
+	ftt_expect(FT_ITER_EQ(it, ftv_rend(&v)))->to_be_true();
 
 	i = 0;
 	ftv_each(v, it)
@@ -210,7 +255,7 @@ static void	test_iterator(void* param)
 		int value = FT_ITER_VALUE(it, int);
 		ftt_expect(value)->to_be(--i);
 	}
-	ftv_destroy(v);
+	ftv_destroy(&v);
 }
 
 static void test_vector_insert(void* param)
@@ -221,29 +266,29 @@ static void test_vector_insert(void* param)
 		},
 	});
 
-	ftv_reserve(v, 12);
+	ftv_reserve(&v, 12);
 	for (int i = 0; i < 10; i++)
-		ftv_push_back(v, i);
-	ftt_expect(ftv_size(v))->to_be(10);
+		ftv_push_back(&v, i);
+	ftt_expect(ftv_size(&v))->to_be(10);
 
-	ft_iterator it = ftv_begin(v);
+	ft_iterator it = ftv_begin(&v);
 	for (int i = 0; i < 10; i++, FT_ITER_INC(it))
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(i);
-	ftt_expect(FT_ITER_EQ(it, ftv_end(v)))->to_be_true();
+	ftt_expect(FT_ITER_EQ(it, ftv_end(&v)))->to_be_true();
 
-	ftv_insert_atv(v, FT_ITER_ADD_NEW(ftv_begin(v), 5), 100);
-	ftt_expect(ftv_size(v))->to_be(11);
-	ftt_expect(ftv_at(v, 5, int))->to_be(100);
-	ftv_insert_atv(v, FT_ITER_ADD_NEW(ftv_begin(v), 5), 200);
-	ftt_expect(ftv_size(v))->to_be(12);
-	ftt_expect(ftv_at(v, 5, int))->to_be(200);
-	ftv_insert_atv(v, ftv_end(v), 300);
-	ftt_expect(ftv_size(v))->to_be(13);
-	ftt_expect(ftv_at(v, 12, int))->to_be(300);
+	ftv_insert_atv(&v, FT_ITER_ADD_NEW(ftv_begin(&v), 5), 100);
+	ftt_expect(ftv_size(&v))->to_be(11);
+	ftt_expect(ftv_at(&v, 5, int))->to_be(100);
+	ftv_insert_atv(&v, FT_ITER_ADD_NEW(ftv_begin(&v), 5), 200);
+	ftt_expect(ftv_size(&v))->to_be(12);
+	ftt_expect(ftv_at(&v, 5, int))->to_be(200);
+	ftv_insert_atv(&v, ftv_end(&v), 300);
+	ftt_expect(ftv_size(&v))->to_be(13);
+	ftt_expect(ftv_at(&v, 12, int))->to_be(300);
 
-	ftv_at(v, 0, int) = 100;
-	ftt_expect(ftv_at(v, 0, int))->to_be(100);
-	ftv_destroy(v);
+	ftv_at(&v, 0, int) = 100;
+	ftt_expect(ftv_at(&v, 0, int))->to_be(100);
+	ftv_destroy(&v);
 }
 
 struct vector_test_struct { int a, b; };
@@ -267,18 +312,18 @@ static void	test_allocator(void* param)
 	});
 
 	ftt_expect(v.alloc.sizeof_type)->to_be(sizeof(struct vector_test_struct));
-	ftv_reserve(v, 2);
-	ftt_expect(ftv_capacity(v))->to_be(2);
-	ftv_push_back(v, (struct vector_test_struct){42, 21});
-	ftv_push_back(v, (struct vector_test_struct){20, 43});
-	ftt_expect(ftv_size(v))->to_be(2);
+	ftv_reserve(&v, 2);
+	ftt_expect(ftv_capacity(&v))->to_be(2);
+	ftv_push_back(&v, (struct vector_test_struct){42, 21});
+	ftv_push_back(&v, (struct vector_test_struct){20, 43});
+	ftt_expect(ftv_size(&v))->to_be(2);
 
 	// The constructed values should have +42 in each member
-	ftt_expect(ftv_at(v, 0, struct vector_test_struct).a)->to_be(42 + 42);
-	ftt_expect(ftv_at(v, 0, struct vector_test_struct).b)->to_be(21 + 42);
-	ftt_expect(ftv_at(v, 1, struct vector_test_struct).a)->to_be(20 + 42);
-	ftt_expect(ftv_at(v, 1, struct vector_test_struct).b)->to_be(43 + 42);
-	for (ft_iterator it = ftv_begin(v); !FT_ITER_EQ(it, ftv_end(v)); FT_ITER_INC(it))
+	ftt_expect(ftv_at(&v, 0, struct vector_test_struct).a)->to_be(42 + 42);
+	ftt_expect(ftv_at(&v, 0, struct vector_test_struct).b)->to_be(21 + 42);
+	ftt_expect(ftv_at(&v, 1, struct vector_test_struct).a)->to_be(20 + 42);
+	ftt_expect(ftv_at(&v, 1, struct vector_test_struct).b)->to_be(43 + 42);
+	for (ft_iterator it = ftv_begin(&v); !FT_ITER_EQ(it, ftv_end(&v)); FT_ITER_INC(it))
 	{
 		struct vector_test_struct val = FT_ITER_VALUE(it, struct vector_test_struct);
 		// 63 is the sum of original a and b, for both structs
@@ -291,7 +336,7 @@ static void	test_allocator(void* param)
 		// 63 is the sum of original a and b, for both structs
 		ftt_expect(val.a + val.b)->to_be(63 + 42 + 42);
 	}
-	ftv_destroy(v);
+	ftv_destroy(&v);
 }
 
 static void test_vector_resize(void* param)
@@ -674,6 +719,7 @@ static const char* usage = "\
 Available tests:\n\
   - all\n\
   - basic_string\n\
+  - fileparse\n\
   - vector\n\
   - write\n\
 ";
@@ -707,6 +753,7 @@ int	main(int argc, char **argv)
 			{
 				ctx_count = 0;
 				contexts[ctx_count++] = basic_string_ctx;
+				contexts[ctx_count++] = fileparse_ctx;
 				contexts[ctx_count++] = vector_ctx;
 				contexts[ctx_count++] = write_ctx;
 				break ;
@@ -714,6 +761,10 @@ int	main(int argc, char **argv)
 			else if (ft_strcmp(state.arguments[i], "basic_string") == 0)
 			{
 				contexts[ctx_count++] = basic_string_ctx;
+			}
+			else if (ft_strcmp(state.arguments[i], "fileparse") == 0)
+			{
+				contexts[ctx_count++] = fileparse_ctx;
 			}
 			else if (ft_strcmp(state.arguments[i], "vector") == 0)
 			{

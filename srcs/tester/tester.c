@@ -270,7 +270,7 @@ void	_ftt_log(const char *func, const char* format, ...)
 	va_end(args);
 }
 
-static void	ftt_run_test(const ftt_it_t* it, const ftt_desc* desc)
+static void	_ftt_run_test(const ftt_it_t* it, const ftt_desc* desc)
 {
 	ftt_set_status(FTT_STATUS_SUCCESS);
 
@@ -288,7 +288,7 @@ static void	ftt_run_test(const ftt_it_t* it, const ftt_desc* desc)
 		tester_expect.ctx_tests_passed++;
 }
 
-static void	ftt_set_properties(void)
+static void	_ftt_set_properties(void)
 {
 	tester_expect._properties.to_be = _ftt_expect_to_be;
 	tester_expect._properties.to_not_be = _ftt_expect_not_to_be;
@@ -307,7 +307,7 @@ void	ftt_describe(const char* name, const ftt_desc* desc)
 	size_t total_tests = 0;
 	size_t total_tests_passed = 0;
 
-	ftt_set_properties();
+	_ftt_set_properties();
 
 	if (name && *name)
 		ft_printf(COLOR_MAGENTA "=== %s ===\n" COLOR_DEFAULT, name);
@@ -321,7 +321,7 @@ void	ftt_describe(const char* name, const ftt_desc* desc)
 		if (ctx->name && *ctx->name)
 			ft_printf(COLOR_YELLOW "--- %s ---\n" COLOR_DEFAULT, ctx->name);
 		for (size_t j = 0; j < ctx->count; j++)
-			ftt_run_test(&ctx->it[j], desc);
+			_ftt_run_test(&ctx->it[j], desc);
 		if (desc->after)
 			desc->after(NULL);
 		if (tester_expect.ctx_tests_passed == ctx->count)
