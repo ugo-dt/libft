@@ -3,7 +3,7 @@
 #include <libft/tester.h>
 #include <libft/iterator.h>
 
-// >>basic_string
+// >>ft_string
 
 static void test_basic_string_create(void* param)
 {
@@ -54,12 +54,34 @@ static void test_basic_string_append(void* param)
 	ftt_expect(ftstr_size(&s2))->to_be(ft_strlen("XXXXXXYYZ")); // 9
 	ftt_expect(ftstr_equals(&s2, "XXXXXXYYZ"))->to_be_true();
 	ftt_expect(ftstr_capacity(&s2))->to_be_greater_than(10);
+	ftt_expect(ftstr_data(&s2))->to_be("XXXXXXYYZ");
 	ftstr_destroy(&s2);
+}
+
+static void test_basic_string_assign(void* param)
+{
+	ft_string s = ft_string("Initial");
+	ftt_expect(ftstr_size(&s))->to_be(7);
+	ftt_expect(ftstr_equals(&s, "Initial"))->to_be_true();
+
+	ftstr_assign(&s, "New value");
+	ftt_expect(ftstr_size(&s))->to_be(9);
+	ftt_expect(ftstr_equals(&s, "New value"))->to_be_true();
+
+	ftstr_assign(&s, 'A', 4);
+	ftt_expect(ftstr_size(&s))->to_be(4);
+	ftt_expect(ftstr_equals(&s, "AAAA"))->to_be_true();
+
+	ftstr_assign(&s, "Short", 3);
+	ftt_expect(ftstr_data(&s))->to_be("Sho");
+	ftt_expect(ftstr_size(&s))->to_be(3);
+	ftt_expect(ftstr_equals(&s, "Sho"))->to_be_true();
+	ftstr_destroy(&s);
 }
 
 static const ftt_context basic_string_ctx = {
 	.name = "basic_string",
-	.count = 2,
+	.count = 3,
 	.it = (ftt_it_t[]){
 		{
 			.name = "create",
@@ -69,6 +91,11 @@ static const ftt_context basic_string_ctx = {
 		{
 			.name = "append",
 			.callback = test_basic_string_append,
+			.param = NULL,
+		},
+		{
+			.name = "assign",
+			.callback = test_basic_string_assign,
 			.param = NULL,
 		}
 	}
@@ -101,7 +128,10 @@ static void test_fileparse(void* param)
 		ftfp_token* token = &FT_ITER_VALUE(it, ftfp_token);
 		// ftt_log("Token %llu: type=%llu, value='%s', row=%d, col=%d\n",
 		// 	i, token->type, token->value, token->row, token->col);
-		ft_printf("%s", token->value);
+		if (ft_strcmp(token->value, "=") == 0)
+			ftt_expect(token->type)->to_be(TEST_FILEPARSE_TOKEN_EQUAL);
+		else if (ft_strcmp(token->value, ":") == 0)
+			ftt_expect(token->type)->to_be(TEST_FILEPARSE_TOKEN_COLON);
 	}
 
 	ftfp_clear(&state);

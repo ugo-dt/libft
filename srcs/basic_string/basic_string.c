@@ -320,8 +320,8 @@ void _ftstr_assign_count(ft_string* s, const char *_x, size_t count)
 	}
 	else
 	{
-		ft_strcpy(s->_data, _x);
-		ft_memset(s->_data + _xsize, '\0', s->_capacity - _xsize);
+		ft_strncpy(s->_data, _x, count);
+		ft_memset(s->_data + _xsize - 1, '\0', s->_capacity - _xsize);
 	}
 }
 
@@ -348,6 +348,16 @@ void _ftstr_assign_char(ft_string* s, const char _x, size_t count)
 		ft_memset(s->_data, _x, count);
 		ft_memset(s->_data + count, '\0', s->_capacity - count);
 	}
+}
+
+void _ftstr_assign_ft_string(ft_string* s, const ft_string* x)
+{
+	assert(x && x->_data);
+
+	if (s->_data == x->_data)
+		return ;
+	else if (x->_capacity && x->_data)
+		_ftstr_assign(s, x->_data);
 }
 
 void _ftstr_clear(ft_string *s)

@@ -621,6 +621,7 @@ void _ftstr_append_ft_string(ft_string* s, const ft_string* x);
 void _ftstr_assign(ft_string* s, const char *_x);
 void _ftstr_assign_count(ft_string* s, const char *_x, size_t count);
 void _ftstr_assign_char(ft_string* s, const char _x, size_t count);
+void _ftstr_assign_ft_string(ft_string* s, const ft_string* x);
 void _ftstr_clear(ft_string* s);
 
 #define ft_string(...) _Generic((__VA_ARGS__),            \
@@ -658,12 +659,14 @@ void _ftstr_clear(ft_string* s);
 #define _ftstr_get_append_count(__sptr, __char, __count) _ftstr_append_char(__sptr, __char, __count)
 #define ftstr_append(__sptr, ...) _ftstr_get_append_macro((__sptr), __VA_ARGS__, _ftstr_get_append_count, _ftstr_get_append)((__sptr), __VA_ARGS__)
 
-#define _ftstr_assign_generic(__sptr, ...)    \
-	_Generic((__VA_ARGS__),                \
-	const char*: _ftstr_assign,            \
-	char*: _ftstr_assign,                  \
-	struct ft_string*: _ftstr_assign_ft_string \
-)(__sptr, __VA_ARGS__)
+#define _ftstr_assign_generic(__sptr, __a, __b) \
+	_Generic((__a),                             \
+	const char*: _ftstr_assign_count,           \
+	char*: _ftstr_assign_count,                 \
+	char: _ftstr_assign_char,                   \
+	int: _ftstr_assign_char,                    \
+	struct ft_string*: _ftstr_assign_ft_string  \
+)(__sptr, __a, __b)
 #define _ftstr_get_assign_macro(__sptr, __char, __count, __macro_name, ...)	__macro_name
 #define _ftstr_get_assign(__sptr, __x) _ftstr_assign(__sptr, __x)
 #define _ftstr_get_assign_count(__sptr, __char, __count) _ftstr_assign_generic(__sptr, __char, __count)

@@ -43,7 +43,18 @@ void	_ftt_expect_to_be(const void* value, size_t sizeof_value, ftt_value_type ty
 {
 	if (tester_expect._status != FTT_STATUS_SUCCESS)
 		return ;
-	
+
+	if (type == FTT_VALUE_TYPE_STRING)
+	{
+		const char* s = *(const char**)tester_expect._value;
+		if (ft_strcmp(s, (const char*)value) != 0)
+		{
+			tester_expect._status = FTT_STATUS_FAILURE;
+			_ftt_set_error("expected %s to be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, s);
+		}
+		return ;
+	}
+
 	if (ft_memcmp(tester_expect._value, value, sizeof_value) != 0)
 	{
 		tester_expect._status = FTT_STATUS_FAILURE;
@@ -67,9 +78,6 @@ void	_ftt_expect_to_be(const void* value, size_t sizeof_value, ftt_value_type ty
 			case FTT_VALUE_TYPE_DOUBLE:
 				_ftt_set_error("expected %s to be %lf, got %lf", tester_expect._value_name, *(double*)value, *(double*) tester_expect._value);
 				break ;
-			case FTT_VALUE_TYPE_STRING:
-				_ftt_set_error("expected %s to be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, (char*) tester_expect._value);
-				break ;
 			case FTT_VALUE_TYPE_POINTER:
 			default:
 				_ftt_set_error("expected %s to be %p, got %p", tester_expect._value_name, value, tester_expect._value);
@@ -82,6 +90,16 @@ void	_ftt_expect_not_to_be(const void* value, size_t sizeof_value, ftt_value_typ
 {
 	if (tester_expect._status != FTT_STATUS_SUCCESS)
 		return ;
+	
+	if (type == FTT_VALUE_TYPE_STRING)
+	{
+		if (ft_strcmp((const char*)tester_expect._value, (const char*)value) == 0)
+		{
+			tester_expect._status = FTT_STATUS_FAILURE;
+			_ftt_set_error("expected %s to not be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, (char*) tester_expect._value);
+		}
+		return ;
+	}
 
 	if (ft_memcmp(tester_expect._value, value, sizeof_value) == 0)
 	{
@@ -105,9 +123,6 @@ void	_ftt_expect_not_to_be(const void* value, size_t sizeof_value, ftt_value_typ
 				break ;
 			case FTT_VALUE_TYPE_DOUBLE:
 				_ftt_set_error("expected %s to not be %lf, got %lf", tester_expect._value_name, *(double*)value, *(double*) tester_expect._value);
-				break ;
-			case FTT_VALUE_TYPE_STRING:
-				_ftt_set_error("expected %s to not be \"%s\", got \"%s\"", tester_expect._value_name, (char*)value, (char*) tester_expect._value);
 				break ;
 			case FTT_VALUE_TYPE_POINTER:
 			default:
