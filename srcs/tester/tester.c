@@ -35,7 +35,7 @@ static void _ftt_set_error(const char* format, ...)
 	va_end(args);
 }
 LIBFT_FORCE_INLINE const char* _ftt_get_error(void) { return tester_expect._error; }
-LIBFT_FORCE_INLINE const char* _ftt_get_value_name(void) { return tester_expect._value_name; }
+// LIBFT_FORCE_INLINE const char* _ftt_get_value_name(void) { return tester_expect._value_name; }
 LIBFT_FORCE_INLINE const char* _ftt_get_file(void) { return tester_expect._file; }
 LIBFT_FORCE_INLINE int _ftt_get_line(void) { return tester_expect._line; }
 

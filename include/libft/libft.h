@@ -635,9 +635,10 @@ void _ftstr_clear(ft_string* s);
 
 #define ftstr_destroy(__sptr) _ftstr_destroy((__sptr))
 #define ftstr_equals(__sptr, __x) _Generic((__x), \
-	const char*: _ftstr_equals_str,            \
-	char*: _ftstr_equals_str,                  \
-	struct ft_string*: _ftstr_equals           \
+	const char*: _ftstr_equals_str,               \
+	char*: _ftstr_equals_str,                     \
+	struct ft_string*: _ftstr_equals,             \
+	const struct ft_string*: _ftstr_equals        \
 )((__sptr), __x)
 #define ftstr_data(__sptr) _ftstr_data((__sptr))
 #define ftstr_size(__sptr) _ftstr_size((__sptr))
@@ -648,24 +649,26 @@ void _ftstr_clear(ft_string* s);
 #define ftstr_reserve(__sptr, __new_cap) _ftstr_reserve((__sptr), __new_cap)
 #define ftstr_capacity(__sptr) _ftstr_capacity((__sptr))
 #define ftstr_shrink_to_fit(__sptr) _ftstr_shrink_to_fit((__sptr))
-#define _ftstr_append_generic(__sptr, ...)        \
-	_Generic((__VA_ARGS__),                    \
-	const char*: _ftstr_append_str,            \
-	char*: _ftstr_append_str,                  \
-	struct ft_string*: _ftstr_append_ft_string \
+#define _ftstr_append_generic(__sptr, ...)           \
+	_Generic((__VA_ARGS__),                          \
+	const char*: _ftstr_append_str,                  \
+	char*: _ftstr_append_str,                        \
+	struct ft_string*: _ftstr_append_ft_string,      \
+	const struct ft_string*: _ftstr_append_ft_string \
 )(__sptr, __VA_ARGS__)
 #define _ftstr_get_append_macro(__sptr, __char, __count, __macro_name, ...)	__macro_name
 #define _ftstr_get_append(__sptr, __x) _ftstr_append_generic(__sptr, __x)
 #define _ftstr_get_append_count(__sptr, __char, __count) _ftstr_append_char(__sptr, __char, __count)
 #define ftstr_append(__sptr, ...) _ftstr_get_append_macro((__sptr), __VA_ARGS__, _ftstr_get_append_count, _ftstr_get_append)((__sptr), __VA_ARGS__)
 
-#define _ftstr_assign_generic(__sptr, __a, __b) \
-	_Generic((__a),                             \
-	const char*: _ftstr_assign_count,           \
-	char*: _ftstr_assign_count,                 \
-	char: _ftstr_assign_char,                   \
-	int: _ftstr_assign_char,                    \
-	struct ft_string*: _ftstr_assign_ft_string  \
+#define _ftstr_assign_generic(__sptr, __a, __b)      \
+	_Generic((__a),                                  \
+	const char*: _ftstr_assign_count,                \
+	char*: _ftstr_assign_count,                      \
+	char: _ftstr_assign_char,                        \
+	int: _ftstr_assign_char,                         \
+	struct ft_string*: _ftstr_assign_ft_string,      \
+	const struct ft_string*: _ftstr_assign_ft_string \
 )(__sptr, __a, __b)
 #define _ftstr_get_assign_macro(__sptr, __char, __count, __macro_name, ...)	__macro_name
 #define _ftstr_get_assign(__sptr, __x) _ftstr_assign(__sptr, __x)
