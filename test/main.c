@@ -56,6 +56,15 @@ static void test_basic_string_append(void* param)
 	ftt_expect(ftstr_capacity(&s2))->to_be_greater_than(10);
 	ftt_expect(ftstr_data(&s2))->to_be("XXXXXXYYZ");
 	ftstr_destroy(&s2);
+
+	ft_string s3 = ft_string("Number: ");
+	ftstr_appendf(&s3, "%d, %s", 42, "test");
+	ftt_expect(ftstr_equals(&s3, "Number: 42, test"))->to_be_true();
+	ftt_expect(ftstr_size(&s3))->to_be(ft_strlen("Number: 42, test"));
+	ftstr_appendf(&s3, " Hex: 0x%X", 255);
+	ftt_expect(ftstr_equals(&s3, "Number: 42, test Hex: 0xFF"))->to_be_true();
+	ftt_expect(ftstr_size(&s3))->to_be(ft_strlen("Number: 42, test Hex: 0xFF"));
+	ftstr_destroy(&s3);
 }
 
 static void test_basic_string_assign(void* param)
@@ -123,7 +132,7 @@ static void test_fileparse(void* param)
 		},
 	});
 
-	ftv_each(state.tokens, it)
+	ftv_foreach(state.tokens, it)
 	{
 		ftfp_token* token = &FT_ITER_VALUE(it, ftfp_token);
 		// ftt_log("Token %llu: type=%llu, value='%s', row=%d, col=%d\n",
@@ -269,18 +278,18 @@ static void	test_iterator(void* param)
 	ftt_expect(FT_ITER_EQ(it, ftv_rend(&v)))->to_be_true();
 
 	i = 0;
-	ftv_each(v, it)
+	ftv_foreach(v, it)
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(i++);
-	ftv_each_reverse(v, it)
+	ftv_foreach_reverse(v, it)
 		ftt_expect(FT_ITER_VALUE(it, int))->to_be(--i);
 
 	i = 0;
-	ftv_each(v, it)
+	ftv_foreach(v, it)
 	{
 		int value = FT_ITER_VALUE(it, int);
 		ftt_expect(value)->to_be(i++);
 	}
-	ftv_each_reverse(v, it)
+	ftv_foreach_reverse(v, it)
 	{
 		int value = FT_ITER_VALUE(it, int);
 		ftt_expect(value)->to_be(--i);
@@ -360,7 +369,7 @@ static void	test_allocator(void* param)
 		ftt_expect(val.a + val.b)->to_be(63 + 42 + 42);
 	}
 
-	ftv_each(v, it)
+	ftv_foreach(v, it)
 	{
 		struct vector_test_struct val = FT_ITER_VALUE(it, struct vector_test_struct);
 		// 63 is the sum of original a and b, for both structs
