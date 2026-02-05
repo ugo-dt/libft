@@ -130,7 +130,7 @@ re:
 	$(SILENT)$(MAKE) --no-print-directory all
 
 test: $(NAME)
-	$(SILENT)$(CC) test/main.c $(INCLUDE) $(NAME) -o test/tester && ./test/tester all	
+	$(SILENT)$(CC) test/main.c $(INCLUDE) $(NAME) -o test/tester && ./test/tester all
 
 testleak: $(NAME)
 	$(SILENT)$(CC) test/main.c $(INCLUDE) $(NAME) -o test/tester && valgrind -s --leak-check=full --show-leak-kinds=all ./test/tester all

@@ -51,6 +51,7 @@ def main():
 		"srcs/memory",
 		"srcs/string",
 		"srcs/timer",
+		"srcs/tester",
 		"srcs/vector",
 		"srcs/write"
 	]
