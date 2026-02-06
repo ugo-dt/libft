@@ -58,11 +58,11 @@
 #define FT_ITER_GE(__it_a, __it_b) (!FT_ITER_LT((__it_a), (__it_b))) // greater than or equal
 
 #define ftv_foreach(__vector, __it) \
-	for (ft_iterator __it = _ftv_begin((&__vector)); \
-		 FT_ITER_NEQ(__it, _ftv_end((&__vector))); \
+	for (ft_iterator __it = ftv_begin((&__vector)); \
+		 FT_ITER_NEQ(__it, ftv_end((&__vector))); \
 		 FT_ITER_INC(__it))
 
 #define ftv_foreach_reverse(__vector, __rit) \
-	for (ft_iterator __rit = _ftv_rbegin((&__vector)); \
-		 FT_ITER_NEQ(__rit, _ftv_rend((&__vector))); \
+	for (ft_iterator __rit = ftv_rbegin((&__vector)); \
+		 FT_ITER_NEQ(__rit, ftv_rend((&__vector))); \
 		 FT_ITER_INC(__rit))

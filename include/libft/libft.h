@@ -786,42 +786,30 @@ typedef struct
 }ftv_desc;
 
 ft_vector ftv_create(const ftv_desc* desc);
-void _ftv_destroy(ft_vector* vector);
-ft_iterator _ftv_begin(const ft_vector* vector);
-ft_iterator _ftv_end(const ft_vector* vector);
-ft_iterator _ftv_rbegin(const ft_vector* vector);
-ft_iterator _ftv_rend(const ft_vector* vector);
-size_t _ftv_max_size(const ft_vector* vector);
-size_t _ftv_size(const ft_vector* vector);
-size_t _ftv_capacity(const ft_vector* vector);
-size_t _ftv_empty(const ft_vector* vector);
-void _ftv_clear(ft_vector* vector);
+void ftv_destroy(ft_vector* vector);
+ft_iterator ftv_begin(const ft_vector* vector);
+ft_iterator ftv_end(const ft_vector* vector);
+ft_iterator ftv_rbegin(const ft_vector* vector);
+ft_iterator ftv_rend(const ft_vector* vector);
+size_t ftv_max_size(const ft_vector* vector);
+size_t ftv_size(const ft_vector* vector);
+size_t ftv_capacity(const ft_vector* vector);
+size_t ftv_empty(const ft_vector* vector);
+void ftv_clear(ft_vector* vector);
 void _ftv_reserve(ft_vector* vector, size_t n);
 void _ftv_assign(ft_vector* vector, ft_iterator first, ft_iterator last);
 void _ftv_push_back(ft_vector* vector, const void* value);
-void _ftv_pop_back(ft_vector* vector);
-void* _ftv_data(const ft_vector* vector);
+void ftv_pop_back(ft_vector* vector);
+void* ftv_data(const ft_vector* vector);
 void* _ftv_at(const ft_vector* vector, size_t n);
 ft_iterator _ftv_erase_at(ft_vector* vector, const ft_iterator pos);
 ft_iterator _ftv_erase(ft_vector* vector, ft_iterator first, ft_iterator last);
 ft_iterator _ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* value);
 
-#define ftv_destroy(__vptr) _ftv_destroy((__vptr))
-#define ftv_begin(__vptr) _ftv_begin((__vptr))
-#define ftv_end(__vptr) _ftv_end((__vptr))
-#define ftv_rbegin(__vptr) _ftv_rbegin((__vptr))
-#define ftv_rend(__vptr) _ftv_rend((__vptr))
-#define ftv_max_size(__vptr) _ftv_max_size((__vptr))
-#define ftv_size(__vptr) _ftv_size((__vptr))
-#define ftv_capacity(__vptr) _ftv_capacity((__vptr))
-#define ftv_empty(__vptr) _ftv_empty((__vptr))
-#define ftv_clear(__vptr) _ftv_clear((__vptr))
 #define ftv_reserve(__vptr, __n) _ftv_reserve((__vptr), (__n))
 #define ftv_assign(__vptr, __first, __last) _ftv_assign((__vptr), (__first), (__last))
 #define ftv_push_back(__vptr, ...) _ftv_push_back((__vptr), &((__VA_ARGS__)))
 #define ftv_push_backv(__vptr, __value) _ftv_push_back((__vptr), &(__typeof__(__value)){__value})
-#define ftv_pop_back(__vptr) _ftv_pop_back((__vptr))
-#define ftv_data(__vptr) _ftv_data((__vptr))
 #define ftv_at(__vptr, __n, __type) (*( __type* )_ftv_at((__vptr), (__n)))
 #define ftv_erase_at(__vptr, __it_pos) _ftv_erase_at((__vptr), (__it_pos))
 #define ftv_erase_range(__vptr, __first, __last) _ftv_erase((__vptr), (__first), (__last))
