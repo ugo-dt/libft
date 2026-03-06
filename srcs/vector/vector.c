@@ -124,7 +124,7 @@ void*	ftv_data(const ft_vector* vector)
 	return vector->begin;
 }
 
-void*	_ftv_at(const ft_vector* vector, size_t n)
+void*	ftv_at(const ft_vector* vector, size_t n)
 {
 	assert(n < ftv_size(vector));
 	return POINTER_ADD(vector, vector->begin, n);
@@ -170,7 +170,7 @@ size_t	ftv_empty(const ft_vector* vector)
 	return vector->begin == vector->end;
 }
 
-void	_ftv_reserve(ft_vector* vector, size_t n)
+void	ftv_reserve(ft_vector* vector, size_t n)
 {
 	if (n > ftv_capacity(vector))
 	{
@@ -207,7 +207,7 @@ void	_ftv_push_back(ft_vector* vector, const void* value)
 			.alloc = vector->alloc,
 		});
 
-		_ftv_reserve(&v, _ftv_recommend(vector, ftv_size(vector) + 1));
+		ftv_reserve(&v, _ftv_recommend(vector, ftv_size(vector) + 1));
 		_ftv_assign(&v, ftv_begin(vector), ftv_end(vector));
 		v.alloc.construct(&v.alloc, v.end, value);
 		POINTER_INC(vector, v.end);
@@ -318,7 +318,7 @@ ft_iterator _ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* 
 			.alloc = vector->alloc,
 		});
 
-		_ftv_reserve(&v, _ftv_recommend(vector, ftv_size(vector) + 1));
+		ftv_reserve(&v, _ftv_recommend(vector, ftv_size(vector) + 1));
 		_ftv_assign(&v, ftv_begin(vector), ftv_end(vector));
 		_ftv_insert_element(&v, FT_ITER_ADD_NEW(ftv_begin(&v), d), value);
 		_ftv_swap(vector, &v);
