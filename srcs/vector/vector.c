@@ -130,6 +130,18 @@ void*	ftv_at(const ft_vector* vector, size_t n)
 	return POINTER_ADD(vector, vector->begin, n);
 }
 
+void* ftv_front(const ft_vector* vector)
+{
+	assert(!ftv_empty(vector));
+	return vector->begin;
+}
+
+void* ftv_back(const ft_vector* vector)
+{
+	assert(!ftv_empty(vector));
+	return POINTER_SUB(vector, vector->end, 1);
+}
+
 ft_iterator	ftv_begin(const ft_vector* vector)
 {
 	return _make_iter(vector->alloc.sizeof_type, vector->begin, IteratorType_Random);

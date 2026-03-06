@@ -802,6 +802,8 @@ void _ftv_push_back(ft_vector* vector, const void* value);
 void ftv_pop_back(ft_vector* vector);
 void* ftv_data(const ft_vector* vector);
 void* ftv_at(const ft_vector* vector, size_t n);
+void* ftv_front(const ft_vector* vector);
+void* ftv_back(const ft_vector* vector);
 ft_iterator _ftv_erase_at(ft_vector* vector, const ft_iterator pos);
 ft_iterator _ftv_erase(ft_vector* vector, ft_iterator first, ft_iterator last);
 ft_iterator _ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* value);
@@ -810,6 +812,8 @@ ft_iterator _ftv_insert_element(ft_vector* vector, ft_iterator pos, const void* 
 #define ftv_push_back(__vptr, ...) _ftv_push_back((__vptr), &((__VA_ARGS__)))
 #define ftv_push_backv(__vptr, __value) _ftv_push_back((__vptr), &(__typeof__(__value)){__value})
 #define ftv_atv(__vptr, __n, __type) (*(__type*)ftv_at((__vptr), (__n)))
+#define ftv_frontv(__vptr, __type) (*(__type*)ftv_front((__vptr)))
+#define ftv_backv(__vptr, __type) (*(__type*)ftv_back((__vptr)))
 #define ftv_erase_at(__vptr, __it_pos) _ftv_erase_at((__vptr), (__it_pos))
 #define ftv_erase_range(__vptr, __first, __last) _ftv_erase((__vptr), (__first), (__last))
 #define ftv_insert_at(__vptr, __it_pos, ...) _ftv_insert_element((__vptr), (__it_pos), &((__VA_ARGS__)))
@@ -4236,6 +4240,18 @@ void*	ftv_at(const ft_vector* vector, size_t n)
 {
 	assert(n < ftv_size(vector));
 	return POINTER_ADD(vector, vector->begin, n);
+}
+
+void* ftv_front(const ft_vector* vector)
+{
+	assert(!ftv_empty(vector));
+	return vector->begin;
+}
+
+void* ftv_back(const ft_vector* vector)
+{
+	assert(!ftv_empty(vector));
+	return POINTER_SUB(vector, vector->end, 1);
 }
 
 ft_iterator	ftv_begin(const ft_vector* vector)

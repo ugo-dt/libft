@@ -236,9 +236,18 @@ static void test_vector_push_back(void* param)
 	ftt_expect(ftv_size(&v))->to_be(100);
 	ftt_expect(ftv_capacity(&v))->to_be(200);
 	for (int i = 0; i < 100; i++)
+	{
 		ftv_push_back(&v, i);
+		ftt_expect(ftv_atv(&v, i, int))->to_be(i);
+		ftt_expect(ftv_frontv(&v, int))->to_be(0);
+	}
 	ftt_expect(ftv_size(&v))->to_be(200);
+	ftt_expect(ftv_frontv(&v, int))->to_be(0);
+	ftt_expect(ftv_backv(&v, int))->to_be(99);
+
 	ftv_pop_back(&v);
+	ftt_expect(ftv_frontv(&v, int))->to_be(0);
+	ftt_expect(ftv_backv(&v, int))->to_be(98);
 	ftt_expect(ftv_size(&v))->to_be(199);
 	for (int i = 0; i < 199; i++)
 		ftt_expect(ftv_atv(&v, i, int))->to_be(i < 100 ? i : i - 100);
