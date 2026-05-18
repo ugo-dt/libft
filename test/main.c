@@ -3,8 +3,18 @@
 #include <libft/tester.h>
 #include <libft/iterator.h>
 
-// >>ft_string
+#define CONTEXT_TYPES_ITER(_F) \
+	_F(basic_string)           \
+	_F(fileparse)              \
+	_F(vector)                 \
+	_F(write)                  
 
+// ███████ ████████ ██████  ██ ███    ██  ██████  
+// ██         ██    ██   ██ ██ ████   ██ ██       
+// ███████    ██    ██████  ██ ██ ██  ██ ██   ███ 
+//      ██    ██    ██   ██ ██ ██  ██ ██ ██    ██ 
+// ███████    ██    ██   ██ ██ ██   ████  ██████  
+// >>ft_string (basic_string)
 static void test_basic_string_create(void* param)
 {
 	ft_string s = ftstr_create();
@@ -95,23 +105,24 @@ static const ftt_context basic_string_ctx = {
 		{
 			.name = "create",
 			.callback = test_basic_string_create,
-			.param = NULL,
 		},
 		{
 			.name = "append",
 			.callback = test_basic_string_append,
-			.param = NULL,
 		},
 		{
 			.name = "assign",
 			.callback = test_basic_string_assign,
-			.param = NULL,
 		}
 	}
 };
 
+// ███████ ██ ██      ███████ ██████   █████  ██████  ███████ ███████ 
+// ██      ██ ██      ██      ██   ██ ██   ██ ██   ██ ██      ██      
+// █████   ██ ██      █████   ██████  ███████ ██████  ███████ █████   
+// ██      ██ ██      ██      ██      ██   ██ ██   ██      ██ ██      
+// ██      ██ ███████ ███████ ██      ██   ██ ██   ██ ███████ ███████ 
 // >>fileparse
-
 typedef enum
 {
 	TEST_FILEPARSE_TOKEN_EQUAL = 1,
@@ -153,13 +164,16 @@ static const ftt_context fileparse_ctx = {
 		{
 			.name = "parse",
 			.callback = test_fileparse,
-			.param = NULL,
 		}
 	}
 };
 
+// ██    ██ ███████  ██████ ████████  ██████  ██████  
+// ██    ██ ██      ██         ██    ██    ██ ██   ██ 
+// ██    ██ █████   ██         ██    ██    ██ ██████  
+//  ██  ██  ██      ██         ██    ██    ██ ██   ██ 
+//   ████   ███████  ██████    ██     ██████  ██   ██ 
 // >>vector
-
 static void test_vector_create(void* param)
 {
 	ft_vector v = ftv_create(&(ftv_desc){
@@ -399,43 +413,40 @@ static const ftt_context vector_ctx = {
 		{
 			.name = "create",
 			.callback = test_vector_create,
-			.param = NULL,
 		},
 		{
 			.name = "reserve",
 			.callback = test_vector_reserve,
-			.param = NULL,
 		},
 		{
 			.name = "push_back",
 			.callback = test_vector_push_back,
-			.param = NULL,
 		},
 		{
 			.name = "iterator",
 			.callback = test_iterator,
-			.param = NULL,
 		},
 		{
 			.name = "insert",
 			.callback = test_vector_insert,
-			.param = NULL,
 		},
 		{
 			.name = "allocator",
 			.callback = test_allocator,
-			.param = NULL,
 		},
 		{
 			.name = "resize",
 			.callback = test_vector_resize,
-			.param = NULL,
 		}
 	},
 };
 
+// ██     ██ ██████  ██ ████████ ███████ 
+// ██     ██ ██   ██ ██    ██    ██      
+// ██  █  ██ ██████  ██    ██    █████   
+// ██ ███ ██ ██   ██ ██    ██    ██      
+//  ███ ███  ██   ██ ██    ██    ███████ 
 // >>write
-
 static void test_ft_putchar(void* param)
 {
 	int saved_stdout = dup(STDOUT_FILENO);
@@ -721,123 +732,86 @@ static const ftt_context write_ctx = {
 		{
 			.name = "ft_putchar",
 			.callback = test_ft_putchar,
-			.param = NULL,
 		},
 		{
 			.name = "ft_putchar_fd",
 			.callback = test_ft_putchar_fd,
-			.param = NULL
 		},
 		{
 			.name = "ft_putnbr",
 			.callback = test_ft_putnbr,
-			.param = NULL,
 		},
 		{
 			.name = "ft_putnbr_fd",
 			.callback = test_ft_putnbr_fd,
-			.param = NULL,
 		},
 		{
 			.name = "ft_putstr",
 			.callback = test_ft_putstr,
-			.param = NULL,
 		},
 		{
 			.name = "ft_putstr_fd",
 			.callback = test_ft_putstr_fd,
-			.param = NULL,
 		},
 		{
 			.name = "ft_putendl",
 			.callback = test_ft_putendl,
-			.param = NULL,
 		},
 		{
 			.name = "ft_putendl_fd",
 			.callback = test_ft_putendl_fd,
-			.param = NULL,
 		}
 	}
 };
 
+// ███    ███  █████  ██ ███    ██ 
+// ████  ████ ██   ██ ██ ████   ██ 
+// ██ ████ ██ ███████ ██ ██ ██  ██ 
+// ██  ██  ██ ██   ██ ██ ██  ██ ██ 
+// ██      ██ ██   ██ ██ ██   ████ 
 // >>main
-
-static const char* usage = "\
-Available tests:\n\
-  - all\n\
-  - basic_string\n\
-  - fileparse\n\
-  - vector\n\
-  - write\n\
-";
+#define CONTEXT_STR(ctx) "  - " #ctx "\n"
+static const char* usage = "Available tests:\n  - all (all tests)\n" CONTEXT_TYPES_ITER(CONTEXT_STR);
 
 int	main(int argc, char **argv)
 {
-	ftap_state state = ftap_parse(argc, argv, &(ftap_desc){
-		.opt_count = 0,
-		.options = NULL,
-	});
-
-	if (!ftap_valid(&state))
+	if (argc < 2)
 	{
-		ft_dprintf(STDERR_FILENO, "Error\n");
-		return (1);
-	}
-
-	if (state.arguments == NULL)
 		ft_printf("%s", usage);
-	else
-	{
-		ftt_context contexts[8];
-		size_t ctx_count = 0;
+		return 0;
+	}
+	ftt_context contexts[8];
+	size_t ctx_count = 0;
 
-		argc = 0;
-		while (state.arguments[argc] != NULL)
-			argc++;
-		for (int i = 0; state.arguments[i] != NULL; i++)
-		{
-			if (ft_strcmp(state.arguments[i], "all") == 0)
-			{
-				ctx_count = 0;
-				contexts[ctx_count++] = basic_string_ctx;
-				contexts[ctx_count++] = fileparse_ctx;
-				contexts[ctx_count++] = vector_ctx;
-				contexts[ctx_count++] = write_ctx;
-				break ;
-			}
-			else if (ft_strcmp(state.arguments[i], "basic_string") == 0)
-			{
-				contexts[ctx_count++] = basic_string_ctx;
-			}
-			else if (ft_strcmp(state.arguments[i], "fileparse") == 0)
-			{
-				contexts[ctx_count++] = fileparse_ctx;
-			}
-			else if (ft_strcmp(state.arguments[i], "vector") == 0)
-			{
-				contexts[ctx_count++] = vector_ctx;
-			}
-			else if (ft_strcmp(state.arguments[i], "write") == 0)
-			{
-				contexts[ctx_count++] = write_ctx;
-			}
-			else
-			{
-				ft_dprintf(STDERR_FILENO, "Unknown test: %s\n", state.arguments[i]);
-				ft_dprintf(STDERR_FILENO, "%s", usage);
-				ftap_clear(&state);
-				return (1);
-			}
+	#define MATCH_CONTEXT(_name) ft_strcmp(argv[i], _name) == 0
+	#define ADD_CONTEXT(_context) contexts[ctx_count++] = _context##_ctx;
+	#define ADD_CONTEXT_IF_MATCH(_name, ...) \
+		if (MATCH_CONTEXT(#_name)) { \
+			ADD_CONTEXT(_name) \
+			continue; \
 		}
 
-		ft_printf("Running tests.\n");
-		ftt_describe("LIBFT", &(ftt_desc){
-			.count = ctx_count,
-			.contexts = contexts,
-		});
-		ft_printf("Tests finished.\n");
+	for (int i = 1; i < argc; i++)
+	{
+		if (MATCH_CONTEXT("all"))
+		{
+			ctx_count = 0;
+			CONTEXT_TYPES_ITER(ADD_CONTEXT);
+			break ;
+		}
+		CONTEXT_TYPES_ITER(ADD_CONTEXT_IF_MATCH);
+
+		/* no match */
+		ft_dprintf(STDERR_FILENO, "Unknown test: %s\n", argv[i]);
+		ft_dprintf(STDERR_FILENO, "%s", usage);
+		return 1;
 	}
-	ftap_clear(&state);
+
+	ft_printf("Running tests.\n");
+	ftt_describe("LIBFT", &(ftt_desc){
+		.count = ctx_count,
+		.contexts = contexts,
+	});
+	ft_printf("Tests finished.\n");
 	return (0);
 }
